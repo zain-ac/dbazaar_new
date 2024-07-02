@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "World_Button.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

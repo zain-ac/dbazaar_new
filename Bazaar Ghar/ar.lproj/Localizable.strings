@@ -1,0 +1,201 @@
+/* 
+  Localizable.strings
+  Bazaar Ghar
+
+  Created by Developer on 16/10/2023.
+  
+*/
+
+
+// profilescreen
+// profilescreen
+"profile"= "حساب تعريفي";
+"logout"= "تسجيل خروج";
+"wallet"= "محفظة";
+"myorders"= "طلباتي";
+"addressbook"= "دليل العناوين";
+"wishlist"= "قائمة الرغبات";
+"invitefriends"= "ادعو أصدقاء";
+"termsandconditions"= "الأحكام والشروط";
+"faqs"= "الأسئلة الشائعة";
+"privacypolicy"= "سياسة الخصوصية";
+"contactus"= "اتصل بنا";
+"language" = "لغة";
+"offers" = "عروض";
+
+// edit profile screen
+// edit profile screen
+
+"personaldetails"= "تفاصيل شخصية";
+"fullname"= "الاسم الكامل";
+"fullnamefeild"= "الاسم الكامل";
+"email"= "بريد إلكتروني";
+"enteremail"= "أدخل عنوان البريد الالكتروني";
+"savechanges"= "حفظ التغييرات";
+
+
+
+// TabBar
+"home"= "بيت";
+"categories"= "فئات";
+//"cart"= "Contact Us";
+"inbox"= "صندوق الوارد";
+//"profile"= "Profile";
+
+// TabBar
+
+
+// cartscreen
+// cartscreen
+"cart"= "عربة التسوق";
+"emptycart"= "عربة التسوق فارغة";
+"cartchargesmessage"= "رسوم الشحن في باكستان هي: 150 روبية باكستانية لكل طرد";
+"total"= "المجموع";
+"subtotal"= "المجموع الفرعي";
+"wait"= "انتظر";
+"confirdeletecart"= "هل أنت متأكد أنك تريد حذف جميع المنتجات من سلة التسوق؟";
+"no"= "لا";
+"yes"= "نعم";
+"checkout"= "الدفع";
+
+// homescreen
+"hotdeals"= "صفقات ساخنة";
+"viewall"= "سب دیکھیںعرض الكل";
+"days"= "أيام";
+"hrs"= "ساعة";
+"mins"= "دقيقة";
+"searchproducts"= "   البحث عن المنتجات ";
+"topcategories"= "أعلى الفئات";
+"live"= "يعيش";
+"recommendation" = "DBAAZAR توصية";
+
+// productCategory
+"productsortby" = "المنتجات مرتبة حسب";
+"pricelowtohigh" = "السعر - من الارخص للاعلى";
+"pricehightolow" = "السعر - الاعلى الى الادنى";
+"follow" = "يتبع";
+"followed" = "يتبع";
+"videos" = "أشرطة فيديو";
+"viewall" = "عرض الكل";
+// productCategory
+
+
+//ProductDetail
+"timeleft" = "الوقت المتبقي";
+"groupbuytime" = " شراء المجموعة للوقت المتبقي";
+"remaining" = "متبقي:";
+"dealssold" = "الصفقات المباعة:";
+"relatedproducts" = "منتجات ذات صله";
+"relatedvideos" = "فيديوهات ذات علاقة";
+
+"like" = "يحب";
+"share" = "يشارك";
+"returnPolicy" = "سياسة الإرجاع لمدة 7 أيام";
+"chat" = "محادثة";
+"store" = "محل";
+"addtocart" = "أضف إلى السلة";
+"viawhatsapp" = "الطلب عبر الواتس اب";
+"buynow" = "اشتري الآن";
+//ProductDetail
+
+
+// OrderConfirmatiom
+"orderconfirmation" = "تأكيد الطلب";
+"shippingaddress" = "عنوان الشحن";
+"addnewaddress" = "+ إضافة عنوان جديد";
+"cashondelivery" = "الدفع عند الاستلام";
+"refferalcode" = "كود الإحالة";
+"apply" = "يتقدم";
+"ordersummary" = "ملخص الطلب";
+"producttotal" = "إجمالي المنتج";
+"discountonproduct" = "خصم على المنتج (المنتجات)";
+"deliverycharges" = "رسوم التوصيل";
+"payable" = "مستحق الدفع";
+"placeorder" = "مكان الامر";
+"orderinstruction" = "تعليمات الطلب";
+
+// OrderConfirmatiom
+
+
+
+//Place Order
+
+"orderplacemessage" = "تم تقديم طلبك مع بازارغار!!";
+"ordertrackid" = "معرف تتبع الطلب:";
+"thankyoushoppingmessage" = "شكرا للتسوق مع بازارغار. تم أيضًا إرسال رسالة تأكيد على الرقم المقدم.Top Video Shop للاستمتاع بالتسوق عبر الفيديو.";
+"contactusmessage" = "لا تتردد في الاتصال بنا، لأي استفسار بشأن طلبك الحالي أو الجديد، على رقم مركز الاتصال لدينا +923011166879 نحن نقدر بشدة تعليقات العملاء ونرحب بك كثيرًا لتقديم تعليقاتك على hello@bazaarghar.com";
+"continueshopping" = "مواصلة التسوق";
+//Place Order
+
+
+// wallet
+"wallet" = "محفظتى";
+"remainingbalance" = "الرصيد المتبقي";
+//wallet
+
+//Wishlist
+"wishlist" = "قائمة الرغبات";
+//Wishlist
+
+
+//MyOrderDetail
+"orders" = "طلبات";
+"shippedto" = "تم شحنها إلي";
+"package" = "الحزمة 1";
+"expectedcharges" = "وقت التسليم المتوقع: 4-6 أيام";
+"subtotal" = "المجموع الفرعي";
+"deliverycharges" = "رسوم التوصيل";
+"cashondelivery" = "الدفع عند الاستلام";
+
+
+//MyOrderDetail
+
+//Order_VC
+"order" = "طلب";
+"deliverycharges" = "150 روبية باكستانية وقت التسليم";
+//Order_VC
+
+//address_VC
+"shippingaddress" = "عنوان الشحن";
+"addnewaddresss" = " أضف عنوانا جديدا";
+"youhavenoaddress" = "لم تقم بإضافة أي عنوان شحن بعد!";
+"change" = "يتغير";
+//address_VC
+
+
+// Invite Friends
+"invitefriends" = "ادعو أصدقاء";
+"inviteShareRefferalMsg" = "يرجى مشاركة رمز الإحالة الخاص بك مع أصدقائك وعائلتك. سوف تحصل على مكافأة مقابل كل طلب عندما يستخدمون رمز الإحالة الخاص بك.";
+"copy" = "ينسخ";
+// Invite Friends
+
+//ContactUs
+"contactus" = "اتصل بنا";
+"callus" = "اتصل بنا 24/7";
+"projectby" = "مشروع من شركة Vintega Solutions.";
+//ContactUs
+
+
+//SearchViewComntroller
+"search" = "يبحث";
+//SearchViewComntroller
+
+// AddAddress
+"addnewaddress" = "إضافة عنوان جديد";
+"pakistan" = "باكستان";
+"saudi" = "المملكة العربية السعودية";
+"international" = "دولي";
+"receiverfullname" = "المتلقي الاسم الكامل";
+"mobilenmber" = "رقم الهاتف المحمول";
+"whatsappnmber" = "رقم الواتساب";
+"city" = "مدينة";
+"selctcity" = "اختر مدينة";
+"address" = "عنوان";
+"addressline1TF" = "العنوان سطر 1";
+"addressline2TF" = "العنوان سطر 2";
+"zipcode" = "الرمز البريدي";
+"office" = "مكتب";
+"saveaddress" = "حفظ العنوان";
+"country" = "دولة";
+"selectacountry" = "اختر دولة";
+// AddAddress

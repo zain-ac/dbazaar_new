@@ -1,0 +1,205 @@
+
+
+
+// profilescreen
+// profilescreen
+"profile"= "Profile";
+"logout"= "Logout";
+"wallet"= "Wallet";
+"myorders"= "My Orders";
+"addressbook"= "Address Book";
+"wishlist"= "WishList";
+"invitefriends"= "Invite Frieends";
+"termsandconditions"= "Terms and Conditions";
+"faqs"= "FAQS";
+"privacypolicy"= "Privacy Policy";
+"contactus"= "Contact Us";
+"language" = "Language";
+"offers" = "Offers";
+
+// edit profile screen
+// edit profile screen
+
+
+// TabBar
+"home"= "Home";
+"categories"= "Categories";
+//"cart"= "Contact Us";
+"inbox"= "Inbox";
+//"profile"= "Profile";
+
+// TabBar
+
+"personaldetails"= "Personal Details";
+"fullname"= "Full Name";
+"fullnamefeild"= "Full Name";
+"email"= "Email";
+"enteremail"= "Enter email address";
+"savechanges"= "Save Changes";
+
+// cartscreen
+// cartscreen
+"cart"= "Cart";
+"emptycart"= "Your cart is empty";
+"cartchargesmessage"= "Shipping Charges in Pakistan are PKR: 150 per package";
+"total"= "Total";
+"subtotal"= "Sub Total";
+"wait"= "Delete All";
+"confirdeletecart"= "Are you Sure want to delete all products from cart?";
+"no"= "Cancel";
+"yes"= "Delete";
+"checkout"= "Check Out";
+
+// homescreen
+"hotdeals"= "Hot Deals";
+"viewall"= "View All";
+"days"= "Days";
+"hrs"= "Hrs";
+"mins"= "Mins";
+
+"searchproducts"= "   Search Products";
+"topcategories"= "Top Categories";
+"live"= "Live";
+"recommendation" = "Dbazaar Recommendation";
+
+
+// productCategory
+"productsortby" = "Products sort by";
+"pricelowtohigh" = "Price - Low to high";
+"pricehightolow" = "Price - High to low";
+"follow" = "Follow";
+"followed" = "Following";
+"videos" = "Videos";
+"viewall" = "View All";
+// productCategory
+
+
+//ProductDetail
+"timeleft" = "Time Left";
+"groupbuytime" = "Group buy remaining Time ";
+"remaining" = "Remianing:";
+"dealssold" = "Deals Sold:";
+"relatedproducts" = "Related Products";
+"relatedvideos" = "Related Videos";
+
+
+
+"like" = "Like";
+"share" = "Share";
+"returnPolicy" = "7 Days Return Policy";
+"chat" = "Chat";
+"store" = "Store";
+"addtocart" = "Add to Cart";
+"viawhatsapp" = "Order via Whatsapp";
+"buynow" = "Buy Now";
+//ProductDetail
+
+
+// OrderConfirmatiom
+"orderconfirmation" = "Order Confirmation";
+"shippingaddress" = "Shipping Address";
+"addnewaddress" = "+ Add a New Address";
+"cashondelivery" = "Cash on Delivery";
+"refferalcode" = "Refferal Code";
+"apply" = "Apply";
+"ordersummary" = "Order Summary";
+"producttotal" = "Product Total";
+"discountonproduct" = "Discount on product(s)";
+"deliverycharges" = "Delivery Charges";
+"payable" = "Payable";
+"placeorder" = "Place Order";
+"orderinstruction" = "Order instruction";
+// OrderConfirmatiom
+
+
+//Place Order
+
+"orderplacemessage" = "Your Order is placed with bazaarghar!!";
+"ordertrackid" = "Order Tracking ID:";
+"thankyoushoppingmessage" = "Thank you for shopping with Bazaarghar. confirmation message has also been sent on the provided number.. Tap video Shop to enjoy our video walee shopping.";
+"contactusmessage" = "Feel free to contact us,for any query on your existing or new order,on our call center number +923011166879 we sincerely value customer feedback and your more than welcome to give your feedback on hello@bazaarghar.com";
+"continueshopping" = "Continue Shopping";
+
+//Place Order
+
+// wallet
+"wallet" = "My Wallet";
+"remainingbalance" = "Remaining Balance";
+//wallet
+
+
+//Wishlist
+"wishlist" = "Wishlist";
+//Wishlist
+
+
+
+//MyOrderDetail
+"orders" = "Orders";
+"shippedto" = "Shipped To";
+"package" = "Package 1";
+"expectedcharges" = "Expected delivery time : 4-6 Days";
+"subtotal" = "SubTotal";
+"deliverycharges" = "Delivery Charges";
+"cashondelivery" = "Cash on Delivery";
+//MyOrderDetail
+
+//Order_VC
+"order" = "Order";
+"deliverycharges" = "Delivery charges";
+//Order_VC
+
+
+//address_VC
+"shippingaddress" = "Shipping Address";
+"addnewaddresss" = "Add a New Address";
+"youhavenoaddress" = "You have not added any shipping address yet!";
+"change" = "Change";
+//address_VC
+
+// Invite Friends
+"invitefriends" = "Invite Friends";
+"inviteShareRefferalMsg" = "Please Share your Referral code with your friends and family.You will get a reward against each order when they use your referral code.";
+"copy" = "Copy";
+// Invite Friends
+
+
+//ContactUs
+"contactus" = "Contact Us";
+"callus" = "Call us 24/7";
+"projectby" = "A project by Vintega Solutions.";
+//ContactUs
+
+
+//SearchViewComntroller
+"search" = "Search";
+//SearchViewComntroller
+
+
+// AddAddress
+"addnewaddress" = "Add New Address";
+"pakistan" = "Pakistan";
+"saudi" = "Saudi Arabia";
+"international" = "International";
+"receiverfullname" = "Receiver Full Name";
+"receiverfullnameTF" = "Enter Full Name";
+"mobilenmber" = "Mobile Number";
+"whatsappnmber" = "WhatsApp Number";
+"city" = "City";
+"selctcity" = "Select City";
+"address" = "Address";
+"addressline1TF" = "Address line 1";
+"addressline2TF" = "Address line 2";
+"zipcode" = "Zip code";
+"office" = "Office";
+"saveaddress" = "Save Address";
+"country" = "Country";
+"selectacountry" = "Select a Country";
+// AddAddress
+
+
+
+
+
+
+
