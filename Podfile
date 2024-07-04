@@ -47,6 +47,8 @@ pod 'UBottomSheet'
 pod 'TwilioVideo'
 pod 'Firebase/Messaging'
   pod 'FSPagerView'
+ 
+  pod 'SideMenu'
 
 
 

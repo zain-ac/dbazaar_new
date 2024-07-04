@@ -816,6 +816,7 @@ PODS:
   - R.swift.Library (5.3.0)
   - RecaptchaInterop (100.0.0)
   - Result (4.1.0)
+  - SideMenu (6.5.0)
   - Socket.IO-Client-Swift (16.0.1):
     - Starscream (~> 4.0)
   - Starscream (4.0.4)
@@ -854,6 +855,7 @@ DEPENDENCIES:
   - OTPFieldView
   - Presentr
   - R.swift
+  - SideMenu
   - Socket.IO-Client-Swift
   - Starscream (= 4.0.4)
   - SwiftFlags
@@ -911,6 +913,7 @@ SPEC REPOS:
     - R.swift.Library
     - RecaptchaInterop
     - Result
+    - SideMenu
     - Socket.IO-Client-Swift
     - Starscream
     - SwiftAlgorithms
@@ -968,6 +971,7 @@ SPEC CHECKSUMS:
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
+  SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
   Socket.IO-Client-Swift: c116d6dc9fd6be9c259bacfe143f8725bce7d79e
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
   SwiftAlgorithms: 38dda4731d19027fdeee1125f973111bf3386b53
@@ -983,6 +987,6 @@ SPEC CHECKSUMS:
   UBottomSheet: a40ddcad489bb6d5f6171ffa96f161e558fcfaf0
   WCCircularFloatingActionMenu: 3c9b78804d2ec05c2b03b45d049476d0fd58a9fd
 
-PODFILE CHECKSUM: 8cf2334448d9a44db283a9a9aafcc690b473f5aa
+PODFILE CHECKSUM: cd0e74522c07c2ea252d60aa44260cf520884a24
 
 COCOAPODS: 1.14.3

@@ -8,18 +8,20 @@
 import UIKit
 
 import WCCircularFloatingActionMenu
+import SideMenu
 
 
 class RoundTabbarVc: UITabBarController {
     var miscid = String()
     var ischecklogin = false
   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewControllers?.forEach({
                   $0.tabBarItem.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 12, weight: .regular)], for: .normal)
               })
-        
+        self.setupSideMenu()
 //        UITabBar.appearance().tintColor = UIColor.black
         UITabBar.appearance().unselectedItemTintColor = UIColor.black
         LanguageRander()
@@ -93,13 +95,53 @@ class RoundTabbarVc: UITabBarController {
         self.tabBar.tintColor = .blue
         self.tabBar.unselectedItemTintColor = .gray
     }
+    private func setupSideMenu() {
+            // Create the side menu
+        let vc = MenuVCList.getVC(.sidemenu)
+            let sideMenu = SideMenuNavigationController(rootViewController: vc)
+        sideMenu.presentationStyle = .menuSlideIn
+            // Set up properties
+        sideMenu.leftSide = false // Set to false if you want it on the right side
+            sideMenu.menuWidth = UIScreen.main.bounds.width * 0.7
+        sideMenu.presentationStyle.backgroundColor = .clear
+           sideMenu.presentationStyle.onTopShadowOpacity = 0.0
+           sideMenu.presentationStyle.onTopShadowColor = .clear
+        sideMenu.presentationStyle.onTopShadowColor = UIColor.black.withAlphaComponent(0.5)
+//        sideMenu.presentationStyle.onTopShadowOffset = 0.2
+        sideMenu.presentationStyle.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+                sideMenu.presentationStyle.presentingEndAlpha = 1.0
+//        sideMenu.presentationStyle.onTopShadowOpacity = 0.0
+//           sideMenu.presentationStyle.onTopShadowColor = .clear
+        sideMenu.statusBarEndAlpha  = 0.0
+        sideMenu.view.backgroundColor = .white
+        sideMenu.presentationStyle.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+
+       
+            // Add gesture to open side menu
+            SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+            SideMenuManager.default.rightMenuNavigationController = sideMenu
+            
+            // Optionally, add gesture recognizer to a button in your tab bar
+          
+        }
+
+        @objc private func openMenu() {
+            DispatchQueue.main.async {
+                self.selectedIndex = 0
+            }
+            present(SideMenuManager.default.rightMenuNavigationController!, animated: true, completion: nil)
+        }
+    
+    override func viewWillAppear(_ animated: Bool) {
+      print("df")
+    }
     func LanguageRander() {
         tabBar.semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
                 tabBar.items?[0].title = "home".pLocalized(lang: LanguageManager.language)
                 tabBar.items?[1].title = "offers".pLocalized(lang: LanguageManager.language)
 //                tabBar.items?[2].title = "cart".pLocalized(lang: LanguageManager.language)
                 tabBar.items?[3].title = "profile".pLocalized(lang: LanguageManager.language)
-                tabBar.items?[4].title = "profile".pLocalized(lang: LanguageManager.language)
+        tabBar.items?[4].title = "Menu".pLocalized(lang: LanguageManager.language)
     }
     
     @objc func methodOfReceivedNotification(notification: Notification) {
@@ -117,21 +159,30 @@ class RoundTabbarVc: UITabBarController {
      
     }
     
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if item.title == "Profile" || item.title == "Inbox" {
-            if AppDefault.islogin {
-                // User is logged in
-            } else {
-                DispatchQueue.main.async {
-                    self.selectedIndex = 0
-                }
-                let vc = PopupLoginVc.getVC(.main)
-                vc.modalPresentationStyle = .overFullScreen
-                self.present(vc, animated: true, completion: nil)
-            }
-            print("Login")
+    func showSideMenu() {
+            // Add your side menu presentation logic here
+            let vc = MenuVCList.getVC(.sidemenu)
+            vc.modalPresentationStyle = .overFullScreen
+            self.present(vc, animated: true, completion: nil)
         }
-    }
+      override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+          if item.title == "Profile" || item.title == "Inbox" {
+              if AppDefault.islogin {
+                  // User is logged in
+              } else {
+                  DispatchQueue.main.async {
+                      self.selectedIndex = 0
+                  }
+                  let vc = PopupLoginVc.getVC(.main)
+                  vc.modalPresentationStyle = .overFullScreen
+                  self.present(vc, animated: true, completion: nil)
+              }
+              print("Login")
+          }else if(item.title == "Menu"){
+              
+              self.openMenu()
+          }
+      }
 }
 
 
@@ -147,9 +198,28 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
     
     func floatingActionMenu(menu: WCCircularFloatingActionMenu, didSelectItem item: Int) {
         print("Selected item index \(item)")
-        
-    
-        
+        let buttonImages = ["china", "saudi", "pakistan-image"]
+        let data = buttonImages[item]
+
+
+        let image = UIImage(named: data)?.withRenderingMode(.alwaysOriginal)
+        middleButton.setImage(image, for: .normal)
+        if item == 0 {
+            let vc = ShopChina_VC.getVC(.main)
+            vc.shop = "Shop China"
+            vc.color = "#FFCDC9"
+            UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
+        }else if item == 1 {
+            let vc = ShopChina_VC.getVC(.main)
+            vc.shop = "Shop Saudi"
+            vc.color = "#DEFFF1"
+            UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
+        } else {
+            let vc = ShopChina_VC.getVC(.main)
+            vc.shop = "Pakistan"
+            vc.color = "#F7FFF2"
+            UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
+        }
         
     }
     
@@ -227,11 +297,6 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
 
     @objc private func middleButtonAction() {
         self.selectedIndex = 2 // Middle tab
-        
-     
-        
-        
-        
         
     }
 

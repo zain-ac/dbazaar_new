@@ -13,7 +13,7 @@ import FSPagerView
 import Presentr
 
 
-class HomeController: UIViewController {
+class HomeController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var homeswitchbtn: UISwitch!
     @IBOutlet weak var imageslidercollectionview: UICollectionView!
@@ -54,6 +54,8 @@ class HomeController: UIViewController {
     @IBOutlet weak var shopbeyoundview: UIView!
     @IBOutlet weak var shopbeyound_tblview: UITableView!
     @IBOutlet weak var lastRandomProductsCollectionView: UICollectionView!
+    @IBOutlet weak var scrollView: UIScrollView!
+
 
     
     
@@ -66,6 +68,8 @@ class HomeController: UIViewController {
     var CategoriesResponsedata: [getAllCategoryResponse] = []
     var ProductCategoriesResponsedata: [PChat] = []
     var randomproductapiModel: [latestMobileDataModel] = []
+    var getrandomproductapiModel: [RandomnProductResponse] = []
+
     var groupbydealsdata: [GroupByResult] = []
 
     var timer = Timer()
@@ -103,10 +107,12 @@ var count = 0
     var shopBeyonLblArray = ["Shop Pakistan","Shop China","Shop Saudi"]
 
     let centerTransitioningDelegate = CenterTransitioningDelegate()
-
+    var load:Bool?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.categoriesApi(isbackground: false)
+             getrandomproduct()
+        scrollView.delegate = self
 
         let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: "#101010"), "beyond boundaries", secondTextColor:  UIColor(hexString: "#2E8BF8"))
 //            .attributedStringWithColoredLastWord(
@@ -170,8 +176,29 @@ var count = 0
         homeswitchbtn.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         
     }
-    
 
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
+        
+        // Check if the scroll view has reached the bottom
+        if offsetY > contentHeight - frameHeight {
+            // Call your API
+            if load == true {
+                getrandomproduct()
+            }
+        }
+    }
+        func loadMoreData() {
+            // Your API call
+            print("Reached the end of the scroll view, loading more data...")
+            // Example API call
+            // APIClient.loadMoreData { (result) in
+            //     // Handle the result
+            // }
+            
+        }
     
     @objc func touchTapped(_ sender: UITapGestureRecognizer) {
             let vc = LIVE_videoNew.getVC(.main)
@@ -240,7 +267,7 @@ var count = 0
             self.ProductCategoriesResponsedata = AppDefault.productcategoriesApi ?? []
 
             self.tableViewHeight.constant = CGFloat(800 * (self.ProductCategoriesResponsedata.count ))
-            let hh = (300 * 3) + 1440 + ((self.randomproductapiModel.first?.products?.count ?? 0) / 2) * 380
+            let hh = (300 * 3) + 1440 + ((getrandomproductapiModel.count) / 2) * 280
 
             self.scrollHeight.constant = CGFloat(hh) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)
 
@@ -424,7 +451,7 @@ var count = 0
                     self?.tableViewHeight.constant = CGFloat(800 * (self?.ProductCategoriesResponsedata.count ?? 0))
                     
                     let hh = (300 * 3) + 1440
-                    let ll = ((self?.randomproductapiModel.first?.products?.count ?? 0) / 2) * 380
+                    let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
                     let final = hh + ll
 
                     self?.scrollHeight.constant = CGFloat(final) + (self?.hotDealViewHeight.constant ?? 0) + (self?.tableViewHeight.constant ?? 0)
@@ -451,6 +478,34 @@ var count = 0
                 print(res)
                
                 self?.homeLastProductCollectionView.reloadData()
+            case .failure(let error):
+                print(error)
+                self?.view.makeToast(error)
+            }
+        })
+    }
+    
+    private func getrandomproduct(){
+        load = false
+        APIServices.getrandomproduct(completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+            
+             
+                if(res.count > 0){
+                    self?.getrandomproductapiModel.append(contentsOf: res)
+                }
+                print(res)
+                self?.tableViewHeight.constant = CGFloat(800 * (self?.ProductCategoriesResponsedata.count ?? 0))
+                
+                let hh = (300 * 3) + 1440
+                let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
+                let final = hh + ll
+
+                self?.scrollHeight.constant = CGFloat(final) + (self?.hotDealViewHeight.constant ?? 0) + (self?.tableViewHeight.constant ?? 0)
+               
+                self?.lastRandomProductsCollectionView.reloadData()
+                self?.load = true
             case .failure(let error):
                 print(error)
                 self?.view.makeToast(error)
@@ -554,7 +609,7 @@ var count = 0
 
 }
 
-extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == imageslidercollectionview {
@@ -564,7 +619,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         }else if collectionView == hotDealCollectionV {
             return groupbydealsdata.count
         } else if collectionView == lastRandomProductsCollectionView {
-            return self.randomproductapiModel.first?.products?.count ?? 0
+            return self.getrandomproductapiModel.count
 
         } else {
             return self.CategoriesResponsedata.count
@@ -588,10 +643,31 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
             if data?.onSale == true {
                 cell.discountPrice.isHidden = false
-                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                let currencySymbol = appDelegate.currencylabel
+                let salePrice = Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+
+                // Create an attributed string for the currency symbol with the desired color
+                let currencyAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor.black // Change to your desired color
+                ]
+                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
+
+                // Create an attributed string for the sale price with the desired color
+                let priceAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
+                ]
+                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
+
+                // Combine the attributed strings
+                let combinedAttributedString = NSMutableAttributedString()
+                combinedAttributedString.append(attributedCurrencySymbol)
+                combinedAttributedString.append(attributedPrice)
+                cell.discountPrice.attributedText = combinedAttributedString
+
+//                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
+//                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
                 
             }else {
@@ -635,12 +711,12 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return cell
         }else if collectionView == lastRandomProductsCollectionView{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
-            let data = randomproductapiModel.first?.products?[indexPath.row]
-            cell.productimage.pLoadImage(url: data?.mainImage ?? "")
-            cell.productname.text = data?.productName
-            if data?.onSale == true {
+            let data = getrandomproductapiModel[indexPath.row]
+            cell.productimage.pLoadImage(url: data.mainImage ?? "")
+            cell.productname.text = data.productName
+            if data.onSale == true {
                 cell.discountPrice.isHidden = false
-                cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
                 cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
@@ -651,7 +727,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 cell.productPriceLine.isHidden = true
                 cell.productPrice.textColor = UIColor(hexString: "#069DDD")
             }
-            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
             
 
             return cell
@@ -719,19 +795,21 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        
-        if pageController.currentPage == (bannerapidata?.count ?? 0) - 1 {
-//            self.reloadcollection()
-            let scrollPos = scrollView.contentOffset.x / view.frame.width
-            pageController.currentPage = Int(scrollPos)
-        }else {
-            let scrollPos = scrollView.contentOffset.x / view.frame.width
-            pageController.currentPage = Int(scrollPos)
-            counter = pageController.currentPage
-        }
-    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        
+//        
+//        if pageController.currentPage == (bannerapidata?.count ?? 0) - 1 {
+////            self.reloadcollection()
+//            let scrollPos = scrollView.contentOffset.x / view.frame.width
+//            pageController.currentPage = Int(scrollPos)
+//        }else {
+//            let scrollPos = scrollView.contentOffset.x / view.frame.width
+//            pageController.currentPage = Int(scrollPos)
+//            counter = pageController.currentPage
+//        }
+//        
+//        loadMoreData()
+//    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == imageslidercollectionview {
@@ -814,11 +892,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             vc.slugid = data.productID?.slug
             self.navigationController?.pushViewController(vc, animated: false)
         } else if collectionView == lastRandomProductsCollectionView {
-            let data = randomproductapiModel.first?.products?[indexPath.row]
+            let data = getrandomproductapiModel[indexPath.row]
 
             let vc = ProductDetail_VC.getVC(.main)
             vc.isGroupBuy = false
-            vc.slugid = data?.slug
+            vc.slugid = data.slug
             self.navigationController?.pushViewController(vc, animated: false)
         }else {
               let data = CategoriesResponsedata[indexPath.row]
@@ -1008,6 +1086,72 @@ func numberOfItems(in pagerView: FSPagerView) -> Int {
        let currentIndex = pagerView.currentIndex
        pageControl.currentPage = currentIndex
    }
+    func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
+        let data = self.bannerapidata?[index]
+        if data?.type == "" || data?.type == nil {
+            
+        }else {
+            switch data?.type {
+                
+              case "Market":
+                let vc = StoreSearchVC.getVC(.main)
+                vc.isMarket = true
+                vc.marketID = data?.linkId
+                vc.isNavBar = false
+                self.navigationController?.pushViewController(vc, animated: false)
+
+              case "Store":
+                if data?.linkId == "" || data?.linkId == nil {
+                    
+                }else {
+                    let vc = Category_ProductsVC.getVC(.main)
+                    vc.prductid = data?.linkId ?? ""
+                    vc.catNameTitle = data?.name ?? ""
+                    vc.storeFlag = true
+                
+                    vc.storeId = data?.linkId ?? ""
+                    vc.video_section = true
+                    self.navigationController?.pushViewController(vc, animated: false)
+                }
+
+              case "Category":
+                if data?.linkId == "" || data?.linkId == nil {
+                    
+                }else {
+                    let vc = Category_ProductsVC.getVC(.main)
+                    vc.prductid = data?.linkId ?? ""
+                    vc.video_section = false
+                    vc.storeFlag = false
+                    vc.catNameTitle = data?.name ?? ""
+                    self.navigationController?.pushViewController(vc, animated: false)
+                }
+                
+              case "Product":
+                if data?.linkId == "" || data?.linkId == nil {
+                    
+                }else {
+                    let vc = ProductDetail_VC.getVC(.main)
+                    vc.isGroupBuy = false
+                    vc.slugid = data?.linkId
+                    self.navigationController?.pushViewController(vc, animated: false)
+                }
+                
+              case "Video":
+                let vc = Live_VC.getVC(.main)
+                self.navigationController?.pushViewController(vc, animated: false)
+                
+              case "Page":
+                print("page")
+                  let vc = Page_Vc.getVC(.main)
+                vc.collectionId = data?.linkId ?? ""
+                  self.navigationController?.pushViewController(vc, animated: false)
+
+              default:
+                    print("Invalid data")
+            }
+        }
+
+    }
 }
 
 

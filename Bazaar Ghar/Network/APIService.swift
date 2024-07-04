@@ -288,6 +288,31 @@ class APIServices{
         
     }
     
+    class func getrandomproduct(completion:@escaping(APIResult<[RandomnProductResponse]>)->Void){
+            Provider.services.request(.randomproduct){ result in
+                
+                do{
+                    
+                    let categories: [RandomnProductResponse] = try result.decoded(keypath: "data")
+                    
+                    completion(.success(categories))
+                }catch{
+                    if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                    }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                        DispatchQueue.main.async {
+                            appDelegate.GotoDashBoard(ischecklogin: true)
+                        }
+                    }
+                    else{
+                        print("-----Error------ \n",error)
+                        completion(.failure(error.customDescription))
+                    }
+                }
+            }
+        
+    }
+    
     class func productcategoriesdetails(slug:String,completion:@escaping(APIResult<ProductCategoriesDetailsResponse>)->Void) {
         Provider.services.request(.productcategoriesdetails(slug: slug)) { result in
             do{

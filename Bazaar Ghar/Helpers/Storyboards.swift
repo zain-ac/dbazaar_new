@@ -10,7 +10,7 @@ import UIKit
 
 enum Boards: String {
     case main = "Main"
- 
+    case sidemenu = "sidemenu"
     var stortBoard: UIStoryboard {
         return UIStoryboard(name: rawValue, bundle: Bundle.main)
     }
@@ -32,5 +32,7 @@ struct StoryboardScene {
     }
     
 }
+
+
 
 
