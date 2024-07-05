@@ -60,6 +60,8 @@ class CategoriesVC: UIViewController {
        }
     
     override func viewWillAppear(_ animated: Bool) {
+        let imageDataDict:[String: String] = ["img": "World_Button"]
+        NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
         homeswitchbtn.isOn = false
         if( AppDefault.CategoriesResponsedata?.count ?? 0 > 0 ){
            

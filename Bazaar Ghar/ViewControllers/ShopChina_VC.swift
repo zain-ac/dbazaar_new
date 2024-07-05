@@ -15,7 +15,6 @@ import Presentr
 
 class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     
-    @IBOutlet weak var homeswitchbtn: UISwitch!
     @IBOutlet weak var imageslidercollectionview: UICollectionView!
     @IBOutlet weak var homeTblView: UITableView!
     @IBOutlet weak var topcell_1: UICollectionView!
@@ -30,10 +29,8 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var hotdealslbl: UILabel!
     @IBOutlet weak var shoplabel: UILabel!
     // outlets
-    @IBOutlet weak var searchProductslbs: UITextField!
     @IBOutlet weak var livelbl: UILabel!
     @IBOutlet weak var topcategorieslbl: UILabel!
-    @IBOutlet weak var hederView: UIView!
     @IBOutlet weak var LiveGif: UIImageView!
     @IBOutlet weak var hotDealCollectionV: UICollectionView!
 
@@ -43,9 +40,6 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var recommendationLbl: UILabel!
 
     @IBOutlet weak var shopByCatLbl: UILabel!
-
-    @IBOutlet weak var searchFeild: UITextField!
-    
     @IBOutlet weak var viewalllbl: UIButton!
     @IBOutlet weak var pagerView: FSPagerView!
      @IBOutlet weak var pageControl: FSPageControl!
@@ -59,6 +53,9 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var topshoplbl: UILabel!
     @IBOutlet weak var shopLblBackgoundView: UIView!
+    @IBOutlet weak var shopImage: UIImageView!
+    @IBOutlet weak var videoCollection: UICollectionView!
+    @IBOutlet weak var shopingReelsLbl: UILabel!
 
     
     
@@ -70,7 +67,7 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     }
     var CategoriesResponsedata: [getAllCategoryResponse] = []
     var ProductCategoriesResponsedata: [PChat] = []
-    var randomproductapiModel: [latestMobileDataModel] = []
+    var randomproductapiModel: [PChat] = []
     var getrandomproductapiModel: [RandomnProductResponse] = []
 
     var groupbydealsdata: [GroupByResult] = []
@@ -114,15 +111,22 @@ var count = 0
     
     var shop:String?
     var color:String?
-    
+    var shopImg: String?
+    var shoptxtColor:String?
+    var LiveStreamingResultsdata: [LiveStreamingResults] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.categoriesApi(isbackground: false)
-             getrandomproduct()
+        
+        getStreamingVideos(limit: 20, page: 1, categories: [])
+        
+     
         scrollView.delegate = self
         topshoplbl.text = shop
          shopLbl.text = "Welcome to \(shop ?? "")"
         shopLblBackgoundView.backgroundColor = UIColor(hex: color ?? "")
+        shopImage.image = UIImage(named: shopImg ?? "")
+        shoplabel.textColor = UIColor(hex: shoptxtColor ?? "")
         let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: "#101010"), "beyond boundaries", secondTextColor:  UIColor(hexString: "#2E8BF8"))
 //            .attributedStringWithColoredLastWord(
 //            "".lowercased().capitalized, lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
@@ -141,10 +145,13 @@ var count = 0
         let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
                 shopByCatLbl.attributedText = attributedText
         
-        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Latest Mobiles", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Gamers Sale", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
         recommendationLbl.attributedText = attributedText1
         
+        let attributedText2 =  Utility().attributedStringWithColoredLastWord("Shoping Reels", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        
+        shopingReelsLbl.attributedText = attributedText2
         
         shopchinaflag = ["flag_china","flag_pakistan","flag_saudi"]
 
@@ -153,16 +160,16 @@ var count = 0
         nameshopchina = ["Shop China","Shop Pakistan","Shop Saudi"]
         self.becomeFirstResponder()
 //        let jeremyGif = UIImage.gifImageWithName("live_icon_gif")
-           LiveGif.image = UIImage.gifImageWithName("live_icon_gif")
-        LiveGif.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.touchTapped(_:)))
-          LiveGif.addGestureRecognizer(tap)
-        
-//        chatBotGif.image = UIImage(named: "whatsapp 1")
-        chatBotGif.isUserInteractionEnabled = true
-     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.touchTapped2(_:)))
-        chatBotGif.addGestureRecognizer(tap2)
-  
+//           LiveGif.image = UIImage.gifImageWithName("live_icon_gif")
+//        LiveGif.isUserInteractionEnabled = true
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.touchTapped(_:)))
+//          LiveGif.addGestureRecognizer(tap)
+//        
+////        chatBotGif.image = UIImage(named: "whatsapp 1")
+//        chatBotGif.isUserInteractionEnabled = true
+//     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.touchTapped2(_:)))
+//        chatBotGif.addGestureRecognizer(tap2)
+//  
         hotDealViewHeight.constant = 0
         hotDealView.isHidden = true
         homeTblView.delegate = self
@@ -172,10 +179,7 @@ var count = 0
 
         setupCollectionView()
         
-        DispatchQueue.main.async {
-              self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.autoSlideer), userInfo: nil, repeats: true)
-           }
-       
+
      
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.videocallmethod(notification:)), name: Notification.Name("videocallid"), object: nil)
@@ -247,16 +251,34 @@ var count = 0
     
     override func viewWillAppear(_ animated: Bool) {
          super.viewWillAppear(animated)
+        if shop == "Shop China" {
+            let imageDataDict:[String: String] = ["img": "china"]
+            NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+        }else if shop == "Shop Saudi" {
+            let imageDataDict:[String: String] = ["img": "saudi"]
+            NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+        }else {
+            let imageDataDict:[String: String] = ["img": "pakistan-image"]
+            NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+        }
+   
         
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.isNavigationBarHidden = true
 
-        if(AppDefault.randonproduct?.count ?? 0 > 0){
-            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
-            self.randomproductapiModel = AppDefault.randonproduct ?? []
-        }else{
-            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
-        }
+//        if(AppDefault.randonproduct?.count ?? 0 > 0){
+//            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
+//            self.randomproductapiModel = AppDefault.randonproduct ?? []
+//        }else{
+            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+        groupByDeals(limit: 20, page: 1, isbackground: false)
+        self.productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
+        self.categoriesApi(isbackground: false)
+        self.bannerApi(isbackground: false)
+                self.categoriesApi(isbackground: false)
+                     getrandomproduct()
+//        }
+        
 
 //        if(AppDefault.groupbydealdata?.count ?? 0 > 0){
 //            groupByDeals(limit: 20, page: 1, isbackground: true)
@@ -267,7 +289,7 @@ var count = 0
 //            self.hotDealCollectionV.reloadData()
 //
 //        }else{
-            groupByDeals(limit: 20, page: 1, isbackground: false)
+           
 //        }
         
 //        if(AppDefault.productcategoriesApi?.count ?? 0 > 0){
@@ -284,7 +306,7 @@ var count = 0
 //
 //
 //        }else{
-            self.productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
+           
 //        }
 
         
@@ -300,7 +322,7 @@ var count = 0
 //        }
 //        else
 //        {
-            self.categoriesApi(isbackground: false)
+           
 //        }
                 
 
@@ -317,7 +339,7 @@ var count = 0
 //           
 //            self.bannerApi(isbackground: true)
 //        }else{
-            self.bannerApi(isbackground: false)
+        
 //        }
         
 //        homeswitchbtn.isOn = false
@@ -341,7 +363,22 @@ var count = 0
 //              }
         
     }
-    
+    private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"",completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                print(res)
+        
+                self?.LiveStreamingResultsdata = res.results ?? []
+       
+                self?.videoCollection.reloadData()
+            case .failure(let error):
+                print(error)
+//                self?.view.makeToast(error)
+            }
+        })
+    }
+
 
     func LanguageRender() {
 //        searchProductslbs.placeholder = "searchproducts".pLocalized(lang: LanguageManager.language)
@@ -373,18 +410,6 @@ var count = 0
            }
        }
     
-    @IBAction func searchTapped(_ sender: Any) {
-        let vc = Search_ViewController.getVC(.main)
-        if(searchFeild.text?.count == 0){
-            self.navigationController?.pushViewController(vc, animated: false)
-           
-        }else{
-        
-            vc.searchText = searchFeild.text
-            self.navigationController?.pushViewController(vc, animated: false)
-        }
-       
-    }
     
     @IBAction func languageBtnTapped(_ sender: Any) {
         
@@ -405,6 +430,7 @@ var count = 0
             .getVC(.main)
         self.navigationController?.pushViewController(vc, animated: false)
     }
+    
     @IBAction func gotoCategoriesBtnTapped(_ sender: Any) {
         let vc = CategoriesVC
             .getVC(.main)
@@ -418,19 +444,41 @@ var count = 0
                 print(data)
                 AppDefault.Bannerdata = res
                 if(res.count > 0){
+
+                    if self?.shop == "Shop China" {
+                        let banners =  res
+                        
+                        if LanguageManager.language == "ar" {
+                            for item in res{
+                                let objext = item.id
+                                if objext?.bannerName == "Country China App Arabic" {
+                                    self?.bannerapidata = (objext?.banners)!
+                                }
+                            }
+                        }else {
+                            for item in res{
+                                let objext = item.id
+                                if objext?.bannerName == "Country China App" {
+                                    self?.bannerapidata = (objext?.banners)!
+                                }
+                            }
+                    }
+                        
+                }else {
                     let banners =  res
                     
-                   
+                    
                     for item in res{
                         let objext = item.id
                         if objext?.bannerName == "Mob Banner Home" {
                             self?.bannerapidata = (objext?.banners)!
                         }
                     }
-                    
+                }
                     self?.pageControl.numberOfPages = self?.bannerapidata?.count ?? 0
                     self?.pageControl.currentPage = 0
-                }
+            }
+
                 self?.pagerView.reloadData()
             case .failure(let error):
                 print(error)
@@ -463,7 +511,7 @@ var count = 0
                     self?.ProductCategoriesResponsedata = res
                     self?.tableViewHeight.constant = CGFloat(800 * (self?.ProductCategoriesResponsedata.count ?? 0))
                     
-                    let hh = (300 * 3) + 1440
+                    let hh =  1440
                     let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
                     let final = hh + ll
 
@@ -479,14 +527,14 @@ var count = 0
     }
 
     private func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground : Bool){
-        APIServices.randomproduct(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
             
              
                 if(res.count > 0){
                     self?.randomproductapiModel = res
-                    AppDefault.randonproduct = res
+//                    AppDefault.randonproduct = res
                 }
                 print(res)
                
@@ -511,7 +559,7 @@ var count = 0
                 print(res)
                 self?.tableViewHeight.constant = CGFloat(800 * (self?.ProductCategoriesResponsedata.count ?? 0))
                 
-                let hh = (300 * 3) + 1440
+                let hh = 1440
                 let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
                 let final = hh + ll
 
@@ -628,13 +676,15 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         if collectionView == imageslidercollectionview {
             return  bannerapidata?.count ?? 0
         }else if collectionView == homeLastProductCollectionView {
-            return self.randomproductapiModel.count ?? 0
+            return self.randomproductapiModel.first?.product?.count ?? 0
         }else if collectionView == hotDealCollectionV {
             return groupbydealsdata.count
         } else if collectionView == lastRandomProductsCollectionView {
             return self.getrandomproductapiModel.count
 
-        } else {
+        } else if collectionView == videoCollection{
+            return self.LiveStreamingResultsdata.count
+        }else {
             return self.CategoriesResponsedata.count
 		}
     }
@@ -648,7 +698,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             return cell
         } else if collectionView == homeLastProductCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
-            let data = randomproductapiModel.first?.products?[indexPath.row]
+            let data = self.randomproductapiModel.first?.product?[indexPath.row]
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
@@ -744,6 +794,16 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             
 
             return cell
+        } else if collectionView == videoCollection{
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Videoscategorycell1", for: indexPath) as! Videoscategorycell
+            let data = LiveStreamingResultsdata[indexPath.row]
+            cell.productimage.pLoadImage(url: data.thumbnail ?? "")
+            cell.viewslbl.text = "\(data.totalViews ?? 0)"
+            cell.Productname.text = data.brandName
+            cell.likeslbl.text = "\(data.like ?? 0)"
+                return cell
+            
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "topcategoriescell", for: indexPath) as! topcategoriescell
             let data = CategoriesResponsedata[indexPath.row]
@@ -794,8 +854,10 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         } else if collectionView == lastRandomProductsCollectionView {
             return CGSize(width: self.lastRandomProductsCollectionView.frame.width/2.12-2, height: 290)
 
+        }else if collectionView == videoCollection {
+            return CGSize(width: collectionView.frame.size.width/2, height: collectionView.frame.size.height)
         } else {
-            return CGSize(width: self.topcell_1.frame.width/3.6-10, height: self.topcell_1.frame.height/2.1-5)
+            return CGSize(width: self.topcell_1.frame.width/4-10, height: self.topcell_1.frame.height)
 
         }
     }
@@ -804,7 +866,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         if collectionView == lastRandomProductsCollectionView {
            return UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         }else {
-            return  UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            return  UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
         }
     }
     
@@ -892,10 +954,10 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
 
             
         }else if collectionView == homeLastProductCollectionView {
-            let data = randomproductapiModel.first?.products?[indexPath.row]
+            let data = self.randomproductapiModel.first?.product?[indexPath.row]
             let vc = ProductDetail_VC.getVC(.main)
                 vc.isGroupBuy = false
-                vc.slugid = data?.slug
+            vc.slugid = data?.slug
             self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == hotDealCollectionV {
             let data = groupbydealsdata[indexPath.row]
@@ -911,7 +973,13 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             vc.isGroupBuy = false
             vc.slugid = data.slug
             self.navigationController?.pushViewController(vc, animated: false)
-        }else {
+        } else if collectionView == videoCollection {
+            let data = LiveStreamingResultsdata[indexPath.row]
+            let vc = SingleVideoView.getVC(.main)
+            vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
+            vc.indexValue = indexPath.row
+            self.navigationController?.pushViewController(vc, animated: false)
+        } else {
               let data = CategoriesResponsedata[indexPath.row]
 
               let vc = Category_ProductsVC.getVC(.main)
@@ -990,13 +1058,13 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
 
     }
     @objc func cartButtonTap(_ sender: UIButton) {
-        let data = randomproductapiModel[sender.tag]
+        let data = self.randomproductapiModel.first?.product?[sender.tag]
         
         let vc = CartPopupViewController.getVC(.main)
        
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = centerTransitioningDelegate
-        vc.products = data.products?.first
+        vc.products = data
         self.present(vc, animated: true, completion: nil)
 
     }
@@ -1099,6 +1167,8 @@ func numberOfItems(in pagerView: FSPagerView) -> Int {
        let currentIndex = pagerView.currentIndex
        pageControl.currentPage = currentIndex
    }
+    
+    
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         let data = self.bannerapidata?[index]
         if data?.type == "" || data?.type == nil {

@@ -109,6 +109,9 @@ class ProfileViewController: UIViewController {
     
 
     override func viewWillAppear(_ animated: Bool) {
+        let imageDataDict:[String: String] = ["img": "World_Button"]
+        NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+        
         self.tabBarController?.tabBar.isHidden = false
         self.LanguageRender()
         if(AppDefault.currentUser != nil){

@@ -241,13 +241,13 @@ class APIServices{
         
     }
     
-    class func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String ,isbackground :Bool,completion:@escaping(APIResult<[latestMobileDataModel]>)->Void){
+    class func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String ,isbackground :Bool,completion:@escaping(APIResult<[Product]>)->Void){
         if(isbackground){
             Provider.backgroundServices.request(.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5)){ result in
                 
                 do{
                     
-                    let categories: [latestMobileDataModel] = try result.decoded(keypath: "data")
+                    let categories: [Product] = try result.decoded(keypath: "data")
                     
                     completion(.success(categories))
                 }catch{
@@ -267,7 +267,7 @@ class APIServices{
                 
                 do{
                     
-                    let categories: [latestMobileDataModel] = try result.decoded(keypath: "data")
+                    let categories: [Product] = try result.decoded(keypath: "data")
                     
                     completion(.success(categories))
                 }catch{
