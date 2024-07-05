@@ -15,7 +15,8 @@ class RoundTabbarVc: UITabBarController {
     var miscid = String()
     var ischecklogin = false
   
-    
+    private var customTabBar: CustomTabBar?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewControllers?.forEach({
@@ -145,7 +146,6 @@ class RoundTabbarVc: UITabBarController {
     }
     
     @objc func methodOfReceivedNotification(notification: Notification) {
-               
     }
     @objc func methodOfReceivedNotification3(notification: Notification) {
         LanguageRander()
@@ -208,16 +208,21 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
             let vc = ShopChina_VC.getVC(.main)
             vc.shop = "Shop China"
             vc.color = "#FFCDC9"
+            vc.shopImg = "shop_china"
+            vc.shoptxtColor = "#DC2A1B"
             UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
         }else if item == 1 {
             let vc = ShopChina_VC.getVC(.main)
             vc.shop = "Shop Saudi"
             vc.color = "#DEFFF1"
+            vc.shopImg = "shop_saudi"
+            vc.shoptxtColor = "#028E53"
             UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
         } else {
             let vc = ShopChina_VC.getVC(.main)
-            vc.shop = "Pakistan"
+            vc.shop = "Shop Pakistan"
             vc.color = "#F7FFF2"
+            vc.shopImg = "shop_pak"
             UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
         }
         
@@ -246,17 +251,19 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
           }
           return sampleButtons
       }()
-    private var middleButton = WCCircularFloatingActionMenu()
+     var middleButton = WCCircularFloatingActionMenu()
     var selectedIndex = Int()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupMiddleButton()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationGlobe(notification:)), name: Notification.Name("globe"), object: nil)
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupMiddleButton()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationGlobe(notification:)), name: Notification.Name("globe"), object: nil)
     }
 
     private func setupMiddleButton() {
@@ -293,6 +300,13 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
                middleButton.endAngleDegrees = 320
                middleButton.radius = 100  // Set the desired radius for the menu item
         self.addSubview(middleButton)
+    }
+    @objc func methodOfReceivedNotificationGlobe(notification: Notification) {
+        if let img = notification.userInfo?["img"] as? String {
+            let image = UIImage(named: img)?.withRenderingMode(.alwaysOriginal)
+            middleButton.setImage(image, for: .normal)
+        }
+  
     }
 
     @objc private func middleButtonAction() {

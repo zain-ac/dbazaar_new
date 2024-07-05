@@ -1503,12 +1503,12 @@ struct TentacledAr: Codable {
     let name: String?
 }
 
-struct latestMobileDataModel: Codable {
-    let name, id, slug: String?
-    let lang: DatumLang?
-    let products: [Product]?
-    let wideBannerImage: String?
-}
+//struct latestMobileDataModel: Codable {
+//    let name, id, slug: String?
+//    let lang: DatumLang?
+//    let products: [Product]?
+//    let wideBannerImage: String?
+//}
 
 // MARK: - DatumLang
 struct DatumLangg: Codable {
@@ -1521,7 +1521,7 @@ struct PurpleArr: Codable {
 }
 
 // MARK: - Product
-struct Productt: Codable {
+struct latestMobileDataModel: Codable {
     let featured, onSale, isVariable: Bool?
     let productName: String?
     let regularPrice: Double?

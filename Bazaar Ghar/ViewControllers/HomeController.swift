@@ -67,7 +67,7 @@ class HomeController: UIViewController, UIScrollViewDelegate {
     }
     var CategoriesResponsedata: [getAllCategoryResponse] = []
     var ProductCategoriesResponsedata: [PChat] = []
-    var randomproductapiModel: [latestMobileDataModel] = []
+    var randomproductapiModel: [PChat] = []
     var getrandomproductapiModel: [RandomnProductResponse] = []
 
     var groupbydealsdata: [GroupByResult] = []
@@ -238,7 +238,9 @@ var count = 0
     
     override func viewWillAppear(_ animated: Bool) {
          super.viewWillAppear(animated)
-        
+        let imageDataDict:[String: String] = ["img": "World_Button"]
+        NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.isNavigationBarHidden = true
 
@@ -466,7 +468,7 @@ var count = 0
     }
 
     private func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground : Bool){
-        APIServices.randomproduct(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
             
@@ -615,7 +617,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         if collectionView == imageslidercollectionview {
             return  bannerapidata?.count ?? 0
         }else if collectionView == homeLastProductCollectionView {
-            return self.randomproductapiModel.first?.products?.count ?? 0
+            return self.randomproductapiModel.first?.product?.count ?? 0
         }else if collectionView == hotDealCollectionV {
             return groupbydealsdata.count
         } else if collectionView == lastRandomProductsCollectionView {
@@ -635,7 +637,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return cell
         } else if collectionView == homeLastProductCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
-            let data = randomproductapiModel.first?.products?[indexPath.row]
+            let data = randomproductapiModel.first?.product?[indexPath.row]
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
@@ -879,10 +881,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
 
             
         }else if collectionView == homeLastProductCollectionView {
-            let data = randomproductapiModel.first?.products?[indexPath.row]
+            let data = randomproductapiModel.first?.product?[indexPath.row]
             let vc = ProductDetail_VC.getVC(.main)
                 vc.isGroupBuy = false
-                vc.slugid = data?.slug
+            vc.slugid = data?.slug
             self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == hotDealCollectionV {
             let data = groupbydealsdata[indexPath.row]
@@ -977,13 +979,13 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
 
     }
     @objc func cartButtonTap(_ sender: UIButton) {
-        let data = randomproductapiModel[sender.tag]
+        let data = randomproductapiModel.first?.product?[sender.tag]
         
         let vc = CartPopupViewController.getVC(.main)
        
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = centerTransitioningDelegate
-        vc.products = data.products?.first
+        vc.products = data
         self.present(vc, animated: true, completion: nil)
 
     }

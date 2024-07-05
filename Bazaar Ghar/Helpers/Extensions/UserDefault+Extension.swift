@@ -200,9 +200,9 @@ class AppDefault {
             shared.encode(for: newValue, using: "PChat")
         }
     }
-    public static var randonproduct: [latestMobileDataModel]? {
+    public static var randonproduct: [PChat]? {
         get{
-            return shared.decode(for: [latestMobileDataModel].self, using: "RandomnProductResponse")
+            return shared.decode(for: [PChat].self, using: "RandomnProductResponse")
         }
         set{
             shared.encode(for: newValue, using: "RandomnProductResponse")
