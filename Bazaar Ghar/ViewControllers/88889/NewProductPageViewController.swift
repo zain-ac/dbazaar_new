@@ -10,6 +10,8 @@ import FSPagerView
 
 class NewProductPageViewController: UIViewController {
     @IBOutlet weak var pagerView: FSPagerView!
+    @IBOutlet weak var discountPrice: UILabel!
+    @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var headerBackgroudView: UIView!
 
     var bannerapidata: [Banner]? = [] {
@@ -20,6 +22,12 @@ class NewProductPageViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        let attributedText11 =  Utility().attributedStringWithColoredStrings(appDelegate.currencylabel, firstTextColor: UIColor.black, Utility().formatNumberWithCommas(220 ?? 0), secondTextColor:  UIColor(hexString: "#06B7FD"))
+       
+        discountPrice.text =    appDelegate.currencylabel + Utility().formatNumberWithCommas(120 ?? 0)
+      
+        productPrice.attributedText =   attributedText11
+      
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         bannerApi(isbackground: false)
