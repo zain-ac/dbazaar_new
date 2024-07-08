@@ -14515,85 +14515,6 @@
             </objects>
             <point key="canvasLocation" x="944" y="987.192118226601"/>
         </scene>
-        <!--New StorepageVC-->
-        <scene sceneID="6j6-nv-5FI">
-            <objects>
-                <viewController storyboardIdentifier="New_StorepageVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qnL-Fa-EN6" customClass="New_StorepageVC" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="cHY-bY-uZt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v1O-MG-ieZ">
-                                <rect key="frame" x="41" y="561" width="293" height="105"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghe-v7-Lnq">
-                                        <rect key="frame" x="5" y="60" width="35" height="35"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="35" id="NyM-PP-kj5"/>
-                                            <constraint firstAttribute="height" constant="35" id="nwZ-nS-FWS"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal">
-                                            <imageReference key="image" image="chevron.backward.circle.fill" catalog="system" symbolScale="large"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <real key="value" value="12"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="popViewController:" destination="1dd-2O-yGG" eventType="touchUpInside" id="hHX-7U-4Ud"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bazaar Live" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRJ-2k-eWT">
-                                        <rect key="frame" x="86" y="63.666666666666657" width="121.33333333333331" height="28"/>
-                                        <fontDescription key="fontDescription" name="Poppins-Bold" family="Poppins" pointSize="20"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lqH-Fv-SJR">
-                                        <rect key="frame" x="261" y="66.666666666666671" width="22" height="22"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="1Do-22-c0o"/>
-                                            <constraint firstAttribute="height" constant="22" id="BZb-EV-3Zk"/>
-                                        </constraints>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" image="cart" catalog="system">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="cartbtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wfn-HX-aPr"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="xRJ-2k-eWT" firstAttribute="centerX" secondItem="v1O-MG-ieZ" secondAttribute="centerX" id="4XP-jc-pp4"/>
-                                    <constraint firstItem="xRJ-2k-eWT" firstAttribute="centerY" secondItem="ghe-v7-Lnq" secondAttribute="centerY" id="4l5-74-koH"/>
-                                    <constraint firstItem="lqH-Fv-SJR" firstAttribute="centerY" secondItem="ghe-v7-Lnq" secondAttribute="centerY" id="DUy-0i-2Hu"/>
-                                    <constraint firstItem="ghe-v7-Lnq" firstAttribute="leading" secondItem="v1O-MG-ieZ" secondAttribute="leading" constant="5" id="G5F-3z-M3z"/>
-                                    <constraint firstAttribute="height" constant="105" id="Gre-dT-owO"/>
-                                    <constraint firstAttribute="trailing" secondItem="lqH-Fv-SJR" secondAttribute="trailing" constant="10" id="ZEF-JS-D2j"/>
-                                    <constraint firstAttribute="bottom" secondItem="ghe-v7-Lnq" secondAttribute="bottom" constant="10" id="o71-GY-aoQ"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="ytZ-kD-TUC"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="ytZ-kD-TUC" firstAttribute="trailing" secondItem="v1O-MG-ieZ" secondAttribute="trailing" constant="41" id="MKt-sz-0R0"/>
-                            <constraint firstItem="v1O-MG-ieZ" firstAttribute="leading" secondItem="ytZ-kD-TUC" secondAttribute="leading" constant="41" id="OXY-Yw-0RE"/>
-                            <constraint firstItem="v1O-MG-ieZ" firstAttribute="centerX" secondItem="ytZ-kD-TUC" secondAttribute="centerX" id="jtb-YG-gnk"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="soQ-aH-zC4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-560" y="2618"/>
-        </scene>
         <!--Shop China View Controller-->
         <scene sceneID="20x-0C-4Mm">
             <objects>
@@ -15816,6 +15737,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eBQ-WP-d8c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-6721" y="1834"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tOg-bT-7IB">
+            <objects>
+                <viewController id="baf-Ml-3Fw" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EnP-Cu-6QW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Z1M-9e-6ym"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LNI-Wt-sk7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5981" y="1209"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mv2-kr-MVl">

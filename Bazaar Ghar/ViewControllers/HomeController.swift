@@ -882,9 +882,9 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             
         }else if collectionView == homeLastProductCollectionView {
             let data = randomproductapiModel.first?.product?[indexPath.row]
-            let vc = ProductDetail_VC.getVC(.main)
-                vc.isGroupBuy = false
-            vc.slugid = data?.slug
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//                vc.isGroupBuy = false
+//            vc.slugid = data?.slug
             self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == hotDealCollectionV {
             let data = groupbydealsdata[indexPath.row]
