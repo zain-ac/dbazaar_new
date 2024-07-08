@@ -806,19 +806,22 @@ class ProductDetail_VC: UIViewController {
     }
     
     @IBAction func storeBtn(_ sender: Any) {
-    
-        let vc = Category_ProductsVC.getVC(.main)
-        vc.prductid = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
-        vc.video_section = true
-        vc.storeFlag = true
-        vc.storeId = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
-        vc.catNameTitle = productcategoriesdetailsdata?.sellerDetail?.brandName ?? ""
-        vc.sellerDescription = productcategoriesdetailsdata?.description ?? ""
-        if self.isnav == true{
-            self.dismiss(animated: false)
-            self.nav?.pushViewController(vc, animated: true)
-        }
-        self.navigationController?.pushViewController(vc, animated: false)
+                let vc = New_StoreVC.getVC(.main)
+                self.navigationController?.pushViewController(vc, animated: false)
+
+
+//        let vc = Category_ProductsVC.getVC(.main)
+//        vc.prductid = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+//        vc.video_section = true
+//        vc.storeFlag = true
+//        vc.storeId = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+//        vc.catNameTitle = productcategoriesdetailsdata?.sellerDetail?.brandName ?? ""
+//        vc.sellerDescription = productcategoriesdetailsdata?.description ?? ""
+//        if self.isnav == true{
+//            self.dismiss(animated: false)
+//            self.nav?.pushViewController(vc, animated: true)
+//        }
+//        self.navigationController?.pushViewController(vc, animated: false)
         }
     @IBAction func cartBtn(_ sender: Any) {
         let vc = CartViewController.getVC(.main)
