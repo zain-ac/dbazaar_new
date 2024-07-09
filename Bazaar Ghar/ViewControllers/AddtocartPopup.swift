@@ -8,11 +8,31 @@
 import UIKit
 
 class AddtocartPopup: UIViewController {
+    @IBOutlet weak var productimg: UIImageView!
+    
+    @IBOutlet weak var gotobtntxt: UIButton!
+    @IBOutlet weak var continuebtntxt: UIButton!
+    @IBOutlet weak var successfullyaddedtxt: UILabel!
+    @IBOutlet weak var addtotxt: UILabel!
+    
+    var  img = String()
+    var label = String()
+    var  descriptiontxt = String()
+    var cancelbtn = String()
+    var continuebtn = String()
 
-    override func viewDidLoad() {
+    
+    
+    
+    
+    override func viewDidLoad( ) {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        productimg.image = UIImage(named: img)
+        addtotxt.text = label
+        successfullyaddedtxt.text = descriptiontxt
+        continuebtntxt.setTitle(continuebtn, for: .normal)
+        gotobtntxt.setTitle(cancelbtn, for: .normal)
+        
     }
     
 

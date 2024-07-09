@@ -38,6 +38,7 @@ class DashboardViewController: UIViewController {
         self.selectedIndexPath = 0
         // Do any additional setup after loading the view.
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        
         self.embedviewController(Indexpath: self.selectedIndexPath ?? 0)
         
     }

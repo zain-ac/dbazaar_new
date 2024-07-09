@@ -18,6 +18,7 @@ class CategoriesPopUpVC: UIViewController {
         topcell_1.dataSource = self
  CategoriesResponsedata =  AppDefault.getAllCategoriesResponsedata ?? []
         topcell_1.reloadData()
+        
         // Do any additional setup after loading the view.
     }
     
