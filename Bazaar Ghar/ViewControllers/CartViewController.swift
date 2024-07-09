@@ -30,6 +30,7 @@ class CartViewController: UIViewController {
      @IBOutlet weak var checkoutbutton: UIButton!
     @IBOutlet weak var backbtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
+    @IBOutlet weak var headerBackgroudView: UIView!
 
     // localizationOutlest
     // localizationOutlest
@@ -42,6 +43,8 @@ class CartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+
         cartTableViewCell.dataSource = self
         cartTableViewCell.delegate = self
 

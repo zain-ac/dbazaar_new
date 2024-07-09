@@ -319,10 +319,45 @@ class New_StoreVC: UIViewController {
         }else{
             followStore(storeId: self.storeId, web: true)
         }
-       
-    
     }
     
+    @IBAction func callIconBtnTapped(_ sender: Any) {
+        
+        AppDefault.brandname = brandName ?? ""
+        
+        let vc = AddtocartPopup.getVC(.sidemenu)
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self.centerTransitioningDelegate
+        vc.img = "video-call"
+        vc.titleText = "Video Call"
+        vc.messageText = "This is a video call, would you like to continue?"
+        vc.leftBtnText = "Cancel"
+        vc.rightBtnText = "Yes, Continue"
+        vc.iscomefor = "video"
+        vc.prductid = self.prductid ?? ""
+        self.present(vc, animated: true, completion: nil)
+        
+        }
+    
+    @IBAction func shareBtn(_ sender: Any) {
+        showShareSheet(id:"")
+    }
+    
+    func showShareSheet(id:String) {
+        print(id)
+        guard let url = URL(string: "https://stage.bazaarghar.com/product/\(id)") else { return }
+
+        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+
+        // On iPad, provide a sourceView and sourceRect to display the share sheet as a popover
+        if let popoverPresentationController = activityViewController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+//            popoverPresentationController.sourceRect = sender.frame
+        }
+
+        // Present the share sheet
+        present(activityViewController, animated: true, completion: nil)
+    }
     
     
     
