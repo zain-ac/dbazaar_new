@@ -367,7 +367,6 @@ class ProductDetail_VC: UIViewController {
                     }else {
                         self?.scrollheight.constant = (self?.scrollheight.constant ?? 0) + 280
                     }
-
                 }else {
                     self?.relatedProductView.isHidden = true
 
@@ -807,6 +806,11 @@ class ProductDetail_VC: UIViewController {
     
     @IBAction func storeBtn(_ sender: Any) {
                 let vc = New_StoreVC.getVC(.main)
+                vc.prductid = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+                vc.brandName = productcategoriesdetailsdata?.sellerDetail?.brandName ?? ""
+                vc.gallaryImages = productcategoriesdetailsdata?.gallery
+                vc.storeId = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+
                 self.navigationController?.pushViewController(vc, animated: false)
 
 
@@ -1210,7 +1214,7 @@ extension ProductDetail_VC{
             
             
             
-             print(self.socket?.status)
+             print(self.socket?.status ?? "")
              print("socketid " + (self.socket?.sid ?? ""))
             print("Socket Connected")
             
