@@ -29,7 +29,6 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var hotdealslbl: UILabel!
     @IBOutlet weak var shoplabel: UILabel!
     // outlets
-    @IBOutlet weak var livelbl: UILabel!
     @IBOutlet weak var topcategorieslbl: UILabel!
     @IBOutlet weak var LiveGif: UIImageView!
     @IBOutlet weak var hotDealCollectionV: UICollectionView!
@@ -45,7 +44,6 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
      @IBOutlet weak var pageControl: FSPageControl!
     @IBOutlet weak var headerBackgroudView: UIView!
 
-    @IBOutlet weak var shopbeyoundview: UIView!
     @IBOutlet weak var shopbeyound_tblview: UITableView!
     @IBOutlet weak var lastRandomProductsCollectionView: UICollectionView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -56,6 +54,7 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var shopImage: UIImageView!
     @IBOutlet weak var videoCollection: UICollectionView!
     @IBOutlet weak var shopingReelsLbl: UILabel!
+    @IBOutlet weak var shoesCollectionView: UICollectionView!
 
     
     
@@ -137,8 +136,6 @@ var count = 0
                pagerView.delegate = self
                pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         pagerView.automaticSlidingInterval = 2.0
-        shopbeyound_tblview.dataSource = self
-        shopbeyound_tblview.delegate = self
         
 
                 
@@ -539,6 +536,8 @@ var count = 0
                 print(res)
                
                 self?.homeLastProductCollectionView.reloadData()
+                self?.shoesCollectionView.reloadData()
+
             case .failure(let error):
                 print(error)
                 self?.view.makeToast(error)
@@ -677,6 +676,8 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             return  bannerapidata?.count ?? 0
         }else if collectionView == homeLastProductCollectionView {
             return self.randomproductapiModel.first?.product?.count ?? 0
+        }else if collectionView == shoesCollectionView {
+            return self.randomproductapiModel.first?.product?.count ?? 0
         }else if collectionView == hotDealCollectionV {
             return groupbydealsdata.count
         } else if collectionView == lastRandomProductsCollectionView {
@@ -744,7 +745,55 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             
             
             return cell
-        } else if collectionView == hotDealCollectionV {
+        } else if collectionView == shoesCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
+            let data = self.randomproductapiModel.first?.product?[indexPath.row]
+            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+
+            cell.productimage.pLoadImage(url: data?.mainImage ?? "")
+            cell.productname.text =  data?.productName
+            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+            if data?.onSale == true {
+                cell.discountPrice.isHidden = false
+                let currencySymbol = appDelegate.currencylabel
+                let salePrice = Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+
+                // Create an attributed string for the currency symbol with the desired color
+                let currencyAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor.black // Change to your desired color
+                ]
+                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
+
+                // Create an attributed string for the sale price with the desired color
+                let priceAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
+                ]
+                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
+
+                // Combine the attributed strings
+                let combinedAttributedString = NSMutableAttributedString()
+                combinedAttributedString.append(attributedCurrencySymbol)
+                combinedAttributedString.append(attributedPrice)
+                cell.discountPrice.attributedText = combinedAttributedString
+
+//                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.productPriceLine.isHidden = false
+                cell.productPrice.textColor = UIColor.red
+//                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
+                cell.productPriceLine.backgroundColor = UIColor.red
+                
+            }else {
+                cell.discountPrice.isHidden = true
+                cell.productPriceLine.isHidden = true
+                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+
+             }
+            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            
+            
+            
+            return cell
+        }else if collectionView == hotDealCollectionV {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HotDealCollectionViewCell", for: indexPath) as! HotDealCollectionViewCell
             let data = groupbydealsdata[indexPath.row]
             
@@ -832,12 +881,16 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == homeLastProductCollectionView {
             return 10
+        } else if collectionView == shoesCollectionView {
+            return 10
         }
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == homeLastProductCollectionView {
+            return 5
+        }else if collectionView == shoesCollectionView {
             return 5
         }
         return 0
@@ -848,7 +901,9 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
         }else if collectionView == homeLastProductCollectionView {
             return CGSize(width: homeLastProductCollectionView.frame.width/2-5, height: homeLastProductCollectionView.frame.height/2-5)
-        } else if collectionView == hotDealCollectionV {
+        } else if collectionView == shoesCollectionView {
+            return CGSize(width: shoesCollectionView.frame.width/2-5, height: shoesCollectionView.frame.height/2-5)
+        }else if collectionView == hotDealCollectionV {
             return CGSize(width: self.hotDealCollectionV.frame.width/1.2, height: self.hotDealCollectionV.frame.height)
 
         } else if collectionView == lastRandomProductsCollectionView {
@@ -959,6 +1014,12 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                 vc.isGroupBuy = false
             vc.slugid = data?.slug
             self.navigationController?.pushViewController(vc, animated: false)
+        }else if collectionView == shoesCollectionView {
+            let data = self.randomproductapiModel.first?.product?[indexPath.row]
+            let vc = ProductDetail_VC.getVC(.main)
+                vc.isGroupBuy = false
+            vc.slugid = data?.slug
+            self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == hotDealCollectionV {
             let data = groupbydealsdata[indexPath.row]
             let vc = ProductDetail_VC.getVC(.main)
@@ -996,30 +1057,11 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
 
 extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == shopbeyound_tblview{
-            return 3
-        }else{
             return ProductCategoriesResponsedata.count
-        }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if  tableView == shopbeyound_tblview{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Shopbeyound_TableViewCell", for: indexPath) as! Shopbeyound_TableViewCell
-            
-            let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArray[indexPath.row], lastWordColor: UIColor(hexString: "#496E2E"), otherWordsColor: UIColor(hexString: "#313230"))
-            cell.shop_img.image = shopBeyonimagesArray[indexPath.row]
-            cell.shopname_lbl.attributedText = attributedText1
-            cell.explore_btn.addTarget(self, action: #selector(exploreBtnTapped(_:)), for: .touchUpInside)
-            cell.bgView.backgroundColor = shopBeyondBGColorArray[indexPath.row]
-            
-            cell.CategoriesResponsedata = self.CategoriesResponsedata
-            self.count += 1
-            cell.count = self.count
-            cell.nav = navigationController
-            return cell
-        }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as! HomeTableViewCell
 
             let data = ProductCategoriesResponsedata[indexPath.row]
@@ -1041,7 +1083,6 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
             cell.catBannerBtn.addTarget(self, action: #selector(catBannerBtnTapped(_:)), for: .touchUpInside)
             
             return cell
-        }
     }
     @objc func exploreBtnTapped(_ sender: UIButton) {
         
@@ -1070,13 +1111,9 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView == shopbeyound_tblview{
-            return 343
-            
-        }else {
+
             return 800
         }
-    }
 }
 
 
