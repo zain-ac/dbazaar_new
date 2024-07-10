@@ -970,7 +970,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="113"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vzt-2k-IgX">
-                                        <rect key="frame" x="20" y="65" width="35" height="35"/>
+                                        <rect key="frame" x="20" y="61.666666666666657" width="35" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="D3V-aY-a6S"/>
                                             <constraint firstAttribute="width" constant="35" id="Hrt-aL-NDv"/>
@@ -989,32 +989,37 @@
                                             <action selector="popViewController:" destination="SYd-U7-LSd" eventType="touchUpInside" id="N2I-bd-wig"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PlayStation 5 Console" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xys-v7-YHc">
-                                        <rect key="frame" x="86" y="0.0" width="221" height="165"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PlayStation 5 Console" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xys-v7-YHc">
+                                        <rect key="frame" x="60" y="65" width="278" height="28"/>
                                         <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0s-JR-dOY">
-                                        <rect key="frame" x="351" y="71.666666666666671" width="22" height="22"/>
+                                        <rect key="frame" x="343" y="64" width="30" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="dnD-Rf-T1Y"/>
-                                            <constraint firstAttribute="height" constant="22" id="fK1-Z3-feb"/>
+                                            <constraint firstAttribute="width" constant="30" id="dnD-Rf-T1Y"/>
+                                            <constraint firstAttribute="height" constant="30" id="fK1-Z3-feb"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Button" image="cart" catalog="system"/>
+                                        <state key="normal" image="carticon">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cartBtnTapped:" destination="SYd-U7-LSd" eventType="touchUpInside" id="pdU-Uc-3wp"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstItem="Xys-v7-YHc" firstAttribute="leading" secondItem="Vzt-2k-IgX" secondAttribute="trailing" constant="5" id="1Ab-Qs-nKn"/>
                                     <constraint firstAttribute="height" constant="113" id="Jn5-g6-jQi"/>
-                                    <constraint firstAttribute="bottom" secondItem="Vzt-2k-IgX" secondAttribute="bottom" constant="13" id="TGk-mR-PTt"/>
-                                    <constraint firstItem="Xys-v7-YHc" firstAttribute="centerY" secondItem="Vzt-2k-IgX" secondAttribute="centerY" id="aDd-QR-fC5"/>
-                                    <constraint firstItem="Xys-v7-YHc" firstAttribute="top" secondItem="yhV-q0-kG1" secondAttribute="top" id="dAz-e5-qvO"/>
-                                    <constraint firstItem="Xys-v7-YHc" firstAttribute="centerX" secondItem="yhV-q0-kG1" secondAttribute="centerX" id="dHr-gR-iC5"/>
-                                    <constraint firstItem="v0s-JR-dOY" firstAttribute="centerY" secondItem="Xys-v7-YHc" secondAttribute="centerY" id="jKr-8Z-KAx"/>
+                                    <constraint firstItem="v0s-JR-dOY" firstAttribute="centerY" secondItem="Xys-v7-YHc" secondAttribute="centerY" id="Q45-0v-ICD"/>
+                                    <constraint firstItem="v0s-JR-dOY" firstAttribute="leading" secondItem="Xys-v7-YHc" secondAttribute="trailing" constant="5" id="Zfb-3E-QjL"/>
+                                    <constraint firstAttribute="bottom" secondItem="Xys-v7-YHc" secondAttribute="bottom" constant="20" id="dbO-sB-xs7"/>
                                     <constraint firstAttribute="trailing" secondItem="v0s-JR-dOY" secondAttribute="trailing" constant="20" id="ldB-YS-nIZ"/>
+                                    <constraint firstItem="Vzt-2k-IgX" firstAttribute="centerY" secondItem="Xys-v7-YHc" secondAttribute="centerY" id="rsC-jC-Thv"/>
                                     <constraint firstItem="Vzt-2k-IgX" firstAttribute="leading" secondItem="yhV-q0-kG1" secondAttribute="leading" constant="20" symbolic="YES" id="wQi-bc-XCl"/>
                                 </constraints>
                             </view>
@@ -2232,12 +2237,14 @@
                     <connections>
                         <outlet property="deliveryTableView" destination="JUq-YL-aMk" id="VFi-Ev-d01"/>
                         <outlet property="headerBackgroudView" destination="yhV-q0-kG1" id="DW9-Pb-BuL"/>
+                        <outlet property="headerLbl" destination="Xys-v7-YHc" id="aBs-RB-zbX"/>
                         <outlet property="pagerView" destination="mSv-8X-AxO" id="dYe-Tz-MXo"/>
+                        <outlet property="percentLbl" destination="O19-FF-v3a" id="5qx-br-YgP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3oT-ww-0HU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3019" y="-2525"/>
+            <point key="canvasLocation" x="2975" y="-2604"/>
         </scene>
     </scenes>
     <resources>
@@ -2250,6 +2257,7 @@
         <image name="bg" width="80.333335876464844" height="32"/>
         <image name="cargo-truck" width="26.333333969116211" height="16.666666030883789"/>
         <image name="cart" catalog="system" width="128" height="102"/>
+        <image name="carticon" width="19" height="17.666666030883789"/>
         <image name="chevron.backward.circle.fill" catalog="system" width="128" height="123"/>
         <image name="facebook_5968764" width="512" height="512"/>
         <image name="hearticon" width="42" height="42.333332061767578"/>
