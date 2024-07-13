@@ -78,7 +78,7 @@ extension CategoryTableCell:UICollectionViewDelegate,UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let data = LiveStreamingResultsdata[indexPath.row]
-        let vc = SingleVideoView.getVC(.main)
+        let vc = New_SingleVideoview.getVC(.sidemenu)
         vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
         vc.indexValue = indexPath.row
         navigationController?.pushViewController(vc, animated: false)

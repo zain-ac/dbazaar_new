@@ -440,7 +440,7 @@ class Category_ProductsVC: UIViewController {
     }
     
     @IBAction func viewAllBtnTapped(_ sender: Any) {
-        let vc = SingleVideoView.getVC(.main)
+        let vc = New_SingleVideoview.getVC(.sidemenu)
         vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
         vc.indexValue = 0
         self.navigationController?.pushViewController(vc, animated: false)
@@ -505,7 +505,7 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
             vc.slugid = data.slug
             self.navigationController?.pushViewController(vc, animated: false)
         } else{
-            let vc = SingleVideoView.getVC(.main)
+            let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)

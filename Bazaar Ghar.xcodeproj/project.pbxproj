@@ -197,6 +197,12 @@
 		8BF432D72AA89EEE00CD13D0 /* ProductSearch_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF432D52AA89EED00CD13D0 /* ProductSearch_VC.swift */; };
 		8BF432D82AA89EEE00CD13D0 /* VediosSearch_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF432D62AA89EEE00CD13D0 /* VediosSearch_VC.swift */; };
 		B67C7009E29CC2150B4B41F1 /* Pods_Bazaar_GharTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E0AB92C646720DDDD4A460 /* Pods_Bazaar_GharTests.framework */; };
+		C1895FF92C42C3E0004E60B4 /* StoreFilters_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1895FF82C42C3E0004E60B4 /* StoreFilters_ViewController.swift */; };
+		C1895FFB2C42C870004E60B4 /* StoreFilterscategory_TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1895FFA2C42C870004E60B4 /* StoreFilterscategory_TableViewCell.swift */; };
+		C1895FFD2C42C89D004E60B4 /* StoreFiltersStore_CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1895FFC2C42C89D004E60B4 /* StoreFiltersStore_CollectionViewCell.swift */; };
+		C1895FFF2C42C8C5004E60B4 /* StoreFiltersColors_TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1895FFE2C42C8C5004E60B4 /* StoreFiltersColors_TableViewCell.swift */; };
+		C18960012C42C8F2004E60B4 /* StoreFiltersrating_CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18960002C42C8F2004E60B4 /* StoreFiltersrating_CollectionViewCell.swift */; };
+		C1ACCE2D2C410AF300FB64D0 /* New_SingleVideoview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ACCE2C2C410AF300FB64D0 /* New_SingleVideoview.swift */; };
 		D8F634E835768153739C008A /* Pods_Bazaar_Ghar_Bazaar_GharUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1635B08410000905C5DEBA3E /* Pods_Bazaar_Ghar_Bazaar_GharUITests.framework */; };
 		DAE61B3E2B29D9810087E776 /* receiverImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE61B3C2B29D9800087E776 /* receiverImageCell.swift */; };
 		DAE61B3F2B29D9810087E776 /* receiverImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE61B3D2B29D9800087E776 /* receiverImageCell.xib */; };
@@ -429,6 +435,12 @@
 		8BF432D62AA89EEE00CD13D0 /* VediosSearch_VC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VediosSearch_VC.swift; sourceTree = "<group>"; };
 		90E9A44FFE206EE0FF2EF3B5 /* Pods_Bazaar_Ghar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bazaar_Ghar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2D379007B8BBAA06B92A8FC /* Pods-Bazaar Ghar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar Ghar.release.xcconfig"; path = "Target Support Files/Pods-Bazaar Ghar/Pods-Bazaar Ghar.release.xcconfig"; sourceTree = "<group>"; };
+		C1895FF82C42C3E0004E60B4 /* StoreFilters_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFilters_ViewController.swift; sourceTree = "<group>"; };
+		C1895FFA2C42C870004E60B4 /* StoreFilterscategory_TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFilterscategory_TableViewCell.swift; sourceTree = "<group>"; };
+		C1895FFC2C42C89D004E60B4 /* StoreFiltersStore_CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFiltersStore_CollectionViewCell.swift; sourceTree = "<group>"; };
+		C1895FFE2C42C8C5004E60B4 /* StoreFiltersColors_TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFiltersColors_TableViewCell.swift; sourceTree = "<group>"; };
+		C18960002C42C8F2004E60B4 /* StoreFiltersrating_CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFiltersrating_CollectionViewCell.swift; sourceTree = "<group>"; };
+		C1ACCE2C2C410AF300FB64D0 /* New_SingleVideoview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = New_SingleVideoview.swift; sourceTree = "<group>"; };
 		C623F50BAF50B3B8D8530437 /* Pods-Bazaar GharTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar GharTests.release.xcconfig"; path = "Target Support Files/Pods-Bazaar GharTests/Pods-Bazaar GharTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB8D41113E13524DF7783A23 /* Pods-Bazaar Ghar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar Ghar.debug.xcconfig"; path = "Target Support Files/Pods-Bazaar Ghar/Pods-Bazaar Ghar.debug.xcconfig"; sourceTree = "<group>"; };
 		D5E2F6DFF6135F0778E64E2D /* Pods-Bazaar GharTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar GharTests.debug.xcconfig"; path = "Target Support Files/Pods-Bazaar GharTests/Pods-Bazaar GharTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -664,6 +676,10 @@
 				8BE6CAFF2C1CB5F500AB174B /* Live_videoCell1TableViewCell.swift */,
 				8BE6CB002C1CB5F500AB174B /* Live_videoCell1TableViewCell.xib */,
 				8B3AE3042C2AA1CE00064687 /* HomeLastProductCollectionViewCell.xib */,
+				C1895FFA2C42C870004E60B4 /* StoreFilterscategory_TableViewCell.swift */,
+				C1895FFC2C42C89D004E60B4 /* StoreFiltersStore_CollectionViewCell.swift */,
+				C1895FFE2C42C8C5004E60B4 /* StoreFiltersColors_TableViewCell.swift */,
+				C18960002C42C8F2004E60B4 /* StoreFiltersrating_CollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -725,6 +741,8 @@
 				8BCDE51E2C2D7A9A0067EA0B /* MenuVc.swift */,
 				8BADD28D2C327CE5004FF16A /* New_StorepageVC.swift */,
 				2A9C81A72C37D522002DE75F /* AddtocartPopup.swift */,
+				C1ACCE2C2C410AF300FB64D0 /* New_SingleVideoview.swift */,
+				C1895FF82C42C3E0004E60B4 /* StoreFilters_ViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1198,6 +1216,7 @@
 				8BE6CB012C1CB5F500AB174B /* Live_videoCell1TableViewCell.swift in Sources */,
 				8B1437FE2A8F9417008A2705 /* ColorWheel.swift in Sources */,
 				8BB406B02ABD6758001B4EF2 /* wishlist_vc.swift in Sources */,
+				C18960012C42C8F2004E60B4 /* StoreFiltersrating_CollectionViewCell.swift in Sources */,
 				8BE5CE632A971AD600B86E3A /* HomeLastProductCollectionViewCell.swift in Sources */,
 				8B1437BB2A8F9077008A2705 /* Extension+Error.swift in Sources */,
 				8B208F7E2A93479600B6BFF7 /* HomeImageSliderCell.swift in Sources */,
@@ -1244,6 +1263,8 @@
 				8BE6CB0A2C1CBC1E00AB174B /* Live_videoCell1TableViewCel2.swift in Sources */,
 				8BCF62822C358D5E0024E534 /* MenuVCList.swift in Sources */,
 				8BF432D42AA8984F00CD13D0 /* Search_ViewController.swift in Sources */,
+				C1895FFB2C42C870004E60B4 /* StoreFilterscategory_TableViewCell.swift in Sources */,
+				C1895FFD2C42C89D004E60B4 /* StoreFiltersStore_CollectionViewCell.swift in Sources */,
 				8B1437F72A8F9417008A2705 /* Toast.swift in Sources */,
 				8B96710A2AD5703F0033671A /* ReportViewController.swift in Sources */,
 				8B2955CC2A8F8963008D6BD8 /* AppDelegate.swift in Sources */,
@@ -1259,8 +1280,10 @@
 				8BD02A3E2AC45D33007D6CFD /* CategoryTableCell.swift in Sources */,
 				8B1437BC2A8F9077008A2705 /* Provider.swift in Sources */,
 				8BA9AA912ABADCF90085D36E /* MyOrdersDetailsViewController.swift in Sources */,
+				C1ACCE2D2C410AF300FB64D0 /* New_SingleVideoview.swift in Sources */,
 				8BBAB93A2BBD29C100B11591 /* ShopChinaCollectionViewCell.swift in Sources */,
 				8BB7B84A2AC30BE000612304 /* PersonalDetailsViewController.swift in Sources */,
+				C1895FFF2C42C8C5004E60B4 /* StoreFiltersColors_TableViewCell.swift in Sources */,
 				8BA7725B2AB1E34C00F6DFFF /* AddToCartResponse.swift in Sources */,
 				8B1437FA2A8F9417008A2705 /* ColorPickers.swift in Sources */,
 				8BE6CB052C1CB78D00AB174B /* Live_videoCell1.swift in Sources */,
@@ -1306,6 +1329,7 @@
 				2A9C81A82C37D522002DE75F /* AddtocartPopup.swift in Sources */,
 				8B96710E2AD5836C0033671A /* ReportTableViewCell.swift in Sources */,
 				8BF432D82AA89EEE00CD13D0 /* VediosSearch_VC.swift in Sources */,
+				C1895FF92C42C3E0004E60B4 /* StoreFilters_ViewController.swift in Sources */,
 				8B1437FC2A8F9417008A2705 /* UserDefault+Extension.swift in Sources */,
 				8BA9AA952ABB03C90085D36E /* VideoPlayerTableViewCell.swift in Sources */,
 				8B1438002A8F9417008A2705 /* UIStoryboard.swift in Sources */,

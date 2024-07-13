@@ -30,6 +30,7 @@ class RoundTabbarVc: UITabBarController {
         if(ischecklogin){
             DispatchQueue.main.async {
                 self.ischecklogin = false
+
                 let vc = PopupLoginVc.getVC(.main)
                 vc.modalPresentationStyle = .overFullScreen
                 self.present(vc, animated: true, completion: nil)

@@ -452,7 +452,7 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         if collectionView == videoCollection{
             
             let data = LiveStreamingResultsdata[indexPath.row]
-            let vc = SingleVideoView.getVC(.main)
+            let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)

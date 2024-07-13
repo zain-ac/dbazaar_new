@@ -11,6 +11,8 @@ import Cosmos
 class videoProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var img: UIImageView!
     @IBOutlet weak var price: UILabel!
+    @IBOutlet weak var productname: UILabel!
+
     @IBOutlet weak var buynow: UIButton!
     @IBOutlet weak var cosmosView: CosmosView!
     @IBOutlet weak var Salesprice: UILabel!

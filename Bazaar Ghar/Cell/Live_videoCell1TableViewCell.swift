@@ -47,7 +47,7 @@ class Live_videoCell1TableViewCell: UITableViewCell {
     }
     
     @IBAction func btnTapped(_ sender: Any) {
-        let vc = SingleVideoView.getVC(.main)
+        let vc = New_SingleVideoview.getVC(.sidemenu)
         vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
         vc.indexValue = 0
         self.navigationController?.pushViewController(vc, animated: false)
@@ -96,7 +96,7 @@ extension Live_videoCell1TableViewCell: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
             let data = LiveStreamingResultsdata[indexPath.row + 1]
-            let vc = SingleVideoView.getVC(.main)
+            let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)

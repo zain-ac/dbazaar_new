@@ -1,0 +1,13 @@
+<svg id="Love" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Icon">
+    <g id="Background">
+      <circle id="Background-2" data-name="Background" cx="20" cy="20" r="20" fill="none"/>
+      <circle id="Background-3" data-name="Background" cx="20" cy="20" r="20" fill="rgba(255,255,255,0.3)" opacity="0.37"/>
+    </g>
+    <g id="sound" transform="translate(10 -40.807)">
+      <path id="Path_38306" data-name="Path 38306" d="M419.169,87.282a.615.615,0,0,0-.869.869,8.283,8.283,0,0,1,0,11.728.615.615,0,1,0,.869.869,9.512,9.512,0,0,0,0-13.467Z" transform="translate(-401.005 -32.892)" fill="#fff"/>
+      <path id="Path_38307" data-name="Path 38307" d="M359.406,147.045a.615.615,0,1,0-.869.869,4.833,4.833,0,0,1,0,6.835.615.615,0,0,0,.869.869,6.063,6.063,0,0,0,0-8.574Z" transform="translate(-343.688 -90.208)" fill="#fff"/>
+      <path id="Path_38308" data-name="Path 38308" d="M11.888,53a1.412,1.412,0,0,0-1.415-.008L3.83,56.531H.615A.615.615,0,0,0,0,57.146V65.1a.615.615,0,0,0,.615.615H3.83l6.643,3.538A1.426,1.426,0,0,0,12.6,68.013V54.235A1.412,1.412,0,0,0,11.888,53Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>

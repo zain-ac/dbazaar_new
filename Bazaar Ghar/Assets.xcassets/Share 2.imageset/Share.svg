@@ -1,0 +1,9 @@
+<svg id="Share" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Icon">
+    <g id="Background">
+      <circle id="Background-2" data-name="Background" cx="20" cy="20" r="20" fill="none"/>
+      <circle id="Background-3" data-name="Background" cx="20" cy="20" r="20" fill="rgba(255,255,255,0.3)" opacity="0.37"/>
+    </g>
+    <path id="Icon-2" data-name="Icon" d="M10.347,4.072V0L20,6.872l-9.653,6.615v-4C9.409,9.41,4.118,9.245.613,15h-.6S-.771,4.158,10.347,4.072Z" transform="translate(10 13)" fill="#fff"/>
+  </g>
+</svg>
