@@ -649,9 +649,8 @@ class ProductDetail_VC: UIViewController {
             
                 AppDefault.currentUser?.defaultAddress = res.user?.defaultAddress
                 self?.orderDetails = res
-                
-                
-                let vc = OrderConfirmation_VC.getVC(.main)
+             
+                let vc = NewOrderConfirmation_ViewController.getVC(.sidemenu)
                 vc.orderDetails =  self?.orderDetails
                 if self?.isnav == true{
                     self?.dismiss(animated: false)

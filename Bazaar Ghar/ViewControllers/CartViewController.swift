@@ -149,7 +149,7 @@ class CartViewController: UIViewController {
     
     @IBAction func checkout_btn(_ sender: Any) {
         
-        let vc = OrderConfirmation_VC.getVC(.main)
+        let vc = NewOrderConfirmation_ViewController.getVC(.sidemenu)
         vc.orderDetails =  orderDetails
         self.navigationController?.pushViewController(vc, animated: true)
 

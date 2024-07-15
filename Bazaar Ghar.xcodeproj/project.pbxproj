@@ -203,6 +203,9 @@
 		C1895FFF2C42C8C5004E60B4 /* StoreFiltersColors_TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1895FFE2C42C8C5004E60B4 /* StoreFiltersColors_TableViewCell.swift */; };
 		C18960012C42C8F2004E60B4 /* StoreFiltersrating_CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18960002C42C8F2004E60B4 /* StoreFiltersrating_CollectionViewCell.swift */; };
 		C1ACCE2D2C410AF300FB64D0 /* New_SingleVideoview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ACCE2C2C410AF300FB64D0 /* New_SingleVideoview.swift */; };
+		C1C13A0E2C44F139006B336E /* NewOrderConfirmation_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C13A0D2C44F139006B336E /* NewOrderConfirmation_ViewController.swift */; };
+		C1C13A102C44F8C7006B336E /* Paymentmethod_TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C13A0F2C44F8C7006B336E /* Paymentmethod_TableViewCell.swift */; };
+		C1C13A122C44F902006B336E /* OrderSummary_CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C13A112C44F902006B336E /* OrderSummary_CollectionViewCell.swift */; };
 		D8F634E835768153739C008A /* Pods_Bazaar_Ghar_Bazaar_GharUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1635B08410000905C5DEBA3E /* Pods_Bazaar_Ghar_Bazaar_GharUITests.framework */; };
 		DAE61B3E2B29D9810087E776 /* receiverImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE61B3C2B29D9800087E776 /* receiverImageCell.swift */; };
 		DAE61B3F2B29D9810087E776 /* receiverImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE61B3D2B29D9800087E776 /* receiverImageCell.xib */; };
@@ -441,6 +444,9 @@
 		C1895FFE2C42C8C5004E60B4 /* StoreFiltersColors_TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFiltersColors_TableViewCell.swift; sourceTree = "<group>"; };
 		C18960002C42C8F2004E60B4 /* StoreFiltersrating_CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFiltersrating_CollectionViewCell.swift; sourceTree = "<group>"; };
 		C1ACCE2C2C410AF300FB64D0 /* New_SingleVideoview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = New_SingleVideoview.swift; sourceTree = "<group>"; };
+		C1C13A0D2C44F139006B336E /* NewOrderConfirmation_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOrderConfirmation_ViewController.swift; sourceTree = "<group>"; };
+		C1C13A0F2C44F8C7006B336E /* Paymentmethod_TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paymentmethod_TableViewCell.swift; sourceTree = "<group>"; };
+		C1C13A112C44F902006B336E /* OrderSummary_CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummary_CollectionViewCell.swift; sourceTree = "<group>"; };
 		C623F50BAF50B3B8D8530437 /* Pods-Bazaar GharTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar GharTests.release.xcconfig"; path = "Target Support Files/Pods-Bazaar GharTests/Pods-Bazaar GharTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB8D41113E13524DF7783A23 /* Pods-Bazaar Ghar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar Ghar.debug.xcconfig"; path = "Target Support Files/Pods-Bazaar Ghar/Pods-Bazaar Ghar.debug.xcconfig"; sourceTree = "<group>"; };
 		D5E2F6DFF6135F0778E64E2D /* Pods-Bazaar GharTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar GharTests.debug.xcconfig"; path = "Target Support Files/Pods-Bazaar GharTests/Pods-Bazaar GharTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -680,6 +686,8 @@
 				C1895FFC2C42C89D004E60B4 /* StoreFiltersStore_CollectionViewCell.swift */,
 				C1895FFE2C42C8C5004E60B4 /* StoreFiltersColors_TableViewCell.swift */,
 				C18960002C42C8F2004E60B4 /* StoreFiltersrating_CollectionViewCell.swift */,
+				C1C13A0F2C44F8C7006B336E /* Paymentmethod_TableViewCell.swift */,
+				C1C13A112C44F902006B336E /* OrderSummary_CollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -743,6 +751,7 @@
 				2A9C81A72C37D522002DE75F /* AddtocartPopup.swift */,
 				C1ACCE2C2C410AF300FB64D0 /* New_SingleVideoview.swift */,
 				C1895FF82C42C3E0004E60B4 /* StoreFilters_ViewController.swift */,
+				C1C13A0D2C44F139006B336E /* NewOrderConfirmation_ViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -750,7 +759,6 @@
 		8B2955BF2A8F8963008D6BD8 = {
 			isa = PBXGroup;
 			children = (
-				8BCF627D2C358D580024E534 /* sidemenu.storyboard */,
 				8B2955CA2A8F8963008D6BD8 /* Bazaar Ghar */,
 				8B2955E12A8F8965008D6BD8 /* Bazaar GharTests */,
 				8B2955EB2A8F8965008D6BD8 /* Bazaar GharUITests */,
@@ -785,6 +793,7 @@
 				8B208F7F2A93479B00B6BFF7 /* Cell */,
 				8B1437AD2A8F9077008A2705 /* Network */,
 				8B2955CB2A8F8963008D6BD8 /* AppDelegate.swift */,
+				8BCF627D2C358D580024E534 /* sidemenu.storyboard */,
 				8B2955D12A8F8963008D6BD8 /* Main.storyboard */,
 				8B2955D42A8F8964008D6BD8 /* Assets.xcassets */,
 				8B2955D62A8F8964008D6BD8 /* LaunchScreen.storyboard */,
@@ -1268,7 +1277,9 @@
 				8B1437F72A8F9417008A2705 /* Toast.swift in Sources */,
 				8B96710A2AD5703F0033671A /* ReportViewController.swift in Sources */,
 				8B2955CC2A8F8963008D6BD8 /* AppDelegate.swift in Sources */,
+				C1C13A122C44F902006B336E /* OrderSummary_CollectionViewCell.swift in Sources */,
 				8BAAFEF22A976CE3005D96A8 /* SubCategoriesCollectionView.swift in Sources */,
+				C1C13A0E2C44F139006B336E /* NewOrderConfirmation_ViewController.swift in Sources */,
 				8BDA99C52AB96C7200D6DBF3 /* Orders_VC.swift in Sources */,
 				8B1437F62A8F9417008A2705 /* Logger.swift in Sources */,
 				8B14380A2A8F9417008A2705 /* CheckBox.swift in Sources */,
@@ -1293,6 +1304,7 @@
 				8BF432D72AA89EEE00CD13D0 /* ProductSearch_VC.swift in Sources */,
 				8BAEBC952ABDA98D0031D07F /* privacypolicy_CELL.swift in Sources */,
 				8BA9D7052ABC2CE1009E3836 /* CityTableViewCell.swift in Sources */,
+				C1C13A102C44F8C7006B336E /* Paymentmethod_TableViewCell.swift in Sources */,
 				8BB739E12B146C8200B4C3A0 /* Settings.swift in Sources */,
 				8BD32AD12C181EC700168E2A /* DashboardViewController.swift in Sources */,
 				8BAAFEF32A976CE3005D96A8 /* VarientsCollectionView.swift in Sources */,

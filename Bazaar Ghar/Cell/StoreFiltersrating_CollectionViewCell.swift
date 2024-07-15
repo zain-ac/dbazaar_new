@@ -8,5 +8,6 @@
 import UIKit
 
 class StoreFiltersrating_CollectionViewCell: UICollectionViewCell {
-    
+    @IBOutlet weak var lbl : UILabel!
+
 }

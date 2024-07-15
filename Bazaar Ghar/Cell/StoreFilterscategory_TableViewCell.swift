@@ -8,6 +8,9 @@
 import UIKit
 
 class StoreFilterscategory_TableViewCell: UITableViewCell {
+    @IBOutlet weak var img : UIButton!
+    @IBOutlet weak var lbl : UILabel!
+    @IBOutlet weak var btn : UIButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()

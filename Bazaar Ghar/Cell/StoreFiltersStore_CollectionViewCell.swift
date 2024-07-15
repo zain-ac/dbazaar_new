@@ -8,5 +8,7 @@
 import UIKit
 
 class StoreFiltersStore_CollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var storeview: UIView!
+    @IBOutlet weak var lbl: UILabel!
     
 }
