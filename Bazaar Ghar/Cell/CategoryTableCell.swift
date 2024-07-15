@@ -17,7 +17,7 @@ class CategoryTableCell: UITableViewCell {
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
     var id = String() {
         didSet {
-            getStreamingVideos(limit:20,page:1,categories: [id])
+            getStreamingVideos(limit:20,page:1,categories: [id], city: "")
         }
     }
     weak var navigationController: UINavigationController?
@@ -30,8 +30,8 @@ class CategoryTableCell: UITableViewCell {
         // Initialization code
     }
     
-    private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"",completion: {[weak self] data in
+    private func getStreamingVideos(limit:Int,page:Int,categories: [String],city:String){
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
@@ -78,7 +78,7 @@ extension CategoryTableCell:UICollectionViewDelegate,UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let data = LiveStreamingResultsdata[indexPath.row]
-        let vc = SingleVideoView.getVC(.main)
+        let vc = New_SingleVideoview.getVC(.sidemenu)
         vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
         vc.indexValue = indexPath.row
         navigationController?.pushViewController(vc, animated: false)

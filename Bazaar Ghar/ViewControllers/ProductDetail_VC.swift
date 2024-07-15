@@ -110,7 +110,7 @@ class ProductDetail_VC: UIViewController {
     var isImageFav = false
     var productcategoriesdetailsdata : ProductCategoriesDetailsResponse?
     var orderDetails: CartItemsResponse?
-    var getAllProductsByCategoriesData: [getAllProductsByCategoriesResponse] = []
+    var getAllProductsByCategoriesData: [Product] = []
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
     var groupbydealsdata: GroupByResult?
 
@@ -139,7 +139,7 @@ class ProductDetail_VC: UIViewController {
             isnav = true
         }
     }
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -328,7 +328,7 @@ class ProductDetail_VC: UIViewController {
        
      }
     private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"",completion: {[weak self] data in
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
@@ -1002,7 +1002,7 @@ extension ProductDetail_VC: UICollectionViewDelegate,UICollectionViewDataSource,
             self.navigationController?.pushViewController(vc, animated: false)
         } else if collectionView == videoCollection {
             let data = LiveStreamingResultsdata[indexPath.row]
-            let vc = SingleVideoView.getVC(.main)
+            let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)

@@ -15,14 +15,20 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var videocategorytableview: UITableView!
     var LiveVideoData: [LiveVideoResponse] = []
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
+    var LiveStreamingResultsdatafilter: [LiveStreamingResults] = []
+
     var CategoriesResponsedata: [CategoriesResponse] = [] {
         didSet {
-            videocategorytableview.reloadData()
+//            videocategorytableview.reloadData()
         }
     }
     var searchVideodata: [LiveStreamingResults] = []
     var indexPath : IndexPath?
-
+    var cat:String?
+    var id:String?
+    var isLoadingData = false
+    var count = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = true
@@ -37,13 +43,30 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         videocategorytableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         searchFeild.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.method(notification:)), name: Notification.Name("idpass"), object: nil)
 
     }
     
+    @objc func method(notification: Notification) {
+        if let id = notification.userInfo?["id"] as? String {
+            print(id)
+            self.id = id
+            LiveStreamingResultsdata.removeAll()
+            getStreamingVideos(limit:100,page:1,categories: [self.id ?? ""], city: "")
+
+        }
+        if let cat = notification.userInfo?["cat"] as? String {
+            print(cat)
+            self.cat = cat
+        }
+
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         self.CategoriesResponsedata = AppDefault.CategoriesResponsedata ?? []
-        getLiveStream()
-//        getStreamingVideos(limit:20,page:1,categories: [])
+        getStreamingVideos(limit:100,page:1,categories: [], city: "")
     }
     
 //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -58,15 +81,16 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
 //        return true
 //    }
     
-    private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"",completion: {[weak self] data in
+    private func getStreamingVideos(limit:Int,page:Int,categories: [String],city:String){
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
-        
-                self?.LiveStreamingResultsdata = res.results ?? []
-       
+                self?.isLoadingData = false
 
+                self?.LiveStreamingResultsdata += res.results ?? []
+                self?.videocategorytableview.reloadData()
+                self?.count += 1
             case .failure(let error):
                 print(error)
 //                self?.view.makeToast(error)
@@ -74,6 +98,29 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         })
     }
     
+    func loadMoreData() {
+            guard !isLoadingData else { return }
+            isLoadingData = true
+            
+            // Simulate an async data fetch
+            DispatchQueue.global().async {
+                // Fetch your additional data here
+                let moreItems = ["Item 4", "Item 5", "Item 6"] // Example data
+                
+                // Simulate a network delay
+                sleep(2)
+                
+                DispatchQueue.main.async {
+                    if self.cat == "cat" {
+                        self.getStreamingVideos(limit:100,page:self.count,categories: [self.id ?? ""], city: "")
+
+                    }else {
+                        self.getStreamingVideos(limit:100,page:self.count,categories: [], city: "")
+                    }
+                    self.isLoadingData = false
+                }
+            }
+        }
     
     
     
@@ -117,7 +164,8 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     
     @IBAction func seachTap(_ sender: Any) {
         if(searchFeild.text == ""){
-            searchVideo(name: "title", value:  "", limit: 20, catId: [])        }
+            searchVideo(name: "title", value:  "", limit: 20, catId: [])     
+        }
         else{
             searchVideo(name: "title", value: searchFeild.text ?? "", limit: 20, catId: [])
         }
@@ -135,35 +183,75 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
        
     }
     @IBAction func nearByTap(_ sender: Any) {
+        LiveStreamingResultsdata.removeAll()
+        self.getStreamingVideos(limit:100,page:self.count,categories: [], city: "rawalpindi")
     }
 }
 extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(searchVideodata.isEmpty){
-            return CategoriesResponsedata.count
+            return Utility().combinedRoundDown(Double(LiveStreamingResultsdata.count / 5) - 1)
         }else{
-            return searchVideodata.count / 5
+            return Utility().combinedRoundDown(Double(LiveStreamingResultsdata.count / 5) - 1)
         }
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if(searchVideodata.isEmpty){
-            let data = CategoriesResponsedata[indexPath.row]
+//            let data = CategoriesResponsedata[indexPath.row]
     //        getStreamingVideos(limit:20,page:1,categories: [data.id ?? ""])
             self.indexPath = indexPath
             if indexPath.row % 2 == 0 {
-                
+                LiveStreamingResultsdatafilter.removeAll()
+
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCell", for: indexPath) as! Live_videoCell1TableViewCell
-                cell.id = data.id
+//                if cat == "cat" {
+//                    cell.id = self.id.
+//                }else {
+//                    cell.id = data.id
+//                }
+                
+                let answer = (indexPath.row + 1) * 5
+                let checkval = LiveStreamingResultsdata.count - answer
+                
+                if(checkval > 5){
+                    for i in indexPath.row * 5...indexPath.row * 5 + 5 {
+                        LiveStreamingResultsdatafilter.append(LiveStreamingResultsdata[i])
+                    }
+                }else{
+                    for i in indexPath.row * 5...indexPath.row * 5 + checkval {
+                        LiveStreamingResultsdatafilter.append(LiveStreamingResultsdata[i])
+                    }
+                }
+                
+                
+                
+                
+                cell.LiveStreamingResultsdata = LiveStreamingResultsdatafilter
                 let inset: CGFloat = 10 // A
                 cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
                 return cell
             } else {
+                LiveStreamingResultsdatafilter.removeAll()
+
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCel2", for: indexPath) as! Live_videoCell1TableViewCel2
-                cell.id = data.id
+                let answer = (indexPath.row + 1) * 5
+                let checkval = LiveStreamingResultsdata.count - answer
+                
+                if(checkval > 5){
+                    for i in indexPath.row * 5...indexPath.row * 5 + 5 {
+                        LiveStreamingResultsdatafilter.append(LiveStreamingResultsdata[i])
+                    }
+                }else{
+                    for i in indexPath.row * 5...indexPath.row * 5 + checkval {
+                        LiveStreamingResultsdatafilter.append(LiveStreamingResultsdata[i])
+                    }
+                }
+                
               
+                cell.LiveStreamingResultsdata = LiveStreamingResultsdatafilter
                 let inset: CGFloat = 10 // A
                 cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
@@ -177,30 +265,41 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
             if indexPath.row % 2 == 0 {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCell", for: indexPath) as! Live_videoCell1TableViewCell
-//                cell.id = data.id
+                if cat == "cat" {
+                    cell.id = self.id
+                }else {
+                    cell.id = data.id
+                }
                 let inset: CGFloat = 10 // A
                 cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCel2", for: indexPath) as! Live_videoCell1TableViewCel2
-                cell.id = data.id
-              
+                if cat == "cat" {
+                    cell.id = self.id
+                }else {
+                    cell.id = data.id
+                }
                 let inset: CGFloat = 10 // A
                 cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
                 cell.navigationController  = self.navigationController
                 return cell
             }
-        }
-       
-        
-       
-       
 
+        }
     }
    
-   
+     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - frameHeight * 2 {
+            loadMoreData()
+        }
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 350

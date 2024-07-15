@@ -243,7 +243,8 @@ class ProfileViewController: UIViewController {
             AppDefault.islogin = false
             AppDefault.accessToken = ""
           
-            DashboardManager.shared.goToDashboard(ischecklogin: false)
+//            DashboardManager.shared.goToDashboard(ischecklogin: false)
+            self.tabBarController?.selectedIndex = 0
             UIApplication.pTopViewController().tabBarController?.view.makeToast("Successfully Logout")
         }
 //        appDelegate.showCustomerAlertControllerHeight(title: "Are you sure you want to logout?", heading: "Logout", btn1Title: "Cancel", btn1Callback: {

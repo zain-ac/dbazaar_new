@@ -67,7 +67,7 @@ class Live_VC: UIViewController {
     }
     
     private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"",completion: {[weak self] data in
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
@@ -213,7 +213,7 @@ extension Live_VC:UITableViewDataSource,UITableViewDelegate {
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             if collectionView == videoCollection {
                 let data = LiveStreamingResultsdata[indexPath.row]
-                let vc = SingleVideoView.getVC(.main)
+                let vc = New_SingleVideoview.getVC(.sidemenu)
                 vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
                 vc.indexValue = indexPath.row
                 self.navigationController?.pushViewController(vc, animated: false)

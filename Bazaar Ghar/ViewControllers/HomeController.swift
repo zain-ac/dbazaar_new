@@ -82,6 +82,7 @@ class HomeController: UIViewController, UIScrollViewDelegate {
     var manager:SocketManager?
     var socket: SocketIOClient?
     var messageItem:[notificationmodel] = []
+
 var count = 0
     let idArray = ["6040b38c45cb316c8ab8afff",
                    "5fe1cbaac05d6b3eb844f6f0",
@@ -108,6 +109,8 @@ var count = 0
 
     let centerTransitioningDelegate = CenterTransitioningDelegate()
     var load:Bool?
+    var addwislistResponseMessage: String?
+    var idsArray = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.categoriesApi(isbackground: false)
@@ -162,10 +165,6 @@ var count = 0
         homeLastProductCollectionView.dataSource  = self
 
         setupCollectionView()
-        
-        DispatchQueue.main.async {
-              self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.autoSlideer), userInfo: nil, repeats: true)
-           }
        
      
         
@@ -350,6 +349,36 @@ var count = 0
                 UIView.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
                 UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
     }
+    
+//    private func wishlist(){
+//        APIServices.wishlist(completion: {[weak self] data in
+//            switch data{
+//            case .success(let res):
+//                
+////                self?.wishListData = res
+//                self?.homeLastProductCollectionView.reloadData()
+//            case .failure(let error):
+//                print(error)
+//            }
+//        })
+//    }
+    
+    private func addtowishlist(product: String){
+        APIServices.addwishlist(proudct:product,completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                print(res)
+//                self?.Likebtn.isSelected = true
+                self?.addwislistResponseMessage = res
+                self?.view.makeToast("Product added to wishlist successfully")
+                self?.homeLastProductCollectionView.reloadData()
+            case .failure(let error):
+                print(error)
+                self?.view.makeToast(error)
+            }
+        })
+    }
+
     
     
     @IBAction func switchChanged(_ sender: UISwitch) {
@@ -542,8 +571,8 @@ var count = 0
     }
     
     @objc func methodOfReceivedNotification(notification: Notification) {
-                let vc = ProductDetail_VC.getVC(.main)
-                   vc.isGroupBuy = false
+                let vc = NewProductPageViewController.getVC(.sidemenu)
+//                   vc.isGroupBuy = false
                   vc.slugid = appDelegate.slugid
                 self.navigationController?.pushViewController(vc, animated: false)
     }
@@ -581,34 +610,19 @@ var count = 0
         
     
     }
-    
-//    @objc func reloadcollection() {
-//      
-//        timer.invalidate()
-//        
-//        self.setupPageControl()
-//    }
-    
-    @objc func autoSlideer() {
-        if counter < bannerapidata?.count ?? 0 {
-            let index = IndexPath.init(item: counter, section: 0)
-            if bannerapidata?.count == 0 {
-                
-            }else {
-                self.imageslidercollectionview.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
-            }
-            pageController.currentPage = counter
-            counter += 1
-        } else {
-            counter = 0
-//            let index = IndexPath.init(item: counter, section: 0)
-//            self.imageslidercollectionview.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
-//            pageController.currentPage = counter
-        }
-    }
-    
-    // MARK: - Button Action
 
+    @IBAction func shopByCatArrowBtnTapped(_ sender: Any) {
+        let vc = CategoriesVC.getVC(.main)
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+    @IBAction func latestMobileArrowBtnTapped(_ sender: Any) {
+        let vc = Category_ProductsVC.getVC(.main)
+            vc.prductid = "60ec3fdfdbae10002e984274"
+           vc.video_section = false
+           vc.storeFlag = false
+           vc.catNameTitle = "Latest Mobiles"
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
 }
 
 extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
@@ -678,9 +692,18 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 cell.productPrice.textColor = UIColor(hexString: "#069DDD")
 
 			 }
+            cell.heartBtn.tag = indexPath.row
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
-            
-            
+            cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
+         
+            for i in idsArray {
+                if i == data?.id {
+                    cell.heartBtn.setImage(UIImage(named: "fillheart"), for: .normal)
+                }else {
+                    cell.heartBtn.setImage(UIImage(named: "heartwhite"), for: .normal)
+
+                }
+            }
             
             return cell
         } else if collectionView == hotDealCollectionV {
@@ -714,6 +737,8 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         }else if collectionView == lastRandomProductsCollectionView{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = getrandomproductapiModel[indexPath.row]
+            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
             cell.productname.text = data.productName
             if data.onSale == true {
@@ -858,8 +883,8 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                     if data?.linkId == "" || data?.linkId == nil {
                         
                     }else {
-                        let vc = ProductDetail_VC.getVC(.main)
-                        vc.isGroupBuy = false
+                        let vc = NewProductPageViewController.getVC(.sidemenu)
+//                        vc.isGroupBuy = false
                         vc.slugid = data?.linkId
                         self.navigationController?.pushViewController(vc, animated: false)
                     }
@@ -888,16 +913,16 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == hotDealCollectionV {
             let data = groupbydealsdata[indexPath.row]
-            let vc = ProductDetail_VC.getVC(.main)
-            vc.isGroupBuy = true
-            vc.groupbydealsdata = data
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//            vc.isGroupBuy = true
+//            vc.groupbydealsdata = data
             vc.slugid = data.productID?.slug
             self.navigationController?.pushViewController(vc, animated: false)
         } else if collectionView == lastRandomProductsCollectionView {
             let data = getrandomproductapiModel[indexPath.row]
 
-            let vc = ProductDetail_VC.getVC(.main)
-            vc.isGroupBuy = false
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//            vc.isGroupBuy = false
             vc.slugid = data.slug
             self.navigationController?.pushViewController(vc, animated: false)
         }else {
@@ -929,9 +954,16 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         if  tableView == shopbeyound_tblview{
             let cell = tableView.dequeueReusableCell(withIdentifier: "Shopbeyound_TableViewCell", for: indexPath) as! Shopbeyound_TableViewCell
             
-            let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArray[indexPath.row], lastWordColor: UIColor(hexString: "#496E2E"), otherWordsColor: UIColor(hexString: "#313230"))
+            if indexPath.row == 1 {
+                let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArray[indexPath.row], lastWordColor: UIColor(hexString: "#D70028"), otherWordsColor: UIColor(hexString: "#313230"))
+                cell.shopname_lbl.attributedText = attributedText1
+            }else {
+                let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArray[indexPath.row], lastWordColor: UIColor(hexString: "#496E2E"), otherWordsColor: UIColor(hexString: "#313230"))
+                cell.shopname_lbl.attributedText = attributedText1
+            }
+           
             cell.shop_img.image = shopBeyonimagesArray[indexPath.row]
-            cell.shopname_lbl.attributedText = attributedText1
+            cell.explore_btn.tag = indexPath.row
             cell.explore_btn.addTarget(self, action: #selector(exploreBtnTapped(_:)), for: .touchUpInside)
             cell.bgView.backgroundColor = shopBeyondBGColorArray[indexPath.row]
             
@@ -958,16 +990,52 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             cell.productapi = data.product ?? []
             
             cell.catBannerBtn.tag = indexPath.row
-            
+            cell.arrowBtn.tag = indexPath.row
+            cell.nav = self.navigationController
             cell.catBannerBtn.addTarget(self, action: #selector(catBannerBtnTapped(_:)), for: .touchUpInside)
-            
+            cell.arrowBtn.addTarget(self, action: #selector(arrowBtnTapped(_:)), for: .touchUpInside)
+
             return cell
         }
     }
     @objc func exploreBtnTapped(_ sender: UIButton) {
-        
+        if sender.tag == 0 {
+            let vc = ShopChina_VC.getVC(.main)
+            vc.shop = "Shop Pakistan"
+            vc.color = "#F7FFF2"
+            vc.shopImg = "shop_pak"
+            UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
+            
+           
+        }else if sender.tag == 1 {
+            let vc = ShopChina_VC.getVC(.main)
+            vc.shop = "Shop China"
+            vc.color = "#FFCDC9"
+            vc.shopImg = "shop_china"
+            vc.shoptxtColor = "#DC2A1B"
+            UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
+            
+        } else {
+            let vc = ShopChina_VC.getVC(.main)
+            vc.shop = "Shop Saudi"
+            vc.color = "#DEFFF1"
+            vc.shopImg = "shop_saudi"
+            vc.shoptxtColor = "#028E53"
+            UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
+        }
     }
     @objc func catBannerBtnTapped(_ sender: UIButton) {
+        let data = ProductCategoriesResponsedata[sender.tag]
+        
+        let vc = Category_ProductsVC.getVC(.main)
+        vc.prductid = data.id ?? ""
+        vc.video_section = false
+        vc.storeFlag = false
+        vc.catNameTitle = data.name ?? ""
+        self.navigationController?.pushViewController(vc, animated: false)
+
+    }
+    @objc func arrowBtnTapped(_ sender: UIButton) {
         let data = ProductCategoriesResponsedata[sender.tag]
         
         let vc = Category_ProductsVC.getVC(.main)
@@ -986,7 +1054,14 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = centerTransitioningDelegate
         vc.products = data
+        vc.nav = self.navigationController
         self.present(vc, animated: true, completion: nil)
+
+    }
+    @objc func heartButtonTap(_ sender: UIButton) {
+        let data = randomproductapiModel.first?.product?[sender.tag]
+        Utility().addOrRemoveValue(data?.id ?? "", from: &idsArray)
+        addtowishlist(product: data?.id ?? "")
 
     }
     
@@ -1132,8 +1207,8 @@ func numberOfItems(in pagerView: FSPagerView) -> Int {
                 if data?.linkId == "" || data?.linkId == nil {
                     
                 }else {
-                    let vc = ProductDetail_VC.getVC(.main)
-                    vc.isGroupBuy = false
+                    let vc = NewProductPageViewController.getVC(.sidemenu)
+//                    vc.isGroupBuy = false
                     vc.slugid = data?.linkId
                     self.navigationController?.pushViewController(vc, animated: false)
                 }

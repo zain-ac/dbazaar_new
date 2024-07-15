@@ -11,7 +11,8 @@ class CategoriesPopUpVC: UIViewController {
     var CategoriesResponsedata: [getAllCategoryResponse] = []
     @IBOutlet weak var topcell_1: UICollectionView!
 
-
+    var id:String?
+    var selectedIndex:Int?
     override func viewDidLoad() {
         super.viewDidLoad()
         topcell_1.delegate = self
@@ -22,15 +23,12 @@ class CategoriesPopUpVC: UIViewController {
     }
     
    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func applyBtnTapped(_ sender: Any) {
+        self.dismiss(animated: false)
+        let imageDataDict:[String: String] = ["id": self.id ?? "", "cat":"cat"]
+        NotificationCenter.default.post(name: Notification.Name("idpass"), object: nil,userInfo: imageDataDict)
     }
-    */
+ 
 
 }
 extension CategoriesPopUpVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -54,6 +52,12 @@ extension CategoriesPopUpVC: UICollectionViewDelegate, UICollectionViewDataSourc
             }else{
                 cell.topCatLbl.text = data.name
             }
+        
+        if selectedIndex == indexPath.row {
+            cell.imageView.backgroundColor = UIColor(hex: "#5ED0FD")
+        }else {
+            cell.imageView.backgroundColor = .white
+        }
             
             return cell
         
@@ -86,13 +90,15 @@ extension CategoriesPopUpVC: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
         let data = CategoriesResponsedata[indexPath.row]
-
-              let vc = Category_ProductsVC.getVC(.main)
-        vc.prductid = data.id ?? ""
-              vc.video_section = false
-              vc.storeFlag = false
-        vc.catNameTitle = data.name ?? ""
-              self.navigationController?.pushViewController(vc, animated: false)
+                     self.id = data.id
+        self.selectedIndex = indexPath.row
+        collectionView.reloadData()
+//              let vc = Category_ProductsVC.getVC(.main)
+//        vc.prductid = data.id ?? ""
+//              vc.video_section = false
+//              vc.storeFlag = false
+//        vc.catNameTitle = data.name ?? ""
+//              self.navigationController?.pushViewController(vc, animated: false)
           
         
     }

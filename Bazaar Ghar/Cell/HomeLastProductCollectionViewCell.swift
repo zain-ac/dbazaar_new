@@ -15,5 +15,6 @@ class HomeLastProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productPriceLine: UIView!
     @IBOutlet weak var percentBGView: UIView!
     @IBOutlet weak var cartButton: UIButton!
+    @IBOutlet weak var heartBtn: UIButton!
 
 }

@@ -31,6 +31,8 @@ class CartViewController: UIViewController {
     @IBOutlet weak var backbtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var headerBackgroudView: UIView!
+    @IBOutlet weak var V1: UIView!
+    @IBOutlet weak var V2: UIView!
 
     // localizationOutlest
     // localizationOutlest
@@ -44,6 +46,9 @@ class CartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackgroundForBtn(button: checkoutbutton, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: V1, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: V2, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
         cartTableViewCell.dataSource = self
         cartTableViewCell.delegate = self
@@ -58,6 +63,7 @@ class CartViewController: UIViewController {
 
     }
     override func viewWillAppear(_ animated: Bool) {
+        self.dismiss(animated: false)
         self.LanguageRender()
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
@@ -149,7 +155,7 @@ class CartViewController: UIViewController {
     
     @IBAction func checkout_btn(_ sender: Any) {
         
-        let vc = OrderConfirmation_VC.getVC(.main)
+        let vc = NewOrderConfirmation_ViewController.getVC(.sidemenu)
         vc.orderDetails =  orderDetails
         self.navigationController?.pushViewController(vc, animated: true)
 
@@ -204,9 +210,9 @@ extension CartViewController : UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let item = bannerapidata[indexPath.row]
         if(item.packageItems?.count ?? 0 == 1){
-            return CGFloat(160 * (item.packageItems?.count ?? 0))
+            return CGFloat(180 * (item.packageItems?.count ?? 0))
         }else{
-            return CGFloat(140 * (item.packageItems?.count ?? 0))
+            return CGFloat(160 * (item.packageItems?.count ?? 0))
         }
      
       

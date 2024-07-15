@@ -660,14 +660,14 @@ extension VideoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     @objc func viewproduct(_ sender: UIButton) {
        let data = getvidoebyproductIdsdata[0]
 
-        let vc = ProductDetail_VC.getVC(.main)
-              vc.isGroupBuy = false
+        let vc = NewProductPageViewController.getVC(.sidemenu)
+//              vc.isGroupBuy = false
               vc.slugid = data.slug
-              vc.isCome = true
+//              vc.isCome = true
 //           let vc = ProductDetail_VC.getVC(.main)
 //        vc.isGroupBuy = false
 //             vc.isCome = true
-        vc.nav = self.navigationController
+//        vc.nav = self.navigationController
     self.present(vc, animated: true, completion: nil)
 //           self.navigationController?.pushViewController(vc, animated: false)
    

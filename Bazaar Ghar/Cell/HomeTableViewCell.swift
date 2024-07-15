@@ -12,7 +12,8 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var img: UIImageView!
     @IBOutlet weak var cateogorylbl: UILabel!
     @IBOutlet weak var catBannerBtn: UIButton!
-
+    @IBOutlet weak var arrowBtn: UIButton!
+   
     
     var productvariantsapi: [Variants]? = nil{
         didSet{
@@ -32,7 +33,7 @@ class HomeTableViewCell: UITableViewCell {
          }
      }
      
-    
+    var nav:UINavigationController?
     
     
     
@@ -103,6 +104,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = centerTransitioningDelegate
         vc.products = data
+        vc.nav = self.nav
         UIApplication.pTopViewController().present(vc, animated: true, completion: nil)
 
     }

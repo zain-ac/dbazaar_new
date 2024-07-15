@@ -25,7 +25,7 @@ class AddtocartPopup: UIViewController {
 
     var iscomefor:String?
     var prductid = String()
-
+    var nav:UINavigationController?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,6 +60,9 @@ class AddtocartPopup: UIViewController {
     @IBAction func rightBtnTapped(_ sender: Any) {
         if iscomefor == "video" {
             self.chinesebell(sellerId:self.prductid , brandName: AppDefault.brandname, description: "sellerDescription")
+        } else if iscomefor == "cart" {
+            let vc = CartViewController.getVC(.main)
+            self.nav?.pushViewController(vc, animated: false)
         }
 //        let vc = CartViewController
 //            .getVC(.main)

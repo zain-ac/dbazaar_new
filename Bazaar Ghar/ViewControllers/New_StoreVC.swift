@@ -21,15 +21,14 @@ class New_StoreVC: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollheight: NSLayoutConstraint!
 
+    @IBOutlet weak var storeproductquantity: UILabel!
+    @IBOutlet weak var shopbycategorieslbl: UILabel!
+    @IBOutlet weak var shopbycat_collectionview: UICollectionView!
 
-
+    @IBOutlet weak var latestproductlbl: UILabel!
+    
     var counter =  0
 
-    var bannerapidata: [Banner]? = [] {
-        didSet{
-            self.pagerView.reloadData()
-        }
-    }
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
     var latestProductModel: [PChat] = []
     let centerTransitioningDelegate = CenterTransitioningDelegate()
@@ -39,39 +38,89 @@ class New_StoreVC: UIViewController {
     var isFollow = false
     var storeId = String()
     var productCount:String?
-    var getAllProductsByCategoriesData: [getAllProductsByCategoriesResponse] = []
+    var getAllProductsByCategoriesData: [Product] = []
     var categoryPage = 1
     var isLoadingNextPage = false
     var isEndReached = false
-
+    var sellerID:String?
+    var CategoriesResponsedata: [CategoriesResponse] = []
+    var catId:String? {
+        didSet {
+           categoriesApi(isbackground: false, id: catId ?? "")
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         HeaderbrandNameLbl.text = brandName ?? ""
         brandNameLbl.text = brandName ?? ""
+//        storeproductquantity.text = 
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         pagerView.automaticSlidingInterval = 2.0
-
-        bannerApi(isbackground: false)
         getStreamingVideos(userId: prductid ?? "", limit: 10, page: 1, categories: [])
         randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
         followcheck(storeId: self.storeId)
         update(count: 1)
-
-
+        let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+                shopbycategorieslbl.attributedText = attributedText
+        
+        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Latest Products", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        latestproductlbl.attributedText = attributedText1
+        shopbycat_collectionview.dataSource = self
+        shopbycat_collectionview.delegate = self
+        
+           
         // Do any additional setup after loading the view.
     }
-  
+    override func viewWillAppear(_ animated: Bool) {
+        getSellerDetail(id: sellerID ?? "")
+    }
     func update(count:Int) {
         getAllProductsByCategories(limit: 20, page: count, sortBy:"-price", category:prductid ?? "", active: false)
     }
+    
+    private func getSellerDetail(id:String){
+        APIServices.getSellerDetail(id:id,completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+            print(res)
+                self?.gallaryImages = res.images
+                self?.pageControl.numberOfPages = self?.gallaryImages?.count ?? 0
+                self?.pageControl.currentPage = 0
+                self?.pagerView.reloadData()
+                
+                for i in res.categories ?? [] {
+                    self?.catId = i
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
+    
+    private func categoriesApi(isbackground:Bool,id:String) {
+        APIServices.categories2(isbackground:isbackground, id: id,completion: {[weak self] data in
+            switch data {
+            case .success(let res):
+                
+                self?.CategoriesResponsedata.append(res)
+                self?.shopbycat_collectionview.reloadData()
+            case .failure(let error):
+                print(error)
+                self?.view.makeToast(error)
+            }
+        })
+    }
+    
+
     
     private func getAllProductsByCategories(limit:Int,page:Int,sortBy:String,category:String,active:Bool){
         APIServices.getAllProductsByCategoriesbyid(limit:limit,page:page,sortBy:sortBy,category:category,active:active){[weak self] data in
             switch data{
             case .success(let res):
                 if res.Categoriesdata?.count ?? 0 > 0 {
-                    self?.getAllProductsByCategoriesData.append(contentsOf: res.Categoriesdata ?? [])
+                    self?.getAllProductsByCategoriesData += res.Categoriesdata ?? []
 
                     // Increment the page numbe
                     self?.categoryPage += 1
@@ -111,40 +160,8 @@ class New_StoreVC: UIViewController {
         }
     }
     
-
-    private func bannerApi(isbackground:Bool){
-        APIServices.banner(isbackground: isbackground, completion: {[weak self] data in
-            switch data{
-            case .success(let res):
-                print(data)
-                
-                if self?.gallaryImages?.count ?? 0 > 0 {
-
-                }else {
-                    if(res.count > 0){
-                        let banners =  res
-                        
-                       
-                        for item in res{
-                            let objext = item.id
-                            if objext?.bannerName == "Mob Banner Home" {
-                                self?.bannerapidata = (objext?.banners)!
-                            }
-                        }
-                    }
-                }
-  
-    
-            case .failure(let error):
-                print(error)
-                self?.view.makeToast(error)
-            }
-        }
-        )
-    }
-    
     private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"",completion: {[weak self] data in
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
@@ -160,7 +177,7 @@ class New_StoreVC: UIViewController {
     }
     
     private func getStreamingVideos(userId:String,limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:userId,completion: {[weak self] data in
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:userId, city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
@@ -359,6 +376,12 @@ class New_StoreVC: UIViewController {
         present(activityViewController, animated: true, completion: nil)
     }
     
+    @IBAction func videoArrowBtnTapped(_ sender: Any) {
+        let vc = New_SingleVideoview.getVC(.sidemenu)
+        vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
+        vc.indexValue = 0
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
     
     
 }
@@ -369,7 +392,11 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == videoCollection{
             return self.LiveStreamingResultsdata.count
-        }else {
+        }else if collectionView == shopbycat_collectionview{
+            return CategoriesResponsedata.count
+        }
+        
+        else {
             return self.getAllProductsByCategoriesData.count
         }
     }
@@ -383,7 +410,16 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             cell.likeslbl.text = "\(data.like ?? 0)"
                 return cell
             
-        }else {
+        }else if collectionView == shopbycat_collectionview{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "shopbycat_CollectionViewCell", for: indexPath) as! shopbycat_CollectionViewCell
+            let data = CategoriesResponsedata[indexPath.row]
+            cell.shop_img.pLoadImage(url: data.mainImage ?? "")
+            cell.lbl.text = data.name
+            Utility().setGradientBackground(view: cell.BGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            return cell
+        }
+        
+        else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data =  self.getAllProductsByCategoriesData[indexPath.row]
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
@@ -441,7 +477,8 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
        
         vc.modalPresentationStyle = .custom
         vc.transitioningDelegate = centerTransitioningDelegate
-//        vc.products = data
+        vc.products = data
+        vc.nav = self.navigationController
         self.present(vc, animated: true, completion: nil)
 
     }
@@ -452,7 +489,7 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         if collectionView == videoCollection{
             
             let data = LiveStreamingResultsdata[indexPath.row]
-            let vc = SingleVideoView.getVC(.main)
+            let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)
@@ -460,8 +497,8 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             
             let data =  self.getAllProductsByCategoriesData[indexPath.row]
             
-            let vc = ProductDetail_VC.getVC(.main)
-            vc.isGroupBuy = false
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//            vc.isGroupBuy = false
             vc.slugid = data.slug
             self.navigationController?.pushViewController(vc, animated: false)
         }
@@ -469,8 +506,12 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
        if collectionView == videoCollection {
-           return CGSize(width: collectionView.frame.size.width/2.1, height: collectionView.frame.size.height)
-        } else {
+           return CGSize(width: collectionView.frame.size.width/2.3, height: collectionView.frame.size.height)
+       }else if collectionView == shopbycat_collectionview{
+           return CGSize(width: collectionView.frame.width/2.7, height: 160
+           )
+       }
+    else {
             return CGSize(width: collectionView.frame.width/2.12-2, height: 290)
 
         }
@@ -479,42 +520,17 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         
 extension New_StoreVC: FSPagerViewDataSource, FSPagerViewDelegate {
 func numberOfItems(in pagerView: FSPagerView) -> Int {
-    if pagerView == self.pagerView {
-        if self.gallaryImages?.count ?? 0 > 0 {
             return gallaryImages?.count ?? 0
-        }else {
-            return  bannerapidata?.count ?? 0
-
-        }
-
-    } else {
-        return  bannerapidata?.count ?? 0
-
-    }
    }
 
-   func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
-       if pagerView == self.pagerView {
-           let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
-           if self.gallaryImages?.count ?? 0 > 0 {
-               let data = gallaryImages?[index]
-               cell.imageView?.pLoadImage(url: data ?? "")
-               cell.imageView?.contentMode = .scaleAspectFill
-           }else {
-               let data = bannerapidata?[index]
-               cell.imageView?.pLoadImage(url: data?.image ?? "")
-               cell.imageView?.contentMode = .scaleAspectFill
-           }
- 
-           return cell
-       }else {
-           let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
-           let data = bannerapidata?[index]
-           cell.imageView?.pLoadImage(url: data?.image ?? "")
-           cell.imageView?.contentMode = .scaleAspectFill
-           return cell
-       }
-
+    func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
+        let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
+        let data = gallaryImages?[index]
+        cell.imageView?.pLoadImage(url: data ?? "")
+        cell.imageView?.contentMode = .scaleAspectFill
+        
+        return cell
+    
    }
 
    // MARK: - FSPagerViewDelegate

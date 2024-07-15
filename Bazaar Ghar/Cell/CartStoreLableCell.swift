@@ -174,8 +174,12 @@ extension CartStoreLableCell : UITableViewDataSource,UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
      
-        return 95
+        return 120
     }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+         return 10 // Space between cells
+     }
       
 }
 

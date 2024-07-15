@@ -12,7 +12,7 @@ import Moya
 enum Services {
     //MARK: - AUTHENTICATION
     case banner
-    case categories
+    case categories(id:String)
     case productcategories(cat:String,cat2:String,cat3:String,cat4:String,cat5:String)
     case randomproduct
     case productcategoriesdetails(slug: String)
@@ -41,7 +41,7 @@ enum Services {
     case updateAddress(addressId:String,fullname:String,phone:String,province:String,city:String,city_code:String,address:String,addressType:String,localType:String,zipCode:String,addressLine_2:String,country:String)
     case personaldetail(fullname:String,email:String,userid:String)
     case wishListRemove(product:String)
-    case getStreamingVideos(limit: Int,page:Int,categories:[String],userId:String)
+    case getStreamingVideos(limit: Int,page:Int,categories:[String],userId:String,city:String)
     case refreshToken(refreshToken:String)
     case getvidoebyproductIds(productIds:[String])
     case groupByDeals(limit:Int,page:Int)
@@ -60,6 +60,8 @@ enum Services {
     case unfollowstore(storeId:String)
     case getLiveStream
     case getAllCategories
+    case getSellerDetail(id:String)
+    case moreFrom(category:String,user:String)
 
 }
 
@@ -88,8 +90,12 @@ extension Services: TargetType, AccessTokenAuthorizable {
                     return "follow/\(storeId)"
         case .banner:
             return "banner-set/all/banner"
-        case .categories:
-            return "categories"
+        case let .categories(id):
+            if id == "" {
+                return "categories"
+            }else {
+                return "categories/\(id)"
+            }
         case .getAllCategories:
             return "categories/getAllCategories"
         case .productcategories(_,_,_,_,_) :
@@ -131,7 +137,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case let .adressdelete(addressId):
             return "address/\(addressId)"
         case .addwishList:
-            return "wishList"
+            return "wishList/new"
         case .wishListRemove:
             return "wishList/remove"
         case .wishList:
@@ -179,6 +185,11 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return "follow/unfollow/\(storeId)"
         case .getLiveStream:
             return "getslotinuse"
+        case let .getSellerDetail(id):
+            return "sellerDetail/\(id)"
+        case .moreFrom:
+            return "products/getAllProducts"
+
             
             //        case let .auctionById(auctionid):
             //            return "main/v1/auctions/\(auctionid)"
@@ -191,7 +202,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
     
     var method: Moya.Method {
         switch self {
-        case .banner , .categories, .getcartItems, .productcategories, .randomproduct, .productcategoriesdetails, .getAllProductsByCategories, .searchproduct, .searchstore, .searchVideo,.getAllProductsByCategoriesbyid, .getStreamingVideos, .wishList , .myOrder , .cities, .getaddress,.collectionDataApi, .groupByDeals , .followcheck, .getLiveStream, .getAllCategories:
+        case .banner , .categories, .getcartItems, .productcategories, .randomproduct, .productcategoriesdetails, .getAllProductsByCategories, .searchproduct, .searchstore, .searchVideo,.getAllProductsByCategoriesbyid, .getStreamingVideos, .wishList , .myOrder , .cities, .getaddress,.collectionDataApi, .groupByDeals , .followcheck, .getLiveStream, .getAllCategories,.getSellerDetail,.moreFrom:
             return .get
      
         case .adressdelete , .deleteCart:
@@ -265,9 +276,11 @@ extension Services: TargetType, AccessTokenAuthorizable {
             }else{
                 return .requestParameters(parameters: ["name": name,"value":value,"limit": limit,"page": 1,"categories":catId], encoding: URLEncoding.default)
             }
-        case let .getStreamingVideos(limit,page,categories,userId):
-            if(categories == [] && userId == ""){
+        case let .getStreamingVideos(limit,page,categories,userId,city):
+            if(categories == [] && userId == "" && city == ""){
                 return .requestParameters(parameters: ["limit":limit,"page":page], encoding: URLEncoding.default)
+            }else if categories == [] && userId == "" && city != ""{
+                return .requestParameters(parameters: ["limit":limit,"page":page,"city":city], encoding: URLEncoding.default)
             }else if(userId != ""){
                 return .requestParameters(parameters: ["limit":limit,"page":page,"userId":userId], encoding: URLEncoding.default)
             }else{
@@ -317,6 +330,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
        
         case let .getLike(scheduleId, userId):
             return .requestParameters(parameters: ["scheduleId":scheduleId,"userId":userId], encoding: JSONEncoding.default)
+        case let .moreFrom(category, user):
+            return .requestParameters(parameters: ["category":category,"user":user], encoding: URLEncoding.default)
 
             
             //        case let .login(email,password):
@@ -355,7 +370,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
     
     var authorizationType: AuthorizationType {
         switch self{
-        case .banner , .categories, .productcategories, .randomproduct, .productcategoriesdetails,.getAllProductsByCategories, .loginwithgoogle, .searchstore,.searchVideo, .getStreamingVideos, .refreshToken, .getvidoebyproductIds , .loginwithOtp ,.collectionDataApi, .loginWithGoogleVerification, .groupByDeals,.appleLogin, .getLiveStream, .getAllCategories:
+        case .banner , .categories, .productcategories, .randomproduct, .productcategoriesdetails,.getAllProductsByCategories, .loginwithgoogle, .searchstore,.searchVideo, .getStreamingVideos, .refreshToken, .getvidoebyproductIds , .loginwithOtp ,.collectionDataApi, .loginWithGoogleVerification, .groupByDeals,.appleLogin, .getLiveStream, .getAllCategories,.getSellerDetail,.moreFrom:
             return .none
     
         default:

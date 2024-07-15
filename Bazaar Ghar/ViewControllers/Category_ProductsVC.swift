@@ -53,7 +53,7 @@ class Category_ProductsVC: UIViewController {
     var sellerDescription = String()
     var storeId = String()
     
-    var getAllProductsByCategoriesData: [getAllProductsByCategoriesResponse] = []
+    var getAllProductsByCategoriesData: [Product] = []
     
     var storeFlag = Bool()
     var video_section = Bool()
@@ -158,7 +158,7 @@ class Category_ProductsVC: UIViewController {
     }
     
     private func getStreamingVideos(userId:String,limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:userId,completion: {[weak self] data in
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:userId, city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
@@ -229,7 +229,7 @@ class Category_ProductsVC: UIViewController {
             case .success(let res):
                 if res.Categoriesdata?.count ?? 0 > 0 {
                     
-                    self?.getAllProductsByCategoriesData.append(contentsOf: res.Categoriesdata ?? [])
+                    self?.getAllProductsByCategoriesData += res.Categoriesdata ?? []
                     // Increment the page numbe
                     self?.categoryPage += 1
                     
@@ -273,7 +273,7 @@ class Category_ProductsVC: UIViewController {
             switch data{
             case .success(let res):
                 if res.Categoriesdata?.count ?? 0 > 0 {
-                    self?.getAllProductsByCategoriesData.append(contentsOf: res.Categoriesdata ?? [])
+                    self?.getAllProductsByCategoriesData += res.Categoriesdata ?? []
 
                     // Increment the page numbe
                     self?.categoryPage += 1
@@ -440,7 +440,7 @@ class Category_ProductsVC: UIViewController {
     }
     
     @IBAction func viewAllBtnTapped(_ sender: Any) {
-        let vc = SingleVideoView.getVC(.main)
+        let vc = New_SingleVideoview.getVC(.sidemenu)
         vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
         vc.indexValue = 0
         self.navigationController?.pushViewController(vc, animated: false)
@@ -500,12 +500,12 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
         if collectionView == categoryproduct_collectionview{
             let data =  self.getAllProductsByCategoriesData[indexPath.row]
             
-            let vc = ProductDetail_VC.getVC(.main)
-            vc.isGroupBuy = false
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//            vc.isGroupBuy = false
             vc.slugid = data.slug
             self.navigationController?.pushViewController(vc, animated: false)
         } else{
-            let vc = SingleVideoView.getVC(.main)
+            let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)

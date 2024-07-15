@@ -16,5 +16,8 @@ class videoProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var Salesprice: UILabel!
     @IBOutlet weak var productPriceLine: UIView!
 
+    @IBOutlet weak var productname: UILabel!
+
+    
     
 }

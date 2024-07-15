@@ -386,6 +386,25 @@ class Utility {
         view.layoutIfNeeded()
         gradientLayer.frame = view.bounds
     }
+    
+    func setGradientBackgroundForBtn(button: UIButton, colors: [String]) {
+        let gradientLayer = CAGradientLayer()
+        
+        // Convert hex color strings to UIColor
+        gradientLayer.colors = colors.compactMap { UIColor(hex: $0)?.cgColor }
+        
+        // Optionally set the direction of the gradient
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        
+        // Set the gradient layer frame and add it to the button
+        gradientLayer.frame = button.bounds
+        button.layer.insertSublayer(gradientLayer, at: 0)
+        
+        // Ensure the gradient layer resizes with the button
+        button.layoutIfNeeded()
+        gradientLayer.frame = button.bounds
+    }
 
 //    func setGradientBackground(view: UIView, colors: [String]) {
 //        let gradientLayer = CAGradientLayer()
@@ -398,6 +417,28 @@ class Utility {
 //        
 //        view.layer.insertSublayer(gradientLayer, at: 0)
 //    }
+    
+    func roundUp(_ value: Double) -> Int {
+        return Int(ceil(value))
+    }
+    func roundDown(_ value: Double) -> Int {
+        return Int(floor(value))
+    }
+    func roundDownToNearestFive(_ value: Int) -> Int {
+        return Int(floor(Double(value) / 5.0) * 5)
+    }
+    func combinedRoundDown(_ value: Double) -> Int {
+        let roundedValue = roundDown(value)
+        return roundDownToNearestFive(roundedValue)
+    }
+    func addOrRemoveValue(_ value: String, from array: inout [String]) {
+        if let index = array.firstIndex(of: value) {
+            array.remove(at: index)
+        } else {
+            array.append(value)
+        }
+    }
+    
 }
 
 extension UIColor {

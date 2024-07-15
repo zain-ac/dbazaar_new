@@ -251,8 +251,8 @@ class ShopChinaViewController: UIViewController {
     }
     
     @objc func methodOfReceivedNotification(notification: Notification) {
-                let vc = ProductDetail_VC.getVC(.main)
-                   vc.isGroupBuy = false
+                let vc = NewProductPageViewController.getVC(.sidemenu)
+//                   vc.isGroupBuy = false
                   vc.slugid = appDelegate.slugid
                 self.navigationController?.pushViewController(vc, animated: false)
     }
@@ -455,8 +455,8 @@ extension ShopChinaViewController: UICollectionViewDelegate, UICollectionViewDat
                     if data?.linkId == "" || data?.linkId == nil {
                         
                     }else {
-                        let vc = ProductDetail_VC.getVC(.main)
-                        vc.isGroupBuy = false
+                        let vc = NewProductPageViewController.getVC(.sidemenu)
+//                        vc.isGroupBuy = false
                         vc.slugid = data?.linkId
                         self.navigationController?.pushViewController(vc, animated: false)
                     }
@@ -479,9 +479,9 @@ extension ShopChinaViewController: UICollectionViewDelegate, UICollectionViewDat
             
         }else if collectionView == hotDealCollectionV {
             let data = groupbydealsdata[indexPath.row]
-            let vc = ProductDetail_VC.getVC(.main)
-            vc.isGroupBuy = true
-            vc.groupbydealsdata = data
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//            vc.isGroupBuy = true
+//            vc.groupbydealsdata = data
             vc.slugid = data.productID?.slug
             self.navigationController?.pushViewController(vc, animated: false)
         }

@@ -15,5 +15,5 @@ class videoCallollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var Salesprice: UILabel!
     @IBOutlet weak var productPriceLine: UIView!
     @IBOutlet weak var crossBtn: UIButton!
-
+    
 }

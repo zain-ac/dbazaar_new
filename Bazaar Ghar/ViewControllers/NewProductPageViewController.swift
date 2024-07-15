@@ -9,13 +9,39 @@ import UIKit
 import FSPagerView
 
 class NewProductPageViewController: UIViewController {
+    @IBOutlet weak var producttitle: UILabel!
     @IBOutlet weak var deliveryTableView: UITableView!
     @IBOutlet weak var pagerView: FSPagerView!
     @IBOutlet weak var headerBackgroudView: UIView!
     @IBOutlet weak var headerLbl: UILabel!
+    @IBOutlet weak var storeimg: UIImageView!
     @IBOutlet weak var percentLbl: UILabel!
+    @IBOutlet weak var productcount: UILabel!
+    @IBOutlet weak var Salesprice: UILabel!
+//    @IBOutlet weak var OnSaleimage: UIImageView!
+    @IBOutlet weak var Regularprice: UILabel!
+    @IBOutlet weak var productPriceLine: UIView!
+    @IBOutlet weak var plusbtn: UIButton!
+    @IBOutlet weak var outOfStockLbl: UILabel!
+    @IBOutlet weak var quantityView: UIView!
 
-    
+    @IBOutlet weak var storename: UILabel!
+    @IBOutlet weak var Minusbtn: UIButton!
+    @IBOutlet weak var moreFromLbl: UILabel!
+    @IBOutlet weak var moreFrom: UICollectionView!
+    @IBOutlet weak var relatedProductCollectionView: UICollectionView!
+    @IBOutlet weak var videoCollection: UICollectionView!
+    var productCount = 1
+    var incrementproductCount = 1
+    var productcategoriesdetailsdata : ProductCategoriesDetailsResponse?
+    var colorsimgs = [String]()
+    var isnav = false
+    var nav : UINavigationController? {
+        didSet {
+            isnav = true
+        }
+    }
+    var tabbar = false
     var items: [Item] = [
             Item(image: UIImage(named: "truck")!, title: "Receive by 29 Jun - 6 Jul",subtitle: "Get the order in 3 - 5 days"),
             Item(image: UIImage(named: "d 1")!, title: "Cash On Delivery",subtitle: "Cash on Delivery available"),
@@ -33,17 +59,244 @@ class NewProductPageViewController: UIViewController {
     var slugid: String?
     var gallaryImages: [String]?
     var mainImage: String?
+    var orderDetails: CartItemsResponse?
+    var varientSlug : String?
+    let centerTransitioningDelegate = CenterTransitioningDelegate()
+    var moreFromResponse: moreFomDataClass?
+    var category:String?
+    var relatedProductResponse: [Product] = []
+    var LiveStreamingResultsdata: [LiveStreamingResults] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         bannerApi(isbackground: false)
+        colorsimgs = ["colosimg","colosimg","colosimg"]
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         productcategoriesdetails(slug: slugid ?? "")
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    @IBAction func viewstorebtn(_ sender: Any) {
+        let vc = New_StoreVC.getVC(.main)
+        vc.prductid = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+        vc.brandName = productcategoriesdetailsdata?.sellerDetail?.brandName ?? ""
+        vc.storeId = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+        vc.sellerID = productcategoriesdetailsdata?.sellerDetail?.id
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+    @IBAction func sharebtn(_ sender: Any) {
+        showShareSheet(id:productcategoriesdetailsdata?.slug ?? "")
+    }
+    func showShareSheet(id:String) {
+        print(id)
+        guard let url = URL(string: "https://stage.bazaarghar.com/product/\(id)") else { return }
+
+        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+
+        // On iPad, provide a sourceView and sourceRect to display the share sheet as a popover
+        if let popoverPresentationController = activityViewController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+//            popoverPresentationController.sourceRect = sender.frame
+        }
+
+        // Present the share sheet
+        present(activityViewController, animated: true, completion: nil)
+    }
+
+    
+    @IBAction func cartBtn(_ sender: Any) {
+//        let vc = CartViewController.getVC(.main)
+//        if self.isnav == true{
+//            self.dismiss(animated: false)
+//            self.nav?.pushViewController(vc, animated: true)
+//        }
+//        self.navigationController?.pushViewController(vc, animated: false)
+        self.addToCartApi(product:self.productcategoriesdetailsdata?.id ?? "",quantity:1,navigation: false)
+
+        
+        }
+    @IBAction func whatsappShareText(_ sender: AnyObject) {
+        let message = "First Whatsapp Share & https://www.google.co.in"
+        var queryCharSet = NSCharacterSet.urlQueryAllowed
+        
+        queryCharSet.remove(charactersIn: "+&")
+        
+        if let escapedString = message.addingPercentEncoding(withAllowedCharacters: queryCharSet) {
+            if let whatsappURL = URL(string: "whatsapp://send?phone=" + "923011166879" + "&text=") {
+                if UIApplication.shared.canOpenURL(whatsappURL) {
+                    UIApplication.shared.open(whatsappURL, options: [: ], completionHandler: nil)
+                } else {
+                    debugPrint("please install WhatsApp")
+                    self.view.makeToast("whatsapp not available")
+                }
+            }
+        }
+        
+    }
+    @IBAction func buyNowBtnTapped(_ sender: Any) {
+        
+        addToCartApi(product:productcategoriesdetailsdata?.id ?? "",quantity:incrementproductCount,navigation: true)
+        
+    }
+    
+    private func relatedProductApi(limit:Int,page:Int,sortBy:String,category:String,active:Bool){
+        APIServices.getAllProductsByCategories(limit:limit,page:page,sortBy:sortBy,category:category,active:active){[weak self] data in
+            switch data{
+            case .success(let res):
+                self?.relatedProductResponse = res.Categoriesdata ?? []
+                if res.Categoriesdata?.count ?? 0 > 0 {
+//                    self?.relatedProductView.isHidden = false
+//                    if self?.isGroupBuy == true {
+//                        self?.scrollheight.constant = (self?.scrollheight.constant ?? 0) + 320
+//                    }else {
+//                        self?.scrollheight.constant = (self?.scrollheight.constant ?? 0) + 280
+//                    }
+                }else {
+//                    self?.relatedProductView.isHidden = true
+                }
+               
+                self?.relatedProductCollectionView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func addToCartApi(product: String, quantity: Int,navigation:Bool){
+        APIServices.additemtocart(product:product,quantity:quantity,completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                if(navigation){
+                    self?.getCartProducts()
+                }else {
+                    
+                    let vc = AddtocartPopup.getVC(.sidemenu)
+                    vc.modalPresentationStyle = .custom
+                    vc.transitioningDelegate = self?.centerTransitioningDelegate
+                    vc.img = "addtocart"
+                    vc.titleText = "Added to Cart!"
+                    vc.messageText = "Successfully added null to your cart"
+                    vc.leftBtnText = "Continue Shopping"
+                    vc.rightBtnText = "Go to Cart"
+                    vc.iscomefor = "cart"
+                    vc.nav = self?.navigationController
+                    vc.prductid = self?.productcategoriesdetailsdata?.id ?? ""
+                    self?.present(vc, animated: true, completion: nil)
+                }
+                
+                
+                self?.view.makeToast("Item Added to cart")
+                
+            case .failure(let error):
+                
+                if(error == "Please authenticate" && AppDefault.islogin){
+                    DispatchQueue.main.async {
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                        let vc = PopupLoginVc.getVC(.main)
+                        vc.modalPresentationStyle = .overFullScreen
+                        self?.present(vc, animated: true, completion: nil)
+                    }
+                }else if(error == "Please authenticate" && AppDefault.islogin == false){
+                    let vc = PopupLoginVc.getVC(.main)
+                    vc.modalPresentationStyle = .overFullScreen
+                    self?.present(vc, animated: true, completion: nil)
+//                    appDelegate.GotoDashBoard(ischecklogin: true)
+                }
+                else{
+                    if self?.varientSlug != nil {
+                        print(error)
+                        self?.view.makeToast(error)
+                    }else {
+                        self?.view.makeToast("Please Select Varient")
+                    }
+                }
+                
+            }
+        })
+    }
+    
+    private func moreFrom(category: String, user: String){
+        APIServices.moreFrom(category: category, user: user,completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+             print(res)
+                self?.moreFromResponse = res
+                
+                self?.moreFrom.reloadData()
+            case .failure(let error):
+                
+                if(error == "Please authenticate" && AppDefault.islogin){
+                    DispatchQueue.main.async {
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                        let vc = PopupLoginVc.getVC(.main)
+                        vc.modalPresentationStyle = .overFullScreen
+                        self?.present(vc, animated: true, completion: nil)
+                    }
+                }else if(error == "Please authenticate" && AppDefault.islogin == false){
+                    let vc = PopupLoginVc.getVC(.main)
+                    vc.modalPresentationStyle = .overFullScreen
+                    self?.present(vc, animated: true, completion: nil)
+//                    appDelegate.GotoDashBoard(ischecklogin: true)
+                }
+                else{
+                    if self?.varientSlug != nil {
+                        print(error)
+                        self?.view.makeToast(error)
+                    }else {
+                        self?.view.makeToast("Please Select Varient")
+                    }
+                }
+                
+            }
+        })
+    }
+    
+    private func getCartProducts(){
+        APIServices.getCartItems(){[weak self] data in
+            switch data{
+            case .success(let res):
+             
+                AppDefault.cartId =  res.id
+            
+                AppDefault.currentUser?.defaultAddress = res.user?.defaultAddress
+                self?.orderDetails = res
+                
+                
+                let vc = OrderConfirmation_VC.getVC(.main)
+                vc.orderDetails =  self?.orderDetails
+                if self?.isnav == true{
+                    self?.dismiss(animated: false)
+                    self?.nav?.pushViewController(vc, animated: true)
+                }
+                self?.navigationController?.pushViewController(vc, animated: true)
+//                    self?.bannerapidata = res.packages ?? []
+//                if(self?.bannerapidata.count ?? 0 > 0){
+//                    self?.emptyCart.isHidden = true
+//                }else{
+//                    self?.emptyCart.isHidden = false
+//
+//                }
+
+//                self?.subTotal.text = Utility().convertAmountInComma("\(res.subTotal ?? 0)")
+//                self?.total.text = Utility().convertAmountInComma("\(res.total ?? 0)")
+//
+//                self?.cartTableViewCell.reloadData()
+            
+            
+            case .failure(let error):
+                print(error)
+//                self?.emptyCart.isHidden = false
+                if(error == "Please authenticate" && AppDefault.islogin){
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                 }else{
+                        self?.view.makeToast(error)
+                 }
+            }
+        }
     }
     private func bannerApi(isbackground:Bool){
         APIServices.banner(isbackground: isbackground, completion: {[weak self] data in
@@ -69,15 +322,51 @@ class NewProductPageViewController: UIViewController {
         }
         )
     }
+    
+    private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                print(res)
+
+                self?.LiveStreamingResultsdata = res.results ?? []
+                if res.results?.count ?? 0 > 0 {
+//                    self?.relatedVideoView.isHidden = false
+//                    if self?.isGroupBuy == true {
+//                        self?.scrollheight.constant = (self?.scrollheight.constant ?? 0) + 290
+//                    }else {
+//                        self?.scrollheight.constant = (self?.scrollheight.constant ?? 0) + 250
+//                    }
+
+                }else {
+//                    self?.relatedVideoView.isHidden = true
+
+                }
+
+                self?.videoCollection.reloadData()
+            case .failure(let error):
+                print(error)
+                self?.view.makeToast(error)
+            }
+        })
+    }
 
     private func productcategoriesdetails(slug:String){
         APIServices.productcategoriesdetails(slug: slug){[weak self] data in
             switch data{
             case .success(let res):
               print(res)
+                self?.productcategoriesdetailsdata = res
+
                 self?.headerLbl.text = res.productName
                 self?.mainImage = res.mainImage
-                self?.gallaryImages = res.gallery
+                if(res.gallery?.count == 0){
+                    self!.gallaryImages?.append(res.mainImage ?? "")
+                    
+                }else{
+                    self?.gallaryImages  = res.gallery
+                }
+                
                 self?.pagerView.reloadData()
                 if res.regularPrice == nil || res.salePrice == nil {
                 
@@ -85,18 +374,45 @@ class NewProductPageViewController: UIViewController {
                     let percentValue = (((res.regularPrice ?? 0) - (res.salePrice ?? 0)) * 100) / (res.regularPrice ?? 0)
                     self?.percentLbl.text = String(format: "%.0f%% OFF", percentValue)
                 }
-//                self?.wishlist()
+                
+                if LanguageManager.language == "ar"{
+                    self?.producttitle.text = res.lang?.ar?.productName
+                }else{
+                    self?.producttitle.text = res.productName
+                }
+                self?.storename.text = res.sellerDetail?.brandName
+                self?.storeimg.pLoadImage(url: res.mainImage ?? "")
+                if res.onSale == true {
+                    self?.Salesprice.isHidden = false
+//                    self?.OnSaleimage.isHidden = false
+                    self?.Salesprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.salePrice ?? 0)
+                    self?.productPriceLine.isHidden = false
+                    self?.Regularprice.textColor = UIColor.red
+                    self?.Salesprice.textColor = UIColor(hexString: "#069DDD")
+                    self?.productPriceLine.backgroundColor = UIColor.red
 
-//                if res.quantity ?? 0 > 0 {
-//                    self?.quantityView.isHidden = false
-//                    self?.outOfStockLbl.isHidden = true
+                }else {
+                    self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
+                    self?.Salesprice.isHidden = true
+//                    self?.OnSaleimage.isHidden = true
+                    self?.productPriceLine.isHidden = true
+                    self?.Regularprice.textColor = UIColor(hexString: "#069DDD")
+                 }
+
+                if res.quantity ?? 0 > 0 {
+                    self?.quantityView.isHidden = false
+                    self?.outOfStockLbl.isHidden = true
 //                    self?.buyNowBtn.isEnabled = true
-//                }else {
-//                    self?.quantityView.isHidden = true
-//                    self?.outOfStockLbl.isHidden = false
+                }else {
+                    self?.quantityView.isHidden = true
+                    self?.outOfStockLbl.isHidden = false
 //                    self?.buyNowBtn.isEnabled = false
-//                }
-//                
+                }
+                self?.moreFromLbl.text = "More From \(res.sellerDetail?.brandName ?? "")"
+                self?.moreFrom(category: res.category ?? "", user: res.sellerDetail?.seller ?? "")
+                self?.relatedProductApi(limit: 20, page: 1, sortBy:"ACS", category:res.category ?? "", active: false)
+                self?.getStreamingVideos(limit:20,page:1,categories: [res.category ?? ""])
+                
 //                if LanguageManager.language == "ar"{
 //                    self?.producttitle.text = res.lang?.ar?.productName
 //                }else{
@@ -245,7 +561,25 @@ class NewProductPageViewController: UIViewController {
         let vc = CartViewController.getVC(.main)
         self.navigationController?.pushViewController(vc, animated: false)
         }
-
+    @IBAction func SubtractBtn(_ sender: Any) {
+        if productCount > 1 {
+            productCount -= 1
+            productcount.text = "\(productCount)"
+        }
+        
+    }
+    @IBAction func Addbtn(_ sender: Any) {
+        if( productCount >= productcategoriesdetailsdata?.quantity ?? 0){
+            self.view.makeToast("You can buy only \(productcategoriesdetailsdata?.quantity ?? 0) Products")
+        }else if(productcategoriesdetailsdata?.quantity == 0){
+            self.view.makeToast("Product is Out Of Stock")
+        }else{
+            productCount += 1
+            incrementproductCount = productCount
+            print(incrementproductCount)
+            productcount.text = "\(productCount)"
+        }
+}
 
 }
 
@@ -283,8 +617,87 @@ extension NewProductPageViewController: FSPagerViewDataSource, FSPagerViewDelega
         //        }
         
     }
-}
+    func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
+        guard let cell = pagerView.cellForItem(at: index) else {
+                   return
+               }
+               
+        if let image = cell.imageView?.image {
+                   showImagePreview(image)
+               }
+    }
     
+    func showImagePreview(_ image: UIImage) {
+        // Create the image preview view controller
+        let imagePreviewVC = UIViewController()
+        
+        // Create a semi-transparent background view
+        let backgroundView = UIView(frame: imagePreviewVC.view.bounds)
+        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        imagePreviewVC.view.addSubview(backgroundView)
+        
+        // Create a container view to hold the image and allow it to be centered
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400))
+        containerView.center = imagePreviewVC.view.center
+        containerView.backgroundColor = .clear
+        imagePreviewVC.view.addSubview(containerView)
+        
+        // Create a scroll view to enable zooming
+        let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400))
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 5.0
+        containerView.addSubview(scrollView)
+        
+        // Configure image view
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400)
+        scrollView.addSubview(imageView)
+        
+        // Set up zooming properties for the scroll view
+        scrollView.contentSize = imageView.frame.size
+        
+        // Add double tap gesture recognizer for zooming
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapGesture(_:)))
+            doubleTapGesture.numberOfTapsRequired = 2
+            imageView.addGestureRecognizer(doubleTapGesture)
+            imageView.isUserInteractionEnabled = true
+        
+        // Add cross button
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeImagePreview))
+        imagePreviewVC.navigationItem.rightBarButtonItem = closeButton
+        imagePreviewVC.navigationItem.rightBarButtonItem?.tintColor = .white
+        
+        // Present image preview view controller
+        let navController = UINavigationController(rootViewController: imagePreviewVC)
+        navController.modalPresentationStyle = .overFullScreen
+        present(navController, animated: true, completion: nil)
+        
+    }
+    
+    @objc func handleDoubleTapGesture(_ sender: UITapGestureRecognizer) {
+        guard let scrollView = sender.view?.superview as? UIScrollView else { return }
+        
+        if scrollView.zoomScale == scrollView.minimumZoomScale {
+            // Zoom in if the current zoom scale is minimum
+            let center = sender.location(in: scrollView)
+            let zoomRect = CGRect(x: center.x, y: center.y, width: 1, height: 1)
+            scrollView.zoom(to: zoomRect, animated: true)
+        } else {
+            // Zoom out if the current zoom scale is not minimum
+            scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+        }
+    }
+    
+
+       @objc func closeImagePreview() {
+           dismiss(animated: true, completion: nil)
+       }
+    
+}
+
 extension NewProductPageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       
@@ -314,4 +727,171 @@ struct Item {
     let image: UIImage
     let title: String
     let subtitle: String
+}
+
+
+extension NewProductPageViewController:UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == relatedProductCollectionView {
+            return self.relatedProductResponse.count
+
+        }else if collectionView == videoCollection {
+            return self.LiveStreamingResultsdata.count
+        }
+        return moreFromResponse?.results?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == relatedProductCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
+            let data =  self.relatedProductResponse[indexPath.row]
+            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+
+            cell.productimage.pLoadImage(url: data.mainImage ?? "")
+            cell.productname.text =  data.productName
+            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+            if data.onSale == true {
+                cell.discountPrice.isHidden = false
+                let currencySymbol = appDelegate.currencylabel
+                let salePrice = Utility().formatNumberWithCommas(data.salePrice ?? 0)
+
+                // Create an attributed string for the currency symbol with the desired color
+                let currencyAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor.black // Change to your desired color
+                ]
+                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
+
+                // Create an attributed string for the sale price with the desired color
+                let priceAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
+                ]
+                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
+
+                // Combine the attributed strings
+                let combinedAttributedString = NSMutableAttributedString()
+                combinedAttributedString.append(attributedCurrencySymbol)
+                combinedAttributedString.append(attributedPrice)
+                cell.discountPrice.attributedText = combinedAttributedString
+
+    //                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.productPriceLine.isHidden = false
+                cell.productPrice.textColor = UIColor.red
+    //                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
+                cell.productPriceLine.backgroundColor = UIColor.red
+                
+            }else {
+                cell.discountPrice.isHidden = true
+                cell.productPriceLine.isHidden = true
+                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+
+             }
+            cell.heartBtn.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
+
+            
+            return cell
+
+        }else if collectionView == videoCollection {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Videoscategorycell1", for: indexPath) as! Videoscategorycell
+            let data = LiveStreamingResultsdata[indexPath.row]
+            cell.productimage.pLoadImage(url: data.thumbnail ?? "")
+            cell.viewslbl.text = "\(data.totalViews ?? 0)"
+            cell.Productname.text = data.brandName
+            cell.likeslbl.text = "\(data.like ?? 0)"
+                return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
+            let data = moreFromResponse?.results?[indexPath.row]
+            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+
+            cell.productimage.pLoadImage(url: data?.mainImage ?? "")
+            cell.productname.text =  data?.productName
+            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+            if data?.onSale == true {
+                cell.discountPrice.isHidden = false
+                let currencySymbol = appDelegate.currencylabel
+                let salePrice = Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+
+                // Create an attributed string for the currency symbol with the desired color
+                let currencyAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor.black // Change to your desired color
+                ]
+                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
+
+                // Create an attributed string for the sale price with the desired color
+                let priceAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
+                ]
+                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
+
+                // Combine the attributed strings
+                let combinedAttributedString = NSMutableAttributedString()
+                combinedAttributedString.append(attributedCurrencySymbol)
+                combinedAttributedString.append(attributedPrice)
+                cell.discountPrice.attributedText = combinedAttributedString
+
+    //                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.productPriceLine.isHidden = false
+                cell.productPrice.textColor = UIColor.red
+    //                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
+                cell.productPriceLine.backgroundColor = UIColor.red
+                
+            }else {
+                cell.discountPrice.isHidden = true
+                cell.productPriceLine.isHidden = true
+                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+
+             }
+            cell.heartBtn.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
+
+            
+            return cell
+        }
+        
+
+    }
+    
+    @objc func cartButtonTap(_ sender: UIButton) {
+        let data = moreFromResponse?.results?[sender.tag]
+
+        let vc = CartPopupViewController.getVC(.main)
+       
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = centerTransitioningDelegate
+        vc.products = data
+        vc.nav = self.navigationController
+        self.present(vc, animated: true, completion: nil)
+
+    }
+    @objc func heartButtonTap(_ sender: UIButton) {
+        let data = moreFromResponse?.results?[sender.tag]
+  
+
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == relatedProductCollectionView {
+            
+        }else if collectionView == videoCollection {
+            let vc = New_SingleVideoview.getVC(.sidemenu)
+            vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
+            vc.indexValue = indexPath.row
+            self.navigationController?.pushViewController(vc, animated: false)
+        }else {
+            
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == relatedProductCollectionView{
+            return CGSize(width: collectionView.frame.width/2.1, height: 300)
+        } else if collectionView == videoCollection {
+            return CGSize(width: collectionView.frame.size.width/2, height: collectionView.frame.size.height)
+        } else {
+            return CGSize(width: collectionView.frame.width/2-5, height: collectionView.frame.height/2-5)
+        }
+    }
+    
 }

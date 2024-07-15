@@ -387,7 +387,7 @@ struct SelectedAttribute: Codable {
 // MARK: - Result
 
 struct getAllProductCategoriesMainModel: Codable {
-    let Categoriesdata: [getAllProductsByCategoriesResponse]?
+    let Categoriesdata: [Product]?
     let page, limit, totalPages, totalResults: Int?
     enum CodingKeys: String, CodingKey {
         case Categoriesdata = "results"
@@ -537,6 +537,26 @@ struct searchStoreResult: Codable {
     enum CodingKeys: String, CodingKey {
         case images, country, costCode, approved, brandName, description, market, address, cityCode, city, seller, createdAt, updatedAt
         case rrp, alias, costCenterCode, slug, id,lang
+    }
+}
+struct getSellerDetailDataModel: Codable {
+    let id: String?
+    let images: [String]?
+    let country: String?
+    let categories: [String]?
+    let categoryUpdated, costCode, approved: Bool?
+    let brandName, description, market, address: String?
+    let cityCode, city, seller, createdAt: String?
+    let updatedAt, rrp, slug, costCenterCode: String?
+    let alias: String?
+    let v: Int?
+//    let products, followers: Followers?
+//    let videos: Videos?
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case images, country, categories, categoryUpdated, costCode, approved, brandName, description, market, address, cityCode, city, seller, createdAt, updatedAt, rrp, slug, costCenterCode, alias
+        case v = "__v"
     }
 }
 

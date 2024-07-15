@@ -21,7 +21,7 @@ class CartPopupViewController: UIViewController {
     @IBOutlet weak var crossBtn: UIButton!
     let centerTransitioningDelegate = CenterTransitioningDelegate()
     var products: Product?
-    
+    var nav:UINavigationController?
 
     override func viewDidLoad() {
  
@@ -41,20 +41,60 @@ class CartPopupViewController: UIViewController {
     }
     private func addToCartApi(product: String, quantity: Int,navigation:Bool){
         APIServices.additemtocart(product:product,quantity:quantity,completion: {[weak self] data in
+            guard let strongSelf = self else { return }
+
             switch data {
             case .success(let res):
-//                self?.dismiss(animated: false)
-                    let vc = AddtocartPopup.getVC(.sidemenu)
-                    vc.modalPresentationStyle = .custom
-                    vc.transitioningDelegate = self?.centerTransitioningDelegate
-                    self?.present(vc, animated: true, completion: nil)
-//               
+////
+//                let vc = AddtocartPopup.getVC(.sidemenu)
+//                            vc.modalPresentationStyle = .custom
+//                            vc.transitioningDelegate = self?.centerTransitioningDelegate
+//                            vc.img = "addtocart"
+//                            vc.titleText = "Added to Cart!"
+//                            vc.messageText = "Successfully added \(product) in your cart"
+//                            vc.leftBtnText = "Continue Shopping"
+//                            vc.rightBtnText = "Go to Cart"
+//                            vc.iscomefor = "cart"
+//                            vc.nav = self?.nav
+//
+//                            self?.present(vc, animated: true) {
+//                                // Dismiss the current view controller after presenting the popup
+//                                if let currentVC = self?.presentingViewController {
+//                                    currentVC.dismiss(animated: true, completion: nil)
+//                                }
+//                            }
+                
+                let storyboard = UIStoryboard(name: "sidemenu", bundle: nil)
+                guard let addToCartPopupVC = storyboard.instantiateViewController(withIdentifier: "AddtocartPopup") as? AddtocartPopup else { return }
+
+                addToCartPopupVC.modalPresentationStyle = .custom
+                addToCartPopupVC.transitioningDelegate = strongSelf.centerTransitioningDelegate
+                addToCartPopupVC.img = "addtocart"
+                addToCartPopupVC.titleText = "Added to Cart!"
+                addToCartPopupVC.messageText = "Successfully added null to your cart"
+                addToCartPopupVC.leftBtnText = "Continue Shopping"
+                addToCartPopupVC.rightBtnText = "Go to Cart"
+                addToCartPopupVC.iscomefor = "cart"
+                addToCartPopupVC.nav = strongSelf.nav
+
+                // Store a reference to the presenting view controller
+                if let presentingVC = strongSelf.presentingViewController {
+                    // Dismiss the current view controller
+                    strongSelf.dismiss(animated: true) {
+                        // Present the AddtocartPopup view controller
+                        presentingVC.present(addToCartPopupVC, animated: true, completion: nil)
+                    }
+                } else {
+                    // Present directly if there is no presenting view controller
+                    strongSelf.present(addToCartPopupVC, animated: true, completion: nil)
+                }
+                
 //                let vc = AddtocartPopup.getVC(.sidemenu)
 //                          vc.modalPresentationStyle = .custom
 //                          vc.transitioningDelegate = self?.centerTransitioningDelegate
 //                self?.present(vc, animated: true, completion: {
 //                    // Dismiss the current view controller first
-//                
+//
 //                })
                 
 //                if(navigation){

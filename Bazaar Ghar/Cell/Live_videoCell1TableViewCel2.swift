@@ -29,7 +29,7 @@ class Live_videoCell1TableViewCel2: UITableViewCell {
     }
     var id : String? {
         didSet{
-            getStreamingVideos(limit:20,page:1,categories: [id ?? ""])
+//            getStreamingVideos(limit:20,page:1,categories: [id ?? ""])
         }
     }
    
@@ -47,27 +47,27 @@ class Live_videoCell1TableViewCel2: UITableViewCell {
         // Configure the view for the selected state
     }
     @IBAction func btnTapped(_ sender: Any) {
-        let vc = SingleVideoView.getVC(.main)
+        let vc = New_SingleVideoview.getVC(.sidemenu)
         vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
         vc.indexValue = 0
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
-    private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"",completion: {[weak self] data in
-            switch data{
-            case .success(let res):
-                print(res)
-        
-                self?.LiveStreamingResultsdata = res.results ?? []
-       
-
-            case .failure(let error):
-                print(error)
-//                self?.view.makeToast(error)
-            }
-        })
-    }
+//    private func getStreamingVideos(limit:Int,page:Int,categories: [String],city:String){
+//        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in
+//            switch data{
+//            case .success(let res):
+//                print(res)
+//        
+//                self?.LiveStreamingResultsdata = res.results ?? []
+//       
+//
+//            case .failure(let error):
+//                print(error)
+////                self?.view.makeToast(error)
+//            }
+//        })
+//    }
     
 }
 
@@ -93,7 +93,7 @@ extension Live_videoCell1TableViewCel2: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
             let data = LiveStreamingResultsdata[indexPath.row + 1]
-            let vc = SingleVideoView.getVC(.main)
+        let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)

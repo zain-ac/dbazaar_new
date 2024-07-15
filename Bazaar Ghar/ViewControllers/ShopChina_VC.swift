@@ -361,7 +361,7 @@ var count = 0
         
     }
     private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"",completion: {[weak self] data in
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
@@ -600,8 +600,8 @@ var count = 0
     }
     
     @objc func methodOfReceivedNotification(notification: Notification) {
-                let vc = ProductDetail_VC.getVC(.main)
-                   vc.isGroupBuy = false
+                let vc = NewProductPageViewController.getVC(.sidemenu)
+//                   vc.isGroupBuy = false
                   vc.slugid = appDelegate.slugid
                 self.navigationController?.pushViewController(vc, animated: false)
     }
@@ -986,8 +986,8 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                     if data?.linkId == "" || data?.linkId == nil {
                         
                     }else {
-                        let vc = ProductDetail_VC.getVC(.main)
-                        vc.isGroupBuy = false
+                        let vc = NewProductPageViewController.getVC(.sidemenu)
+//                        vc.isGroupBuy = false
                         vc.slugid = data?.linkId
                         self.navigationController?.pushViewController(vc, animated: false)
                     }
@@ -1010,33 +1010,33 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             
         }else if collectionView == homeLastProductCollectionView {
             let data = self.randomproductapiModel.first?.product?[indexPath.row]
-            let vc = ProductDetail_VC.getVC(.main)
-                vc.isGroupBuy = false
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//                vc.isGroupBuy = false
             vc.slugid = data?.slug
             self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == shoesCollectionView {
             let data = self.randomproductapiModel.first?.product?[indexPath.row]
-            let vc = ProductDetail_VC.getVC(.main)
-                vc.isGroupBuy = false
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//                vc.isGroupBuy = false
             vc.slugid = data?.slug
             self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == hotDealCollectionV {
             let data = groupbydealsdata[indexPath.row]
-            let vc = ProductDetail_VC.getVC(.main)
-            vc.isGroupBuy = true
-            vc.groupbydealsdata = data
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//            vc.isGroupBuy = true
+//            vc.groupbydealsdata = data
             vc.slugid = data.productID?.slug
             self.navigationController?.pushViewController(vc, animated: false)
         } else if collectionView == lastRandomProductsCollectionView {
             let data = getrandomproductapiModel[indexPath.row]
 
-            let vc = ProductDetail_VC.getVC(.main)
-            vc.isGroupBuy = false
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+//            vc.isGroupBuy = false
             vc.slugid = data.slug
             self.navigationController?.pushViewController(vc, animated: false)
         } else if collectionView == videoCollection {
             let data = LiveStreamingResultsdata[indexPath.row]
-            let vc = SingleVideoView.getVC(.main)
+            let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)
@@ -1081,7 +1081,7 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
             cell.catBannerBtn.tag = indexPath.row
             
             cell.catBannerBtn.addTarget(self, action: #selector(catBannerBtnTapped(_:)), for: .touchUpInside)
-            
+        cell.nav = self.navigationController
             return cell
     }
     @objc func exploreBtnTapped(_ sender: UIButton) {
@@ -1250,8 +1250,8 @@ func numberOfItems(in pagerView: FSPagerView) -> Int {
                 if data?.linkId == "" || data?.linkId == nil {
                     
                 }else {
-                    let vc = ProductDetail_VC.getVC(.main)
-                    vc.isGroupBuy = false
+                    let vc = NewProductPageViewController.getVC(.sidemenu)
+//                    vc.isGroupBuy = false
                     vc.slugid = data?.linkId
                     self.navigationController?.pushViewController(vc, animated: false)
                 }

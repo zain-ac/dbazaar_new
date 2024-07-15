@@ -21,16 +21,21 @@ class SingleVideoCell: UITableViewCell {
     @IBOutlet weak var volumebtn: UIButton!
     @IBOutlet weak var hiddenview: UIView!
  
-
+    @IBOutlet weak var followbtn: UIButton!
+    @IBOutlet weak var expandbtn: UIButton!
+    
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var videoProductCollectionV: UICollectionView!
     @IBOutlet weak var videoPlayBtn: UIButton!
+    @IBOutlet weak var hiddenviewheight: NSLayoutConstraint!
     @IBOutlet weak var topViewHeigth: NSLayoutConstraint!
     @IBOutlet weak var dropDownBtn: UIButton!
 
-
-
+    @IBOutlet weak var storeimg: UIImageView!
+    
+    @IBOutlet weak var viewslbl: UILabel!
+    
     var avPlayer: AVPlayer?
     var avPlayerLayer: AVPlayerLayer?
     var paused: Bool = false
@@ -79,7 +84,7 @@ class SingleVideoCell: UITableViewCell {
    
     override func awakeFromNib() {
         super.awakeFromNib()
-  
+        hiddenviewheight.constant = 0
         self.setupMoviePlayer()
        }
     
@@ -196,8 +201,11 @@ class SingleVideoCell: UITableViewCell {
         }else {
             if hiddenview.isHidden == false {
                 hiddenview.isHidden = true
+                hiddenviewheight.constant = 0
             }else{
                 hiddenview.isHidden = false
+                hiddenviewheight.constant = 119
+
             }
         }
     }
@@ -233,21 +241,21 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
         let data = getvidoebyproductIdsdata[indexPath.row]
         
         cell.img.pLoadImage(url: data.mainImage ?? "")
-        cell.price.text = "NOW " + appDelegate.currencylabel + " \(data.price ?? 0)"
-        
-        
-        if data.onSale == true {
-            cell.Salesprice.isHidden = false
-            cell.Salesprice.isHidden = false
-            cell.Salesprice.text = "NOW " + appDelegate.currencylabel + " \(data.salePrice ?? 0)"
-            cell.productPriceLine.isHidden = false
-            cell.price.textColor = UIColor.systemGray
-            cell.price.text = "WAS " + appDelegate.currencylabel + " \(data.price ?? 0)"
-        }else {
-            cell.Salesprice.isHidden = true
-            cell.productPriceLine.isHidden = true
-            cell.price.textColor = UIColor.black
-         }
+        cell.price.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.price ?? 0)
+        cell.productname.text = data.productName
+//
+//        if data.onSale == true {
+//            cell.price.isHidden = false
+//            cell.price.isHidden = false
+//            cell.price.text = "NOW " + appDelegate.currencylabel + " \(data.salePrice ?? 0)"
+//            cell.productPriceLine.isHidden = false
+//            cell.price.textColor = UIColor.systemGray
+//            cell.price.text = "WAS " + appDelegate.currencylabel + " \(data.price ?? 0)"
+//        }else {
+//            cell.Salesprice.isHidden = true
+//            cell.productPriceLine.isHidden = true
+//            cell.price.textColor = UIColor.black
+//         }
 
             return cell
     }

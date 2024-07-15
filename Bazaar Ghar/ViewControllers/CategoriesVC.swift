@@ -77,7 +77,7 @@ class CategoriesVC: UIViewController {
             
             
         }else{
-            self.categoriesApi(isbackground: false)
+            self.categoriesApi(isbackground: false, id: "")
         }
         
         self.LanguageRender()
@@ -145,8 +145,8 @@ class CategoriesVC: UIViewController {
            }
     
  
-    private func categoriesApi(isbackground:Bool) {
-        APIServices.categories(isbackground:isbackground,completion: {[weak self] data in
+    private func categoriesApi(isbackground:Bool,id:String) {
+        APIServices.categories(isbackground:isbackground, id: id,completion: {[weak self] data in
             switch data {
             case .success(let res):
                 

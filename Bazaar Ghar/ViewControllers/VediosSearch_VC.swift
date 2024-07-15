@@ -137,7 +137,7 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
          
             
         }else {
-            let vc = SingleVideoView.getVC(.main)
+            let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.searchVideodata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)

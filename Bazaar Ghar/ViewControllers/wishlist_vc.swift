@@ -128,8 +128,8 @@ extension wishlist_vc:UICollectionViewDelegate,UICollectionViewDataSource,UIColl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let data =  self.wishListItems[indexPath.row]
-        let vc = ProductDetail_VC.getVC(.main)
-            vc.isGroupBuy = false
+        let vc = NewProductPageViewController.getVC(.sidemenu)
+//            vc.isGroupBuy = false
             vc.slugid = data.slug
         self.navigationController?.pushViewController(vc, animated: false)
     }
