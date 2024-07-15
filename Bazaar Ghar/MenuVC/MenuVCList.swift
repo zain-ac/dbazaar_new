@@ -17,7 +17,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var btnBack: UIButton!
 
-
+var catName = [String()]
     var isSelected  =  ""
 
     @IBOutlet weak var backButton: UIView!
@@ -82,13 +82,32 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
         if isShowingSubcategories {
                isShowingSubcategories = false
             categoryStates.removeAll()
-
+            setupTextColor()
             tableview.reloadData()
            }
+      
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        setupTextColor()
     }
     @objc func reloadSSideMenu(notification: Notification) {
 
 
+    }
+    func setupTextColor(){
+        let fullText = "Top Categories"
+                let topText = "Top"
+                let categoriesText = "Categories"
+                
+                let attributedString = NSMutableAttributedString(string: fullText)
+                
+                let topTextRange = (fullText as NSString).range(of: topText)
+                let categoriesTextRange = (fullText as NSString).range(of: categoriesText)
+                
+                attributedString.addAttribute(.foregroundColor, value: UIColor.black, range: topTextRange)
+                attributedString.addAttribute(.foregroundColor, value: UIColor(hex: "#2D8CF8"), range: categoriesTextRange)
+                
+                name.attributedText = attributedString
     }
     func SetupAppColor(){
         
@@ -96,13 +115,25 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     @IBAction func backButtonPressed(_ sender: Any) {
         if(currentLevel == 1){
             backButton.isHidden = true
+            catName.removeAll()
+            setupTextColor()
         }
         guard !categoryStates.isEmpty else { return }
            let previousState = categoryStates.removeLast()
            currentCategories = previousState.categories
+        print("previouscat\(previousState)categoryState\(categoryStates)currentCat\(currentCategories)currentLevel\(currentLevel)")
            currentLevel = previousState.level
+        if(currentLevel == 0){
+            catName.removeAll()
+            setupTextColor()
+        }else{
+            catName.removeLast()
+        }
+       
+        self.name.text = catName.last
+        print("_________\(catName.count)___________")
            tableview.reloadData()
-           
+        
     }
 //    @IBAction func btnMenu_click(_ sender: Any) {
 //        self.sideMenuController?.toggle()
@@ -139,15 +170,20 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
 //
 //        }
         cell.selectionStyle = .none
-            
-            if currentLevel == 0 {
+       
+        if currentLevel == 0 {
+            catName.removeAll()
+            setupTextColor()
                 let category = currentCategories[indexPath.row] as! getAllCategoryResponse
                 cell.lab.text = category.name
+               
                 cell.imagelbl.pLoadImage(url: category.mainImage ?? "")
                 
             } else if currentLevel == 1 {
+                
                 let subCategory = currentCategories[indexPath.row] as! DatumSubCategory
                 cell.lab.text = subCategory.name
+                
                 cell.imagelbl.pLoadImage(url: subCategory.mainImage ?? "")
             } else if currentLevel == 2 {
                 let subSubCategory = currentCategories[indexPath.row] as! PurppleSubCategory
@@ -172,19 +208,30 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
        
 
         categoryStates.append(CategoryState(categories: currentCategories, level: currentLevel))
-       
+        let rowIndex = indexPath.row
+
+        if(catName.count == 0){
+            setupTextColor()
+        }
 
         if currentLevel == 0 {
                 let selectedCategory = currentCategories[indexPath.row] as! getAllCategoryResponse
                 if let subCategories = selectedCategory.subCategories, !subCategories.isEmpty {
                     currentCategories = subCategories
+                    catName.removeAll()
+                    setupTextColor()
+//                    name.text = selectedCategory.name
+                    catName.append(selectedCategory.name ?? "")
+                   
                     currentLevel = 1
                     tableView.reloadData()
                 } else {
                     let vc = Category_ProductsVC.getVC(.main)
                     vc.prductid = selectedCategory.id ?? ""
                     vc.video_section = false
+//                    name.text = selectedCategory.name
                     vc.storeFlag = false
+                    setupTextColor()
                     vc.catNameTitle = selectedCategory.name ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                     categoryStates.removeAll()
@@ -193,7 +240,9 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                 let selectedSubCategory = currentCategories[indexPath.row] as! DatumSubCategory
                 if let subSubCategories = selectedSubCategory.subCategories, !subSubCategories.isEmpty {
                     currentCategories = subSubCategories
+                    catName.append(selectedSubCategory.name ?? "")
                     currentLevel = 2
+                    name.text = selectedSubCategory.name
                     tableView.reloadData()
                 } else {
                   
@@ -201,6 +250,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                     vc.prductid = selectedSubCategory.id ?? ""
                     vc.video_section = false
                     vc.storeFlag = false
+                    setupTextColor()
                     vc.catNameTitle = selectedSubCategory.name ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                     categoryStates.removeAll()
@@ -211,12 +261,15 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                 if let subSubSubCategories = selectedSubSubCategory.subCategories, !subSubSubCategories.isEmpty {
                     currentCategories = subSubSubCategories
                     currentLevel = 3
+                    catName.append(selectedSubSubCategory.name ?? "")
+                    name.text = selectedSubSubCategory.name
                     tableView.reloadData()
                 } else {
                     let vc = Category_ProductsVC.getVC(.main)
                     vc.prductid = selectedSubSubCategory.id ?? ""
                     vc.video_section = false
                     vc.storeFlag = false
+                    setupTextColor()
                     vc.catNameTitle = selectedSubSubCategory.name ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                     categoryStates.removeAll()
@@ -226,23 +279,30 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                 if let subSubSubSubCategories = selectedSubSubSubCategory.subCategories, !subSubSubSubCategories.isEmpty {
                     currentCategories = subSubSubSubCategories
                     currentLevel = 4
+                    name.text = selectedSubSubSubCategory.name
+                    catName.append(selectedSubSubSubCategory.name ?? "")
                     tableView.reloadData()
                 } else {
                     let vc = Category_ProductsVC.getVC(.main)
                     vc.prductid = selectedSubSubSubCategory.id ?? ""
                     vc.video_section = false
                     vc.storeFlag = false
+                    setupTextColor()
                     vc.catNameTitle = selectedSubSubSubCategory.name ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                     categoryStates.removeAll()
                 }
             }
         if categoryStates.isEmpty {
-            self.backButton.isHidden = true // Hide back button when no more previous states
+            self.backButton.isHidden = true
+            setupTextColor()// Hide back button when no more previous states
         }else{
+            self.name.text = catName.last
             self.backButton.isHidden = false
         }
+       
     }
+    
  }
 
 

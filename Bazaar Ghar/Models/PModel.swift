@@ -266,6 +266,7 @@ struct Variants: Codable {
 // MARK: - Randommodel
 
 struct RandomnProductResponse: Codable {
+    var _id: String?
     var featured, onSale: Bool?
     var productName: String?
     var regularPrice, salePrice: Double?

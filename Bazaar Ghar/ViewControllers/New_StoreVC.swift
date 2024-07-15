@@ -26,7 +26,7 @@ class New_StoreVC: UIViewController {
     var counter =  0
 
     var bannerapidata: [Banner]? = [] {
-        didSet{
+        didSet {
             self.pagerView.reloadData()
         }
     }

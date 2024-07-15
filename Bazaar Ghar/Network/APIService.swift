@@ -332,6 +332,24 @@ class APIServices{
             }
         }
     }
+    class func typeSenseApi(completion:@escaping(APIResult<[TypeSenseResult]>)->Void) {
+        Provider.services.request(.typeSenseApi) { result in
+            do{
+            
+                
+                let categories: [TypeSenseResult] = try result.decoded(keypath: "results")
+                
+                completion(.success(categories))
+            }catch{
+                
+                    
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                    
+                
+            }
+        }
+    }
     
     
     class func getAllProductsByCategories(limit:Int, page:Int,sortBy:String,category:String,active:Bool,completion:@escaping(APIResult<getAllProductCategoriesMainModel>)->Void){
@@ -534,6 +552,28 @@ class APIServices{
                 let  cartData: CartItemsResponse =  try result.decoded(keypath: "data")
                 
                 completion(.success(cartData))
+            }catch{
+                
+                print("-----Error------ \n",error)
+                completion(.failure(error.customDescription))
+                
+            }
+        }
+        
+        
+        
+}
+    
+    class func newwishlist(product:String,completion:@escaping(APIResult<String>)->Void){
+        Provider.services.request(.newishlist(product: product)) { result in
+            
+            
+            do{
+                
+                let  data: String =  try result.decoded(keypath: "message")
+                
+                
+                completion(.success(data))
             }catch{
                 
                 print("-----Error------ \n",error)

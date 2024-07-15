@@ -216,6 +216,14 @@ class AppDefault {
             shared.encode(for: newValue, using: "GroupByDealsResponse")
         }
     }
+    public static var wishlistproduct: [WishlistProduct]? {
+        get{
+            return shared.decode(for: [WishlistProduct].self, using: "wishlistproduct")
+        }
+        set{
+            shared.encode(for: newValue, using: "wishlistproduct")
+        }
+    }
     public static var uid: String? {
         get {
             return shared.string(forKey: "uid")

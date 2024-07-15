@@ -49,7 +49,7 @@ class wishlist_vc: UIViewController {
             case .success(let res):
               print(res)
                 self?.wishListItems = res.products ?? []
-              
+                AppDefault.wishlistproduct = res.products
 
                 self?.wishlistcollection.reloadData()
                 if(self?.wishListItems.count ?? 0 > 0){

@@ -126,6 +126,20 @@ struct AppConstants {
 
             }
         }
+        static var typeSenseUrl: URL {
+            switch AppConstants.API.environment{
+                case .live:
+                    return URL(string: "https://search.bazaarghar.com/multi_search?x-typesense-api-key=RCWZ1ftzaBXQ3wjXwvT5velUhQJJlfdn")!
+                    
+                case .staging:
+                //return URL(string: "http://192.168.1.41:3003/chat/v1/message")!
+                return URL(string: "https://search.bazaarghar.com/multi_search?x-typesense-api-key=RCWZ1ftzaBXQ3wjXwvT5velUhQJJlfdn")!
+                
+            case.local:
+                return URL(string: "https://search.bazaarghar.com/multi_search?x-typesense-api-key=RCWZ1ftzaBXQ3wjXwvT5velUhQJJlfdn")!
+
+            }
+        }
         
         static let signalRHUB = "https://aquaticavchat.azurewebsites.net/signalr"
         //static let signalRHUB = "https://aquaticavchatdev.azurewebsites.net/signalr"

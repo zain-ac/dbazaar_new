@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -242,14 +242,16 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <size key="customSize" width="151" height="250"/>
             <connections>
+                <outlet property="cartButton" destination="gwA-kf-v6x" id="Hzw-4l-JPh"/>
                 <outlet property="discountPrice" destination="VRg-cs-t8J" id="pHs-cF-VtZ"/>
                 <outlet property="percentBGView" destination="v6b-Rh-dWX" id="6Ls-Yj-CuB"/>
                 <outlet property="productPrice" destination="UrX-MX-iuu" id="uL1-ew-7qQ"/>
                 <outlet property="productPriceLine" destination="s8r-sI-vcs" id="qHn-Zk-4Hc"/>
                 <outlet property="productimage" destination="kGZ-hI-tgI" id="UU8-sf-5Ol"/>
                 <outlet property="productname" destination="deW-C1-HY1" id="jH4-dj-xjh"/>
+                <outlet property="wishlisticon" destination="wz4-sX-zTr" id="scu-jx-VkL"/>
             </connections>
-            <point key="canvasLocation" x="302" y="-11"/>
+            <point key="canvasLocation" x="301.52671755725191" y="-11.267605633802818"/>
         </collectionViewCell>
     </objects>
     <resources>

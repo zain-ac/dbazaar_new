@@ -110,6 +110,8 @@ var count = 0
     var load:Bool?
     override func viewDidLoad() {
         super.viewDidLoad()
+        lastRandomProductsCollectionView.register(UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+
         self.categoriesApi(isbackground: false)
              getrandomproduct()
         scrollView.delegate = self
@@ -317,7 +319,10 @@ var count = 0
         hotDealCollectionV.reloadData()
         self.LanguageRender()
         SocketConeect()
-        
+        if(AppDefault.islogin){
+            wishList()
+        }
+     
         
 //        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "you want to join ?", btn1Title: "Accept", btn1Callback: {
 //            print("Accept")
@@ -330,6 +335,30 @@ var count = 0
         
     }
     
+    func wishList(){
+       APIServices.wishlist(){[weak self] data in
+           switch data{
+           case .success(let res):
+             print(res)
+//               self?.wishListItems = res.products ?? []
+               AppDefault.wishlistproduct = res.products
+
+//               self?.wishlistcollection.reloadData()
+//               if(self?.wishListItems.count ?? 0 > 0){
+//                   self?.emptyview.isHidden = true
+//                   self?.emptylbl.isHidden = false
+//
+//               }else{
+//                   self?.emptyview.isHidden = false
+//                   self?.emptylbl.isHidden = true
+//               }
+               self?.homeLastProductCollectionView.reloadData()
+           case .failure(let error):
+//               self?.emptyview.isHidden = false
+               print(error)
+           }
+       }
+   }
 
     func LanguageRender() {
         searchProductslbs.placeholder = "searchproducts".pLocalized(lang: LanguageManager.language)
@@ -378,15 +407,18 @@ var count = 0
     @IBAction func languageBtnTapped(_ sender: Any) {
         
         
-        appDelegate.showCustomerLanguageAlertControllerHeight(title: "Select Language", heading: "", btn1Title: "Cancel", btn1Callback: {
-            
-        }, btn2Title: "Apply") {
-            UIView.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
-//            UITabBar.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
-            UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
-            NotificationCenter.default.post(name: Notification.Name("RefreshAllTabs"), object: nil)
-            self.navigationController?.popToRootViewController(animated: true)
-        }
+//        appDelegate.showCustomerLanguageAlertControllerHeight(title: "Select Language", heading: "", btn1Title: "Cancel", btn1Callback: {
+//            
+//        }, btn2Title: "Apply") {
+//            UIView.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
+////            UITabBar.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
+//            UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
+//            NotificationCenter.default.post(name: Notification.Name("RefreshAllTabs"), object: nil)
+//            self.navigationController?.popToRootViewController(animated: true)
+//        }
+        let vc = RealTimeSearchViewController.getVC(.sidemenu)
+        self.navigationController?.pushViewController(vc, animated: false)
+      
    
     }
     @IBAction func cartbtnTapped(_ sender: Any) {
@@ -442,6 +474,7 @@ var count = 0
             }
         })
     }
+   
     
     private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground:Bool){
         APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
@@ -471,7 +504,14 @@ var count = 0
         APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
-            
+                var wishlist = AppDefault.wishlistproduct
+                
+//                for var i in wishlist?{
+//                    if (i.id == res)
+//                }
+//                
+//                
+                
              
                 if(res.count > 0){
                     self?.randomproductapiModel = res
@@ -637,8 +677,15 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return cell
         } else if collectionView == homeLastProductCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
+            
             let data = randomproductapiModel.first?.product?[indexPath.row]
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+           
+                cell.wishlisticon.tag = indexPath.row
+                cell.wishlisticon.addTarget(self, action: #selector(increment(sender:)), for: .touchUpInside)
+          
+            
+          
 
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
             cell.productname.text =  data?.productName
@@ -680,6 +727,15 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
 			 }
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
             
+            for i in AppDefault.wishlistproduct ?? []{
+                if i.id == data?.id {
+                    cell.wishlisticon.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                    cell.wishlisticon.tintColor = .red
+                }else {
+                    cell.wishlisticon.setImage(UIImage(systemName: "heart"), for: .normal)
+                    cell.wishlisticon.tintColor = .gray
+                }
+            }
             
             
             return cell
@@ -711,7 +767,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
              }
            
             return cell
-        }else if collectionView == lastRandomProductsCollectionView{
+        }else if collectionView == lastRandomProductsCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = getrandomproductapiModel[indexPath.row]
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
@@ -723,14 +779,27 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 cell.productPrice.textColor = UIColor.red
                 cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-
-            }else {
+                
+            } else {
                 cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
                 cell.productPrice.textColor = UIColor(hexString: "#069DDD")
             }
-            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
             
+                cell.wishlisticon.tag = indexPath.row
+                cell.wishlisticon.addTarget(self, action: #selector(wishlistTap(sender:)), for: .touchUpInside)
+            
+          
+            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+            for i in AppDefault.wishlistproduct ?? []{
+                if i.id == data._id {
+                    cell.wishlisticon.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                    cell.wishlisticon.tintColor = .red
+                }else {
+//                    cell.wishlisticon.setImage(UIImage(systemName: "heart"), for: .normal)
+//                    cell.wishlisticon.tintColor = .gray
+                }
+            }
 
             return cell
         } else {
@@ -748,7 +817,54 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return cell
         }
     }
+    @objc func increment(sender: UIButton){
+        if(AppDefault.islogin){
+            let index =  sender.tag
+            let item = randomproductapiModel.first?.product?[index]
+            self.wishListApi(productId: (item?.id ?? ""))
+        }else{
+            let vc = PopupLoginVc.getVC(.main)
+            vc.modalPresentationStyle = .overFullScreen
+            self.present(vc, animated: true, completion: nil)
+        }
+        
+        
+    }
     
+    @objc func wishlistTap(sender: UIButton){
+        if(AppDefault.islogin){
+            let index =  sender.tag
+            let item = getrandomproductapiModel[index]
+            self.wishListApi(productId: (item._id ?? ""))
+        }else{
+            let vc = PopupLoginVc.getVC(.main)
+            vc.modalPresentationStyle = .overFullScreen
+            self.present(vc, animated: true, completion: nil)
+        }
+       
+    }
+    private func wishListApi(productId:String) {
+        APIServices.newwishlist(product:productId,completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                print(res)
+//                if(res == "OK"){
+//                    button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+//                    button.tintColor = .red
+//                    
+//                }else{
+//                    button.setImage(UIImage(systemName: "heart"), for: .normal)
+//                    button.tintColor = .gray
+//                    
+//                }
+                self?.wishList()
+            
+            case .failure(let error):
+                print(error)
+//                self?.view.makeToast(error)
+            }
+        })
+    }
     func applyGradientBackground(to view: UIView, topColor: UIColor, bottomColor: UIColor) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds

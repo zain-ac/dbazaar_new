@@ -12,6 +12,7 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var img: UIImageView!
     @IBOutlet weak var cateogorylbl: UILabel!
     @IBOutlet weak var catBannerBtn: UIButton!
+    var wishlistStatus: [String: Bool] = [:]
 
     
     var productvariantsapi: [Variants]? = nil{
@@ -21,6 +22,16 @@ class HomeTableViewCell: UITableViewCell {
         }
         
     }
+    private func getViewController() -> UIViewController? {
+           var responder: UIResponder? = self
+           while responder != nil {
+               if let viewController = responder as? UIViewController {
+                   return viewController
+               }
+               responder = responder?.next
+           }
+           return nil
+       }
     let centerTransitioningDelegate = CenterTransitioningDelegate()
 
     
@@ -40,8 +51,10 @@ class HomeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        Homecollectionview.register(UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
         Homecollectionview.delegate = self
         Homecollectionview.dataSource = self
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -88,10 +101,14 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             cell.productPrice.textColor = UIColor(hexString: "#069DDD")
 
          }
+        
+            cell.wishlisticon.tag = indexPath.row
+            cell.wishlisticon.addTarget(self, action: #selector(wishlistTap(sender:)), for: .touchUpInside)
+        
         cell.cartButton.tag = indexPath.row
         cell.cartButton.addTarget(self, action: #selector(catBannerBtnTapped(_:)), for: .touchUpInside)
-
-        
+     
+       
         
         return cell
     }
@@ -106,6 +123,91 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         UIApplication.pTopViewController().present(vc, animated: true, completion: nil)
 
     }
+    @objc func wishlistTap(sender: UIButton){
+//        if(AppDefault.islogin){
+//            let index =  sender.tag
+//            let item = productapi?[index]
+//            
+//            self.wishListApi(productId: item?.id ?? "")
+//        }else{
+//            let vc = PopupLoginVc.getVC(.main)
+//            vc.modalPresentationStyle = .overFullScreen
+//            if let viewController = getViewController() {
+//                           viewController.present(vc, animated: true, completion: nil)
+//                       }
+//        }
+//       
+        if(AppDefault.islogin) {
+                let index = sender.tag
+                guard let item = productapi?[index], let productId = item.id else { return }
+
+                // Update the wishlist status
+                if let currentStatus = wishlistStatus[productId] {
+                    wishlistStatus[productId] = !currentStatus // Toggle wishlist status
+                } else {
+                    wishlistStatus[productId] = true // Default to true if not present (added to wishlist)
+                }
+
+                // Call the wishlist API
+                self.wishListApi(productId: productId)
+                
+                // Reload the corresponding cell to update UI
+                let indexPath = IndexPath(row: index, section: 0)
+            Homecollectionview.reloadData()
+            } else {
+                let vc = PopupLoginVc.getVC(.main)
+                vc.modalPresentationStyle = .overFullScreen
+                if let viewController = getViewController() {
+                    viewController.present(vc, animated: true, completion: nil)
+                }
+            }
+    }
+    private func wishListApi(productId:String) {
+        APIServices.newwishlist(product:productId,completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                print(res)
+//                if(res == "OK"){
+//                    button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+//                    button.tintColor = .red
+//
+//                }else{
+//                    button.setImage(UIImage(systemName: "heart"), for: .normal)
+//                    button.tintColor = .gray
+//
+//                }
+                self?.wishList()
+            
+            case .failure(let error):
+                print(error)
+//                self?.view.makeToast(error)
+            }
+        })
+    }
+    func wishList(){
+       APIServices.wishlist(){[weak self] data in
+           switch data{
+           case .success(let res):
+             print(res)
+//               self?.wishListItems = res.products ?? []
+               AppDefault.wishlistproduct = res.products
+
+//               self?.wishlistcollection.reloadData()
+//               if(self?.wishListItems.count ?? 0 > 0){
+//                   self?.emptyview.isHidden = true
+//                   self?.emptylbl.isHidden = false
+//
+//               }else{
+//                   self?.emptyview.isHidden = false
+//                   self?.emptylbl.isHidden = true
+//               }
+               self?.Homecollectionview.reloadData()
+           case .failure(let error):
+//               self?.emptyview.isHidden = false
+               print(error)
+           }
+       }
+   }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let data = productapi?[indexPath.row]
         appDelegate.slugid = data?.slug ?? ""

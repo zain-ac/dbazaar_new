@@ -236,16 +236,20 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func logoutbtn(_ sender: Any) {
+        let vc = RealTimeSearchViewController.getVC(.sidemenu)
+//        vc.fullName = userName.text
+//        vc.Email = userEmail.text
+        self.navigationController?.pushViewController(vc, animated: false)
         
-        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Are you sure you want to logout?", heading: "Logout", note: "", miscid: "self.miscid", btn1Title: "Cancel", btn1Callback: {
-            
-        }, btn2Title: "Logout") { token, id in
-            AppDefault.islogin = false
-            AppDefault.accessToken = ""
-          
-            DashboardManager.shared.goToDashboard(ischecklogin: false)
-            UIApplication.pTopViewController().tabBarController?.view.makeToast("Successfully Logout")
-        }
+//        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Are you sure you want to logout?", heading: "Logout", note: "", miscid: "self.miscid", btn1Title: "Cancel", btn1Callback: {
+//            
+//        }, btn2Title: "Logout") { token, id in
+//            AppDefault.islogin = false
+//            AppDefault.accessToken = ""
+//          
+//            DashboardManager.shared.goToDashboard(ischecklogin: false)
+//            UIApplication.pTopViewController().tabBarController?.view.makeToast("Successfully Logout")
+//        }
 //        appDelegate.showCustomerAlertControllerHeight(title: "Are you sure you want to logout?", heading: "Logout", btn1Title: "Cancel", btn1Callback: {
 //             
 //              }, btn2Title: "Logout") {

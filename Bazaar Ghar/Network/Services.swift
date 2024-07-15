@@ -11,6 +11,7 @@ import Moya
 
 enum Services {
     //MARK: - AUTHENTICATION
+    case typeSenseApi
     case banner
     case categories
     case productcategories(cat:String,cat2:String,cat3:String,cat4:String,cat5:String)
@@ -58,6 +59,7 @@ enum Services {
     case followStore(storeId:String,web:Bool)
     case followcheck(storeId:String)
     case unfollowstore(storeId:String)
+    case newishlist(product:String)
     case getLiveStream
     case getAllCategories
 
@@ -73,6 +75,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return AppConstants.API.baseURLVideoStreaming
         case .chinesebell:
             return AppConstants.API.baseURLChatNotification
+        case .typeSenseApi:
+          return  AppConstants.API.typeSenseUrl
       
         default:
             return AppConstants.API.baseURL
@@ -84,6 +88,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
         switch self {
         case  .getVideoToken:
                     return "videoCall/token" 
+        
         case let .followcheck(storeId):
                     return "follow/\(storeId)"
         case .banner:
@@ -179,6 +184,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return "follow/unfollow/\(storeId)"
         case .getLiveStream:
             return "getslotinuse"
+        case .newishlist:
+            return "wishList/new"
             
             //        case let .auctionById(auctionid):
             //            return "main/v1/auctions/\(auctionid)"
@@ -226,7 +233,24 @@ extension Services: TargetType, AccessTokenAuthorizable {
             }
             
         case let .getAllProductsByCategories(limit,page,sortBy,category, _):
-            return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default)  
+            return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default) 
+        case .typeSenseApi:
+            let parameters: [String: Any] = [
+                "searches": [
+                    [
+                        "query_by": "productName",
+                        "highlight_full_fields": "productName",
+                        "collection": "bg_stage_products",
+                        "q": "samsung s24",
+                        "facet_by": "averageRating,brandName,color,lvl0,price,size,style",
+    //                    "filter_by": "brandName:=[`AL Fajar Crockery`]",
+                        "max_facet_values": 250,
+                        "page": 1,
+                        "per_page": 20
+                    ]
+                ]
+            ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case let .myOrder(limit,sortBy):
             return .requestParameters(parameters: ["limit": limit,"sortBy":sortBy], encoding: URLEncoding.default)
     
@@ -311,7 +335,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case let .report(comment,videoId):
             return .requestParameters(parameters: ["comment": comment,"videoId":videoId], encoding: JSONEncoding.default)
         case let .savelike(token, scheduleId, userId):
-            return .requestParameters(parameters: ["token": token,"scheduleId":scheduleId,"userId":userId], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["token": token,"scheduleId":scheduleId,"userId":userId], encoding: JSONEncoding.default)  case let .newishlist(product):
+            return .requestParameters(parameters: ["product": product], encoding: JSONEncoding.default)
         case let .deletelike(token, scheduleId, userId, likeId):
             return .requestParameters(parameters: ["token": token,"scheduleId":scheduleId,"userId":userId,"likeId":likeId], encoding: JSONEncoding.default)
        
@@ -333,6 +358,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
     
     var headers: [String: String]? {
         switch self{
+            
             //        case .sendPasswordResetLink,.getDevicesByProductId:
             //            return ["accept":"*/*"]
             //        case .GetDownloadPDF:
@@ -371,7 +397,6 @@ extension Services: TargetType, AccessTokenAuthorizable {
             //            return "main/v1/auctions/\(auctionid)"
         default:
             return .successCodes
-            
             
         }
     }
