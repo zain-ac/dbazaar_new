@@ -92,7 +92,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="69" height="27"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10% OFF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrb-37-tXk">
-                                        <rect key="frame" x="8.6666666666666679" y="6.6666666666666661" width="51.666666666666657" height="13.999999999999998"/>
+                                        <rect key="frame" x="11.666666666666664" y="5" width="46" height="17"/>
                                         <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -121,9 +121,10 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal">
-                                    <imageReference key="image" image="heart.fill" catalog="system" symbolScale="small"/>
+                                    <imageReference key="image" image="heartwhite" symbolScale="small"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
+                                <state key="selected" image="fillheart"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                         <real key="value" value="11"/>
@@ -138,20 +139,20 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UrX-MX-iuu">
-                                <rect key="frame" x="3.6666666666666665" y="185" width="0.0" height="0.0"/>
+                                <rect key="frame" x="3.6666666666666665" y="231" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s8r-sI-vcs">
-                                <rect key="frame" x="0.66666666666666652" y="184.66666666666666" width="6" height="1"/>
+                                <rect key="frame" x="0.66666666666666652" y="230.66666666666666" width="6" height="1"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="fiK-Wd-D8M"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VRg-cs-t8J">
-                                <rect key="frame" x="3.6666666666666665" y="190" width="0.0" height="0.0"/>
+                                <rect key="frame" x="3.6666666666666665" y="236" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="12"/>
                                 <color key="textColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -176,7 +177,6 @@
                         <constraints>
                             <constraint firstItem="s8r-sI-vcs" firstAttribute="centerY" secondItem="UrX-MX-iuu" secondAttribute="centerY" id="1Tf-jy-2cG"/>
                             <constraint firstAttribute="trailing" secondItem="gwA-kf-v6x" secondAttribute="trailing" constant="6" id="2Zl-aA-MGe"/>
-                            <constraint firstItem="UrX-MX-iuu" firstAttribute="top" secondItem="deW-C1-HY1" secondAttribute="bottom" constant="5" id="58l-NE-QMF"/>
                             <constraint firstItem="s8r-sI-vcs" firstAttribute="trailing" secondItem="UrX-MX-iuu" secondAttribute="trailing" constant="3" id="B1n-W5-mtO"/>
                             <constraint firstAttribute="bottom" secondItem="gwA-kf-v6x" secondAttribute="bottom" constant="11" id="GRe-ya-cUU"/>
                             <constraint firstItem="hnq-42-Hfh" firstAttribute="bottom" secondItem="kGZ-hI-tgI" secondAttribute="bottom" constant="-10" id="Jvj-Yj-Ncb"/>
@@ -191,6 +191,7 @@
                             <constraint firstItem="wz4-sX-zTr" firstAttribute="top" secondItem="11a-6U-cj5" secondAttribute="top" constant="10" id="bmb-sA-9Hz"/>
                             <constraint firstItem="v6b-Rh-dWX" firstAttribute="leading" secondItem="11a-6U-cj5" secondAttribute="leading" id="dfx-uS-q7j"/>
                             <constraint firstItem="UrX-MX-iuu" firstAttribute="leading" secondItem="deW-C1-HY1" secondAttribute="leading" id="do7-JZ-fRp"/>
+                            <constraint firstAttribute="bottom" secondItem="VRg-cs-t8J" secondAttribute="bottom" constant="10" id="icc-Xx-I9g"/>
                             <constraint firstItem="deW-C1-HY1" firstAttribute="top" secondItem="kGZ-hI-tgI" secondAttribute="bottom" constant="5" id="jqW-Sr-XRn"/>
                             <constraint firstItem="v6b-Rh-dWX" firstAttribute="top" secondItem="11a-6U-cj5" secondAttribute="top" id="mwt-DE-zAg"/>
                             <constraint firstItem="kGZ-hI-tgI" firstAttribute="top" secondItem="11a-6U-cj5" secondAttribute="top" id="oSy-FO-8VQ"/>
@@ -198,7 +199,7 @@
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                <real key="value" value="0.0"/>
+                                <real key="value" value="10"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                 <real key="value" value="1"/>
@@ -229,7 +230,7 @@
                         <real key="value" value="0.0"/>
                     </userDefinedRuntimeAttribute>
                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                        <real key="value" value="0.0"/>
+                        <real key="value" value="10"/>
                     </userDefinedRuntimeAttribute>
                     <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
                         <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -242,7 +243,9 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <size key="customSize" width="151" height="250"/>
             <connections>
+                <outlet property="cartButton" destination="gwA-kf-v6x" id="TeA-OY-Gxe"/>
                 <outlet property="discountPrice" destination="VRg-cs-t8J" id="pHs-cF-VtZ"/>
+                <outlet property="heartBtn" destination="wz4-sX-zTr" id="JQP-oX-EVF"/>
                 <outlet property="percentBGView" destination="v6b-Rh-dWX" id="6Ls-Yj-CuB"/>
                 <outlet property="productPrice" destination="UrX-MX-iuu" id="uL1-ew-7qQ"/>
                 <outlet property="productPriceLine" destination="s8r-sI-vcs" id="qHn-Zk-4Hc"/>
@@ -254,7 +257,8 @@
     </objects>
     <resources>
         <image name="17" width="225" height="225"/>
-        <image name="heart.fill" catalog="system" width="128" height="107"/>
+        <image name="fillheart" width="512" height="512"/>
+        <image name="heartwhite" width="512" height="512"/>
         <image name="online-shopping" width="19" height="18"/>
         <image name="star-svgrepo-com" width="9" height="9"/>
         <systemColor name="systemBackgroundColor">

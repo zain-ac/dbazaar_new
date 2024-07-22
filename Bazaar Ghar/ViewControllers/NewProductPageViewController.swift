@@ -31,6 +31,19 @@ class NewProductPageViewController: UIViewController {
     @IBOutlet weak var moreFrom: UICollectionView!
     @IBOutlet weak var relatedProductCollectionView: UICollectionView!
     @IBOutlet weak var videoCollection: UICollectionView!
+    @IBOutlet weak var addToCartBtn: UIButton!
+    @IBOutlet weak var buyNowBtn: UIButton!
+    @IBOutlet weak var relatedProductView: UIView!
+    @IBOutlet weak var relatedVideoView: UIView!
+
+    @IBOutlet weak var relatedProductViewHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var relatedVideoViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var scrollHeight: NSLayoutConstraint!
+    @IBOutlet weak var DescriptionProduct: UILabel!
+    @IBOutlet weak var moreFromViewHeight: NSLayoutConstraint!
+
+
     var productCount = 1
     var incrementproductCount = 1
     var productcategoriesdetailsdata : ProductCategoriesDetailsResponse?
@@ -73,6 +86,7 @@ class NewProductPageViewController: UIViewController {
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         bannerApi(isbackground: false)
         colorsimgs = ["colosimg","colosimg","colosimg"]
+        
         // Do any additional setup after loading the view.
     }
     
@@ -149,6 +163,9 @@ class NewProductPageViewController: UIViewController {
             case .success(let res):
                 self?.relatedProductResponse = res.Categoriesdata ?? []
                 if res.Categoriesdata?.count ?? 0 > 0 {
+                    self?.relatedProductView.isHidden = false
+                    self?.relatedProductViewHeight.constant = 325
+                    self?.scrollHeight.constant = (self?.scrollHeight.constant ?? 0) + 325
 //                    self?.relatedProductView.isHidden = false
 //                    if self?.isGroupBuy == true {
 //                        self?.scrollheight.constant = (self?.scrollheight.constant ?? 0) + 320
@@ -156,9 +173,15 @@ class NewProductPageViewController: UIViewController {
 //                        self?.scrollheight.constant = (self?.scrollheight.constant ?? 0) + 280
 //                    }
                 }else {
-//                    self?.relatedProductView.isHidden = true
+                    self?.relatedProductView.isHidden = true
+                    self?.relatedProductViewHeight.constant = 0
+                    self?.scrollHeight.constant = 2200
+
                 }
-               
+                
+//                self?.scrollHeight.constant = self?.scrollHeight.constant ?? 0 + (self?.relatedProductViewHeight.constant ?? 0)
+
+                
                 self?.relatedProductCollectionView.reloadData()
             case .failure(let error):
                 print(error)
@@ -225,7 +248,13 @@ class NewProductPageViewController: UIViewController {
             case .success(let res):
              print(res)
                 self?.moreFromResponse = res
-                
+                if res.results?.count ?? 0 > 2 {
+                    self?.moreFromViewHeight.constant = 620
+                }else {
+                    self?.moreFromViewHeight.constant = 350
+                    self?.scrollHeight.constant = (self?.scrollHeight.constant ?? 0) - 250
+
+                }
                 self?.moreFrom.reloadData()
             case .failure(let error):
                 
@@ -331,7 +360,10 @@ class NewProductPageViewController: UIViewController {
 
                 self?.LiveStreamingResultsdata = res.results ?? []
                 if res.results?.count ?? 0 > 0 {
-//                    self?.relatedVideoView.isHidden = false
+                    self?.relatedVideoView.isHidden = false
+                    self?.relatedVideoViewHeight.constant = 325
+                   self?.scrollHeight.constant = (self?.scrollHeight.constant ?? 0) + 325
+
 //                    if self?.isGroupBuy == true {
 //                        self?.scrollheight.constant = (self?.scrollheight.constant ?? 0) + 290
 //                    }else {
@@ -339,9 +371,12 @@ class NewProductPageViewController: UIViewController {
 //                    }
 
                 }else {
-//                    self?.relatedVideoView.isHidden = true
-
+                    self?.relatedVideoView.isHidden = true
+                    self?.relatedVideoViewHeight.constant = 0
                 }
+                
+//                self?.scrollHeight.constant = self?.scrollHeight.constant ?? 0 + (self?.relatedVideoViewHeight.constant ?? 0)
+
 
                 self?.videoCollection.reloadData()
             case .failure(let error):
@@ -356,6 +391,8 @@ class NewProductPageViewController: UIViewController {
             switch data{
             case .success(let res):
               print(res)
+                self?.scrollHeight.constant = 2200
+
                 self?.productcategoriesdetailsdata = res
 
                 self?.headerLbl.text = res.productName
@@ -382,17 +419,19 @@ class NewProductPageViewController: UIViewController {
                 }
                 self?.storename.text = res.sellerDetail?.brandName
                 self?.storeimg.pLoadImage(url: res.mainImage ?? "")
+                self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
                 if res.onSale == true {
                     self?.Salesprice.isHidden = false
 //                    self?.OnSaleimage.isHidden = false
-                    self?.Salesprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.salePrice ?? 0)
+                    self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.salePrice ?? 0)
+                    self?.Salesprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
                     self?.productPriceLine.isHidden = false
-                    self?.Regularprice.textColor = UIColor.red
-                    self?.Salesprice.textColor = UIColor(hexString: "#069DDD")
+                    self?.Salesprice.textColor = UIColor.red
+                    self?.Regularprice.textColor = UIColor(hexString: "#069DDD")
                     self?.productPriceLine.backgroundColor = UIColor.red
 
                 }else {
-                    self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
+//                    self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
                     self?.Salesprice.isHidden = true
 //                    self?.OnSaleimage.isHidden = true
                     self?.productPriceLine.isHidden = true
@@ -403,16 +442,92 @@ class NewProductPageViewController: UIViewController {
                     self?.quantityView.isHidden = false
                     self?.outOfStockLbl.isHidden = true
 //                    self?.buyNowBtn.isEnabled = true
+                    self?.addToCartBtn.backgroundColor = .clear
+                    self?.addToCartBtn.setTitle("", for: .normal)
+                    self?.addToCartBtn.isEnabled = true
+                    self?.buyNowBtn.backgroundColor = UIColor(hex: "#06B7FD")
+                    self?.buyNowBtn.isEnabled = true
                 }else {
                     self?.quantityView.isHidden = true
                     self?.outOfStockLbl.isHidden = false
+                    self?.addToCartBtn.backgroundColor = .systemGray4
+                    self?.addToCartBtn.setTitle("Add to Cart", for: .normal)
+                    self?.addToCartBtn.isEnabled = false
+                    self?.buyNowBtn.backgroundColor = .systemGray4
+                    self?.buyNowBtn.isEnabled = false
 //                    self?.buyNowBtn.isEnabled = false
                 }
+                
+                if LanguageManager.language == "ar"{
+                    if res.lang?.ar?.description?.isStringOrHTML() == "HTML"{
+                        self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
+                    //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
+                              }else{
+                                  self?.DescriptionProduct.text = res.lang?.ar?.description
+                              }
+                }else{
+                    if res.description?.isStringOrHTML() == "HTML"{
+                        self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
+                    //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
+                              }else{
+                                  self?.DescriptionProduct.text = res.description
+                              }
+                    
+                }
+
+                
+//                if res.description?.isStringOrHTML() == "HTML"{
+//                    self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
+//                //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
+//                          }else{
+//                              self?.DescriptionProduct.text = res.description
+//                          }
+                
+                self?.producttitle.sizeToFit()
+                let label = UILabel(frame: CGRect.zero)
+                
+                
+                if LanguageManager.language == "ar"{
+                    label.text =  res.lang?.ar?.description ?? ""
+                    if res.description?.isStringOrHTML() == "HTML"{
+//                        self?.DescriptionProduct.text =  res.lang?.ar?.description     //res.lang?.ar?.description?.htmlToString().withoutHtml
+                        let htmlString = res.lang?.ar?.description
+                        let plainText = Utility().htmlToString(text: htmlString ?? "")
+                        self?.DescriptionProduct.text = Utility().htmlToString(text: plainText)
+                    //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
+                              }else{
+                                  self?.DescriptionProduct.text = res.lang?.ar?.description
+                              }
+                }else{
+                    label.text =  res.description ?? ""
+                    if res.description?.isStringOrHTML() == "HTML"{
+                        self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
+                    //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
+                              }else{
+                                  self?.DescriptionProduct.text = res.description
+                              }
+                }
+                
+                
+                
+//                label.text =  res.description ?? ""
+//                if res.description?.isStringOrHTML() == "HTML"{
+//                    self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
+//                //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
+//                          }else{
+//                              self?.DescriptionProduct.text = res.description
+//                          }
+                guard let labelText = label.text else { return }
+                let height = self?.estimatedHeightOfLabel(text: labelText)
+               
+                
                 self?.moreFromLbl.text = "More From \(res.sellerDetail?.brandName ?? "")"
                 self?.moreFrom(category: res.category ?? "", user: res.sellerDetail?.seller ?? "")
                 self?.relatedProductApi(limit: 20, page: 1, sortBy:"ACS", category:res.category ?? "", active: false)
                 self?.getStreamingVideos(limit:20,page:1,categories: [res.category ?? ""])
                 
+                self?.scrollHeight.constant =  (self?.scrollHeight.constant ?? 0) + (self?.DescriptionProduct.bounds.height ?? 0)
+
 //                if LanguageManager.language == "ar"{
 //                    self?.producttitle.text = res.lang?.ar?.productName
 //                }else{
@@ -555,6 +670,20 @@ class NewProductPageViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    
+    func estimatedHeightOfLabel(text: String) -> CGFloat {
+
+        let size = CGSize(width: view.frame.width - 16, height: 1000)
+
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+
+        let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 10)]
+
+        let rectangleHeight = String(text).boundingRect(with: size, options: options, attributes: attributes, context: nil).height
+
+        return rectangleHeight
     }
     
     @IBAction func cartBtnTapped(_ sender: Any) {
@@ -737,8 +866,10 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
 
         }else if collectionView == videoCollection {
             return self.LiveStreamingResultsdata.count
+        }else {
+            return moreFromResponse?.results?.count ?? 0
+
         }
-        return moreFromResponse?.results?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -885,12 +1016,17 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == relatedProductCollectionView{
+        if collectionView == relatedProductCollectionView {
             return CGSize(width: collectionView.frame.width/2.1, height: 300)
-        } else if collectionView == videoCollection {
-            return CGSize(width: collectionView.frame.size.width/2, height: collectionView.frame.size.height)
+        }else if collectionView == moreFrom {
+            if moreFromResponse?.results?.count ?? 0 > 2 {
+                return CGSize(width: collectionView.frame.width/2-5, height: 280)
+            }else {
+                return CGSize(width: collectionView.frame.width/2-5, height: 280)
+            }
         } else {
-            return CGSize(width: collectionView.frame.width/2-5, height: collectionView.frame.height/2-5)
+            return CGSize(width: videoCollection.frame.size.width/2, height: videoCollection.frame.size.height)
+            
         }
     }
     

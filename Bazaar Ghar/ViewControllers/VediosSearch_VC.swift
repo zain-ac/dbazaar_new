@@ -21,7 +21,11 @@ class VediosSearch_VC: UIViewController {
             searchVideo(name: "title", value: searchText ?? "", limit: limit ?? 20, catId: self.array)
         }
     }
-    
+    var selectedindex : Int? {
+        didSet {
+            vediocategoryCollection.reloadData()
+        }
+    }
     var array = [String]()
     var limit: Int?
     @IBOutlet weak var viewheight: NSLayoutConstraint!
@@ -94,6 +98,11 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
                 let data = AppDefault.CategoriesResponsedata?[indexPath.row]
                 cell.imageView.pLoadImage(url: data?.mainImage ?? "")
                 cell.vedioCatLbl.text = data?.name ?? ""
+                if selectedindex ?? 0  == indexPath.row {
+                    cell.imageView.borderWidth = 1
+                }else {
+                    cell.imageView.borderWidth = 0
+                }
                 return cell
             }else{
                 
@@ -131,6 +140,7 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
         if collectionView == vediocategoryCollection
         {
             let data = AppDefault.CategoriesResponsedata?[indexPath.row]
+            self.selectedindex = indexPath.row
             self.array.removeAll()
             self.array.append(data?.id ?? "")
             self.searchVideo(name: "title", value: searchText ?? "", limit: limit ?? 20, catId: self.array)

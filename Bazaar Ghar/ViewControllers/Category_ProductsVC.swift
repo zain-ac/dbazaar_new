@@ -39,9 +39,7 @@ class Category_ProductsVC: UIViewController {
     @IBOutlet weak var homeswitchbtn: UISwitch!
     @IBOutlet weak var productEmptyLbl: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
-
-
-
+    @IBOutlet weak var headerBackgroudView: UIView!
     @IBOutlet weak var viewHeight: NSLayoutConstraint!
 
 
@@ -61,19 +59,23 @@ class Category_ProductsVC: UIViewController {
     var isLoadingNextPage = false
     var categoryPage = 1
     var isFollow = false
-    
+    let centerTransitioningDelegate = CenterTransitioningDelegate()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.delegate = self
+        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
        getStreamingVideos(userId: prductid, limit: 10, page: 1, categories: [])
         followcheck(storeId: self.storeId)
        
         videosection_collectionview.delegate = self
         videosection_collectionview.dataSource = self
+        categoryproduct_collectionview.delegate = self
+        categoryproduct_collectionview.dataSource = self
+        
 
         
         self.tabBarController?.tabBar.isHidden = true
-        setupCollectionView()
      
         let ASC = {(action: UIAction) in
             self.sort = "price"
@@ -124,7 +126,7 @@ class Category_ProductsVC: UIViewController {
     @IBAction func switchChanged(_ sender: UISwitch) {
            if sender.isOn {
                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-               let vc = Live_VC.getVC(.main)
+               let vc = LIVE_videoNew.getVC(.main)
                self.navigationController?.pushViewController(vc, animated: false)
            }
        }
@@ -212,14 +214,6 @@ class Category_ProductsVC: UIViewController {
             getAllProductsByCategoriesbyid(limit: 20, page: count, sortBy:sort, category:prductid, active: false)
         }
     }
-
-    func setupCollectionView() {
-                let nib = UINib(nibName: "PRoductCategory_cell", bundle: nil)
-                categoryproduct_collectionview.register(nib, forCellWithReuseIdentifier: "PRoductCategory_cell")
-                categoryproduct_collectionview.delegate = self
-                categoryproduct_collectionview.dataSource = self
-
-            }
     
     
     
@@ -465,26 +459,52 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
             
             return cell
         }else{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PRoductCategory_cell", for: indexPath) as! PRoductCategory_cell
-           let data =  self.getAllProductsByCategoriesData[indexPath.row]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
+            let data =  self.getAllProductsByCategoriesData[indexPath.row]
+            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
-            cell.productname.text = data.productName
+            cell.productname.text =  data.productName
+            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
             if data.onSale == true {
                 cell.discountPrice.isHidden = false
-                cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0)
+                let currencySymbol = appDelegate.currencylabel
+                let salePrice = Utility().formatNumberWithCommas(data.salePrice ?? 0)
+
+                // Create an attributed string for the currency symbol with the desired color
+                let currencyAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor.black // Change to your desired color
+                ]
+                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
+
+                // Create an attributed string for the sale price with the desired color
+                let priceAttributes: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
+                ]
+                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
+
+                // Combine the attributed strings
+                let combinedAttributedString = NSMutableAttributedString()
+                combinedAttributedString.append(attributedCurrencySymbol)
+                combinedAttributedString.append(attributedPrice)
+                cell.discountPrice.attributedText = combinedAttributedString
+
+//                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
+//                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-
+                
             }else {
                 cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
                 cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-            }
-            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
-            
 
+             }
+            cell.heartBtn.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
+                     
             return cell
         }
         
@@ -495,7 +515,26 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
 //        pagecontrol.currentPage = Int(scrollPos)
 //
 //    }
-//    
+    
+    @objc func cartButtonTap(_ sender: UIButton) {
+        let data = getAllProductsByCategoriesData[sender.tag]
+        
+        let vc = CartPopupViewController.getVC(.main)
+       
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = centerTransitioningDelegate
+        vc.products = data
+        vc.nav = self.navigationController
+        self.present(vc, animated: true, completion: nil)
+
+    }
+    @objc func heartButtonTap(_ sender: UIButton) {
+        let data = getAllProductsByCategoriesData[sender.tag]
+//        Utility().addOrRemoveValue(data?.id ?? "", from: &idsArray)
+//        addtowishlist(product: data?.id ?? "")
+
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == categoryproduct_collectionview{
             let data =  self.getAllProductsByCategoriesData[indexPath.row]
@@ -518,7 +557,7 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
             return CGSize(width: self.videosection_collectionview.frame.width/2.2, height: self.videosection_collectionview.frame.height/0.5)
         }
         else{
-            return CGSize(width: self.categoryproduct_collectionview.frame.width/2.1-2, height: 230)
+            return CGSize(width: self.categoryproduct_collectionview.frame.width/2.1-2, height: 280)
         }
     }
     

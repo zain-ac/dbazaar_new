@@ -46,9 +46,9 @@ class CartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-        Utility().setGradientBackgroundForBtn(button: checkoutbutton, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-        Utility().setGradientBackground(view: V1, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-        Utility().setGradientBackground(view: V2, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+//        Utility().setGradientBackgroundForBtn(button: checkoutbutton, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+//        Utility().setGradientBackground(view: V1, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+//        Utility().setGradientBackground(view: V2, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
         cartTableViewCell.dataSource = self
         cartTableViewCell.delegate = self
@@ -157,6 +157,7 @@ class CartViewController: UIViewController {
         
         let vc = NewOrderConfirmation_ViewController.getVC(.sidemenu)
         vc.orderDetails =  orderDetails
+        vc.bannerapidata = self.bannerapidata
         self.navigationController?.pushViewController(vc, animated: true)
 
     }
@@ -210,9 +211,9 @@ extension CartViewController : UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let item = bannerapidata[indexPath.row]
         if(item.packageItems?.count ?? 0 == 1){
-            return CGFloat(180 * (item.packageItems?.count ?? 0))
+            return CGFloat(170 * (item.packageItems?.count ?? 0))
         }else{
-            return CGFloat(160 * (item.packageItems?.count ?? 0))
+            return CGFloat(150 * (item.packageItems?.count ?? 0))
         }
      
       

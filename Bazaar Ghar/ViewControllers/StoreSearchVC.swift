@@ -13,6 +13,7 @@ class StoreSearchVC: UIViewController {
     @IBOutlet weak internal var storeCollectionView: UICollectionView!
     @IBOutlet weak internal var citydropdown: UITableView!
 
+    @IBOutlet weak var crossbtn: UIButton!
     @IBOutlet weak var hiddenview: UIView!
     let dropDown = DropDown()
     @IBOutlet weak var dropdownLabel: UILabel!
@@ -42,12 +43,14 @@ class StoreSearchVC: UIViewController {
         citydropdown.dataSource = self
         self.navigationController?.isNavigationBarHidden = isNavBar ?? true
 // UIView or UIBarButtonItem
-        dropdownLabel.text  = "Selected City"
+        dropdownLabel.text  = "Filter by City"
         setupCollectionView()
+     
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         notFound.isHidden = true
+        crossbtn.isHidden = true
 
         if isMarket == true {
             searchstore(market: marketID ?? "",name: "brandName" , limit: 36, page: 1, value: searchText ?? "",city: "")
@@ -64,6 +67,16 @@ class StoreSearchVC: UIViewController {
         storeCollectionView.register(nib, forCellWithReuseIdentifier: "cell")
         storeCollectionView.delegate = self
         storeCollectionView.dataSource = self
+    }
+    @IBAction func crossbtntap(_ sender: Any) {
+        dropdownLabel.text = "Filter by City"
+        crossbtn.isHidden = true
+        if isMarket == true {
+            searchstore(market: marketID ?? "",name: "brandName" , limit: 36, page: 1, value: searchText ?? "",city: "")
+        }else {
+            searchstore(market: "",name: "brandName" , limit: 36, page: 1, value: searchText ?? "",city: "")
+        }
+
     }
     @IBAction func dropdownBtn(_ sender: Any) {
         if hiddenview.isHidden == true
@@ -132,6 +145,7 @@ extension StoreSearchVC: UITableViewDelegate,UITableViewDataSource
             self.searchstore(market:"",name: "brandName" , limit: 36, page: 1, value: searchText ?? "",city: cityName ?? "")
 
         }
+        crossbtn.isHidden = false
     }
     
     
@@ -158,28 +172,37 @@ extension StoreSearchVC: UICollectionViewDelegate,UICollectionViewDataSource,UIC
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
         let data = searchstoredata[indexPath.row]
         cell.imageView.contentMode = .scaleAspectFill
+        cell.imageView.layer.cornerRadius = 10
         cell.imageView.pLoadImage(url: data.images?.last ?? "")
         return cell
         
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let data = searchstoredata[indexPath.row]
-        let vc = Category_ProductsVC.getVC(.main)
+        let vc = New_StoreVC.getVC(.main)
         vc.prductid = data.seller ?? ""
-        vc.video_section = true
-        vc.storeFlag = true
+        vc.brandName = data.brandName ?? ""
         vc.storeId = data.seller ?? ""
-        
-        if LanguageManager.language == "ar"{
-            vc.catNameTitle = data.lang?.ar?.brandName ?? ""
-        }else{
-            vc.catNameTitle = data.brandName ?? ""
-        }
-
-        
-        
-//        vc.catNameTitle = data.brandName ?? ""
+        vc.sellerID = data.id
         self.navigationController?.pushViewController(vc, animated: false)
+        
+        
+//        let vc = Category_ProductsVC.getVC(.main)
+//        vc.prductid = data.seller ?? ""
+//        vc.video_section = true
+//        vc.storeFlag = true
+//        vc.storeId = data.seller ?? ""
+//        
+//        if LanguageManager.language == "ar"{
+//            vc.catNameTitle = data.lang?.ar?.brandName ?? ""
+//        }else{
+//            vc.catNameTitle = data.brandName ?? ""
+//        }
+//
+//        
+//        
+////        vc.catNameTitle = data.brandName ?? ""
+//        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

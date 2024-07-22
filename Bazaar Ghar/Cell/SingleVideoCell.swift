@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import AVKit
+import Presentr
 
 class SingleVideoCell: UITableViewCell {
     @IBOutlet weak var headerlbl: UILabel!
@@ -35,7 +36,9 @@ class SingleVideoCell: UITableViewCell {
     @IBOutlet weak var storeimg: UIImageView!
     
     @IBOutlet weak var viewslbl: UILabel!
-    
+    let centerTransitioningDelegate = CenterTransitioningDelegate()  
+    var randomproductapiModel: [PChat] = []
+
     var avPlayer: AVPlayer?
     var avPlayerLayer: AVPlayerLayer?
     var paused: Bool = false
@@ -66,7 +69,7 @@ class SingleVideoCell: UITableViewCell {
       }
 
     
-    var getvidoebyproductIdsdata: [GetVidoeByProductIds] = []
+    var getvidoebyproductIdsdata: [Product] = []
     var productIds = [String](){
         didSet {
             getvidoebyproductIds(productIds: productIds)
@@ -86,6 +89,7 @@ class SingleVideoCell: UITableViewCell {
         super.awakeFromNib()
         hiddenviewheight.constant = 0
         self.setupMoviePlayer()
+        backBtn.isHidden = false
        }
     
        func setupMoviePlayer(){
@@ -256,10 +260,21 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
 //            cell.productPriceLine.isHidden = true
 //            cell.price.textColor = UIColor.black
 //         }
-
+        cell.buynow.tag = indexPath.row
+        cell.buynow.addTarget(self, action: #selector(viewallitemtap(_:)), for: .touchUpInside)
             return cell
     }
-
+    @objc func viewallitemtap(_ sender: UIButton) {
+        let data = getvidoebyproductIdsdata[sender.tag]
+        let vc = CartPopupViewController.getVC(.main)
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = centerTransitioningDelegate
+        vc.products = data
+        vc.nav = self.navigationController
+        vc.products = data
+        UIApplication.pTopViewController().present(vc, animated: true, completion: nil)
+    
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10

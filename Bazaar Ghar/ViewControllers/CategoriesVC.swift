@@ -20,7 +20,6 @@ class CategoriesVC: UIViewController {
     @IBOutlet weak var livelbl: UILabel!
     @IBOutlet weak var hederView: UIView!
     @IBOutlet weak var emptyLbl:UILabel!
-
     
     var Mainview = [String]()
     var subview = [String]()
@@ -33,12 +32,7 @@ class CategoriesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-      
-      
-        
-       
+        Utility().setGradientBackground(view: hederView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         
         let left = UISwipeGestureRecognizer(target : self, action : #selector(Swipeleft))
                         left.direction = .left
@@ -54,7 +48,7 @@ class CategoriesVC: UIViewController {
     @IBAction func switchChanged(_ sender: UISwitch) {
            if sender.isOn {
                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-               let vc = Live_VC.getVC(.main)
+               let vc = LIVE_videoNew.getVC(.main)
                self.navigationController?.pushViewController(vc, animated: false)
            }
        }
@@ -174,6 +168,11 @@ class CategoriesVC: UIViewController {
         self.tabBarController?.selectedIndex = 0
     }
     
+    @IBAction func cartbtn(_ sender: Any) {
+        let vc = CartViewController
+            .getVC(.main)
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
     
 }
 extension CategoriesVC: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {

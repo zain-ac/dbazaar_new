@@ -83,19 +83,21 @@ extension ProductSearch_VC: UICollectionViewDelegate,UICollectionViewDataSource,
 
         cell.productimage.pLoadImage(url: data.mainImage ?? "")
         cell.productname.text =  data.productName
-        cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+//        cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+        cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
         if data.onSale == true {
                 cell.discountPrice.isHidden = false
-                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0)
+//                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
                 cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-                
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
             }else {
                 cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
                 cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+                
 
              }
             
@@ -136,7 +138,7 @@ extension ProductSearch_VC: UICollectionViewDelegate,UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: productsearchcollection.frame.width/2-5, height: productsearchcollection.frame.height/2-5)
+        return CGSize(width: productsearchcollection.frame.width/2-5, height: 280)
 //        return CGSize(width: self.productsearchcollection.frame.width/2.1, height: self.productsearchcollection.frame.height/2.7)
     }
     

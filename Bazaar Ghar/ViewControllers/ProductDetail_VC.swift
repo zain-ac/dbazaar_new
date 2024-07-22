@@ -253,7 +253,7 @@ class ProductDetail_VC: UIViewController {
            if sender.isOn {
                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
               
-               let vc = Live_VC.getVC(.main)
+               let vc = LIVE_videoNew.getVC(.main)
                self.navigationController?.pushViewController(vc, animated: false)
            }
        }

@@ -339,12 +339,12 @@ class APIServices{
         
     }
     
-    class func getrandomproduct(completion:@escaping(APIResult<[RandomnProductResponse]>)->Void){
+    class func getrandomproduct(completion:@escaping(APIResult<[Product]>)->Void){
             Provider.services.request(.randomproduct){ result in
                 
                 do{
                     
-                    let categories: [RandomnProductResponse] = try result.decoded(keypath: "data")
+                    let categories: [Product] = try result.decoded(keypath: "data")
                     
                     completion(.success(categories))
                 }catch{
@@ -1105,11 +1105,11 @@ class APIServices{
             }
         }
     }
-    class func getvidoebyproductIds(productIds:[String],completion:@escaping(APIResult<[GetVidoeByProductIds]>)->Void) {
+    class func getvidoebyproductIds(productIds:[String],completion:@escaping(APIResult<[Product]>)->Void) {
         Provider.services.request(.getvidoebyproductIds(productIds: productIds)){ result in
             do{
                 
-                let getvidoebyproductIds: [GetVidoeByProductIds] = try result.decoded(keypath: "data")
+                let getvidoebyproductIds: [Product] = try result.decoded(keypath: "data")
                 
                 completion(.success(getvidoebyproductIds))
             }catch{

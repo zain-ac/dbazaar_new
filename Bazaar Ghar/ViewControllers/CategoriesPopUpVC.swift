@@ -13,6 +13,7 @@ class CategoriesPopUpVC: UIViewController {
 
     var id:String?
     var selectedIndex:Int?
+    var catname : String?
     override func viewDidLoad() {
         super.viewDidLoad()
         topcell_1.delegate = self
@@ -24,9 +25,13 @@ class CategoriesPopUpVC: UIViewController {
     
    
     @IBAction func applyBtnTapped(_ sender: Any) {
-        self.dismiss(animated: false)
-        let imageDataDict:[String: String] = ["id": self.id ?? "", "cat":"cat"]
-        NotificationCenter.default.post(name: Notification.Name("idpass"), object: nil,userInfo: imageDataDict)
+        if selectedIndex == nil{
+            self.view.makeToast("Please Select Category")
+        }else{
+            self.dismiss(animated: false)
+            let imageDataDict:[String: String] = ["id": self.id ?? "", "cat":"cat","catname":catname ?? ""]
+            NotificationCenter.default.post(name: Notification.Name("idpass"), object: nil,userInfo: imageDataDict)
+        }
     }
  
 
@@ -54,9 +59,10 @@ extension CategoriesPopUpVC: UICollectionViewDelegate, UICollectionViewDataSourc
             }
         
         if selectedIndex == indexPath.row {
-            cell.imageView.backgroundColor = UIColor(hex: "#5ED0FD")
+            cell.imageView.borderColor = UIColor(hex: "#5ED0FD")
+            cell.imageView.borderWidth = 2
         }else {
-            cell.imageView.backgroundColor = .white
+            cell.imageView.borderColor = .gray
         }
             
             return cell
@@ -77,7 +83,7 @@ extension CategoriesPopUpVC: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
       
-            return CGSize(width: self.topcell_1.frame.width/3.75-10, height: self.topcell_1.frame.height/2.1-5)
+            return CGSize(width: self.topcell_1.frame.width/3.9-10, height: self.topcell_1.frame.height/2.1-5)
 
         
     }
@@ -92,6 +98,7 @@ extension CategoriesPopUpVC: UICollectionViewDelegate, UICollectionViewDataSourc
         let data = CategoriesResponsedata[indexPath.row]
                      self.id = data.id
         self.selectedIndex = indexPath.row
+        catname = data.name
         collectionView.reloadData()
 //              let vc = Category_ProductsVC.getVC(.main)
 //        vc.prductid = data.id ?? ""

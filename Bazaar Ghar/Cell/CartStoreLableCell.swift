@@ -141,6 +141,15 @@ extension CartStoreLableCell : UITableViewDataSource,UITableViewDelegate{
         productCount = item?.quantity ?? 0
 //        cell.productQuantity.text =  "\(item?.product?.quantity ?? 0)"
         cell.productQuantity.text =  "\(item?.quantity ?? 0)"
+        if cell.productQuantity.text == "1" {
+            cell.productMinus.backgroundColor = .white
+            cell.productMinus.setTitleColor(UIColor(hex: "#069DDD"), for: .normal)
+
+        }else {
+            cell.productMinus.backgroundColor = UIColor(hex: "#069DDD")
+            cell.productMinus.setTitleColor(UIColor.white, for: .normal)
+
+        }
         if(item?.product?.onSale == true){
             cell.discountPrice.isHidden = false
             cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(item?.product?.salePrice ?? 0.0) //Utility().convertAmountInComma("\(item?.product?.salePrice ?? 0)")
@@ -177,9 +186,7 @@ extension CartStoreLableCell : UITableViewDataSource,UITableViewDelegate{
         return 120
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-         return 10 // Space between cells
-     }
+
       
 }
 

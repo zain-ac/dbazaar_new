@@ -55,6 +55,7 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var videoCollection: UICollectionView!
     @IBOutlet weak var shopingReelsLbl: UILabel!
     @IBOutlet weak var shoesCollectionView: UICollectionView!
+    @IBOutlet weak var catView: UIView!
 
     
     
@@ -67,7 +68,7 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     var CategoriesResponsedata: [getAllCategoryResponse] = []
     var ProductCategoriesResponsedata: [PChat] = []
     var randomproductapiModel: [PChat] = []
-    var getrandomproductapiModel: [RandomnProductResponse] = []
+    var getrandomproductapiModel: [Product] = []
 
     var groupbydealsdata: [GroupByResult] = []
 
@@ -112,6 +113,7 @@ var count = 0
     var color:String?
     var shopImg: String?
     var shoptxtColor:String?
+    var catBGColor : String?
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
 
     override func viewDidLoad() {
@@ -125,7 +127,7 @@ var count = 0
          shopLbl.text = "Welcome to \(shop ?? "")"
         shopLblBackgoundView.backgroundColor = UIColor(hex: color ?? "")
         shopImage.image = UIImage(named: shopImg ?? "")
-        shoplabel.textColor = UIColor(hex: shoptxtColor ?? "")
+
         let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: "#101010"), "beyond boundaries", secondTextColor:  UIColor(hexString: "#2E8BF8"))
 //            .attributedStringWithColoredLastWord(
 //            "".lowercased().capitalized, lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
@@ -146,7 +148,7 @@ var count = 0
         
         recommendationLbl.attributedText = attributedText1
         
-        let attributedText2 =  Utility().attributedStringWithColoredLastWord("Shoping Reels", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText2 =  Utility().attributedStringWithColoredLastWord("Shopping Reels", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
         shopingReelsLbl.attributedText = attributedText2
         
@@ -248,6 +250,8 @@ var count = 0
     
     override func viewWillAppear(_ animated: Bool) {
          super.viewWillAppear(animated)
+        catView.backgroundColor = UIColor(hex: catBGColor ?? "")
+        shoplabel.textColor = UIColor(hex: shoptxtColor ?? "")	
         if shop == "Shop China" {
             let imageDataDict:[String: String] = ["img": "china"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
@@ -402,11 +406,29 @@ var count = 0
            if sender.isOn {
                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 
-               let vc = Live_VC.getVC(.main)
+               let vc = LIVE_videoNew.getVC(.main)
                self.navigationController?.pushViewController(vc, animated: false)
            }
        }
     
+    @IBAction func shopByCatArrowBtnTapped(_ sender: Any) {
+        let vc = CategoriesVC.getVC(.main)
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+    
+    @IBAction func gamerSaleArrowBtnTapped(_ sender: Any) {
+        let vc = Category_ProductsVC.getVC(.main)
+            vc.prductid = "65e82aa5067e0d3f4c5f774e"
+           vc.video_section = false
+           vc.storeFlag = false
+           vc.catNameTitle = "Gamer Sale"
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+    
+    @IBAction func shoppingReelsArrowBtnTapped(_ sender: Any) {
+        let vc = LIVE_videoNew.getVC(.main)
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
     
     @IBAction func languageBtnTapped(_ sender: Any) {
         
@@ -960,14 +982,15 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                     if data?.linkId == "" || data?.linkId == nil {
                         
                     }else {
-                        let vc = Category_ProductsVC.getVC(.main)
+                        
+                        let vc = New_StoreVC.getVC(.main)
                         vc.prductid = data?.linkId ?? ""
-                        vc.catNameTitle = data?.name ?? ""
-                        vc.storeFlag = true
-                    
+                        vc.brandName = data?.name
                         vc.storeId = data?.linkId ?? ""
-                        vc.video_section = true
+                        vc.sellerID = data?.linkId ?? ""
                         self.navigationController?.pushViewController(vc, animated: false)
+                        
+                        
                     }
 
                   case "Category":
@@ -993,7 +1016,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                     }
                     
                   case "Video":
-                    let vc = Live_VC.getVC(.main)
+                    let vc = LIVE_videoNew.getVC(.main)
                     self.navigationController?.pushViewController(vc, animated: false)
                     
                   case "Page":
@@ -1079,13 +1102,26 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
             cell.productapi = data.product ?? []
             
             cell.catBannerBtn.tag = indexPath.row
-            
+            cell.arrowBtn.tag = indexPath.row
             cell.catBannerBtn.addTarget(self, action: #selector(catBannerBtnTapped(_:)), for: .touchUpInside)
         cell.nav = self.navigationController
+        cell.arrowBtn.addTarget(self, action: #selector(arrowBtnTapped(_:)), for: .touchUpInside)
+
             return cell
     }
     @objc func exploreBtnTapped(_ sender: UIButton) {
         
+    }
+    @objc func arrowBtnTapped(_ sender: UIButton) {
+        let data = ProductCategoriesResponsedata[sender.tag]
+        
+        let vc = Category_ProductsVC.getVC(.main)
+        vc.prductid = data.id ?? ""
+        vc.video_section = false
+        vc.storeFlag = false
+        vc.catNameTitle = data.name ?? ""
+        self.navigationController?.pushViewController(vc, animated: false)
+
     }
     @objc func catBannerBtnTapped(_ sender: UIButton) {
         let data = ProductCategoriesResponsedata[sender.tag]
@@ -1224,13 +1260,11 @@ func numberOfItems(in pagerView: FSPagerView) -> Int {
                 if data?.linkId == "" || data?.linkId == nil {
                     
                 }else {
-                    let vc = Category_ProductsVC.getVC(.main)
+                    let vc = New_StoreVC.getVC(.main)
                     vc.prductid = data?.linkId ?? ""
-                    vc.catNameTitle = data?.name ?? ""
-                    vc.storeFlag = true
-                
+                    vc.brandName = data?.name
                     vc.storeId = data?.linkId ?? ""
-                    vc.video_section = true
+                    vc.sellerID = data?.linkId ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                 }
 
@@ -1257,7 +1291,7 @@ func numberOfItems(in pagerView: FSPagerView) -> Int {
                 }
                 
               case "Video":
-                let vc = Live_VC.getVC(.main)
+                let vc = LIVE_videoNew.getVC(.main)
                 self.navigationController?.pushViewController(vc, animated: false)
                 
               case "Page":

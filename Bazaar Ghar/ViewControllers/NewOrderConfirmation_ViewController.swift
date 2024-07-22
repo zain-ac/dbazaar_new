@@ -16,7 +16,6 @@ class NewOrderConfirmation_ViewController: UIViewController {
     @IBOutlet weak var paymentmethodtblview: UITableView!
     @IBOutlet weak var producttotaltxt: UILabel!
     @IBOutlet weak var addnewadressbtn: UIButton!
-    @IBOutlet weak var ordersummarycollectheight: NSLayoutConstraint!
     @IBOutlet weak var placeorderbtn: UIButton!
     @IBOutlet weak var deliverytxt: UILabel!
     @IBOutlet weak var payabletxt: UILabel!
@@ -30,9 +29,18 @@ class NewOrderConfirmation_ViewController: UIViewController {
     @IBOutlet weak var ordersummarylbl: UILabel!
     @IBOutlet weak var ordersummarycollectview: UICollectionView!
     @IBOutlet weak var homelbl: UILabel!
+    
+    @IBOutlet weak var orderSummaryHeight: NSLayoutConstraint!
+    @IBOutlet weak var scrollHeight: NSLayoutConstraint!
+
     var orderDetails: CartItemsResponse?
     var itemCount = 0
     var defaultAdress : DefaultAddress?
+    var methodimgArray = ["cash-on-delivery","cash-on-delivery"]
+    var methodNameArray = ["Alfalah Credit/Debit Card","Cash On Delivery"]
+    var selectedIndex:Int?
+    var bannerapidata: [Package] = []
+    var cartItems : [CartPackageItem] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         paymentmethodtblview.delegate = self
@@ -56,38 +64,130 @@ class NewOrderConfirmation_ViewController: UIViewController {
         
         ordersummarylbl.attributedText = attributedText4
         
-        // Do any additional setup after loading the view.
+        // Create the button
+             let button = UIButton(type: .system)
+             addnewadressbtn.setTitle("+ Add New Address", for: .normal)
+        
+             addnewadressbtn.frame = CGRect(x: 100, y: 100, width: 200, height: 50)
+             
+             // Add the dotted border
+             addDottedBorder(to: button)
+             
+             // Add the button to the view
+             view.addSubview(button)
+         }
+
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
+        
+        for i in bannerapidata {
+            cartItems += i.packageItems ?? []
+        }
+        orderSummaryHeight.constant = CGFloat(cartItems.count * 155)
+        scrollHeight.constant = CGFloat(cartItems.count * 155) + 1110
+        
+        
+        producttotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.retailTotal ?? 0)
+        discounttxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.discount ?? 0)
+        subtotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.subTotal ?? 0)
+        deliverytxt.text = "150"
+        totaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.total ?? 0)
+        payabletxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.payable ?? 0 + 150)
     }
+    
+         func addDottedBorder(to button: UIButton) {
+             let dottedBorder = CAShapeLayer()
+             dottedBorder.strokeColor = UIColor.black.cgColor
+             dottedBorder.lineDashPattern = [4, 2] // Dash pattern (4 points on, 2 points off)
+             dottedBorder.frame = button.bounds
+             dottedBorder.fillColor = nil
+             dottedBorder.path = UIBezierPath(roundedRect: button.bounds, cornerRadius: button.layer.cornerRadius).cgPath
+             
+             button.layer.addSublayer(dottedBorder)
+         }
     @IBAction func editbtn(_ sender: Any) {
+        let vc = AddressViewController.getVC(.main)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     @IBAction func addnewadressbtntap(_ sender: Any) {
+        let vc = AddAddressViewController.getVC(.main)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     @IBAction func placeorderbtntap(_ sender: Any) {
+        placeOrder(cartId: orderDetails?.id ?? "")
+    }
+    
+    private func placeOrder(cartId:String){
+    
+        APIServices.palceOrder(cartId: cartId){[weak self] data in
+            switch data{
+            case .success(let res):
+              print(res)
+                let vc = PlaceOrder_VC.getVC(.main)
+                vc.orderID = res.orderDetailID
+                self?.navigationController?.pushViewController(vc, animated: false)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
 
 }
 extension NewOrderConfirmation_ViewController:UICollectionViewDelegate,UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return cartItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderSummary_CollectionViewCell", for: indexPath) as! OrderSummary_CollectionViewCell
+        let data = cartItems[indexPath.row].product
+        cell.img.pLoadImage(url: data?.mainImage ?? "")
+        cell.productName.text = data?.productName ?? ""
+        if data?.onSale == true {
+            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+        }else {
+            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+        }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return CGSize(width: collectionView.frame.width, height: 150)
     }
     
     
 }
-extension NewOrderConfirmation_ViewController:UITableViewDelegate,UITableViewDataSource{
+extension NewOrderConfirmation_ViewController:UITableViewDelegate,UITableViewDataSource, UICollectionViewDelegateFlowLayout{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return methodNameArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Paymentmethod_TableViewCell", for: indexPath) as! Paymentmethod_TableViewCell
+        cell.namelbl.text = methodNameArray[indexPath.row]
+        cell.methodImg.setBackgroundImage(UIImage(named: methodimgArray[indexPath.row]), for: .normal)
+        cell.checkBtn.tag = indexPath.row
+        cell.checkBtn.addTarget(self, action: #selector(checkBtnTapped(_:)), for: .touchUpInside)
+
+        if selectedIndex == indexPath.row {
+            cell.checkBtn.setBackgroundImage(UIImage(named: "checked"), for: .normal)
+        }else {
+            cell.checkBtn.setBackgroundImage(UIImage(named: "uncheck"), for: .normal)
+        }
+        
         return cell
     }
     
+    @objc func checkBtnTapped(_ sender: UIButton) {
+        print("Button was clicked!")
+        self.selectedIndex = sender.tag
+        
+        paymentmethodtblview.reloadData()
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
     
 }

@@ -8,6 +8,10 @@
 import UIKit
 
 class Paymentmethod_TableViewCell: UITableViewCell {
+    @IBOutlet weak var namelbl: UILabel!
+    @IBOutlet weak var methodImg: UIButton!
+    @IBOutlet weak var checkBtn: UIButton!
+
 
     override func awakeFromNib() {
         super.awakeFromNib()

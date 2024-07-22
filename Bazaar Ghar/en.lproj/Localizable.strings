@@ -186,7 +186,7 @@
 "mobilenmber" = "Mobile Number";
 "whatsappnmber" = "WhatsApp Number";
 "city" = "City";
-"selctcity" = "Select City";
+"selctcity" = "Filter by City";
 "address" = "Address";
 "addressline1TF" = "Address line 1";
 "addressline2TF" = "Address line 2";

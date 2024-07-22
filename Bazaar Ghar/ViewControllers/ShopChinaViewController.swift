@@ -92,7 +92,7 @@ class ShopChinaViewController: UIViewController {
         
     }
     @objc func touchTapped(_ sender: UITapGestureRecognizer) {
-            let vc = Live_VC.getVC(.main)
+        let vc = LIVE_videoNew.getVC(.main)
             self.navigationController?.pushViewController(vc, animated: false)
         }
     @objc func touchTapped2(_ sender: UITapGestureRecognizer) {
@@ -156,7 +156,7 @@ class ShopChinaViewController: UIViewController {
            if sender.isOn {
                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 
-               let vc = Live_VC.getVC(.main)
+               let vc = LIVE_videoNew.getVC(.main)
                self.navigationController?.pushViewController(vc, animated: false)
            }
        }
@@ -430,12 +430,11 @@ extension ShopChinaViewController: UICollectionViewDelegate, UICollectionViewDat
                     if data?.linkId == "" || data?.linkId == nil {
                         
                     }else {
-                        let vc = Category_ProductsVC.getVC(.main)
+                        let vc = New_StoreVC.getVC(.main)
                         vc.prductid = data?.linkId ?? ""
-                        vc.catNameTitle = data?.name ?? ""
-                        vc.storeFlag = true
+                        vc.brandName = data?.name
                         vc.storeId = data?.linkId ?? ""
-                        vc.video_section = true
+                        vc.sellerID = data?.linkId ?? ""
                         self.navigationController?.pushViewController(vc, animated: false)
                     }
 
@@ -462,7 +461,7 @@ extension ShopChinaViewController: UICollectionViewDelegate, UICollectionViewDat
                     }
                     
                   case "Video":
-                    let vc = Live_VC.getVC(.main)
+                    let vc = LIVE_videoNew.getVC(.main)
                     self.navigationController?.pushViewController(vc, animated: false)
                     
                   case "Page":

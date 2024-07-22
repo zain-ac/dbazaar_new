@@ -9,10 +9,13 @@ import UIKit
 
 class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var searchFeild: UITextField!
+    @IBOutlet weak var headerlbl: UILabel!
     @IBOutlet weak var nearByBtn: UIButton!
     @IBOutlet weak var categoriesBtn: UIButton!
     @IBOutlet weak var headerview: UIView!
     @IBOutlet weak var videocategorytableview: UITableView!
+    
+    @IBOutlet weak var catbtnview: UIView!
     var LiveVideoData: [LiveVideoResponse] = []
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
     var LiveStreamingResultsdatafilter: [LiveStreamingResults] = []
@@ -60,11 +63,15 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
             print(cat)
             self.cat = cat
         }
+        if let catname = notification.userInfo?["catname"] as? String {
+            headerlbl.text = catname
+        }
 
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
+        headerlbl.text = "Live Video"
         self.CategoriesResponsedata = AppDefault.CategoriesResponsedata ?? []
         getStreamingVideos(limit:100,page:1,categories: [], city: "")
     }
@@ -176,9 +183,10 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         let vc = CategoriesPopUpVC.getVC(.main)
         vc.modalPresentationStyle = .overFullScreen
         self.present(vc, animated: true, completion: nil)
+        catbtnview.backgroundColor = .oceanBlue
     }
     @IBAction func cartbutton(_ sender: Any) {
-        let vc = Search_ViewController.getVC(.main)
+        let vc = CartViewController.getVC(.main)
         self.navigationController?.pushViewController(vc, animated: false)
        
     }

@@ -16,5 +16,18 @@ class HomeLastProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var percentBGView: UIView!
     @IBOutlet weak var cartButton: UIButton!
     @IBOutlet weak var heartBtn: UIButton!
-
+    
+    
+    var product: Product?
+    var idarray : [Product]?{
+        didSet{
+            if((idarray?.first?.id ?? "") == (product?.id ?? "")){
+                heartBtn.isSelected = true
+            }else{
+                heartBtn.isSelected = false
+            }
+        
+    }
+               }
+    
 }

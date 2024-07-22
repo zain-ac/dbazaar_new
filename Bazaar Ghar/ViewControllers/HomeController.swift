@@ -68,7 +68,7 @@ class HomeController: UIViewController, UIScrollViewDelegate {
     var CategoriesResponsedata: [getAllCategoryResponse] = []
     var ProductCategoriesResponsedata: [PChat] = []
     var randomproductapiModel: [PChat] = []
-    var getrandomproductapiModel: [RandomnProductResponse] = []
+    var getrandomproductapiModel: [Product] = []
 
     var groupbydealsdata: [GroupByResult] = []
 
@@ -111,12 +111,13 @@ var count = 0
     var load:Bool?
     var addwislistResponseMessage: String?
     var idsArray = [String]()
+    var wishlistDataResponse : WishlistResponse?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.categoriesApi(isbackground: false)
              getrandomproduct()
         scrollView.delegate = self
-
+        self.wishlist()
         let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: "#101010"), "beyond boundaries", secondTextColor:  UIColor(hexString: "#2E8BF8"))
 //            .attributedStringWithColoredLastWord(
 //            "".lowercased().capitalized, lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
@@ -175,6 +176,14 @@ var count = 0
         homeswitchbtn.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         
     }
+    
+    func setupCollectionView() {
+        let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
+        homeLastProductCollectionView.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        homeLastProductCollectionView.delegate = self
+        homeLastProductCollectionView.dataSource = self
+    }
+    
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
@@ -350,18 +359,20 @@ var count = 0
                 UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
     }
     
-//    private func wishlist(){
-//        APIServices.wishlist(completion: {[weak self] data in
-//            switch data{
-//            case .success(let res):
-//                
-////                self?.wishListData = res
-//                self?.homeLastProductCollectionView.reloadData()
-//            case .failure(let error):
-//                print(error)
-//            }
-//        })
-//    }
+    private func wishlist(){
+        self.idsArray.removeAll()
+        APIServices.wishlist(completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                
+                self?.wishlistDataResponse = res
+                
+                self?.homeLastProductCollectionView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
     
     private func addtowishlist(product: String){
         APIServices.addwishlist(proudct:product,completion: {[weak self] data in
@@ -370,8 +381,7 @@ var count = 0
                 print(res)
 //                self?.Likebtn.isSelected = true
                 self?.addwislistResponseMessage = res
-                self?.view.makeToast("Product added to wishlist successfully")
-                self?.homeLastProductCollectionView.reloadData()
+                self?.wishlist()
             case .failure(let error):
                 print(error)
                 self?.view.makeToast(error)
@@ -386,7 +396,7 @@ var count = 0
            if sender.isOn {
                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 
-               let vc = Live_VC.getVC(.main)
+               let vc = LIVE_videoNew.getVC(.main)
                self.navigationController?.pushViewController(vc, animated: false)
            }
        }
@@ -584,14 +594,6 @@ var count = 0
      
         self.navigationController?.pushViewController(vc, animated: false)
     }
-
-    func setupCollectionView() {
-        let nib = UINib(nibName: "CollectionViewCell", bundle: nil)
-        imageslidercollectionview.register(nib, forCellWithReuseIdentifier: "cell")
-        imageslidercollectionview.delegate = self
-        imageslidercollectionview.dataSource = self
-    
-    }
     
     func setupPageControl() {
         pageController.numberOfPages = bannerapidata?.count ?? 0
@@ -651,35 +653,20 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return cell
         } else if collectionView == homeLastProductCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
+            
             let data = randomproductapiModel.first?.product?[indexPath.row]
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
             cell.productname.text =  data?.productName
-            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+//            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+            cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
             if data?.onSale == true {
                 cell.discountPrice.isHidden = false
-                let currencySymbol = appDelegate.currencylabel
-                let salePrice = Utility().formatNumberWithCommas(data?.salePrice ?? 0)
-
-                // Create an attributed string for the currency symbol with the desired color
-                let currencyAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor.black // Change to your desired color
-                ]
-                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
-
-                // Create an attributed string for the sale price with the desired color
-                let priceAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
-                ]
-                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
-
-                // Combine the attributed strings
-                let combinedAttributedString = NSMutableAttributedString()
-                combinedAttributedString.append(attributedCurrencySymbol)
-                combinedAttributedString.append(attributedPrice)
-                cell.discountPrice.attributedText = combinedAttributedString
-
+       
+          
+              
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
 //                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
@@ -690,19 +677,31 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
                 cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+               
 
 			 }
             cell.heartBtn.tag = indexPath.row
+            
+            
+          
+            
+            
+            
+            cell.cartButton.tag = indexPath.row
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
             cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
-         
-            for i in idsArray {
-                if i == data?.id {
-                    cell.heartBtn.setImage(UIImage(named: "fillheart"), for: .normal)
-                }else {
-                    cell.heartBtn.setImage(UIImage(named: "heartwhite"), for: .normal)
-
-                }
+            cell.product = data
+            
+            if let person = wishlistDataResponse?.products?.contains(where: { $0.id == data?.id }) {
+//                cell.idarray.[] = data!
+            } else {
+                cell.idarray = []
+            }
+            
+            
+            
+            for i in wishlistDataResponse?.products ?? [] {
+                
             }
             
             return cell
@@ -713,6 +712,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.mainImage.pLoadImage(url: data.productID?.mainImage ?? "")
             cell.brandName.text =  data.productID?.productName
             cell.regularPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.productID?.regularPrice ?? 0)
+            cell.regularPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.productID?.salePrice ?? 0))
             cell.days.text = "\(data.remainingTime?.days ?? 0)"
             cell.hours.text = "\(data.remainingTime?.hours ?? 0)"
             cell.minutes.text = "\(data.remainingTime?.minutes ?? 0)"
@@ -722,6 +722,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             if data.productID?.onSale == true {
                 cell.salePrice.isHidden = false
                 cell.salePrice.text =   appDelegate.currencylabel + Utility().formatNumberWithCommas(data.productID?.salePrice ?? 0)
+                cell.salePrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.productID?.salePrice ?? 0))
                 cell.productPriceLine.isHidden = false
                 cell.regularPrice.textColor = UIColor.red
                 cell.salePrice.textColor = UIColor(hexString: "#069DDD")
@@ -756,6 +757,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             }
             cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
             
+            cell.heartBtn.tag = indexPath.row
+            cell.heartBtn.isSelected = !cell.heartBtn.isSelected
+            cell.cartButton.addTarget(self, action: #selector(lastRandomProductcartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
 
             return cell
         } else {
@@ -809,7 +814,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return CGSize(width: self.lastRandomProductsCollectionView.frame.width/2.12-2, height: 290)
 
         } else {
-            return CGSize(width: self.topcell_1.frame.width/3.6-10, height: self.topcell_1.frame.height/2.1-5)
+            return CGSize(width: self.topcell_1.frame.width/3.9-10, height: self.topcell_1.frame.height/2.1-5)
 
         }
     }
@@ -857,13 +862,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                     if data?.linkId == "" || data?.linkId == nil {
                         
                     }else {
-                        let vc = Category_ProductsVC.getVC(.main)
+                        let vc = New_StoreVC.getVC(.main)
                         vc.prductid = data?.linkId ?? ""
-                        vc.catNameTitle = data?.name ?? ""
-                        vc.storeFlag = true
-                    
+                        vc.brandName = data?.name
                         vc.storeId = data?.linkId ?? ""
-                        vc.video_section = true
+                        vc.sellerID = data?.linkId ?? ""
                         self.navigationController?.pushViewController(vc, animated: false)
                     }
 
@@ -890,7 +893,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                     }
                     
                   case "Video":
-                    let vc = Live_VC.getVC(.main)
+                    let vc = LIVE_videoNew.getVC(.main)
                     self.navigationController?.pushViewController(vc, animated: false)
                     
                   case "Page":
@@ -1058,9 +1061,21 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         self.present(vc, animated: true, completion: nil)
 
     }
+    @objc func lastRandomProductcartButtonTap(_ sender: UIButton) {
+        let data = getrandomproductapiModel[sender.tag]
+        
+        let vc = CartPopupViewController.getVC(.main)
+       
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = centerTransitioningDelegate
+        vc.products = data
+        vc.nav = self.navigationController
+        self.present(vc, animated: true, completion: nil)
+
+    }
     @objc func heartButtonTap(_ sender: UIButton) {
         let data = randomproductapiModel.first?.product?[sender.tag]
-        Utility().addOrRemoveValue(data?.id ?? "", from: &idsArray)
+//        Utility().addOrRemoveValue(data?.id ?? "", from: &idsArray)
         addtowishlist(product: data?.id ?? "")
 
     }
@@ -1181,13 +1196,11 @@ func numberOfItems(in pagerView: FSPagerView) -> Int {
                 if data?.linkId == "" || data?.linkId == nil {
                     
                 }else {
-                    let vc = Category_ProductsVC.getVC(.main)
+                    let vc = New_StoreVC.getVC(.main)
                     vc.prductid = data?.linkId ?? ""
-                    vc.catNameTitle = data?.name ?? ""
-                    vc.storeFlag = true
-                
+                    vc.brandName = data?.name
                     vc.storeId = data?.linkId ?? ""
-                    vc.video_section = true
+                    vc.sellerID = data?.linkId ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                 }
 
@@ -1214,7 +1227,7 @@ func numberOfItems(in pagerView: FSPagerView) -> Int {
                 }
                 
               case "Video":
-                let vc = Live_VC.getVC(.main)
+                let vc = LIVE_videoNew.getVC(.main)
                 self.navigationController?.pushViewController(vc, animated: false)
                 
               case "Page":

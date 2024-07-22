@@ -29,7 +29,7 @@ class VideoViewController: UIViewController {
     var localVideoTrack: LocalVideoTrack?
     var localAudioTrack: LocalAudioTrack?
     var remoteParticipant: RemoteParticipant?
-    var getvidoebyproductIdsdata: [GetVidoeByProductIds] = []
+    var getvidoebyproductIdsdata: [Product] = []
     var showCollectionView = ""
 
     

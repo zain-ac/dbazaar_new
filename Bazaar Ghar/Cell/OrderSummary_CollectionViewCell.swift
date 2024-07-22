@@ -8,5 +8,8 @@
 import UIKit
 
 class OrderSummary_CollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var img: UIImageView!
+    @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var productPrice: UILabel!
     
 }

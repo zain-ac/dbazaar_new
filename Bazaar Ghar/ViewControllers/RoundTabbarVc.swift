@@ -71,7 +71,7 @@ class RoundTabbarVc: UITabBarController {
         
         // Round the corners of the tab bar
         let layer = CAShapeLayer()
-        layer.path = UIBezierPath(roundedRect: CGRect(x: 10, y: self.tabBar.bounds.minY + 5, width: self.tabBar.bounds.width - 20, height: self.tabBar.bounds.height + 10), cornerRadius: 30).cgPath
+        layer.path = UIBezierPath(roundedRect: CGRect(x: 10, y: self.tabBar.bounds.minY , width: self.tabBar.bounds.width - 20, height: self.tabBar.bounds.height + 10), cornerRadius: 20).cgPath
         layer.shadowColor = UIColor.lightGray.cgColor
         layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
         layer.shadowRadius = 25.0
@@ -95,6 +95,8 @@ class RoundTabbarVc: UITabBarController {
         
         self.tabBar.tintColor = .blue
         self.tabBar.unselectedItemTintColor = .gray
+        
+        
     }
     private func setupSideMenu() {
             // Create the side menu
@@ -210,6 +212,7 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
             vc.color = "#FFCDC9"
             vc.shopImg = "shop_china"
             vc.shoptxtColor = "#DC2A1B"
+            vc.catBGColor = "#FFE5E2"
             UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
         }else if item == 1 {
             let vc = ShopChina_VC.getVC(.main)
@@ -217,12 +220,14 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
             vc.color = "#DEFFF1"
             vc.shopImg = "shop_saudi"
             vc.shoptxtColor = "#028E53"
+            vc.catBGColor = "#EDFFF8"
             UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
         } else {
             let vc = ShopChina_VC.getVC(.main)
             vc.shop = "Shop Pakistan"
             vc.color = "#F7FFF2"
             vc.shopImg = "shop_pak"
+            vc.catBGColor = "#F3FDE7"
             UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
         }
         
@@ -264,6 +269,8 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
         super.init(coder: coder)
         setupMiddleButton()
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationGlobe(notification:)), name: Notification.Name("globe"), object: nil)
+        
+        
     }
 
     private func setupMiddleButton() {

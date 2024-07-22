@@ -16,7 +16,7 @@ class New_SingleVideoview: UIViewController {
 
 
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
-    var getvidoebyproductIdsdata: [GetVidoeByProductIds] = []
+    var getvidoebyproductIdsdata: [Product] = []
 
     var productIds = [String]()
     var aboutToBecomeInvisibleCell = -1
