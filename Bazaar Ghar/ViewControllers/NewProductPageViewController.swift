@@ -42,6 +42,8 @@ class NewProductPageViewController: UIViewController {
     @IBOutlet weak var scrollHeight: NSLayoutConstraint!
     @IBOutlet weak var DescriptionProduct: UILabel!
     @IBOutlet weak var moreFromViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var varientsTblV: UITableView!
+    @IBOutlet weak var varientViewHeight: NSLayoutConstraint!
 
 
     var productCount = 1
@@ -87,7 +89,14 @@ class NewProductPageViewController: UIViewController {
         bannerApi(isbackground: false)
         colorsimgs = ["colosimg","colosimg","colosimg"]
         
-        // Do any additional setup after loading the view.
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationFromCartCell(notification:)), name: Notification.Name("variantSlug"), object: nil)
+    }
+    
+    @objc func methodOfReceivedNotificationFromCartCell(notification: Notification) {
+    if let slug = notification.userInfo?["variantSlug"] as? String {
+            productcategoriesdetails(slug: slug)
+                varientSlug = slug
+            }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -527,7 +536,15 @@ class NewProductPageViewController: UIViewController {
                 self?.getStreamingVideos(limit:20,page:1,categories: [res.category ?? ""])
                 
                 self?.scrollHeight.constant =  (self?.scrollHeight.constant ?? 0) + (self?.DescriptionProduct.bounds.height ?? 0)
-
+                self?.varientsTblV.reloadData()
+                
+                if res.mainAttributes == nil {
+                    self?.varientViewHeight.constant = 0
+                }else if res.attributes == nil {
+                    self?.varientViewHeight.constant = 0
+                }else {
+                    self?.varientViewHeight.constant = 100
+                }
 //                if LanguageManager.language == "ar"{
 //                    self?.producttitle.text = res.lang?.ar?.productName
 //                }else{
@@ -827,29 +844,61 @@ extension NewProductPageViewController: FSPagerViewDataSource, FSPagerViewDelega
     
 }
 
+
+
+
 extension NewProductPageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      
-        return items.count
-        
+        if tableView == varientsTblV {
+            if productcategoriesdetailsdata?.mainAttributes != nil {
+                return  productcategoriesdetailsdata?.mainAttributes?.count ?? 0
+            }else {
+                return  productcategoriesdetailsdata?.attributes?.count ?? 0
+            }
+        }else {
+            return items.count
+        }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data  = items[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetailsDellivevryTableViewCell", for: indexPath) as! ProductDetailsDellivevryTableViewCell
-        cell.img.image = data.image
-        cell.title.text = data.title
-        cell.subtitle.text = data.subtitle
-  
+        if tableView == varientsTblV {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetailVarientTableViewCell", for: indexPath) as! ProductDetailVarientTableViewCell
+            if productcategoriesdetailsdata?.mainAttributes != nil {
+                let data = productcategoriesdetailsdata?.mainAttributes
+                let variantdata = productcategoriesdetailsdata?.variants
+                cell.attributesLbl.text = (data?[indexPath.row].name ?? "") + " (\(data?[indexPath.row].values?.count ?? 0))"
+                cell.index = indexPath.row
+                cell.productcategoriesdetailsdata = data
+                cell.productcategoriesdetailsvariantdata = variantdata
+            }else {
+                let data = productcategoriesdetailsdata?.attributes
+                let variantdata = productcategoriesdetailsdata?.variants
+                cell.attributesLbl.text = (data?[indexPath.row].name ?? "") + " (\(data?[indexPath.row].values?.count ?? 0))"
+                cell.index = indexPath.row
+                cell.productcategoriesdetailsdata = data
+                cell.productcategoriesdetailsvariantdata = variantdata
+            }
+
             return cell
+        }else {
+            let data  = items[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetailsDellivevryTableViewCell", for: indexPath) as! ProductDetailsDellivevryTableViewCell
+            cell.img.image = data.image
+            cell.title.text = data.title
+            cell.subtitle.text = data.subtitle
+      
+                return cell
+        }
            
     }
  
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      
+        if tableView == varientsTblV {
+            return 70
+        }else {
             return 67
-        
+        }
     }
 }
 struct Item {

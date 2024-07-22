@@ -266,13 +266,20 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
     }
     @objc func viewallitemtap(_ sender: UIButton) {
         let data = getvidoebyproductIdsdata[sender.tag]
-        let vc = CartPopupViewController.getVC(.main)
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = centerTransitioningDelegate
-        vc.products = data
-        vc.nav = self.navigationController
-        vc.products = data
-        UIApplication.pTopViewController().present(vc, animated: true, completion: nil)
+        
+        
+        if (data.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.main)
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.nav = self.navigationController
+            vc.products = data
+            UIApplication.pTopViewController().present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+            vc.slugid = data.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
     
     }
     

@@ -115,7 +115,6 @@ var count = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         self.categoriesApi(isbackground: false)
-             getrandomproduct()
         scrollView.delegate = self
         self.wishlist()
         let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: "#101010"), "beyond boundaries", secondTextColor:  UIColor(hexString: "#2E8BF8"))
@@ -325,7 +324,8 @@ var count = 0
         hotDealCollectionV.reloadData()
         self.LanguageRender()
         SocketConeect()
-        
+        getrandomproduct()
+
         
 //        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "you want to join ?", btn1Title: "Accept", btn1Callback: {
 //            print("Accept")
@@ -658,7 +658,12 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
-            cell.productname.text =  data?.productName
+            if LanguageManager.language == "ar"{
+                cell.productname.text = data?.lang?.ar?.productName
+            }else{
+                cell.productname.text =  data?.productName
+            }
+//            cell.productname.text =  data?.productName
 //            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
             cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
             if data?.onSale == true {
@@ -681,11 +686,6 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
 
 			 }
             cell.heartBtn.tag = indexPath.row
-            
-            
-          
-            
-            
             
             cell.cartButton.tag = indexPath.row
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
@@ -741,7 +741,13 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
-            cell.productname.text = data.productName
+//            cell.productname.text = data.productName
+            if LanguageManager.language == "ar"{
+                cell.productname.text = data.lang?.ar?.productName
+            }else{
+                cell.productname.text =  data.productName
+            }
+            
             if data.onSale == true {
                 cell.discountPrice.isHidden = false
                 cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0)
@@ -758,6 +764,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
             
             cell.heartBtn.tag = indexPath.row
+            cell.cartButton.tag = indexPath.row
             cell.heartBtn.isSelected = !cell.heartBtn.isSelected
             cell.cartButton.addTarget(self, action: #selector(lastRandomProductcartButtonTap(_:)), for: .touchUpInside)
             cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
@@ -1052,26 +1059,37 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
     @objc func cartButtonTap(_ sender: UIButton) {
         let data = randomproductapiModel.first?.product?[sender.tag]
         
-        let vc = CartPopupViewController.getVC(.main)
-       
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = centerTransitioningDelegate
-        vc.products = data
-        vc.nav = self.navigationController
-        self.present(vc, animated: true, completion: nil)
+        if (data?.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.main)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+            vc.slugid = data?.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
 
     }
     @objc func lastRandomProductcartButtonTap(_ sender: UIButton) {
         let data = getrandomproductapiModel[sender.tag]
         
-        let vc = CartPopupViewController.getVC(.main)
-       
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = centerTransitioningDelegate
-        vc.products = data
-        vc.nav = self.navigationController
-        self.present(vc, animated: true, completion: nil)
-
+        if (data.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.main)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+            vc.slugid = data.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
     }
     @objc func heartButtonTap(_ sender: UIButton) {
         let data = randomproductapiModel.first?.product?[sender.tag]

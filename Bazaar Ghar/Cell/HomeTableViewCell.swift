@@ -99,13 +99,23 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     @objc func catBannerBtnTapped(_ sender: UIButton) {
         let data = productapi?[sender.tag]
         
-        let vc = CartPopupViewController.getVC(.main)
-       
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = centerTransitioningDelegate
-        vc.products = data
-        vc.nav = self.nav
-        UIApplication.pTopViewController().present(vc, animated: true, completion: nil)
+      
+        
+        
+        if (data?.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.main)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.nav
+            UIApplication.pTopViewController().present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+            vc.slugid = data?.slug
+            nav?.pushViewController(vc, animated: false)
+        }
+        
 
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

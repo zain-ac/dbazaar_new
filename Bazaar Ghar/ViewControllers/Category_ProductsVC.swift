@@ -519,13 +519,19 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
     @objc func cartButtonTap(_ sender: UIButton) {
         let data = getAllProductsByCategoriesData[sender.tag]
         
-        let vc = CartPopupViewController.getVC(.main)
-       
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = centerTransitioningDelegate
-        vc.products = data
-        vc.nav = self.navigationController
-        self.present(vc, animated: true, completion: nil)
+        if (data.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.main)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+            vc.slugid = data.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
 
     }
     @objc func heartButtonTap(_ sender: UIButton) {

@@ -19,6 +19,9 @@ class CartPopupViewController: UIViewController {
     @IBOutlet weak var ratingText: UILabel!
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var crossBtn: UIButton!
+    @IBOutlet weak var addToCartBtn: UIButton!
+    @IBOutlet weak var outOfStockLbl: UILabel!
+
     let centerTransitioningDelegate = CenterTransitioningDelegate()
     var products: Product?
     var nav:UINavigationController?
@@ -39,30 +42,25 @@ class CartPopupViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if products?.quantity ?? 0 > 0 {
+            addToCartBtn.backgroundColor = UIColor(hex: "#06B7FD")
+            addToCartBtn.isEnabled = true
+            outOfStockLbl.isHidden = true
+        }else {
+            addToCartBtn.backgroundColor = .gray
+            addToCartBtn.isEnabled = false
+            outOfStockLbl.isHidden = false
+        }
+    }
     private func addToCartApi(product: String, quantity: Int,navigation:Bool){
         APIServices.additemtocart(product:product,quantity:quantity,completion: {[weak self] data in
             guard let strongSelf = self else { return }
 
             switch data {
             case .success(let res):
-////
-//                let vc = AddtocartPopup.getVC(.sidemenu)
-//                            vc.modalPresentationStyle = .custom
-//                            vc.transitioningDelegate = self?.centerTransitioningDelegate
-//                            vc.img = "addtocart"
-//                            vc.titleText = "Added to Cart!"
-//                            vc.messageText = "Successfully added \(product) in your cart"
-//                            vc.leftBtnText = "Continue Shopping"
-//                            vc.rightBtnText = "Go to Cart"
-//                            vc.iscomefor = "cart"
-//                            vc.nav = self?.nav
-//
-//                            self?.present(vc, animated: true) {
-//                                // Dismiss the current view controller after presenting the popup
-//                                if let currentVC = self?.presentingViewController {
-//                                    currentVC.dismiss(animated: true, completion: nil)
-//                                }
-//                            }
+                   
                 
                 let storyboard = UIStoryboard(name: "sidemenu", bundle: nil)
                 guard let addToCartPopupVC = storyboard.instantiateViewController(withIdentifier: "AddtocartPopup") as? AddtocartPopup else { return }
@@ -133,9 +131,19 @@ class CartPopupViewController: UIViewController {
         self.dismiss(animated: true)
     }
     @IBAction func addtoCartButton(_ sender: Any) {
-       
-    
-                self.addToCartApi(product:self.products?.id ?? "",quantity:1,navigation: false)
+                
+//        if (products?.variants?.first?.id == nil) {
+        if self.products?.id == nil {
+            self.addToCartApi(product:self.products?._id ?? "",quantity:1,navigation: false)
+
+        }else {
+            self.addToCartApi(product:self.products?.id ?? "",quantity:1,navigation: false)
+
+        }
+//        }else {
+//            let vc = NewProductPageViewController.getVC(.sidemenu)
+//            nav?.pushViewController(vc, animated: false)
+//        }
             
         
     }

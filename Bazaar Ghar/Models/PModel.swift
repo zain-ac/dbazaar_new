@@ -247,7 +247,7 @@ struct Product: Codable{
     let salePrice: Double?
     let variants: [Variants]?
     let description: String?
-
+    let _id: String?
 }
 struct Variants: Codable {
     let id: String?
