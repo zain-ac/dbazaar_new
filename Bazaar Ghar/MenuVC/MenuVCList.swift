@@ -57,7 +57,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                 attributedString.addAttribute(.foregroundColor, value: UIColor(hex: "#2D8CF8"), range: categoriesTextRange)
                 
                 name.attributedText = attributedString
-       
+        name.text = "topcategories".pLocalized(lang: LanguageManager.language)
+
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSSideMenu), name: NSNotification.Name(rawValue: "sidemenuReload"), object: nil)
     }
@@ -142,16 +143,28 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
             
             if currentLevel == 0 {
                 let category = currentCategories[indexPath.row] as! getAllCategoryResponse
-                cell.lab.text = category.name
+                if LanguageManager.language == "ar"{
+                    cell.lab.text = category.lang?.ar?.name
+                }else{
+                    cell.lab.text = category.name
+                }
                 cell.imagelbl.pLoadImage(url: category.mainImage ?? "")
                 
             } else if currentLevel == 1 {
                 let subCategory = currentCategories[indexPath.row] as! DatumSubCategory
-                cell.lab.text = subCategory.name
+                if LanguageManager.language == "ar"{
+                    cell.lab.text = subCategory.lang?.ar?.name
+                }else{
+                    cell.lab.text = subCategory.name
+                }
                 cell.imagelbl.pLoadImage(url: subCategory.mainImage ?? "")
             } else if currentLevel == 2 {
                 let subSubCategory = currentCategories[indexPath.row] as! PurppleSubCategory
-                cell.lab.text = subSubCategory.name
+                if LanguageManager.language == "ar"{
+                    cell.lab.text = subSubCategory.lang?.ar?.name
+                }else{
+                    cell.lab.text = subSubCategory.name
+                }
                 cell.imagelbl.pLoadImage(url: subSubCategory.mainImage ?? "")
             } else if currentLevel == 3 {
                 let subSubSubCategory = currentCategories[indexPath.row] as! FlufffySubCategory

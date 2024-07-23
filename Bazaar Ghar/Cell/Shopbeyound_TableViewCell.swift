@@ -40,8 +40,13 @@ extension Shopbeyound_TableViewCell: UICollectionViewDelegate,UICollectionViewDa
         if count == 1 {
             if CategoriesResponsedata.count > 0 {
                 let data = CategoriesResponsedata[indexPath.row]
+                if LanguageManager.language == "ar"{
+                    cell.lbl.text = " \(data.lang?.ar?.name ?? "")  "
+                }else{
+                    cell.lbl.text = " \(data.name ?? "")  "
+
+                }
                 cell.shop_img.pLoadImage(url: data.mainImage ?? "")
-                cell.lbl.text = " \(data.name ?? "")  "
             }
             
         }else if count == 2 {
@@ -49,15 +54,23 @@ extension Shopbeyound_TableViewCell: UICollectionViewDelegate,UICollectionViewDa
                 
                 let data = CategoriesResponsedata[indexPath.row + 12]
                 cell.shop_img.pLoadImage(url: data.mainImage ?? "")
-                cell.lbl.text = "  \(data.name ?? "")   "
-            }
+                if LanguageManager.language == "ar"{
+                    cell.lbl.text = " \(data.lang?.ar?.name ?? "")  "
+                }else{
+                    cell.lbl.text = " \(data.name ?? "")  "
+
+                }            }
         }else {
             if CategoriesResponsedata.count > 0 {
                 
                 let data = CategoriesResponsedata[indexPath.row + 22]
                 cell.shop_img.pLoadImage(url: data.mainImage ?? "")
-                cell.lbl.text = "  \(data.name ?? "")   "
-            }
+                if LanguageManager.language == "ar"{
+                    cell.lbl.text = " \(data.lang?.ar?.name ?? "")  "
+                }else{
+                    cell.lbl.text = " \(data.name ?? "")  "
+
+                }            }
         }
         
         return cell

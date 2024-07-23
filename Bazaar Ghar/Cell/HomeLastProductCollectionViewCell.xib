@@ -34,18 +34,18 @@
                         <rect key="frame" x="0.0" y="2" width="151" height="246"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="17" translatesAutoresizingMaskIntoConstraints="NO" id="kGZ-hI-tgI">
-                                <rect key="frame" x="0.0" y="0.0" width="151" height="175"/>
+                                <rect key="frame" x="3" y="3" width="145" height="175"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="175" id="hqV-7c-TI5"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="0.0"/>
+                                        <real key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hnq-42-Hfh">
-                                <rect key="frame" x="101" y="146" width="44" height="19"/>
+                                <rect key="frame" x="98" y="149" width="44" height="19"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star-svgrepo-com" translatesAutoresizingMaskIntoConstraints="NO" id="QoR-E9-mDt">
                                         <rect key="frame" x="7.6666666666666714" y="5" width="9" height="9"/>
@@ -113,7 +113,7 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wz4-sX-zTr">
                                 <rect key="frame" x="115" y="10" width="22" height="22"/>
-                                <color key="backgroundColor" red="0.8862745098" green="0.8862745098" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" systemColor="tertiarySystemFillColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="22" id="O30-Ly-EcY"/>
                                     <constraint firstAttribute="height" constant="22" id="XPa-gl-4Ea"/>
@@ -121,7 +121,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal">
-                                    <imageReference key="image" image="heartwhite" symbolScale="small"/>
+                                    <imageReference key="image" image="heart.fill" catalog="system" symbolScale="small"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
                                 <state key="selected" image="fillheart"/>
@@ -132,7 +132,7 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="deW-C1-HY1">
-                                <rect key="frame" x="3.6666666666666714" y="180" width="143.66666666666663" height="0.0"/>
+                                <rect key="frame" x="3.6666666666666714" y="183" width="143.66666666666663" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="12"/>
                                 <nil key="textColor"/>
@@ -145,7 +145,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s8r-sI-vcs">
-                                <rect key="frame" x="0.66666666666666652" y="230.66666666666666" width="6" height="1"/>
+                                <rect key="frame" x="3.6666666666666665" y="230.66666666666666" width="0.0" height="1"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="fiK-Wd-D8M"/>
@@ -177,25 +177,27 @@
                         <constraints>
                             <constraint firstItem="s8r-sI-vcs" firstAttribute="centerY" secondItem="UrX-MX-iuu" secondAttribute="centerY" id="1Tf-jy-2cG"/>
                             <constraint firstAttribute="trailing" secondItem="gwA-kf-v6x" secondAttribute="trailing" constant="6" id="2Zl-aA-MGe"/>
-                            <constraint firstItem="s8r-sI-vcs" firstAttribute="trailing" secondItem="UrX-MX-iuu" secondAttribute="trailing" constant="3" id="B1n-W5-mtO"/>
+                            <constraint firstItem="s8r-sI-vcs" firstAttribute="trailing" secondItem="UrX-MX-iuu" secondAttribute="trailing" id="B1n-W5-mtO"/>
                             <constraint firstAttribute="bottom" secondItem="gwA-kf-v6x" secondAttribute="bottom" constant="11" id="GRe-ya-cUU"/>
                             <constraint firstItem="hnq-42-Hfh" firstAttribute="bottom" secondItem="kGZ-hI-tgI" secondAttribute="bottom" constant="-10" id="Jvj-Yj-Ncb"/>
                             <constraint firstItem="VRg-cs-t8J" firstAttribute="centerX" secondItem="UrX-MX-iuu" secondAttribute="centerX" id="Kas-4h-Iw8"/>
                             <constraint firstItem="hnq-42-Hfh" firstAttribute="trailing" secondItem="kGZ-hI-tgI" secondAttribute="trailing" constant="-6" id="LZC-uc-Hjc"/>
                             <constraint firstItem="deW-C1-HY1" firstAttribute="width" secondItem="11a-6U-cj5" secondAttribute="width" multiplier="0.95" id="MwK-sD-46I"/>
+                            <constraint firstItem="VRg-cs-t8J" firstAttribute="leading" secondItem="UrX-MX-iuu" secondAttribute="leading" id="R2K-4A-xGZ"/>
                             <constraint firstItem="VRg-cs-t8J" firstAttribute="top" secondItem="UrX-MX-iuu" secondAttribute="bottom" constant="5" id="RZb-kg-Zru"/>
-                            <constraint firstItem="kGZ-hI-tgI" firstAttribute="width" secondItem="11a-6U-cj5" secondAttribute="width" id="V0W-9s-8Zh"/>
                             <constraint firstAttribute="trailing" secondItem="wz4-sX-zTr" secondAttribute="trailing" constant="14" id="VVG-yt-LeZ"/>
-                            <constraint firstItem="s8r-sI-vcs" firstAttribute="leading" secondItem="UrX-MX-iuu" secondAttribute="leading" constant="-3" id="WUN-pJ-9tY"/>
+                            <constraint firstItem="s8r-sI-vcs" firstAttribute="leading" secondItem="UrX-MX-iuu" secondAttribute="leading" id="WUN-pJ-9tY"/>
                             <constraint firstItem="deW-C1-HY1" firstAttribute="centerX" secondItem="11a-6U-cj5" secondAttribute="centerX" id="Yz2-Md-sG2"/>
                             <constraint firstItem="wz4-sX-zTr" firstAttribute="top" secondItem="11a-6U-cj5" secondAttribute="top" constant="10" id="bmb-sA-9Hz"/>
                             <constraint firstItem="v6b-Rh-dWX" firstAttribute="leading" secondItem="11a-6U-cj5" secondAttribute="leading" id="dfx-uS-q7j"/>
                             <constraint firstItem="UrX-MX-iuu" firstAttribute="leading" secondItem="deW-C1-HY1" secondAttribute="leading" id="do7-JZ-fRp"/>
                             <constraint firstAttribute="bottom" secondItem="VRg-cs-t8J" secondAttribute="bottom" constant="10" id="icc-Xx-I9g"/>
                             <constraint firstItem="deW-C1-HY1" firstAttribute="top" secondItem="kGZ-hI-tgI" secondAttribute="bottom" constant="5" id="jqW-Sr-XRn"/>
+                            <constraint firstItem="kGZ-hI-tgI" firstAttribute="leading" secondItem="11a-6U-cj5" secondAttribute="leading" constant="3" id="lfx-8a-Shl"/>
                             <constraint firstItem="v6b-Rh-dWX" firstAttribute="top" secondItem="11a-6U-cj5" secondAttribute="top" id="mwt-DE-zAg"/>
-                            <constraint firstItem="kGZ-hI-tgI" firstAttribute="top" secondItem="11a-6U-cj5" secondAttribute="top" id="oSy-FO-8VQ"/>
+                            <constraint firstItem="kGZ-hI-tgI" firstAttribute="top" secondItem="11a-6U-cj5" secondAttribute="top" constant="3" id="oSy-FO-8VQ"/>
                             <constraint firstItem="kGZ-hI-tgI" firstAttribute="centerX" secondItem="11a-6U-cj5" secondAttribute="centerX" id="wbc-ML-Bhf"/>
+                            <constraint firstAttribute="trailing" secondItem="kGZ-hI-tgI" secondAttribute="trailing" constant="3" id="xOv-e1-Qcv"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -258,7 +260,7 @@
     <resources>
         <image name="17" width="225" height="225"/>
         <image name="fillheart" width="512" height="512"/>
-        <image name="heartwhite" width="512" height="512"/>
+        <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="online-shopping" width="19" height="18"/>
         <image name="star-svgrepo-com" width="9" height="9"/>
         <systemColor name="systemBackgroundColor">
@@ -269,6 +271,9 @@
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiarySystemFillColor">
+            <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

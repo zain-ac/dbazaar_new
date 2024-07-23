@@ -14,7 +14,7 @@
 "faqs"= "FAQS";
 "privacypolicy"= "Privacy Policy";
 "contactus"= "Contact Us";
-"language" = "Language";
+"language" = "EN";
 "offers" = "Offers";
 
 // edit profile screen
@@ -200,6 +200,14 @@
 
 
 
+//Home_New
+
+"whatareyoulookingfor" = "What are you looking for?";
+"shopbycategories" = "Shop By Categories";
+"latestmobiles" = "Latest Mobiles";
+"shopbeyoundboundaries" = "Shop beyound boundaries";
+"Trendingproducts" = "Trending Products";
+"Menu" = "Menu";
 
 
 

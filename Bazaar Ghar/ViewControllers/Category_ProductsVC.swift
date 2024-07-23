@@ -70,8 +70,7 @@ class Category_ProductsVC: UIViewController {
        
         videosection_collectionview.delegate = self
         videosection_collectionview.dataSource = self
-        categoryproduct_collectionview.delegate = self
-        categoryproduct_collectionview.dataSource = self
+        setupCollectionView()
         
 
         
@@ -122,6 +121,15 @@ class Category_ProductsVC: UIViewController {
         
         homeswitchbtn.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
     }
+    
+    func setupCollectionView() {
+        let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
+        categoryproduct_collectionview.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        categoryproduct_collectionview.delegate = self
+        categoryproduct_collectionview.dataSource = self
+    }
+    
+    
     
     @IBAction func switchChanged(_ sender: UISwitch) {
            if sender.isOn {
@@ -468,27 +476,7 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
             cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
             if data.onSale == true {
                 cell.discountPrice.isHidden = false
-                let currencySymbol = appDelegate.currencylabel
-                let salePrice = Utility().formatNumberWithCommas(data.salePrice ?? 0)
-
-                // Create an attributed string for the currency symbol with the desired color
-                let currencyAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor.black // Change to your desired color
-                ]
-                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
-
-                // Create an attributed string for the sale price with the desired color
-                let priceAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
-                ]
-                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
-
-                // Combine the attributed strings
-                let combinedAttributedString = NSMutableAttributedString()
-                combinedAttributedString.append(attributedCurrencySymbol)
-                combinedAttributedString.append(attributedPrice)
-                cell.discountPrice.attributedText = combinedAttributedString
-
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
 //                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
@@ -498,7 +486,8 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
             }else {
                 cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+//                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+                cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
 
              }
             cell.heartBtn.tag = indexPath.row

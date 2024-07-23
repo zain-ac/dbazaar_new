@@ -20,7 +20,7 @@
 "faqs"= "الأسئلة الشائعة";
 "privacypolicy"= "سياسة الخصوصية";
 "contactus"= "اتصل بنا";
-"language" = "لغة";
+"language" = "عربي";
 "offers" = "عروض";
 
 // edit profile screen
@@ -199,3 +199,18 @@
 "country" = "دولة";
 "selectacountry" = "اختر دولة";
 // AddAddress
+
+
+
+
+
+
+//Home_New
+
+"whatareyoulookingfor" = "ما الذي تبحث عنه؟";
+"shopbycategories" = "تسوق حسب الفئات";
+"latestmobiles" = "أحدث الموبايلات";
+"shopbeyoundboundaries" = "تسوق خارج الحدود";
+"Trendingproducts" = "المنتجات الرائجة";
+"Menu" = "قائمة طعام";
+

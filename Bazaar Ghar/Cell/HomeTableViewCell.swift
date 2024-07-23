@@ -41,6 +41,12 @@ class HomeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        setupCollectionView()
+    }
+    
+    func setupCollectionView() {
+        let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
+        Homecollectionview.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
         Homecollectionview.delegate = self
         Homecollectionview.dataSource = self
     }
@@ -74,20 +80,18 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             cell.productname.text =  data?.productName
         }
 //        cell.productname.text =  data.productName
-        cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0.0)
         if data?.onSale == true {
             cell.discountPrice.isHidden = false
-            cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0.0)
+            cell.productPrice.isHidden = false
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
+            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
             cell.productPriceLine.isHidden = false
             cell.productPrice.textColor = UIColor.red
             cell.productPriceLine.backgroundColor = UIColor.red
-            cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
-
         }else {
-            cell.discountPrice.isHidden = true
             cell.productPriceLine.isHidden = true
-            cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-
+            cell.productPrice.isHidden = true
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
          }
         cell.cartButton.tag = indexPath.row
         cell.cartButton.addTarget(self, action: #selector(catBannerBtnTapped(_:)), for: .touchUpInside)
@@ -127,7 +131,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: Homecollectionview.frame.width/2-5, height: Homecollectionview.frame.height/2-5)
+        return CGSize(width: Homecollectionview.frame.width/2-5, height: 280)
 
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

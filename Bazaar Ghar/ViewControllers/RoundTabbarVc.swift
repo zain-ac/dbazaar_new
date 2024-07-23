@@ -14,19 +14,19 @@ import SideMenu
 class RoundTabbarVc: UITabBarController {
     var miscid = String()
     var ischecklogin = false
-  
+    
     private var customTabBar: CustomTabBar?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewControllers?.forEach({
-                  $0.tabBarItem.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 12, weight: .regular)], for: .normal)
-              })
+            $0.tabBarItem.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 12, weight: .regular)], for: .normal)
+        })
         self.setupSideMenu()
-//        UITabBar.appearance().tintColor = UIColor.black
+        //        UITabBar.appearance().tintColor = UIColor.black
         UITabBar.appearance().unselectedItemTintColor = UIColor.black
         LanguageRander()
-
+        
         if(ischecklogin){
             DispatchQueue.main.async {
                 self.ischecklogin = false
@@ -35,7 +35,7 @@ class RoundTabbarVc: UITabBarController {
                 self.present(vc, animated: true, completion: nil)
             }
         }
-            
+        
         if(miscid != ""){
             DispatchQueue.main.async {
                 if self.miscid == "cancel" {
@@ -49,12 +49,12 @@ class RoundTabbarVc: UITabBarController {
                         
                     }, btn2Title: "Accept") { token, id in
                         appDelegate.videotoken = token
-                          appDelegate.videoid = id
-                          
-                          NotificationCenter.default.post(name: Notification.Name("videocallid"), object: nil)
+                        appDelegate.videoid = id
+                        
+                        NotificationCenter.default.post(name: Notification.Name("videocallid"), object: nil)
                     }
                 }
-            
+                
             }
         }
         
@@ -65,7 +65,7 @@ class RoundTabbarVc: UITabBarController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification2(notification:)), name: Notification.Name("googleauth"), object: nil)
         
         // Create a floating action menu
-       
+        
         let customTabBar = CustomTabBar()
         self.setValue(customTabBar, forKey: "tabBar")
         
@@ -99,52 +99,54 @@ class RoundTabbarVc: UITabBarController {
         
     }
     private func setupSideMenu() {
-            // Create the side menu
+        // Create the side menu
         let vc = MenuVCList.getVC(.sidemenu)
-            let sideMenu = SideMenuNavigationController(rootViewController: vc)
+        let sideMenu = SideMenuNavigationController(rootViewController: vc)
         sideMenu.presentationStyle = .menuSlideIn
-            // Set up properties
+        // Set up properties
         sideMenu.leftSide = false // Set to false if you want it on the right side
-            sideMenu.menuWidth = UIScreen.main.bounds.width * 0.7
+        sideMenu.menuWidth = UIScreen.main.bounds.width * 0.7
         sideMenu.presentationStyle.backgroundColor = .clear
-           sideMenu.presentationStyle.onTopShadowOpacity = 0.0
-           sideMenu.presentationStyle.onTopShadowColor = .clear
+        sideMenu.presentationStyle.onTopShadowOpacity = 0.0
+        sideMenu.presentationStyle.onTopShadowColor = .clear
         sideMenu.presentationStyle.onTopShadowColor = UIColor.black.withAlphaComponent(0.5)
-//        sideMenu.presentationStyle.onTopShadowOffset = 0.2
+        //        sideMenu.presentationStyle.onTopShadowOffset = 0.2
         sideMenu.presentationStyle.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-                sideMenu.presentationStyle.presentingEndAlpha = 1.0
-//        sideMenu.presentationStyle.onTopShadowOpacity = 0.0
-//           sideMenu.presentationStyle.onTopShadowColor = .clear
+        sideMenu.presentationStyle.presentingEndAlpha = 1.0
+        //        sideMenu.presentationStyle.onTopShadowOpacity = 0.0
+        //           sideMenu.presentationStyle.onTopShadowColor = .clear
         sideMenu.statusBarEndAlpha  = 0.0
         sideMenu.view.backgroundColor = .white
         sideMenu.presentationStyle.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-
-       
-            // Add gesture to open side menu
-            SideMenuManager.default.addPanGestureToPresent(toView: self.view)
-            SideMenuManager.default.rightMenuNavigationController = sideMenu
-            
-            // Optionally, add gesture recognizer to a button in your tab bar
-          
+        
+        
+        // Add gesture to open side menu
+        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+        SideMenuManager.default.rightMenuNavigationController = sideMenu
+        
+        // Optionally, add gesture recognizer to a button in your tab bar
+        
+    }
+    
+    @objc private func openMenu() {
+        DispatchQueue.main.async {
+            self.selectedIndex = 0
         }
-
-        @objc private func openMenu() {
-            DispatchQueue.main.async {
-                self.selectedIndex = 0
-            }
-            present(SideMenuManager.default.rightMenuNavigationController!, animated: true, completion: nil)
-        }
+        present(SideMenuManager.default.rightMenuNavigationController!, animated: true, completion: nil)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
-      print("df")
+        print("df")
     }
     func LanguageRander() {
         tabBar.semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
-                tabBar.items?[0].title = "home".pLocalized(lang: LanguageManager.language)
-                tabBar.items?[1].title = "offers".pLocalized(lang: LanguageManager.language)
-//                tabBar.items?[2].title = "cart".pLocalized(lang: LanguageManager.language)
-                tabBar.items?[3].title = "profile".pLocalized(lang: LanguageManager.language)
+        tabBar.items?[0].title = "home".pLocalized(lang: LanguageManager.language)
+        tabBar.items?[1].title = "offers".pLocalized(lang: LanguageManager.language)
+        //                tabBar.items?[2].title = "cart".pLocalized(lang: LanguageManager.language)
+        tabBar.items?[3].title = "profile".pLocalized(lang: LanguageManager.language)
         tabBar.items?[4].title = "Menu".pLocalized(lang: LanguageManager.language)
+  
+
     }
     
     @objc func methodOfReceivedNotification(notification: Notification) {

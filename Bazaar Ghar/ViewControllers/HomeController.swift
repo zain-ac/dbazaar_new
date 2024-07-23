@@ -33,6 +33,8 @@ class HomeController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var searchProductslbs: UITextField!
     @IBOutlet weak var livelbl: UILabel!
     @IBOutlet weak var topcategorieslbl: UILabel!
+    @IBOutlet weak var trendingproductlbl: UILabel!
+
     @IBOutlet weak var hederView: UIView!
     @IBOutlet weak var LiveGif: UIImageView!
     @IBOutlet weak var hotDealCollectionV: UICollectionView!
@@ -55,6 +57,7 @@ class HomeController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var shopbeyound_tblview: UITableView!
     @IBOutlet weak var lastRandomProductsCollectionView: UICollectionView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var langLbl: UILabel!
 
 
     
@@ -106,6 +109,7 @@ var count = 0
     var shopBeyondBGColorArray = [UIColor(hex: "#F7FFF2"),UIColor(hex: "#FFF4F6"),UIColor(hex: "#F0FFEF")]
     var shopBeyonimagesArray = [UIImage(named: "pakistan-image"),UIImage(named: "china"),UIImage(named: "saudi")]
     var shopBeyonLblArray = ["Shop Pakistan","Shop China","Shop Saudi"]
+    var shopBeyonLblArrayar = ["تسوق باكستان","تسوق الصين","تسوق سعودي"]
 
     let centerTransitioningDelegate = CenterTransitioningDelegate()
     var load:Bool?
@@ -161,8 +165,7 @@ var count = 0
         hotDealView.isHidden = true
         homeTblView.delegate = self
         homeTblView.dataSource = self
-        homeLastProductCollectionView.delegate = self
-        homeLastProductCollectionView.dataSource  = self
+
 
         setupCollectionView()
        
@@ -180,7 +183,10 @@ var count = 0
         let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
         homeLastProductCollectionView.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
         homeLastProductCollectionView.delegate = self
-        homeLastProductCollectionView.dataSource = self
+        homeLastProductCollectionView.dataSource  = self
+        lastRandomProductsCollectionView.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        lastRandomProductsCollectionView.delegate = self
+        lastRandomProductsCollectionView.dataSource  = self
     }
     
 
@@ -275,7 +281,7 @@ var count = 0
 
             self.ProductCategoriesResponsedata = AppDefault.productcategoriesApi ?? []
 
-            self.tableViewHeight.constant = CGFloat(800 * (self.ProductCategoriesResponsedata.count ))
+            self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count ))
             let hh = (300 * 3) + 1440 + ((getrandomproductapiModel.count) / 2) * 280
 
             self.scrollHeight.constant = CGFloat(hh) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)
@@ -340,15 +346,19 @@ var count = 0
     
 
     func LanguageRender() {
-        searchProductslbs.placeholder = "searchproducts".pLocalized(lang: LanguageManager.language)
+        searchFeild.placeholder = "whatareyoulookingfor".pLocalized(lang: LanguageManager.language)
         livelbl.text = "live".pLocalized(lang: LanguageManager.language)
         hotdealslbl.text = "hotdeals".pLocalized(lang: LanguageManager.language)
         viewalllbl.setTitle("viewall".pLocalized(lang: LanguageManager.language), for: .normal)
-//        recommendationLbl.text = "recommendation".pLocalized(lang: LanguageManager.language)
-   
+        recommendationLbl.text = "latestmobiles".pLocalized(lang: LanguageManager.language)
+ 
 
+        shopByCatLbl.text = "shopbycategories".pLocalized(lang: LanguageManager.language)
+        shoplabel.text = "shopbeyoundboundaries".pLocalized(lang: LanguageManager.language)
+        trendingproductlbl.text = "Trendingproducts".pLocalized(lang: LanguageManager.language)
         topcategorieslbl.text = "topcategories".pLocalized(lang: LanguageManager.language)
-        
+        langLbl.text = "language".pLocalized(lang: LanguageManager.language)
+
         //        if LanguageManager.language == "ar"{
         //            backBtn.setImage(UIImage(systemName: "arrow.right"), for: .normal)
         //           }else{
@@ -425,6 +435,8 @@ var count = 0
             UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
             NotificationCenter.default.post(name: Notification.Name("RefreshAllTabs"), object: nil)
             self.navigationController?.popToRootViewController(animated: true)
+            self.viewDidLoad()
+            self.viewWillAppear(true)
         }
    
     }
@@ -489,7 +501,7 @@ var count = 0
                 AppDefault.productcategoriesApi = res
                 if(res.count > 0){
                     self?.ProductCategoriesResponsedata = res
-                    self?.tableViewHeight.constant = CGFloat(800 * (self?.ProductCategoriesResponsedata.count ?? 0))
+                    self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
                     
                     let hh = (300 * 3) + 1440
                     let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
@@ -537,7 +549,7 @@ var count = 0
                     self?.getrandomproductapiModel.append(contentsOf: res)
                 }
                 print(res)
-                self?.tableViewHeight.constant = CGFloat(800 * (self?.ProductCategoriesResponsedata.count ?? 0))
+                self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
                 
                 let hh = (300 * 3) + 1440
                 let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
@@ -653,7 +665,6 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return cell
         } else if collectionView == homeLastProductCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
-            
             let data = randomproductapiModel.first?.product?[indexPath.row]
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
@@ -663,46 +674,36 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             }else{
                 cell.productname.text =  data?.productName
             }
-//            cell.productname.text =  data?.productName
-//            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
-            cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
+
             if data?.onSale == true {
                 cell.discountPrice.isHidden = false
-       
-          
-              
+                cell.productPrice.isHidden = false
                 cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
-//                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-//                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-                
             }else {
-                cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-               
-
-			 }
-            cell.heartBtn.tag = indexPath.row
+                cell.productPrice.isHidden = true
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
+             }
             
+            cell.heartBtn.tag = indexPath.row
             cell.cartButton.tag = indexPath.row
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
             cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
-            cell.product = data
             
-            if let person = wishlistDataResponse?.products?.contains(where: { $0.id == data?.id }) {
-//                cell.idarray.[] = data!
-            } else {
-                cell.idarray = []
-            }
-            
-            
-            
-            for i in wishlistDataResponse?.products ?? [] {
-                
-            }
+//            cell.product = data
+//            if let person = wishlistDataResponse?.products?.contains(where: { $0.id == data?.id }) {
+////                cell.idarray.[] = data!
+//            } else {
+//                cell.idarray = []
+//            }
+//
+//            for i in wishlistDataResponse?.products ?? [] {
+//                
+//            }
             
             return cell
         } else if collectionView == hotDealCollectionV {
@@ -750,18 +751,17 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             
             if data.onSale == true {
                 cell.discountPrice.isHidden = false
-                cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0)
+                cell.productPrice.isHidden = false
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-
             }else {
-                cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-            }
-            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+                cell.productPrice.isHidden = true
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+             }
             
             cell.heartBtn.tag = indexPath.row
             cell.cartButton.tag = indexPath.row
@@ -796,16 +796,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if collectionView == homeLastProductCollectionView {
-            return 10
-        }
+
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        if collectionView == homeLastProductCollectionView {
-            return 5
-        }
         return 0
     }
     
@@ -813,12 +808,12 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         if collectionView == imageslidercollectionview {
             return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
         }else if collectionView == homeLastProductCollectionView {
-            return CGSize(width: homeLastProductCollectionView.frame.width/2-5, height: homeLastProductCollectionView.frame.height/2-5)
+            return CGSize(width: homeLastProductCollectionView.frame.width/2-5, height: 280)
         } else if collectionView == hotDealCollectionV {
             return CGSize(width: self.hotDealCollectionV.frame.width/1.2, height: self.hotDealCollectionV.frame.height)
 
         } else if collectionView == lastRandomProductsCollectionView {
-            return CGSize(width: self.lastRandomProductsCollectionView.frame.width/2.12-2, height: 290)
+            return CGSize(width: self.lastRandomProductsCollectionView.frame.width/2.1-5, height: 280)
 
         } else {
             return CGSize(width: self.topcell_1.frame.width/3.9-10, height: self.topcell_1.frame.height/2.1-5)
@@ -965,11 +960,26 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Shopbeyound_TableViewCell", for: indexPath) as! Shopbeyound_TableViewCell
             
             if indexPath.row == 1 {
-                let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArray[indexPath.row], lastWordColor: UIColor(hexString: "#D70028"), otherWordsColor: UIColor(hexString: "#313230"))
-                cell.shopname_lbl.attributedText = attributedText1
+                if LanguageManager.language == "ar"{
+                    let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArrayar[indexPath.row], lastWordColor: UIColor(hexString: "#D70028"), otherWordsColor: UIColor(hexString: "#313230"))
+                    cell.shopname_lbl.attributedText = attributedText1
+
+                }else{
+                    let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArray[indexPath.row], lastWordColor: UIColor(hexString: "#D70028"), otherWordsColor: UIColor(hexString: "#313230"))
+                    cell.shopname_lbl.attributedText = attributedText1
+
+                }
             }else {
-                let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArray[indexPath.row], lastWordColor: UIColor(hexString: "#496E2E"), otherWordsColor: UIColor(hexString: "#313230"))
-                cell.shopname_lbl.attributedText = attributedText1
+                if LanguageManager.language == "ar"{
+                    let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArrayar[indexPath.row], lastWordColor: UIColor(hexString: "#496E2E"), otherWordsColor: UIColor(hexString: "#313230"))
+                    cell.shopname_lbl.attributedText = attributedText1
+
+                }else{
+                    let attributedText1 =  Utility().attributedStringWithColoredLastWord(shopBeyonLblArray[indexPath.row], lastWordColor: UIColor(hexString: "#496E2E"), otherWordsColor: UIColor(hexString: "#313230"))
+                    cell.shopname_lbl.attributedText = attributedText1
+
+                }
+  
             }
            
             cell.shop_img.image = shopBeyonimagesArray[indexPath.row]
@@ -1103,7 +1113,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             return 343
             
         }else {
-            return 800
+            return 770
         }
     }
 }
