@@ -26,6 +26,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         }
     }
     var searchVideodata: [LiveStreamingResults] = []
+    var searchVideodatafilter: [LiveStreamingResults] = []
     var indexPath : IndexPath?
     var cat:String?
     var id:String?
@@ -171,10 +172,10 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     
     @IBAction func seachTap(_ sender: Any) {
         if(searchFeild.text == ""){
-            searchVideo(name: "title", value:  "", limit: 20, catId: [])     
+            searchVideo(name: "title", value:  "", limit: 100, catId: [])
         }
         else{
-            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 20, catId: [])
+            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 100, catId: [])
         }
     }
     
@@ -197,12 +198,15 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
 }
 extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(searchVideodata.isEmpty){
-            return Utility().combinedRoundDown(Double(LiveStreamingResultsdata.count / 5) - 1)
-        }else{
-            return Utility().combinedRoundDown(Double(LiveStreamingResultsdata.count / 5) - 1)
+        if searchFeild.text == "" {
+            if(searchVideodata.isEmpty){
+                return Utility().combinedRoundDown(Double(LiveStreamingResultsdata.count / 5) - 1)
+            }else{
+                return Utility().combinedRoundDown(Double(searchVideodata.count / 5) - 1)
+            }
+        }else {
+            return Utility().combinedRoundDown(Double(searchVideodata.count / 5) - 1)
         }
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -235,11 +239,12 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 
                 
                 
-                
+                cell.btntap.tag = indexPath.row * 5
                 cell.LiveStreamingResultsdata = LiveStreamingResultsdatafilter
                 let inset: CGFloat = 10 // A
                 cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
+                cell.LiveStreamingResultsAlldata = LiveStreamingResultsdata
                 return cell
             } else {
                 LiveStreamingResultsdatafilter.removeAll()
@@ -257,42 +262,77 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                         LiveStreamingResultsdatafilter.append(LiveStreamingResultsdata[i])
                     }
                 }
-                
+                cell.buttontap.tag = indexPath.row * 5
               
                 cell.LiveStreamingResultsdata = LiveStreamingResultsdatafilter
                 let inset: CGFloat = 10 // A
-                cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
                 cell.navigationController  = self.navigationController
+                cell.LiveStreamingResultsAlldata = LiveStreamingResultsdata
+
                 return cell
             }
         }else{
             let data = searchVideodata[indexPath.row]
-    //        getStreamingVideos(limit:20,page:1,categories: [data.id ?? ""])
-            self.indexPath = indexPath
+    //       self.indexPath = indexPath
             if indexPath.row % 2 == 0 {
-                
+                searchVideodatafilter.removeAll()
+
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCell", for: indexPath) as! Live_videoCell1TableViewCell
-                if cat == "cat" {
-                    cell.id = self.id
-                }else {
-                    cell.id = data.id
+//                if cat == "cat" {
+//                    cell.id = self.id.
+//                }else {
+//                    cell.id = data.id
+//                }
+                
+                let answer = (indexPath.row + 1) * 5
+                let checkval = searchVideodata.count - answer
+                
+                if(checkval > 5){
+                    for i in indexPath.row * 5...indexPath.row * 5 + 5 {
+                        searchVideodatafilter.append(searchVideodata[i])
+                    }
+                }else{
+                    for i in indexPath.row * 5...indexPath.row * 5 + checkval {
+                        searchVideodatafilter.append(searchVideodata[i])
+                    }
                 }
+                
+                
+                cell.btntap.tag = indexPath.row * 5
+                
+                cell.LiveStreamingResultsdata = searchVideodatafilter
                 let inset: CGFloat = 10 // A
                 cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
+                cell.LiveStreamingResultsAlldata = searchVideodata
+
                 return cell
             } else {
+                searchVideodatafilter.removeAll()
+
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCel2", for: indexPath) as! Live_videoCell1TableViewCel2
-                if cat == "cat" {
-                    cell.id = self.id
-                }else {
-                    cell.id = data.id
+                let answer = (indexPath.row + 1) * 5
+                let checkval = searchVideodata.count - answer
+                
+                if(checkval > 5){
+                    for i in indexPath.row * 5...indexPath.row * 5 + 5 {
+                        searchVideodatafilter.append(searchVideodata[i])
+                    }
+                }else{
+                    for i in indexPath.row * 5...indexPath.row * 5 + checkval {
+                        searchVideodatafilter.append(searchVideodata[i])
+                    }
                 }
+                
+                cell.buttontap.tag = indexPath.row * 5
+
+                cell.LiveStreamingResultsdata = searchVideodatafilter
                 let inset: CGFloat = 10 // A
-                cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
                 cell.navigationController  = self.navigationController
+                cell.LiveStreamingResultsAlldata = searchVideodata
+                 
                 return cell
             }
 

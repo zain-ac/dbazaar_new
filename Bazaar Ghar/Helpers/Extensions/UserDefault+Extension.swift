@@ -63,6 +63,14 @@ class AppDefault {
             shared.set(newValue, forKey: "brandname")
         }
     }
+    public static var wishlistproduct: [WishlistProduct]? {
+        get{
+          return shared.decode(for: [WishlistProduct].self, using: "wishlistproduct")
+        }
+        set{
+          shared.encode(for: newValue, using: "wishlistproduct")
+        }
+      }
     public static var refreshToken: String {
         get {
             return shared.string(forKey: "refreshToken") ?? ""

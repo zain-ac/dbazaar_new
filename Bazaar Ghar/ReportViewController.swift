@@ -20,10 +20,18 @@ class ReportViewController: UIViewController  {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.isModalInPresentation = true
+
         reportTblV.register(UINib(nibName: "ReportTableViewCell", bundle: nil), forCellReuseIdentifier: "ReportTableViewCell")
 
     }
-        
+    
+    override func viewDidDisappear(_ animated: Bool) {
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        let imageDataDict:[String: String] = ["val": "close"]
+        NotificationCenter.default.post(name: Notification.Name("showviews"), object: nil,userInfo: imageDataDict)
+    }
     private func report(comment:String,videoId:String){
         APIServices.report(comment: comment, videoId: videoId){[weak self] data in
             switch data{

@@ -45,6 +45,10 @@ class NewProductPageViewController: UIViewController {
     @IBOutlet weak var varientsTblV: UITableView!
     @IBOutlet weak var varientViewHeight: NSLayoutConstraint!
 
+    @IBOutlet weak var minusview: UIView!
+    @IBOutlet weak var cartBtnImg: UIButton!
+    @IBOutlet weak var cartBtnLbl: UILabel!
+    @IBOutlet weak var cartBtnView: UIView!
 
     var productCount = 1
     var incrementproductCount = 1
@@ -90,6 +94,19 @@ class NewProductPageViewController: UIViewController {
         colorsimgs = ["colosimg","colosimg","colosimg"]
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationFromCartCell(notification:)), name: Notification.Name("variantSlug"), object: nil)
+        setupCollectionView()
+    
+    }
+    
+    func setupCollectionView() {
+        let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
+        moreFrom.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        moreFrom.delegate = self
+        moreFrom.dataSource  = self
+        relatedProductCollectionView.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        relatedProductCollectionView.delegate = self
+        relatedProductCollectionView.dataSource  = self
+
     }
     
     @objc func methodOfReceivedNotificationFromCartCell(notification: Notification) {
@@ -129,7 +146,7 @@ class NewProductPageViewController: UIViewController {
         // Present the share sheet
         present(activityViewController, animated: true, completion: nil)
     }
-
+ 
     
     @IBAction func cartBtn(_ sender: Any) {
 //        let vc = CartViewController.getVC(.main)
@@ -184,7 +201,7 @@ class NewProductPageViewController: UIViewController {
                 }else {
                     self?.relatedProductView.isHidden = true
                     self?.relatedProductViewHeight.constant = 0
-                    self?.scrollHeight.constant = 2200
+                    self?.scrollHeight.constant = 2300
 
                 }
                 
@@ -400,7 +417,7 @@ class NewProductPageViewController: UIViewController {
             switch data{
             case .success(let res):
               print(res)
-                self?.scrollHeight.constant = 2200
+                self?.scrollHeight.constant = 2300
 
                 self?.productcategoriesdetailsdata = res
 
@@ -448,21 +465,25 @@ class NewProductPageViewController: UIViewController {
                  }
 
                 if res.quantity ?? 0 > 0 {
+                    self?.cartBtnView.backgroundColor = .white
+                    self?.cartBtnLbl.textColor = UIColor(hex: "#069DDD")
+                    self?.cartBtnView.borderWidth = 1
                     self?.quantityView.isHidden = false
                     self?.outOfStockLbl.isHidden = true
 //                    self?.buyNowBtn.isEnabled = true
-                    self?.addToCartBtn.backgroundColor = .clear
-                    self?.addToCartBtn.setTitle("", for: .normal)
                     self?.addToCartBtn.isEnabled = true
                     self?.buyNowBtn.backgroundColor = UIColor(hex: "#06B7FD")
                     self?.buyNowBtn.isEnabled = true
+                    self?.cartBtnImg.setBackgroundImage(UIImage(named: "cartBlue"), for: .normal)
                 }else {
+                    self?.cartBtnView.backgroundColor = .gray
+                    self?.cartBtnLbl.textColor = .white
+                    self?.cartBtnView.borderWidth = 0
                     self?.quantityView.isHidden = true
                     self?.outOfStockLbl.isHidden = false
-                    self?.addToCartBtn.backgroundColor = .systemGray4
-                    self?.addToCartBtn.setTitle("Add to Cart", for: .normal)
+                    self?.cartBtnImg.setBackgroundImage(UIImage(named: "carticon"), for: .normal)
                     self?.addToCartBtn.isEnabled = false
-                    self?.buyNowBtn.backgroundColor = .systemGray4
+                    self?.buyNowBtn.backgroundColor = .gray
                     self?.buyNowBtn.isEnabled = false
 //                    self?.buyNowBtn.isEnabled = false
                 }
@@ -538,13 +559,13 @@ class NewProductPageViewController: UIViewController {
                 self?.scrollHeight.constant =  (self?.scrollHeight.constant ?? 0) + (self?.DescriptionProduct.bounds.height ?? 0)
                 self?.varientsTblV.reloadData()
                 
-                if res.mainAttributes == nil {
-                    self?.varientViewHeight.constant = 0
-                }else if res.attributes == nil {
-                    self?.varientViewHeight.constant = 0
-                }else {
-                    self?.varientViewHeight.constant = 100
-                }
+//                if res.mainAttributes == nil {
+//                    self?.varientViewHeight.constant = 0
+//                }else if res.attributes == nil {
+//                    self?.varientViewHeight.constant = 0
+//                }else {
+//                    self?.varientViewHeight.constant = 100
+//                }
 //                if LanguageManager.language == "ar"{
 //                    self?.producttitle.text = res.lang?.ar?.productName
 //                }else{
@@ -702,7 +723,14 @@ class NewProductPageViewController: UIViewController {
 
         return rectangleHeight
     }
-    
+    @IBAction func moreFromArrowBtnTapped(_ sender: Any) {
+        let vc = New_StoreVC.getVC(.main)
+        vc.prductid = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+        vc.brandName = productcategoriesdetailsdata?.sellerDetail?.brandName ?? ""
+        vc.storeId = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+        vc.sellerID = productcategoriesdetailsdata?.sellerDetail?.id
+        self.navigationController?.pushViewController(vc, animated: false)
+        }
     @IBAction func cartBtnTapped(_ sender: Any) {
         let vc = CartViewController.getVC(.main)
         self.navigationController?.pushViewController(vc, animated: false)
@@ -712,7 +740,15 @@ class NewProductPageViewController: UIViewController {
             productCount -= 1
             productcount.text = "\(productCount)"
         }
-        
+        if productcount.text == "1" {
+           minusview.backgroundColor = .white
+            Minusbtn.setTitleColor(UIColor(hex: "#069DDD"), for: .normal)
+
+        }else {
+            minusview.backgroundColor = UIColor(hex: "#06B7FD")
+            Minusbtn.setTitleColor(UIColor.white, for: .normal)
+
+        }
     }
     @IBAction func Addbtn(_ sender: Any) {
         if( productCount >= productcategoriesdetailsdata?.quantity ?? 0){
@@ -724,6 +760,15 @@ class NewProductPageViewController: UIViewController {
             incrementproductCount = productCount
             print(incrementproductCount)
             productcount.text = "\(productCount)"
+        }
+        if productcount.text == "1" {
+            minusview.backgroundColor = .white
+            Minusbtn.setTitleColor(UIColor(hex: "#069DDD"), for: .normal)
+
+        }else {
+            minusview.backgroundColor = UIColor(hex: "#06B7FD")
+            Minusbtn.setTitleColor(UIColor.white, for: .normal)
+
         }
 }
 
@@ -928,45 +973,30 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
-            cell.productname.text =  data.productName
-            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+            if LanguageManager.language == "ar"{
+                cell.productname.text = data.lang?.ar?.productName
+            }else{
+                cell.productname.text =  data.productName
+            }
+
             if data.onSale == true {
                 cell.discountPrice.isHidden = false
-                let currencySymbol = appDelegate.currencylabel
-                let salePrice = Utility().formatNumberWithCommas(data.salePrice ?? 0)
-
-                // Create an attributed string for the currency symbol with the desired color
-                let currencyAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor.black // Change to your desired color
-                ]
-                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
-
-                // Create an attributed string for the sale price with the desired color
-                let priceAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
-                ]
-                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
-
-                // Combine the attributed strings
-                let combinedAttributedString = NSMutableAttributedString()
-                combinedAttributedString.append(attributedCurrencySymbol)
-                combinedAttributedString.append(attributedPrice)
-                cell.discountPrice.attributedText = combinedAttributedString
-
-    //                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.productPrice.isHidden = false
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-    //                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-                
+                cell.percentBGView.isHidden = false
             }else {
-                cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-
+                cell.productPrice.isHidden = true
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+                cell.percentBGView.isHidden = true
              }
             cell.heartBtn.tag = indexPath.row
-            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            cell.cartButton.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(relatedProductcartButtonTap(_:)), for: .touchUpInside)
             cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
 
             
@@ -976,7 +1006,7 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Videoscategorycell1", for: indexPath) as! Videoscategorycell
             let data = LiveStreamingResultsdata[indexPath.row]
             cell.productimage.pLoadImage(url: data.thumbnail ?? "")
-            cell.viewslbl.text = "\(data.totalViews ?? 0)"
+            cell.viewslbl.text = "\(data.totalViews ?? 0) views  "
             cell.Productname.text = data.brandName
             cell.likeslbl.text = "\(data.like ?? 0)"
                 return cell
@@ -986,45 +1016,30 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
-            cell.productname.text =  data?.productName
-            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+            if LanguageManager.language == "ar"{
+                cell.productname.text = data?.lang?.ar?.productName
+            }else{
+                cell.productname.text =  data?.productName
+            }
+
             if data?.onSale == true {
                 cell.discountPrice.isHidden = false
-                let currencySymbol = appDelegate.currencylabel
-                let salePrice = Utility().formatNumberWithCommas(data?.salePrice ?? 0)
-
-                // Create an attributed string for the currency symbol with the desired color
-                let currencyAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor.black // Change to your desired color
-                ]
-                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
-
-                // Create an attributed string for the sale price with the desired color
-                let priceAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
-                ]
-                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
-
-                // Combine the attributed strings
-                let combinedAttributedString = NSMutableAttributedString()
-                combinedAttributedString.append(attributedCurrencySymbol)
-                combinedAttributedString.append(attributedPrice)
-                cell.discountPrice.attributedText = combinedAttributedString
-
-    //                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.productPrice.isHidden = false
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
+                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-    //                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-                
+                cell.percentBGView.isHidden = false
             }else {
-                cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-
+                cell.productPrice.isHidden = true
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
+                cell.percentBGView.isHidden = true
              }
             cell.heartBtn.tag = indexPath.row
-            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            cell.cartButton.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(moreFromCartButtonTap(_:)), for: .touchUpInside)
             cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
 
             
@@ -1034,9 +1049,20 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
 
     }
     
-    @objc func cartButtonTap(_ sender: UIButton) {
+    @objc func  moreFromCartButtonTap(_ sender: UIButton) {
         let data = moreFromResponse?.results?[sender.tag]
 
+        let vc = CartPopupViewController.getVC(.main)
+       
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = centerTransitioningDelegate
+        vc.products = data
+        vc.nav = self.navigationController
+        self.present(vc, animated: true, completion: nil)
+
+    }
+    @objc func relatedProductcartButtonTap(_ sender: UIButton) {
+        let data = relatedProductResponse[sender.tag]
         let vc = CartPopupViewController.getVC(.main)
        
         vc.modalPresentationStyle = .custom
@@ -1049,24 +1075,31 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
     @objc func heartButtonTap(_ sender: UIButton) {
         let data = moreFromResponse?.results?[sender.tag]
   
-
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == relatedProductCollectionView {
-            
+            let data =  self.relatedProductResponse[indexPath.row]
+           
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+            vc.slugid = data.slug
+            self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == videoCollection {
             let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)
         }else {
-            
+            let data =  self.moreFromResponse?.results?[indexPath.row]
+           
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+            vc.slugid = data?.slug
+            self.navigationController?.pushViewController(vc, animated: false)
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == relatedProductCollectionView {
-            return CGSize(width: collectionView.frame.width/2.1, height: 300)
+            return CGSize(width: collectionView.frame.width/2.1, height: 280)
         }else if collectionView == moreFrom {
             if moreFromResponse?.results?.count ?? 0 > 2 {
                 return CGSize(width: collectionView.frame.width/2-5, height: 280)

@@ -121,7 +121,7 @@ class RoundTabbarVc: UITabBarController {
         
         
         // Add gesture to open side menu
-        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+//        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
         SideMenuManager.default.rightMenuNavigationController = sideMenu
         
         // Optionally, add gesture recognizer to a button in your tab bar

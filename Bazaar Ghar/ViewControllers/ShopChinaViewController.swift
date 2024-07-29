@@ -271,6 +271,13 @@ class ShopChinaViewController: UIViewController {
         imageslidercollectionview.delegate = self
         imageslidercollectionview.dataSource = self
     }
+    func setupCollectionViewproducts() {
+        let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
+        hotDealCollectionV.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        hotDealCollectionV.delegate = self
+        hotDealCollectionV.dataSource  = self
+     
+    }
     
     func setupPageControl() {
         pageController.numberOfPages = bannerapidata?.count ?? 0
@@ -335,6 +342,7 @@ extension ShopChinaViewController: UICollectionViewDelegate, UICollectionViewDat
 
             return cell
         }else {
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HotDealCollectionViewCell", for: indexPath) as! HotDealCollectionViewCell
             let data = groupbydealsdata[indexPath.row]
             

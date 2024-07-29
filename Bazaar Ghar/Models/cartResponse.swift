@@ -30,19 +30,13 @@ struct Package: Codable {
 // MARK: - PackageItem
 struct CartPackageItem: Codable {
     let discount: Double?
-    let package: String?
+    let _package: String?
     let product: CartProduct?
     let quantity : Int?
     let total: Double?
     let weight: Double?
     let retailTotal: Double?
     let id: String?
-
-    enum CodingKeys: String, CodingKey {
-        case discount
-        case package = "_package"
-        case product, quantity, total, weight, retailTotal, id
-    }
 }
 
 // MARK: - Product

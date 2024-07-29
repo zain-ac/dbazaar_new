@@ -472,7 +472,14 @@ class Utility {
         
         return attributedString
     }
-    
+    func applyBottomLeftCornerRadius(to button: UIButton, radius: CGFloat) {
+            let path = UIBezierPath(roundedRect: button.bounds,
+                                    byRoundingCorners: [.bottomLeft],
+                                    cornerRadii: CGSize(width: radius, height: radius))
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+            button.layer.mask = mask
+        }
     
 }
 
@@ -832,4 +839,11 @@ class CornerRadiusView: UIView {
         super.layoutSubviews()
         updateCornerRadius()
     }
+}
+
+
+struct KSAcat {
+var name:String?
+    var id:String?
+    var img: String?
 }

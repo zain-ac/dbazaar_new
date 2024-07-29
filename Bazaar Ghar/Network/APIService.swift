@@ -528,11 +528,11 @@ class APIServices{
         }
     }
     
-    class func searchproduct(name:String,limit:Int, page:Int,value:String,completion:@escaping(APIResult<[SearchProductResult]>)->Void){
+    class func searchproduct(name:String,limit:Int, page:Int,value:String,completion:@escaping(APIResult<[Product]>)->Void){
         Provider.services.request(.searchproduct(name:name,limit: limit, page: page,value: value)) { result in
             do{
                 
-                let  searchproduct: [SearchProductResult] =  try result.decoded(keypath: "results")
+                let  searchproduct: [Product] =  try result.decoded(keypath: "results")
                 
                 completion(.success(searchproduct))
             }catch{
@@ -952,6 +952,18 @@ class APIServices{
             
         }
     }
+    
+    class func newwishlist(product:String,completion:@escaping(APIResult<String>)->Void){
+        Provider.services.request(.newishlist(product: product)) { result in
+          do{
+            let data: String = try result.decoded(keypath: "message")
+            completion(.success(data))
+          }catch{
+            print("-----Error------ \n",error)
+            completion(.failure(error.customDescription))
+          }
+        }
+      }
     
     
     class func addwishlist(proudct:String,completion:@escaping(APIResult<String>)->Void){

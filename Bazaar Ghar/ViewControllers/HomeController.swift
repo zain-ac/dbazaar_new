@@ -11,6 +11,7 @@ import SwiftyJSON
 import AudioToolbox
 import FSPagerView
 import Presentr
+import Lottie
 
 
 class HomeController: UIViewController, UIScrollViewDelegate {
@@ -59,7 +60,8 @@ class HomeController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var langLbl: UILabel!
 
-
+    @IBOutlet weak var videoAnimationView: LottieAnimationView!
+    
     
     
     var bannerapidata: [Banner]? = nil{
@@ -118,13 +120,26 @@ var count = 0
     var wishlistDataResponse : WishlistResponse?
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let animation = LottieAnimation.named("videoAnimation")
+        videoAnimationView.animation = animation
+        videoAnimationView.contentMode = .scaleAspectFit
+        videoAnimationView.loopMode = .loop
+               
+               // Play the animation
+        videoAnimationView.play()
+
+        
         self.categoriesApi(isbackground: false)
         scrollView.delegate = self
-        self.wishlist()
         let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: "#101010"), "beyond boundaries", secondTextColor:  UIColor(hexString: "#2E8BF8"))
 //            .attributedStringWithColoredLastWord(
 //            "".lowercased().capitalized, lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         shoplabel.attributedText = attributedText11
+        let trendingText =  Utility().attributedStringWithColoredStrings("Trending", firstTextColor: UIColor(hexString: "#101010"), "Products", secondTextColor:  UIColor(hexString: "#2E8BF8"))
+//            .attributedStringWithColoredLastWord(
+//            "".lowercased().capitalized, lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        trendingproductlbl.attributedText = trendingText
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
         pagerView.dataSource = self
@@ -151,15 +166,14 @@ var count = 0
         nameshopchina = ["Shop China","Shop Pakistan","Shop Saudi"]
         self.becomeFirstResponder()
 //        let jeremyGif = UIImage.gifImageWithName("live_icon_gif")
-           LiveGif.image = UIImage.gifImageWithName("live_icon_gif")
-        LiveGif.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.touchTapped(_:)))
-          LiveGif.addGestureRecognizer(tap)
-        
+  
 //        chatBotGif.image = UIImage(named: "whatsapp 1")
         chatBotGif.isUserInteractionEnabled = true
      let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.touchTapped2(_:)))
         chatBotGif.addGestureRecognizer(tap2)
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.touchTapped(_:)))
+           videoAnimationView.addGestureRecognizer(tap)
   
         hotDealViewHeight.constant = 0
         hotDealView.isHidden = true
@@ -332,7 +346,9 @@ var count = 0
         SocketConeect()
         getrandomproduct()
 
-        
+        if(AppDefault.islogin){
+              wishList()
+            }
 //        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "you want to join ?", btn1Title: "Accept", btn1Callback: {
 //            print("Accept")
 //
@@ -355,7 +371,7 @@ var count = 0
 
         shopByCatLbl.text = "shopbycategories".pLocalized(lang: LanguageManager.language)
         shoplabel.text = "shopbeyoundboundaries".pLocalized(lang: LanguageManager.language)
-        trendingproductlbl.text = "Trendingproducts".pLocalized(lang: LanguageManager.language)
+//        trendingproductlbl.text = "Trendingproducts".pLocalized(lang: LanguageManager.language)
         topcategorieslbl.text = "topcategories".pLocalized(lang: LanguageManager.language)
         langLbl.text = "language".pLocalized(lang: LanguageManager.language)
 
@@ -369,35 +385,42 @@ var count = 0
                 UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
     }
     
-    private func wishlist(){
-        self.idsArray.removeAll()
-        APIServices.wishlist(completion: {[weak self] data in
-            switch data{
-            case .success(let res):
-                
-                self?.wishlistDataResponse = res
-                
-                self?.homeLastProductCollectionView.reloadData()
-            case .failure(let error):
-                print(error)
-            }
-        })
-    }
+    func wishList(){
+        APIServices.wishlist(){[weak self] data in
+          switch data{
+          case .success(let res):
+           print(res)
+            AppDefault.wishlistproduct = res.products
+   
+            self?.homeLastProductCollectionView.reloadData()
+              self?.lastRandomProductsCollectionView.reloadData()
+          case .failure(let error):
+            print(error)
+          }
+        }
+      }
     
-    private func addtowishlist(product: String){
-        APIServices.addwishlist(proudct:product,completion: {[weak self] data in
-            switch data{
-            case .success(let res):
-                print(res)
-//                self?.Likebtn.isSelected = true
-                self?.addwislistResponseMessage = res
-                self?.wishlist()
-            case .failure(let error):
-                print(error)
-                self?.view.makeToast(error)
-            }
+    private func wishListApi(productId:String) {
+        APIServices.newwishlist(product:productId,completion: {[weak self] data in
+          switch data{
+          case .success(let res):
+            print(res)
+    //        if(res == "OK"){
+    //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+    //          button.tintColor = .red
+    //
+    //        }else{
+    //          button.setImage(UIImage(systemName: "heart"), for: .normal)
+    //          button.tintColor = .gray
+    //
+    //        }
+            self?.wishList()
+          case .failure(let error):
+            print(error)
+    //        self?.view.makeToast(error)
+          }
         })
-    }
+      }
 
     
     
@@ -683,27 +706,30 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
                 cell.productPriceLine.backgroundColor = UIColor.red
+                cell.percentBGView.isHidden = false
+
             }else {
                 cell.productPriceLine.isHidden = true
                 cell.productPrice.isHidden = true
                 cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
+                cell.percentBGView.isHidden = true
              }
             
             cell.heartBtn.tag = indexPath.row
             cell.cartButton.tag = indexPath.row
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
-            cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.addTarget(self, action: #selector(homeLatestMobileheartButtonTap(_:)), for: .touchUpInside)
             
-//            cell.product = data
-//            if let person = wishlistDataResponse?.products?.contains(where: { $0.id == data?.id }) {
-////                cell.idarray.[] = data!
-//            } else {
-//                cell.idarray = []
-//            }
-//
-//            for i in wishlistDataResponse?.products ?? [] {
-//                
-//            }
+            if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == data?.id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+                  }
             
             return cell
         } else if collectionView == hotDealCollectionV {
@@ -757,18 +783,29 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
                 cell.productPriceLine.backgroundColor = UIColor.red
+                cell.percentBGView.isHidden = false
             }else {
                 cell.productPriceLine.isHidden = true
                 cell.productPrice.isHidden = true
                 cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+                cell.percentBGView.isHidden = true
              }
             
             cell.heartBtn.tag = indexPath.row
             cell.cartButton.tag = indexPath.row
-            cell.heartBtn.isSelected = !cell.heartBtn.isSelected
             cell.cartButton.addTarget(self, action: #selector(lastRandomProductcartButtonTap(_:)), for: .touchUpInside)
-            cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
-
+            cell.heartBtn.addTarget(self, action: #selector(trendingProductHeartBtnTapped(_:)), for: .touchUpInside)
+            
+            if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == data._id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+                  }
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "topcategoriescell", for: indexPath) as! topcategoriescell
@@ -786,6 +823,36 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         }
     }
     
+    @objc func homeLatestMobileheartButtonTap(_ sender: UIButton) {
+        if(AppDefault.islogin){
+              let index = sender.tag
+              let item = randomproductapiModel.first?.product?[index]
+            if item?.id == nil {
+                self.wishListApi(productId: (item?._id ?? ""))
+            }else {
+                self.wishListApi(productId: (item?.id ?? ""))
+            }            }else{
+              let vc = PopupLoginVc.getVC(.main)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
+    }
+    @objc func trendingProductHeartBtnTapped(_ sender: UIButton) {
+        if(AppDefault.islogin){
+              let index = sender.tag
+              let item = getrandomproductapiModel[index]
+            if item.id == nil {
+                self.wishListApi(productId: (item._id ?? ""))
+            }else {
+                self.wishListApi(productId: (item.id ?? ""))
+            }
+            }else{
+              let vc = PopupLoginVc.getVC(.main)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
+    }
+    
     func applyGradientBackground(to view: UIView, topColor: UIColor, bottomColor: UIColor) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
@@ -796,11 +863,18 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == homeLastProductCollectionView {
+            return 8
 
+        }
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == homeLastProductCollectionView {
+            return 5
+
+        }
         return 0
     }
     
@@ -808,7 +882,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         if collectionView == imageslidercollectionview {
             return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
         }else if collectionView == homeLastProductCollectionView {
-            return CGSize(width: homeLastProductCollectionView.frame.width/2-5, height: 280)
+            return CGSize(width: homeLastProductCollectionView.frame.width/2, height: 280)
         } else if collectionView == hotDealCollectionV {
             return CGSize(width: self.hotDealCollectionV.frame.width/1.2, height: self.hotDealCollectionV.frame.height)
 
@@ -816,8 +890,12 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return CGSize(width: self.lastRandomProductsCollectionView.frame.width/2.1-5, height: 280)
 
         } else {
-            return CGSize(width: self.topcell_1.frame.width/3.9-10, height: self.topcell_1.frame.height/2.1-5)
-
+            let data = CategoriesResponsedata[indexPath.row]
+            if data.categorySpecs?.productsCount == 0 {
+                return CGSize(width: 0, height: 0)
+            }else {
+                return CGSize(width: self.topcell_1.frame.width/3.9-10, height: self.topcell_1.frame.height/2-5)
+            }
         }
     }
     
@@ -1101,12 +1179,12 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(vc, animated: false)
         }
     }
-    @objc func heartButtonTap(_ sender: UIButton) {
-        let data = randomproductapiModel.first?.product?[sender.tag]
-//        Utility().addOrRemoveValue(data?.id ?? "", from: &idsArray)
-        addtowishlist(product: data?.id ?? "")
-
-    }
+//    @objc func heartButtonTap(_ sender: UIButton) {
+//        let data = randomproductapiModel.first?.product?[sender.tag]
+////        Utility().addOrRemoveValue(data?.id ?? "", from: &idsArray)
+//        addtowishlist(product: data?.id ?? "")
+//
+//    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == shopbeyound_tblview{

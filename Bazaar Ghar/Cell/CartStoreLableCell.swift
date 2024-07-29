@@ -51,7 +51,7 @@ class CartStoreLableCell: UITableViewCell {
             
         }, btn2Title: "Delete") { token, id in
             let item = self.bannerapidata?[sender.tag]
-            self.deletePackageItem(product: item?.product?.id ?? "", _package: item?.package ?? "")
+            self.deletePackageItem(product: item?.product?.id ?? "", _package: item?._package ?? "")
         }
         
 //        appDelegate.showCustomerAlertControllerHeight(title: "Are you sure you want to delete.", heading: "Delete", btn1Title: "Cancel", btn1Callback: {
@@ -137,7 +137,16 @@ extension CartStoreLableCell : UITableViewDataSource,UITableViewDelegate{
         cell.productPlus.addTarget(self, action: #selector(increment(sender:)), for: .touchUpInside)
         cell.productMinus.tag = indexPath.row
         cell.productMinus.addTarget(self, action: #selector(decrement(sender:)), for: .touchUpInside)
-
+        Utility().applyBottomLeftCornerRadius(to: cell.productdelete, radius: 10)
+        if item?.product?.selectedAttributes?.first?.name != nil {
+            cell.varientName.isHidden = false
+            cell.varientValue.isHidden = false
+            cell.varientName.text = "\(item?.product?.selectedAttributes?.first?.name ?? ""):"
+            cell.varientValue.text = item?.product?.selectedAttributes?.first?.value
+        }else {
+            cell.varientName.isHidden = true
+            cell.varientValue.isHidden = true
+        }
         productCount = item?.quantity ?? 0
 //        cell.productQuantity.text =  "\(item?.product?.quantity ?? 0)"
         cell.productQuantity.text =  "\(item?.quantity ?? 0)"
@@ -151,18 +160,13 @@ extension CartStoreLableCell : UITableViewDataSource,UITableViewDelegate{
 
         }
         if(item?.product?.onSale == true){
-            cell.discountPrice.isHidden = false
-            cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(item?.product?.salePrice ?? 0.0) //Utility().convertAmountInComma("\(item?.product?.salePrice ?? 0)")
-            cell.productPriceLine.isHidden = false
-         cell.productprice.textColor = UIColor.systemGray3
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(item?.product?.salePrice ?? 0)) //Utility().convertAmountInComma("\(item?.product?.salePrice ?? 0)")
         }else{
-            cell.discountPrice.isHidden = true
-            cell.productPriceLine.isHidden = true
-            cell.productprice.textColor = UIColor.black
 //            cell.productprice.text =
-   
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(item?.product?.regularPrice ?? 0))
         }
-        cell.productprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(item?.product?.regularPrice ?? 0) // Utility().convertAmountInComma("\(item?.product?.regularPrice ?? 0)")
+        
+        // Utility().convertAmountInComma("\(item?.product?.regularPrice ?? 0)")
         
 
 //        if data.onSale == true {
@@ -182,8 +186,9 @@ extension CartStoreLableCell : UITableViewDataSource,UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-     
-        return 120
+        let data = bannerapidata?[indexPath.row]
+        var c = (data?.product?.selectedAttributes?.count ?? 0) * 10
+        return CGFloat(120 + c)
     }
     
 

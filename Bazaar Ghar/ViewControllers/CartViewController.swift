@@ -117,11 +117,10 @@ class CartViewController: UIViewController {
                     self?.emptyCart.isHidden = false
                     self?.deleteBtn.isHidden = true
                 }
-                self?.cartchargesmessagelbl.text = "Shipping Charges in Saudia are \(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.shippmentCharges ?? 0)) per package" //"cartchargesmessage".pLocalized(lang: LanguageManager.language)
+//                self?.cartchargesmessagelbl.text = "Shipping Charges in Saudia are \(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.shippmentCharges ?? 0)) per package" //"cartchargesmessage".pLocalized(lang: LanguageManager.language)
 
                 self?.subTotal.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.subTotal ?? 0) //Utility().convertAmountInComma("\(res.subTotal ?? 0)")
                 self?.total.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.total ?? 0) //Utility().convertAmountInComma("\(res.total ?? 0)")
-                
                 self?.cartTableViewCell.reloadData()
             
             case .failure(let error):

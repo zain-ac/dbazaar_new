@@ -248,6 +248,7 @@ struct Product: Codable{
     let variants: [Variants]?
     let description: String?
     let _id: String?
+    let selectedAttributes: [SelectedAttribute]?
 }
 struct Variants: Codable {
     let id: String?
@@ -543,7 +544,7 @@ struct getSellerDetailDataModel: Codable {
     let id: String?
     let images: [String]?
     let country: String?
-    let categories: [String]?
+    let categories: [getSellerDetailcategories]?
     let categoryUpdated, costCode, approved: Bool?
     let brandName, description, market, address: String?
     let cityCode, city, seller, createdAt: String?
@@ -557,6 +558,16 @@ struct getSellerDetailDataModel: Codable {
         case id = "_id"
         case images, country, categories, categoryUpdated, costCode, approved, brandName, description, market, address, cityCode, city, seller, createdAt, updatedAt, rrp, slug, costCenterCode, alias
         case v = "__v"
+    }
+}
+
+// MARK: - Category
+struct getSellerDetailcategories: Codable {
+    let id, name, slug: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case name, slug
     }
 }
 

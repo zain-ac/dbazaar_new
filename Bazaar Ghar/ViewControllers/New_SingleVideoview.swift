@@ -11,7 +11,8 @@ import AVFoundation
 import AVKit
 
 class New_SingleVideoview: UIViewController {
-
+  
+    
     @IBOutlet weak var singlevideotable: UITableView!
 
 
@@ -40,11 +41,28 @@ class New_SingleVideoview: UIViewController {
             DispatchQueue.main.async {
                 self.scrollToRow(at: self.indexValue)
             }
-        }
 
+        }
+ 
     
     override func viewWillAppear(_ animated: Bool) {
-        
+//        let cell = singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
+//        cell.volumeview.isHidden = false
+//        cell.volumebtn.isHidden = false
+//        cell.exclamationview.isHidden = false
+//        cell.expandbtn.isHidden = false
+//        cell.shareview.isHidden = false
+//        cell.sharebtn.isHidden = false
+//        cell.likeview.isHidden = false
+//        cell.likebtn.isHidden = false
+//        cell.expandview.isHidden = false
+//        cell.expandbtn.isHidden = false
+//        cell.followbtn.isHidden = false
+//        cell.storename.isHidden = false
+//        cell.storeimg.isHidden = false
+//        cell.headerlbl.isHidden = false
+//        cell.hiddenview.isHidden = false
+//        cell.buybtn.isHidden = false
     }
  
     private func videoDidEnded() {
@@ -184,6 +202,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         cell.hiddenview.isHidden = true
         cell.buybtn.tag = indexPath.row
         cell.exclamationbtn.tag = indexPath.row
+        
         cell.sharebtn.tag = indexPath.row
         self.indexPath = indexPath
 //        cell.buybtn.addTarget(self, action: #selector(buynowBtnTapped(_:)), for: .touchUpInside)
@@ -193,8 +212,11 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         }
 //        cell.volumebtn.addTarget(self, action: #selector(volumebtnTapped(_:)), for: .touchUpInside)
         cell.sharebtn.addTarget(self, action: #selector(shareBtnTapped(_:)), for: .touchUpInside)
-        cell.exclamationbtn.addTarget(self, action: #selector(exclamationbtnTapped(_:)), for: .touchUpInside)
-        
+//        cell.exclamationbtn.addTarget(self, action: #selector(exclamationbtnTapped(_:)), for: .touchUpInside)
+        cell.exclamationbtn.mk_addTapHandler { (btn) in
+             print("You can use here also directly : \(indexPath.row)")
+             self.exclamationbtnTapped(btn: btn, indexPath: indexPath)
+        }
         cell.backBtn.mk_addTapHandler { (btn) in
              print("You can use here also directly : \(indexPath.row)")
              self.backBtnTapped(btn: btn, indexPath: indexPath)
@@ -293,15 +315,63 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         cell.stopPlayback()
         navigationController?.popViewController(animated: false)
     }
+    func exclamationbtnTapped(btn:UIButton, indexPath:IndexPath) {
+        let data = LiveStreamingResultsdata[indexPath.row]
+        let cell = singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
+        cell.volumeview.isHidden = true
+        cell.volumebtn.isHidden = true
+        cell.exclamationview.isHidden = true
+        cell.exclamationbtn.isHidden = true
+        cell.expandbtn.isHidden = true
+        cell.shareview.isHidden = true
+        cell.sharebtn.isHidden = true
+        cell.likeview.isHidden = true
+        cell.likebtn.isHidden = true
+        cell.expandview.isHidden = true
+        cell.expandbtn.isHidden = true
+        cell.followbtn.isHidden = true
+        cell.storename.isHidden = true
+        cell.storeimg.isHidden = true
+        cell.headerlbl.isHidden = true
+        cell.hiddenview.isHidden = true
+        cell.buybtn.isHidden = true
+        cell.likelbl.isHidden = true
+        cell.storeImgView.isHidden = true
+        
+        let vc = ReportViewController()
+        vc.videoId = data.resultID
+        self.present(vc, animated: true, completion: nil)
+    }
 //    @objc func volumebtnTapped(_ sender: UIButton) {
 //        let selectedCell = singlevideotable.cellForRow(at: self.indexPath) as! SingleVideoCell
 //           selectedCell.toggleMute()
 //    }
     @objc func exclamationbtnTapped(_ sender: UIButton) {
-        let data = LiveStreamingResultsdata[sender.tag]
-        let vc = ReportViewController()
-        vc.videoId = data.resultID
-        self.present(vc, animated: true, completion: nil)
+//        let data = LiveStreamingResultsdata[sender.tag]
+//        let cell = singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
+//        cell.volumeview.isHidden = true
+//        cell.volumebtn.isHidden = true
+//        cell.exclamationview.isHidden = true
+//        cell.exclamationbtn.isHidden = true
+//        cell.expandbtn.isHidden = true
+//        cell.shareview.isHidden = true
+//        cell.sharebtn.isHidden = true
+//        cell.likeview.isHidden = true
+//        cell.likebtn.isHidden = true
+//        cell.expandview.isHidden = true
+//        cell.expandbtn.isHidden = true
+//        cell.followbtn.isHidden = true
+//        cell.storename.isHidden = true
+//        cell.storeimg.isHidden = true
+//        cell.headerlbl.isHidden = true
+//        cell.hiddenview.isHidden = true
+//        cell.buybtn.isHidden = true
+//        cell.likelbl.isHidden = true
+//        cell.storeImgView.isHidden = true
+//        
+//        let vc = ReportViewController()
+//        vc.videoId = data.resultID
+//        self.present(vc, animated: true, completion: nil)
     }
     @objc func shareBtnTapped(_ sender: UIButton) {
         let data = LiveStreamingResultsdata[sender.tag]

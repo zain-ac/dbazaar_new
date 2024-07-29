@@ -95,6 +95,7 @@
 		8B3AE3082C2AD4CC00064687 /* CartPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3AE3072C2AD4CC00064687 /* CartPopupViewController.swift */; };
 		8B50F0A02AFA09CF002A5CB6 /* Page_Vc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B50F09F2AFA09CF002A5CB6 /* Page_Vc.swift */; };
 		8B5B14492ABB2C6C002410F8 /* AddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5B14482ABB2C6C002410F8 /* AddressViewController.swift */; };
+		8B672C6B2C512FCE0048AC7A /* videoAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B672C6A2C512FCE0048AC7A /* videoAnimation.json */; };
 		8B71A9FB2BD7784A00A2344B /* ShopChinaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B71A9FA2BD7784A00A2344B /* ShopChinaViewController.swift */; };
 		8B723DD72B18B2A40090CCBF /* chat-bot.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8B723DD62B18B2A40090CCBF /* chat-bot.gif */; };
 		8B74DC882AF27797001EFCFA /* HotDealCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74DC872AF27797001EFCFA /* HotDealCollectionViewCell.swift */; };
@@ -332,6 +333,7 @@
 		8B3AE3072C2AD4CC00064687 /* CartPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPopupViewController.swift; sourceTree = "<group>"; };
 		8B50F09F2AFA09CF002A5CB6 /* Page_Vc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page_Vc.swift; sourceTree = "<group>"; };
 		8B5B14482ABB2C6C002410F8 /* AddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewController.swift; sourceTree = "<group>"; };
+		8B672C6A2C512FCE0048AC7A /* videoAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = videoAnimation.json; sourceTree = "<group>"; };
 		8B71A9FA2BD7784A00A2344B /* ShopChinaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopChinaViewController.swift; sourceTree = "<group>"; };
 		8B723DD62B18B2A40090CCBF /* chat-bot.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "chat-bot.gif"; sourceTree = "<group>"; };
 		8B74DC872AF27797001EFCFA /* HotDealCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotDealCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -783,6 +785,7 @@
 				8B0457712AA6F04D00F4EBF8 /* Bazaar GharRelease.entitlements */,
 				8B1437C22A8F9417008A2705 /* Helpers */,
 				8BB606EC2A94D6520092D3B1 /* Models */,
+				8B672C6A2C512FCE0048AC7A /* videoAnimation.json */,
 				8B208F802A9347F800B6BFF7 /* ViewControllers */,
 				8B208F7F2A93479B00B6BFF7 /* Cell */,
 				8B1437AD2A8F9077008A2705 /* Network */,
@@ -1022,6 +1025,7 @@
 				DAE61B3F2B29D9810087E776 /* receiverImageCell.xib in Resources */,
 				8B1438102A8F9417008A2705 /* Poppins-Medium.ttf in Resources */,
 				8BA089B92AA20C5B00A78E75 /* GoogleService-Info.plist in Resources */,
+				8B672C6B2C512FCE0048AC7A /* videoAnimation.json in Resources */,
 				8B3AE3062C2AA1CF00064687 /* HomeLastProductCollectionViewCell.xib in Resources */,
 				8B723DD72B18B2A40090CCBF /* chat-bot.gif in Resources */,
 				8B1438112A8F9417008A2705 /* Roboto-Regular.ttf in Resources */,

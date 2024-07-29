@@ -31,14 +31,28 @@ class CartPopupViewController: UIViewController {
         
         super.viewDidLoad()
         
-        let attributedText11 =  Utility().attributedStringWithColoredStrings(appDelegate.currencylabel, firstTextColor: UIColor.black, Utility().formatNumberWithCommas(products?.regularPrice ?? 0), secondTextColor:  UIColor(hexString: "#06B7FD"))
+//        let attributedText11 =  Utility().attributedStringWithColoredStrings(appDelegate.currencylabel, firstTextColor: UIColor.black, Utility().formatNumberWithCommas(products?.regularPrice ?? 0), secondTextColor:  UIColor(hexString: "#06B7FD"))
         productNamel.text = products?.productName ?? ""
-        discountPrice.text =    appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.salePrice ?? 0)
+//        discountPrice.text =    appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.salePrice ?? 0)
       
-        productPrice.attributedText =   attributedText11
+//        productPrice.attributedText =   attributedText11
       
         productImage.pLoadImage(url: products?.mainImage ?? "")
         crossBtn.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        if products?.onSale == true {
+            discountPrice.isHidden = false
+            productPrice.isHidden = false
+            discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.regularPrice ?? 0)
+            productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.salePrice ?? 0))
+            productPriceline.isHidden = false
+            discountPrice.textColor = UIColor.red
+            productPriceline.backgroundColor = UIColor.red
+        }else {
+            productPriceline.isHidden = true
+            discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.regularPrice ?? 0))
+         }
+        
 
         // Do any additional setup after loading the view.
     }
@@ -69,7 +83,7 @@ class CartPopupViewController: UIViewController {
                 addToCartPopupVC.transitioningDelegate = strongSelf.centerTransitioningDelegate
                 addToCartPopupVC.img = "addtocart"
                 addToCartPopupVC.titleText = "Added to Cart!"
-                addToCartPopupVC.messageText = "Successfully added null to your cart"
+                addToCartPopupVC.messageText = "The item has been added successfully"
                 addToCartPopupVC.leftBtnText = "Continue Shopping"
                 addToCartPopupVC.rightBtnText = "Go to Cart"
                 addToCartPopupVC.iscomefor = "cart"

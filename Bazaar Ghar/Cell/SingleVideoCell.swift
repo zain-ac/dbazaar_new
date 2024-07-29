@@ -11,6 +11,16 @@ import AVKit
 import Presentr
 
 class SingleVideoCell: UITableViewCell {
+    @IBOutlet weak var likelbl: UILabel!
+    @IBOutlet weak var likeview: UIView!
+    @IBOutlet weak var shareview: UIView!
+    @IBOutlet weak var exclamationview: UIView!
+    @IBOutlet weak var volumeview: UIView!
+    
+    @IBOutlet weak var expandview: UIView!
+    
+    
+    
     @IBOutlet weak var headerlbl: UILabel!
     @IBOutlet weak var storename: UILabel!
     @IBOutlet weak var saysomethingfield: UITextField!
@@ -36,7 +46,9 @@ class SingleVideoCell: UITableViewCell {
     @IBOutlet weak var storeimg: UIImageView!
     
     @IBOutlet weak var viewslbl: UILabel!
-    let centerTransitioningDelegate = CenterTransitioningDelegate()  
+    @IBOutlet weak var storeImgView: UIView!
+
+    let centerTransitioningDelegate = CenterTransitioningDelegate()
     var randomproductapiModel: [PChat] = []
 
     var avPlayer: AVPlayer?
@@ -89,8 +101,34 @@ class SingleVideoCell: UITableViewCell {
         super.awakeFromNib()
         hiddenviewheight.constant = 0
         self.setupMoviePlayer()
-        backBtn.isHidden = false
+        NotificationCenter.default.addObserver(self, selector: #selector(hideandshow), name: NSNotification.Name(rawValue: "showviews"), object: nil)
+
        }
+    
+    
+    @objc func hideandshow(notification: Notification) {
+         volumeview.isHidden = false
+         volumebtn.isHidden = false
+         exclamationview.isHidden = false
+         exclamationbtn.isHidden = false
+         expandbtn.isHidden = false
+         shareview.isHidden = false
+         sharebtn.isHidden = false
+         likeview.isHidden = false
+         likebtn.isHidden = false
+         expandview.isHidden = false
+         expandbtn.isHidden = false
+         followbtn.isHidden = false
+         storename.isHidden = false
+         storeimg.isHidden = false
+         headerlbl.isHidden = false
+         hiddenview.isHidden = false
+         buybtn.isHidden = false
+         likelbl.isHidden = false
+         storeImgView.isHidden = false
+
+    }
+
     
        func setupMoviePlayer(){
           
@@ -208,7 +246,7 @@ class SingleVideoCell: UITableViewCell {
                 hiddenviewheight.constant = 0
             }else{
                 hiddenview.isHidden = false
-                hiddenviewheight.constant = 119
+                hiddenviewheight.constant = 150
 
             }
         }
@@ -247,7 +285,25 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
         cell.img.pLoadImage(url: data.mainImage ?? "")
         cell.price.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.price ?? 0)
         cell.productname.text = data.productName
-//
+
+        
+        
+        if data.onSale == true {
+            cell.Salesprice.isHidden = false
+            cell.price.isHidden = false
+            cell.Salesprice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+            cell.price.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+            cell.productPriceLine.isHidden = false
+            cell.price.textColor = UIColor.red
+            cell.productPriceLine.backgroundColor = UIColor.red
+        }else {
+            cell.productPriceLine.isHidden = true
+            cell.price.isHidden = true
+            cell.Salesprice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+         }
+        
+        
+        
 //        if data.onSale == true {
 //            cell.price.isHidden = false
 //            cell.price.isHidden = false
@@ -301,12 +357,12 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let data = getvidoebyproductIdsdata[indexPath.row]
-
-        let vc = ProductDetail_VC.getVC(.main)
-        vc.isGroupBuy = false
-        vc.slugid = data.slug
-        self.navigationController?.pushViewController(vc, animated: false)
+//        let data = getvidoebyproductIdsdata[indexPath.row]
+//
+//        let vc = ProductDetail_VC.getVC(.main)
+//        vc.isGroupBuy = false
+//        vc.slugid = data.slug
+//        self.navigationController?.pushViewController(vc, animated: false)
     }
     
 }

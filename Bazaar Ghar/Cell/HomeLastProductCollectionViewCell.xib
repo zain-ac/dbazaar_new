@@ -124,7 +124,6 @@
                                     <imageReference key="image" image="heart.fill" catalog="system" symbolScale="small"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
-                                <state key="selected" image="fillheart"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                         <real key="value" value="11"/>
@@ -259,7 +258,6 @@
     </objects>
     <resources>
         <image name="17" width="225" height="225"/>
-        <image name="fillheart" width="512" height="512"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="online-shopping" width="19" height="18"/>
         <image name="star-svgrepo-com" width="9" height="9"/>

@@ -482,15 +482,17 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
                 cell.productPrice.textColor = UIColor.red
 //                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
+                cell.percentBGView.isHidden = false
                 
             }else {
                 cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
 //                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
-
+                cell.percentBGView.isHidden = true
              }
             cell.heartBtn.tag = indexPath.row
+            cell.cartButton.tag = indexPath.row
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
             cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
                      

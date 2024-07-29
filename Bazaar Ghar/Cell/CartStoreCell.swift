@@ -18,6 +18,9 @@ class CartStoreCell: UITableViewCell {
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productPriceLine: UIView!
     @IBOutlet weak var discountPrice: UILabel!
+    @IBOutlet weak var varientName: UILabel!
+    @IBOutlet weak var varientValue: UILabel!
+
     var packageItem  : CartPackageItem?
     override func awakeFromNib() {
         super.awakeFromNib()

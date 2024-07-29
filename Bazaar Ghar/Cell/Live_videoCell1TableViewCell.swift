@@ -27,7 +27,7 @@ class Live_videoCell1TableViewCell: UITableViewCell {
             self.videocategoryCollectionView.reloadData()
         }
     }
-    
+    var LiveStreamingResultsAlldata: [LiveStreamingResults] = []
     var id : String? {
         didSet{
 //            getStreamingVideos(limit:20,page:1,categories: [id ?? ""])
@@ -48,10 +48,10 @@ class Live_videoCell1TableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @IBAction func btnTapped(_ sender: Any) {
+    @IBAction func btnTapped(_ sender: UIButton) {
         let vc = New_SingleVideoview.getVC(.sidemenu)
-        vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
-        vc.indexValue = 0
+        vc.LiveStreamingResultsdata = self.LiveStreamingResultsAlldata
+        vc.indexValue = sender.tag
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
@@ -99,10 +99,10 @@ extension Live_videoCell1TableViewCell: UICollectionViewDelegate, UICollectionVi
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
-            let data = LiveStreamingResultsdata[indexPath.row + 1]
+        let data = btntap.tag + 1 + indexPath.row
         let vc = New_SingleVideoview.getVC(.sidemenu)
-            vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
-            vc.indexValue = indexPath.row
+            vc.LiveStreamingResultsdata = self.LiveStreamingResultsAlldata
+            vc.indexValue = data
             self.navigationController?.pushViewController(vc, animated: false)
        
 //                let data = LiveStreamingResultsdata[indexPath.row]

@@ -49,7 +49,7 @@ pod 'Firebase/Messaging'
   pod 'FSPagerView'
  
   pod 'SideMenu'
-
+pod 'lottie-ios'
 
 
 

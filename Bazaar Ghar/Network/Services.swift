@@ -62,7 +62,7 @@ enum Services {
     case getAllCategories
     case getSellerDetail(id:String)
     case moreFrom(category:String,user:String)
-
+    case newishlist(product:String)
 }
 
 extension Services: TargetType, AccessTokenAuthorizable {
@@ -189,7 +189,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return "sellerDetail/\(id)"
         case .moreFrom:
             return "products/getAllProducts"
-
+        case .newishlist:
+              return "wishList/new"
             
             //        case let .auctionById(auctionid):
             //            return "main/v1/auctions/\(auctionid)"
@@ -229,11 +230,11 @@ extension Services: TargetType, AccessTokenAuthorizable {
                 return .requestPlain
 
             }else {
-//                if cat != "" && cat2 == "" {
+                if cat != "" && cat2 == "" {
                     return .requestParameters(parameters: ["categories[]": cat], encoding: URLEncoding.default)
-//                }else {
-//                    return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4,"categories[4]":cat5], encoding: URLEncoding.default)
-//                }
+                }else {
+                    return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4], encoding: URLEncoding.default)
+                }
             }
             
         case let .getAllProductsByCategories(limit,page,sortBy,category, _):
@@ -332,6 +333,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return .requestParameters(parameters: ["scheduleId":scheduleId,"userId":userId], encoding: JSONEncoding.default)
         case let .moreFrom(category, user):
             return .requestParameters(parameters: ["category":category,"user":user], encoding: URLEncoding.default)
+        case let .newishlist(product):
+              return .requestParameters(parameters: ["product": product], encoding: JSONEncoding.default)
 
             
             //        case let .login(email,password):

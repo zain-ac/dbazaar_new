@@ -98,7 +98,7 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
                 let data = AppDefault.CategoriesResponsedata?[indexPath.row]
                 cell.imageView.pLoadImage(url: data?.mainImage ?? "")
                 cell.vedioCatLbl.text = data?.name ?? ""
-                if selectedindex ?? 0  == indexPath.row {
+                if selectedindex   == indexPath.row {
                     cell.imageView.borderWidth = 1
                 }else {
                     cell.imageView.borderWidth = 0

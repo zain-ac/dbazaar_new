@@ -27,6 +27,11 @@ class New_StoreVC: UIViewController {
 
     @IBOutlet weak var latestproductlbl: UILabel!
     
+    @IBOutlet weak var videoViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var shopByCatViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var videoView: UIView!
+    @IBOutlet weak var shopByCatView: UIView!
+
     var counter =  0
 
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
@@ -51,6 +56,7 @@ class New_StoreVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupCollectionView()
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         HeaderbrandNameLbl.text = brandName ?? ""
         brandNameLbl.text = brandName ?? ""
@@ -72,8 +78,19 @@ class New_StoreVC: UIViewController {
            
         // Do any additional setup after loading the view.
     }
+    func setupCollectionView() {
+        let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
+        categoryproduct_collectionview.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        categoryproduct_collectionview.delegate = self
+        categoryproduct_collectionview.dataSource = self
+    }
+
     override func viewWillAppear(_ animated: Bool) {
+        CategoriesResponsedata.removeAll()
         getSellerDetail(id: sellerID ?? "")
+        self.shopByCatViewHeight.constant = 0
+        shopByCatView.isHidden = true
+
     }
     func update(count:Int) {
         getAllProductsByCategories(limit: 20, page: count, sortBy:"-price", category:prductid ?? "", active: false)
@@ -90,7 +107,7 @@ class New_StoreVC: UIViewController {
                 self?.pagerView.reloadData()
                 
                 for i in res.categories ?? [] {
-                    self?.catId = i
+                    self?.catId = i.id
                 }
                 
             case .failure(let error):
@@ -103,7 +120,8 @@ class New_StoreVC: UIViewController {
         APIServices.categories2(isbackground:isbackground, id: id,completion: {[weak self] data in
             switch data {
             case .success(let res):
-                
+                    self?.shopByCatViewHeight.constant = 220
+                self?.shopByCatView.isHidden = false
                 self?.CategoriesResponsedata.append(res)
                 self?.shopbycat_collectionview.reloadData()
             case .failure(let error):
@@ -165,6 +183,14 @@ class New_StoreVC: UIViewController {
             switch data{
             case .success(let res):
                 print(res)
+                
+                if res.results?.count ?? 0 > 0 {
+                    self?.videoViewHeight.constant = 300
+                    self?.videoView.isHidden = false
+                }else {
+                    self?.videoViewHeight.constant = 0
+                    self?.videoView.isHidden = true
+                }
         
                 self?.LiveStreamingResultsdata = res.results ?? []
        
@@ -181,13 +207,14 @@ class New_StoreVC: UIViewController {
             switch data{
             case .success(let res):
                 print(res)
-                
                 if res.results?.count ?? 0 > 0 {
+                    self?.videoViewHeight.constant = 320
                     self?.LiveStreamingResultsdata = res.results ?? []
            
                     self?.videoCollection.reloadData()
                 } else {
-                    self?.getStreamingVideos(limit: 30, page: 1, categories: [])
+                    self?.videoViewHeight.constant = 0
+//                    self?.getStreamingVideos(limit: 30, page: 1, categories: [])
                 }
         
 
@@ -405,7 +432,7 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Videoscategorycell1", for: indexPath) as! Videoscategorycell
             let data = LiveStreamingResultsdata[indexPath.row]
             cell.productimage.pLoadImage(url: data.thumbnail ?? "")
-            cell.viewslbl.text = "\(data.totalViews ?? 0)"
+            cell.viewslbl.text = "\(data.totalViews ?? 0)  "
             cell.Productname.text = data.brandName
             cell.likeslbl.text = "\(data.like ?? 0)"
                 return cell
@@ -425,43 +452,30 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
-            cell.productname.text =  data.productName
-            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+            if LanguageManager.language == "ar"{
+                cell.productname.text = data.lang?.ar?.productName
+            }else{
+                cell.productname.text =  data.productName
+            }
+
             if data.onSale == true {
                 cell.discountPrice.isHidden = false
-                let currencySymbol = appDelegate.currencylabel
-                let salePrice = Utility().formatNumberWithCommas(data.salePrice ?? 0)
-
-                // Create an attributed string for the currency symbol with the desired color
-                let currencyAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor.black // Change to your desired color
-                ]
-                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
-
-                // Create an attributed string for the sale price with the desired color
-                let priceAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
-                ]
-                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
-
-                // Combine the attributed strings
-                let combinedAttributedString = NSMutableAttributedString()
-                combinedAttributedString.append(attributedCurrencySymbol)
-                combinedAttributedString.append(attributedPrice)
-                cell.discountPrice.attributedText = combinedAttributedString
-
-//                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.productPrice.isHidden = false
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-//                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-                
+                cell.percentBGView.isHidden = false
             }else {
-                cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-
+                cell.productPrice.isHidden = true
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+                cell.percentBGView.isHidden = true
              }
+            
+                
+                
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
             
             
@@ -498,16 +512,22 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == videoCollection{
-            
             let data = LiveStreamingResultsdata[indexPath.row]
             let vc = New_SingleVideoview.getVC(.sidemenu)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)
+        }else if collectionView == shopbycat_collectionview{
+            let data = CategoriesResponsedata[indexPath.row]
+            let vc = Category_ProductsVC.getVC(.main)
+            vc.prductid = data.id ?? ""
+        
+            vc.video_section = false
+            vc.storeFlag = false
+            vc.catNameTitle = data.name ?? ""
+            self.navigationController?.pushViewController(vc, animated: false)
         }else {
-            
             let data =  self.getAllProductsByCategoriesData[indexPath.row]
-            
             let vc = NewProductPageViewController.getVC(.sidemenu)
 //            vc.isGroupBuy = false
             vc.slugid = data.slug
@@ -523,7 +543,7 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
            )
        }
     else {
-            return CGSize(width: collectionView.frame.width/2.12-2, height: 290)
+            return CGSize(width: collectionView.frame.width/2.12-2, height: 280)
 
         }
     }

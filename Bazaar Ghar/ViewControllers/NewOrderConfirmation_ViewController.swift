@@ -32,6 +32,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
     
     @IBOutlet weak var orderSummaryHeight: NSLayoutConstraint!
     @IBOutlet weak var scrollHeight: NSLayoutConstraint!
+    @IBOutlet weak var addressLbl: UILabel!
 
     var orderDetails: CartItemsResponse?
     var itemCount = 0
@@ -41,6 +42,8 @@ class NewOrderConfirmation_ViewController: UIViewController {
     var selectedIndex:Int?
     var bannerapidata: [Package] = []
     var cartItems : [CartPackageItem] = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         paymentmethodtblview.delegate = self
@@ -48,7 +51,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
         ordersummarycollectview.delegate = self
         ordersummarycollectview.dataSource = self
         Utility().setGradientBackground(view: headerview, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-        Utility().setGradientBackground(view: placeorderbtn, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+//        Utility().setGradientBackground(view: placeorderbtn, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         orderinstructiontxt.addPlaceholder("Order Instructions".pLocalized(lang: LanguageManager.language))
         
         let attributedText1 =  Utility().attributedStringWithColoredLastWord("Delivery Address", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
@@ -79,21 +82,25 @@ class NewOrderConfirmation_ViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
-        
+        defaultAdress = AppDefault.currentUser?.defaultAddress
+        homelbl.text = defaultAdress?.addressType
+        addressLbl.text = defaultAdress?.address
         for i in bannerapidata {
             cartItems += i.packageItems ?? []
         }
-        orderSummaryHeight.constant = CGFloat(cartItems.count * 155)
-        scrollHeight.constant = CGFloat(cartItems.count * 155) + 1110
+        orderSummaryHeight.constant = 320 + CGFloat(cartItems.count * 150)
+        scrollHeight.constant = CGFloat(orderSummaryHeight.constant) + 630
         
         
         producttotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.retailTotal ?? 0)
-        discounttxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.discount ?? 0)
+        discounttxt.text = "(\(appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.discount ?? 0)))"
         subtotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.subTotal ?? 0)
-        deliverytxt.text = "150"
+        deliverytxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.shippmentCharges ?? 0)
         totaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.total ?? 0)
         payabletxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.payable ?? 0 + 150)
     }
+    
+    
     
          func addDottedBorder(to button: UIButton) {
              let dottedBorder = CAShapeLayer()
@@ -146,15 +153,15 @@ extension NewOrderConfirmation_ViewController:UICollectionViewDelegate,UICollect
         cell.img.pLoadImage(url: data?.mainImage ?? "")
         cell.productName.text = data?.productName ?? ""
         if data?.onSale == true {
-            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+            cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
         }else {
-            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+            cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
         }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: collectionView.frame.width, height: 150)
+            return CGSize(width: collectionView.frame.width, height: 140)
     }
     
     
@@ -170,12 +177,18 @@ extension NewOrderConfirmation_ViewController:UITableViewDelegate,UITableViewDat
         cell.methodImg.setBackgroundImage(UIImage(named: methodimgArray[indexPath.row]), for: .normal)
         cell.checkBtn.tag = indexPath.row
         cell.checkBtn.addTarget(self, action: #selector(checkBtnTapped(_:)), for: .touchUpInside)
-
-        if selectedIndex == indexPath.row {
-            cell.checkBtn.setBackgroundImage(UIImage(named: "checked"), for: .normal)
+        if selectedIndex == nil {
+            if indexPath.row == 1 {
+                cell.checkBtn.setBackgroundImage(UIImage(named: "checked"), for: .normal)
+            }
         }else {
-            cell.checkBtn.setBackgroundImage(UIImage(named: "uncheck"), for: .normal)
+            if selectedIndex == indexPath.row {
+                cell.checkBtn.setBackgroundImage(UIImage(named: "checked"), for: .normal)
+            }else {
+                cell.checkBtn.setBackgroundImage(UIImage(named: "uncheck"), for: .normal)
+            }
         }
+       
         
         return cell
     }

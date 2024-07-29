@@ -15,6 +15,7 @@ import Presentr
 
 class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     
+    @IBOutlet weak var trendingproductlbl: UILabel!
     @IBOutlet weak var imageslidercollectionview: UICollectionView!
     @IBOutlet weak var homeTblView: UITableView!
     @IBOutlet weak var topcell_1: UICollectionView!
@@ -57,7 +58,9 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var shoesCollectionView: UICollectionView!
     @IBOutlet weak var catView: UIView!
 
-    
+    var KSA : [KSAcat] = []
+    var China : [KSAcat] = []
+    var Pak : [KSAcat] = []
     
     var bannerapidata: [Banner]? = nil{
         didSet{
@@ -65,7 +68,7 @@ class ShopChina_VC: UIViewController, UIScrollViewDelegate {
            self.imageslidercollectionview.reloadData()
         }
     }
-    var CategoriesResponsedata: [getAllCategoryResponse] = []
+    var CategoriesResponsedata: [CategoriesResponse] = []
     var ProductCategoriesResponsedata: [PChat] = []
     var randomproductapiModel: [PChat] = []
     var getrandomproductapiModel: [Product] = []
@@ -119,9 +122,40 @@ var count = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        KSA = [
+               
+            KSAcat(name: "Body Soaps & Shower Gels",id: "60d30fafadf1df13d41b56d5",img: "https://cdn.bazaarghar.com/1640677639491body-soaps-shower-gel.png"),
+        KSAcat(name: "Men Fragrances",id: "604f48f648fcad02d8aaceeb",img: "https://cdn.bazaarghar.com/1640607482286mens-fragrances.png"),
+        KSAcat(name: "Dry Fruits",id: "60c9dce26f0fe647a547713c",img:"https://cdn.bazaarghar.com/1640595049922dry-fruits.png"),
+        KSAcat(name: "Rugs & Carpets",id: "61c0665ec59a3763f321635a",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
+
+        ]  
+        China = [
+               
+            KSAcat(name: "Games & Accessories",id: "65e82aa5067e0d3f4c5f774e",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
+            
+        KSAcat(name: "Smart Electronics",id: "65e82aa5067e0d3f4c5f774c",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714109268854smart-electronics.png"),
+        KSAcat(name: "Night Lights",id: "65e82aa5067e0d3f4c5f7746",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110169088night-light.png"),
+        KSAcat(name: "Home Decor",id: "65e82aa5067e0d3f4c5f76c8",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110548828home-decor.png")
+    
+
+        ] 
+        Pak = [
+               
+            KSAcat(name: "Jigsaw Puzzles",id:"623d86d0fc2213045876887f" ,img: "https://cdn.bazaarghar.com/1670845648582jigsaw-puzzles.png"),
+            KSAcat(name: "Boys T-Shirts",id:"60d1e12badf1df13d41b555a" ,img: "https://cdn.bazaarghar.com/1640696285456boys-t-shirts.png"),
+            KSAcat(name: "Bags",id:"6151a0a13d796e00329b5f4e" ,img:"https://cdn.bazaarghar.com/1640607310826ladies-handbags.png"),
+            KSAcat(name: "Unstitched",id:"6049fd8d05ec9502c9f8d1f4" ,img:"https://cdn.bazaarghar.com/1640677156894women-un-stitched.png"),
+    
+
+        ]
+        
         getStreamingVideos(limit: 20, page: 1, categories: [])
         
-     
+     print(KSA)
+        print(Pak)
+        print(China)
+
         scrollView.delegate = self
         topshoplbl.text = shop
          shopLbl.text = "Welcome to \(shop ?? "")"
@@ -143,7 +177,9 @@ var count = 0
                 
         let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
                 shopByCatLbl.attributedText = attributedText
+        let attributedText5 =  Utility().attributedStringWithColoredLastWord("Trending Products", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
+        trendingproductlbl.attributedText = attributedText5
         let attributedText1 =  Utility().attributedStringWithColoredLastWord("Gamers Sale", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
         recommendationLbl.attributedText = attributedText1
@@ -177,7 +213,7 @@ var count = 0
         homeLastProductCollectionView.dataSource  = self
 
         setupCollectionView()
-        
+        setupproductsCollectionView()
 
      
         
@@ -188,7 +224,36 @@ var count = 0
 //        homeswitchbtn.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         
     }
-
+    
+    private func categoriesApi(isbackground:Bool,id:String) {
+        APIServices.categories2(isbackground:isbackground, id: id,completion: {[weak self] data in
+            switch data {
+            case .success(let res):
+                self?.CategoriesResponsedata.append(res)
+                self?.topcell_1.reloadData()
+            case .failure(let error):
+                print(error)
+                self?.view.makeToast(error)
+            }
+        })
+    }
+    
+    func setupproductsCollectionView() {
+        let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
+        homeLastProductCollectionView.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        homeLastProductCollectionView.delegate = self
+        homeLastProductCollectionView.dataSource  = self
+        
+    
+        
+        shoesCollectionView.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        shoesCollectionView.delegate = self
+        shoesCollectionView.dataSource  = self
+        
+        lastRandomProductsCollectionView.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        lastRandomProductsCollectionView.delegate = self
+        lastRandomProductsCollectionView.dataSource  = self
+    }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
@@ -250,17 +315,32 @@ var count = 0
     
     override func viewWillAppear(_ animated: Bool) {
          super.viewWillAppear(animated)
+
         catView.backgroundColor = UIColor(hex: catBGColor ?? "")
         shoplabel.textColor = UIColor(hex: shoptxtColor ?? "")	
         if shop == "Shop China" {
             let imageDataDict:[String: String] = ["img": "china"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+            CategoriesResponsedata.removeAll()
+            for i in China {
+                categoriesApi(isbackground: false, id: i.id ?? "")
+            }
+            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f774e", cat2: "65e82aa5067e0d3f4c5f774c", cat3: "65e82aa5067e0d3f4c5f7746", cat4: "65e82aa5067e0d3f4c5f76c8", cat5: "",isbackground: false)
+
         }else if shop == "Shop Saudi" {
             let imageDataDict:[String: String] = ["img": "saudi"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+            CategoriesResponsedata.removeAll()
+            for i in KSA {
+                categoriesApi(isbackground: false, id: i.id ?? "")
+            }
         }else {
             let imageDataDict:[String: String] = ["img": "pakistan-image"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+            CategoriesResponsedata.removeAll()
+            for i in Pak {
+                categoriesApi(isbackground: false, id: i.id ?? "")
+            }
         }
    
         
@@ -273,10 +353,8 @@ var count = 0
 //        }else{
             randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
         groupByDeals(limit: 20, page: 1, isbackground: false)
-        self.productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
-        self.categoriesApi(isbackground: false)
         self.bannerApi(isbackground: false)
-                self.categoriesApi(isbackground: false)
+//                self.categoriesApi(isbackground: false)
                      getrandomproduct()
 //        }
         
@@ -483,7 +561,23 @@ var count = 0
                             }
                     }
                         
-                }else {
+                    }else if self?.shop == "Shop Saudi"  {
+                        if LanguageManager.language == "ar" {
+                            for item in res{
+                                let objext = item.id
+                                if objext?.bannerName == "Country KSA App Arabic" {
+                                    self?.bannerapidata = (objext?.banners)!
+                                }
+                            }
+                        }else {
+                            for item in res{
+                                let objext = item.id
+                                if objext?.bannerName == "Country KSA App" {
+                                    self?.bannerapidata = (objext?.banners)!
+                                }
+                              }
+                            }
+                    } else {
                     let banners =  res
                     
                     
@@ -506,20 +600,20 @@ var count = 0
         }
         )
     }
-    private func categoriesApi(isbackground:Bool) {
-        APIServices.getAllCategories(isbackground:isbackground,completion: {[weak self] data in
-            switch data{
-            case .success(let res):
-                self?.CategoriesResponsedata = res
-                AppDefault.getAllCategoriesResponsedata = res
-                
-                self?.topcell_1.reloadData()
-            case .failure(let error):
-                print(error)
-                self?.view.makeToast(error)
-            }
-        })
-    }
+//    private func categoriesApi(isbackground:Bool) {
+//        APIServices.getAllCategories(isbackground:isbackground,completion: {[weak self] data in
+//            switch data{
+//            case .success(let res):
+//                self?.CategoriesResponsedata = res
+//                AppDefault.getAllCategoriesResponsedata = res
+//                
+//                self?.topcell_1.reloadData()
+//            case .failure(let error):
+//                print(error)
+//                self?.view.makeToast(error)
+//            }
+//        })
+//    }
     
     private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground:Bool){
         APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
@@ -528,7 +622,7 @@ var count = 0
                 AppDefault.productcategoriesApi = res
                 if(res.count > 0){
                     self?.ProductCategoriesResponsedata = res
-                    self?.tableViewHeight.constant = CGFloat(800 * (self?.ProductCategoriesResponsedata.count ?? 0))
+                    self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
                     
                     let hh =  1440
                     let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
@@ -578,7 +672,7 @@ var count = 0
                     self?.getrandomproductapiModel.append(contentsOf: res)
                 }
                 print(res)
-                self?.tableViewHeight.constant = CGFloat(800 * (self?.ProductCategoriesResponsedata.count ?? 0))
+                self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
                 
                 let hh = 1440
                 let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
@@ -643,6 +737,7 @@ var count = 0
         imageslidercollectionview.dataSource = self
     
     }
+    
     
     func setupPageControl() {
         pageController.numberOfPages = bannerapidata?.count ?? 0
@@ -725,43 +820,27 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
-            cell.productname.text =  data?.productName
-            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+            if LanguageManager.language == "ar"{
+                cell.productname.text = data?.lang?.ar?.productName
+            }else{
+                cell.productname.text =  data?.productName
+            }
+
             if data?.onSale == true {
                 cell.discountPrice.isHidden = false
-                let currencySymbol = appDelegate.currencylabel
-                let salePrice = Utility().formatNumberWithCommas(data?.salePrice ?? 0)
-
-                // Create an attributed string for the currency symbol with the desired color
-                let currencyAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor.black // Change to your desired color
-                ]
-                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
-
-                // Create an attributed string for the sale price with the desired color
-                let priceAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
-                ]
-                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
-
-                // Combine the attributed strings
-                let combinedAttributedString = NSMutableAttributedString()
-                combinedAttributedString.append(attributedCurrencySymbol)
-                combinedAttributedString.append(attributedPrice)
-                cell.discountPrice.attributedText = combinedAttributedString
-
-//                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.productPrice.isHidden = false
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
+                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-//                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-                
+                cell.percentBGView.isHidden = false
             }else {
-                cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-
-			 }
+                cell.productPrice.isHidden = true
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
+                cell.percentBGView.isHidden = true
+             }
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
             
             
@@ -773,42 +852,26 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
-            cell.productname.text =  data?.productName
-            cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+            if LanguageManager.language == "ar"{
+                cell.productname.text = data?.lang?.ar?.productName
+            }else{
+                cell.productname.text =  data?.productName
+            }
+
             if data?.onSale == true {
                 cell.discountPrice.isHidden = false
-                let currencySymbol = appDelegate.currencylabel
-                let salePrice = Utility().formatNumberWithCommas(data?.salePrice ?? 0)
-
-                // Create an attributed string for the currency symbol with the desired color
-                let currencyAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor.black // Change to your desired color
-                ]
-                let attributedCurrencySymbol = NSAttributedString(string: currencySymbol, attributes: currencyAttributes)
-
-                // Create an attributed string for the sale price with the desired color
-                let priceAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
-                ]
-                let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
-
-                // Combine the attributed strings
-                let combinedAttributedString = NSMutableAttributedString()
-                combinedAttributedString.append(attributedCurrencySymbol)
-                combinedAttributedString.append(attributedPrice)
-                cell.discountPrice.attributedText = combinedAttributedString
-
-//                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
+                cell.productPrice.isHidden = false
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
+                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-//                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-                
+                cell.percentBGView.isHidden = false
             }else {
-                cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-
+                cell.productPrice.isHidden = true
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
+                cell.percentBGView.isHidden = true
              }
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
             
@@ -846,22 +909,30 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         }else if collectionView == lastRandomProductsCollectionView{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = getrandomproductapiModel[indexPath.row]
+            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
-            cell.productname.text = data.productName
+            if LanguageManager.language == "ar"{
+                cell.productname.text = data.lang?.ar?.productName
+            }else{
+                cell.productname.text =  data.productName
+            }
+
             if data.onSale == true {
                 cell.discountPrice.isHidden = false
-                cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0)
+                cell.productPrice.isHidden = false
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
                 cell.productPriceLine.backgroundColor = UIColor.red
-
+                cell.percentBGView.isHidden = false
             }else {
-                cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-            }
-            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+                cell.productPrice.isHidden = true
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+                cell.percentBGView.isHidden = true
+             }
             
 
             return cell
@@ -922,14 +993,14 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         if collectionView == imageslidercollectionview {
             return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
         }else if collectionView == homeLastProductCollectionView {
-            return CGSize(width: homeLastProductCollectionView.frame.width/2-5, height: homeLastProductCollectionView.frame.height/2-5)
+            return CGSize(width: homeLastProductCollectionView.frame.width/2-5, height: 280)
         } else if collectionView == shoesCollectionView {
-            return CGSize(width: shoesCollectionView.frame.width/2-5, height: shoesCollectionView.frame.height/2-5)
+            return CGSize(width: shoesCollectionView.frame.width/2-5, height: 280)
         }else if collectionView == hotDealCollectionV {
             return CGSize(width: self.hotDealCollectionV.frame.width/1.2, height: self.hotDealCollectionV.frame.height)
 
         } else if collectionView == lastRandomProductsCollectionView {
-            return CGSize(width: self.lastRandomProductsCollectionView.frame.width/2.12-2, height: 290)
+            return CGSize(width: self.lastRandomProductsCollectionView.frame.width/2.12-2, height: 280)
 
         }else if collectionView == videoCollection {
             return CGSize(width: collectionView.frame.size.width/2, height: collectionView.frame.size.height)
@@ -1155,7 +1226,7 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-            return 800
+            return 770
         }
 }
 

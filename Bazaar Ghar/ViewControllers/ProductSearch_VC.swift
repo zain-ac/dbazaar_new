@@ -12,7 +12,7 @@ class ProductSearch_VC: UIViewController {
 
     @IBOutlet weak var notFound: UILabel!
 
-    var searchproductdata: [SearchProductResult] = []
+    var searchproductdata: [Product] = []
 
     var searchText: String? {
         didSet{
@@ -23,7 +23,8 @@ class ProductSearch_VC: UIViewController {
     var isEndReached = false
     var isLoadingNextPage = false
     var categoryPage = 0
-    
+    let centerTransitioningDelegate = CenterTransitioningDelegate()
+                                            
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
@@ -82,31 +83,55 @@ extension ProductSearch_VC: UICollectionViewDelegate,UICollectionViewDataSource,
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
         cell.productimage.pLoadImage(url: data.mainImage ?? "")
-        cell.productname.text =  data.productName
-//        cell.productPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
-        cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
-        if data.onSale == true {
-                cell.discountPrice.isHidden = false
-//                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0)
-                cell.productPriceLine.isHidden = false
-                cell.productPrice.textColor = UIColor.red
-                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
-                cell.productPriceLine.backgroundColor = UIColor.red
-            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
-            }else {
-                cell.discountPrice.isHidden = true
-                cell.productPriceLine.isHidden = true
-                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
-                
+        if LanguageManager.language == "ar"{
+            cell.productname.text = data.productName
+        }else{
+            cell.productname.text =  data.productName
+        }
 
-             }
-            
+        if data.onSale == true {
+            cell.discountPrice.isHidden = false
+            cell.productPrice.isHidden = false
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+            cell.productPriceLine.isHidden = false
+            cell.productPrice.textColor = UIColor.red
+            cell.productPriceLine.backgroundColor = UIColor.red
+            cell.percentBGView.isHidden = false
+        }else {
+            cell.productPriceLine.isHidden = true
+            cell.productPrice.isHidden = true
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+            cell.percentBGView.isHidden = true
+         }
+        
+        cell.heartBtn.tag = indexPath.row
+        cell.cartButton.tag = indexPath.row
+        cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+//        cell.heartBtn.addTarget(self, action: #selector(LatestMobileheartButtonTap(_:)), for: .touchUpInside)
             
             
             
             return cell
         }
     
+    @objc func cartButtonTap(_ sender: UIButton) {
+        let data = searchproductdata[sender.tag]
+        
+        if (data.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.main)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+            vc.slugid = data.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
+    }
 //        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
 //        let data = searchproductdata[indexPath.row]
 //        
