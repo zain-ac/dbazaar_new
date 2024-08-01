@@ -55,6 +55,14 @@ class AppDefault {
                 shared.set(newValue, forKey: "token")
             }
         }
+    public static var facetFilters: [TypeSenseResult]? {
+        get{
+          return shared.decode(for: [TypeSenseResult].self, using: "facetFilters")
+        }
+        set{
+          shared.encode(for: newValue, using: "facetFilters")
+        }
+      }
     public static var brandname: String {
         get {
             return shared.string(forKey: "brandname") ?? ""
@@ -71,6 +79,16 @@ class AppDefault {
           shared.encode(for: newValue, using: "wishlistproduct")
         }
       }
+    public static var facetFilterArray: [TypeSenseCount]? {
+            get{
+                return shared.decode(for:  [TypeSenseCount].self, using: "facetFilterArray")
+            }
+            set{
+                shared.encode(for: newValue, using: "facetFilterArray")
+            }
+        }
+        
+    
     public static var refreshToken: String {
         get {
             return shared.string(forKey: "refreshToken") ?? ""
@@ -182,6 +200,14 @@ class AppDefault {
         }
         set{
             shared.encode(for: newValue, using: "Bannerdata")
+        }
+    }
+    public static var getrandomproductapiModel: [Product]? {
+        get{
+            return shared.decode(for: [Product].self, using: "Product")
+        }
+        set{
+            shared.encode(for: newValue, using: "Product")
         }
     }
     public static var CategoriesResponsedata: [CategoriesResponse]? {

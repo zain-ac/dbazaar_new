@@ -49,6 +49,7 @@ class NewProductPageViewController: UIViewController {
     @IBOutlet weak var cartBtnImg: UIButton!
     @IBOutlet weak var cartBtnLbl: UILabel!
     @IBOutlet weak var cartBtnView: UIView!
+    @IBOutlet weak var heartBtn: UIButton!
 
     var productCount = 1
     var incrementproductCount = 1
@@ -117,9 +118,74 @@ class NewProductPageViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        wishList()
         productcategoriesdetails(slug: slugid ?? "")
         self.tabBarController?.tabBar.isHidden = true
+        
+       
     }
+    func wishList(){
+        APIServices.wishlist(){[weak self] data in
+          switch data{
+          case .success(let res):
+           print(res)
+            AppDefault.wishlistproduct = res.products
+              if let wishlistProducts = AppDefault.wishlistproduct {
+                  if wishlistProducts.contains(where: { $0.id == self?.productcategoriesdetailsdata?.welcomeID }) {
+                      self?.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      self?.heartBtn.tintColor = .red
+                      } else {
+                          self?.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                          self?.heartBtn.tintColor = .white
+                      }
+                    }
+
+          case .failure(let error):
+            print(error)
+          }
+        }
+      }
+    
+    private func wishListApi(productId:String) {
+        APIServices.newwishlist(product:productId,completion: {[weak self] data in
+          switch data{
+          case .success(let res):
+            print(res)
+            self?.wishList()
+          case .failure(let error):
+            print(error)
+              if error == "Please authenticate" {
+                  if AppDefault.islogin{
+                      
+                  }else{
+//                       DispatchQueue.main.async {
+//                          self.selectedIndex = 0
+//                       }
+                      let vc = PopupLoginVc.getVC(.main)
+                      vc.modalPresentationStyle = .overFullScreen
+                      self?.present(vc, animated: true, completion: nil)
+                  }
+              }
+    //        self?.view.makeToast(error)
+          }
+        })
+      }
+    
+    
+    @IBAction func heartBtnTapped(_ sender: Any) {
+        if(AppDefault.islogin){
+            if productcategoriesdetailsdata?.id == nil {
+                self.wishListApi(productId: (productcategoriesdetailsdata?.id ?? ""))
+            }else {
+                self.wishListApi(productId: (productcategoriesdetailsdata?.welcomeID ?? ""))
+            }
+            }else{
+              let vc = PopupLoginVc.getVC(.main)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
+    }
+    
     @IBAction func viewstorebtn(_ sender: Any) {
         let vc = New_StoreVC.getVC(.main)
         vc.prductid = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
@@ -566,6 +632,19 @@ class NewProductPageViewController: UIViewController {
 //                }else {
 //                    self?.varientViewHeight.constant = 100
 //                }
+                
+                if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == self?.productcategoriesdetailsdata?.welcomeID }) {
+                        self?.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                        self?.heartBtn.tintColor = .red
+                        } else {
+                            self?.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                            self?.heartBtn.tintColor = .white
+                        }
+                      }
+                
+                
+                
 //                if LanguageManager.language == "ar"{
 //                    self?.producttitle.text = res.lang?.ar?.productName
 //                }else{

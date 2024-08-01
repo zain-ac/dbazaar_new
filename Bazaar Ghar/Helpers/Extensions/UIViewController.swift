@@ -13,6 +13,27 @@ extension UIViewController {
     static var storyboardIdentifier: String {
         return String( describing: self )
     }
+    func customizeNavigationBarAppearance(backgroundColor: UIColor, foregroundColor: UIColor) {
+        navigationController?.navigationBar.tintColor = foregroundColor
+        navigationController?.navigationBar.backgroundColor = backgroundColor
+        navigationController?.navigationBar.barTintColor = backgroundColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.titleTextAttributes = [ .foregroundColor: foregroundColor]
+        navigationController?.navigationBar.isTranslucent = true
+      if #available(iOS 13.0, *) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = backgroundColor
+        appearance.shadowColor = backgroundColor
+        appearance.titleTextAttributes = [.foregroundColor: foregroundColor]
+        appearance.shadowImage = UIImage()
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+      }
+
+      navigationController?.setNeedsStatusBarAppearanceUpdate()
+    }
     
     static func instantiate() -> UIViewController {
         return UIStoryboard.main.instantiateViewController( withIdentifier: self.storyboardIdentifier )

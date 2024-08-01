@@ -647,9 +647,14 @@ PODS:
     - Charts/Core (= 4.1.0)
   - Charts/Core (4.1.0):
     - SwiftAlgorithms (~> 1.0)
+  - Checkout (4.3.6):
+    - CheckoutEventLoggerKit (~> 1.2.4)
+    - Risk (= 3.0.2)
+  - CheckoutEventLoggerKit (1.2.4)
   - Cosmos (23.0.0)
   - DropDown (2.3.13)
   - EasyNotificationBadge (1.2.5)
+  - FingerprintPro (2.2.0)
   - Firebase/CoreOnly (10.14.0):
     - FirebaseCore (= 10.14.0)
   - Firebase/Messaging (10.14.0):
@@ -696,6 +701,10 @@ PODS:
     - GoogleUtilities/Reachability (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - Frames (4.3.6):
+    - Checkout (= 4.3.6)
+    - CheckoutEventLoggerKit (~> 1.2.4)
+    - PhoneNumberKit
   - FSPagerView (0.8.3)
   - GoogleDataTransport (9.3.0):
     - GoogleUtilities/Environment (~> 7.7)
@@ -810,13 +819,23 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - OTPFieldView (1.0.1)
+  - PhoneNumberKit (3.7.10):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.7.10)
+    - PhoneNumberKit/UIKit (= 3.7.10)
+  - PhoneNumberKit/PhoneNumberKitCore (3.7.10)
+  - PhoneNumberKit/UIKit (3.7.10):
+    - PhoneNumberKit/PhoneNumberKitCore
   - Presentr (1.9)
   - PromisesObjC (2.3.1)
   - R.swift (6.1.0):
     - R.swift.Library (~> 5.3.0)
   - R.swift.Library (5.3.0)
+  - RangeSeekSlider (1.8.0)
   - RecaptchaInterop (100.0.0)
   - Result (4.1.0)
+  - Risk (3.0.2):
+    - CheckoutEventLoggerKit (~> 1.2.4)
+    - FingerprintPro (= 2.2.0)
   - SideMenu (6.5.0)
   - Socket.IO-Client-Swift (16.0.1):
     - Starscream (~> 4.0)
@@ -844,6 +863,7 @@ DEPENDENCIES:
   - FirebaseAuth
   - FirebaseCore
   - FirebaseFirestore
+  - Frames (= 4.3.6)
   - FSPagerView
   - GoogleMaps (= 5.2.0)
   - GooglePlaces (= 7.1.0)
@@ -857,6 +877,7 @@ DEPENDENCIES:
   - OTPFieldView
   - Presentr
   - R.swift
+  - RangeSeekSlider
   - SideMenu
   - Socket.IO-Client-Swift
   - Starscream (= 4.0.4)
@@ -880,9 +901,12 @@ SPEC REPOS:
     - AZTabBar
     - BoringSSL-GRPC
     - Charts
+    - Checkout
+    - CheckoutEventLoggerKit
     - Cosmos
     - DropDown
     - EasyNotificationBadge
+    - FingerprintPro
     - Firebase
     - FirebaseAppCheckInterop
     - FirebaseAuth
@@ -891,6 +915,7 @@ SPEC REPOS:
     - FirebaseFirestore
     - FirebaseInstallations
     - FirebaseMessaging
+    - Frames
     - FSPagerView
     - GoogleDataTransport
     - GoogleMaps
@@ -910,12 +935,15 @@ SPEC REPOS:
     - Moya
     - nanopb
     - OTPFieldView
+    - PhoneNumberKit
     - Presentr
     - PromisesObjC
     - R.swift
     - R.swift.Library
+    - RangeSeekSlider
     - RecaptchaInterop
     - Result
+    - Risk
     - SideMenu
     - Socket.IO-Client-Swift
     - Starscream
@@ -939,9 +967,12 @@ SPEC CHECKSUMS:
   AZTabBar: e4d5a1f5f3fc7be044d532b7a704d303cff9af11
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   Charts: ce0768268078eee0336f122c3c4ca248e4e204c5
+  Checkout: da832c56173dd536f96ac32f89c2c46e31f30038
+  CheckoutEventLoggerKit: b780dec46295a34942780ea6230d0d5fd08aa05a
   Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   EasyNotificationBadge: a3ebbcb1de0c0558e102e954380c75801f352702
+  FingerprintPro: 72e35dc0315b75ba36eafaaed996dbb2f35f7326
   Firebase: 6c1bf3f534bc422d52af2e41fe0d50bf08b6b773
   FirebaseAppCheckInterop: c87f1d5421c852413dd936b2b2340b21e62501a0
   FirebaseAuth: bd1ae3d28beb83bfe9247e50eb82688b683dd770
@@ -950,6 +981,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 808dd08cbc1c7be9052055f62ab312fdae611e37
   FirebaseInstallations: 033d199474164db20c8350736842a94fe717b960
   FirebaseMessaging: 1077a4499f0c0a140b9a2e34fe08a1acc806b36d
+  Frames: db6251b6ccbcbe59dc6b62d41372598ba823f4cf
   FSPagerView: 670405b2f18e2a87fa37f20b00de783e562c25a8
   GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
   GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
@@ -969,12 +1001,15 @@ SPEC CHECKSUMS:
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   OTPFieldView: 700a752fe62c41d1c4914c78aa500fb30d97c255
+  PhoneNumberKit: 3d9a20cfe8ee68f35c2a3ae9474093133f72a8a1
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   R.swift: ec98ff71c4ab2f6fd01dd077e5afd15e63a4834c
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
+  RangeSeekSlider: 650b11fa1edcb92e1e0ede797669d98622570fb5
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
+  Risk: a0732fef94dfddfa76ca70dbe0e5fe0f05557ec1
   SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
   Socket.IO-Client-Swift: c116d6dc9fd6be9c259bacfe143f8725bce7d79e
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
@@ -991,6 +1026,6 @@ SPEC CHECKSUMS:
   UBottomSheet: a40ddcad489bb6d5f6171ffa96f161e558fcfaf0
   WCCircularFloatingActionMenu: 3c9b78804d2ec05c2b03b45d049476d0fd58a9fd
 
-PODFILE CHECKSUM: 403c7720a7717d5f8db0a567eb44d4b6d68dbade
+PODFILE CHECKSUM: 6fda1b38b927770597a9432f2987f9f1526d1a27
 
 COCOAPODS: 1.14.3

@@ -28,8 +28,9 @@ class HomeTableViewCell: UITableViewCell {
     
      var productapi: [Product]? = nil{
          didSet{
-             wishList()
-//             self.Homecollectionview.reloadData()
+             if(AppDefault.islogin){
+                   wishList()
+                 }//             self.Homecollectionview.reloadData()
          }
      }
      

@@ -33,8 +33,11 @@ class Search_ViewController: UIViewController {
         }
     }
     
-    private lazy var ProductSearch_VCs: ProductSearch_VC = {
-        var vc = ProductSearch_VC.getVC(.main)
+    private lazy var ProductSearch_VCs: RealTimeSearchViewController = {
+//        var vc = ProductSearch_VC.getVC(.main)
+//
+//        return vc
+        var vc = RealTimeSearchViewController.getVC(.sidemenu)
         
         return vc
     }()
@@ -85,7 +88,7 @@ class Search_ViewController: UIViewController {
         crossBtn.isHidden = true
         switch (sender as AnyObject).tag{
         case 0:
-            ProductSearch_VCs.searchText = search_txtfield.text
+//            ProductSearch_VCs.searchText = search_txtfield.text
             showController(0, ProductSearch_VCs)
         case 1:
             StoreSearchVCs.searchText = search_txtfield.text
@@ -143,7 +146,7 @@ class Search_ViewController: UIViewController {
 //        search_txtfield.resignFirstResponder()
         switch (sender as AnyObject).tag{
         case 0:
-            ProductSearch_VCs.searchText = search_txtfield.text
+//            ProductSearch_VCs.searchText = search_txtfield.text
             showController(0, ProductSearch_VCs)
         case 1:
             StoreSearchVCs.searchText = search_txtfield.text
@@ -233,7 +236,7 @@ class Search_ViewController: UIViewController {
 
         switch sender.selectedSegmentIndex {
         case 0:
-            ProductSearch_VCs.searchText = search_txtfield.text
+//            ProductSearch_VCs.searchText = search_txtfield.text
             showController(0, ProductSearch_VCs)
         case 1:
             StoreSearchVCs.searchText = search_txtfield.text

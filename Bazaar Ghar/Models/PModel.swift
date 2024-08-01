@@ -301,6 +301,7 @@ struct ProductCategoriesDetailsResponse: Codable {
     let variants: [Variant]?
     let lang: languagesModel?
 
+
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case onSale, attributes, selectedAttributes, gallery, productName, description, quantity, mainImage, sellerDetail, slug

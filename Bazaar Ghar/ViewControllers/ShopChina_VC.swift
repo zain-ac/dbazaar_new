@@ -263,7 +263,7 @@ var count = 0
         if offsetY > contentHeight - frameHeight {
             // Call your API
             if load == true {
-                getrandomproduct()
+                getrandomproduct(isbackground: false)
             }
         }
     }
@@ -355,7 +355,7 @@ var count = 0
         groupByDeals(limit: 20, page: 1, isbackground: false)
         self.bannerApi(isbackground: false)
 //                self.categoriesApi(isbackground: false)
-                     getrandomproduct()
+        getrandomproduct(isbackground: false)
 //        }
         
 
@@ -661,9 +661,9 @@ var count = 0
         })
     }
     
-    private func getrandomproduct(){
+    private func getrandomproduct(isbackground:Bool){
         load = false
-        APIServices.getrandomproduct(completion: {[weak self] data in
+        APIServices.getrandomproduct(isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
             

@@ -67,7 +67,7 @@ class HomeController: UIViewController, UIScrollViewDelegate {
     var bannerapidata: [Banner]? = nil{
         didSet{
             self.setupPageControl()
-           self.imageslidercollectionview.reloadData()
+           self.pagerView.reloadData()
         }
     }
     var CategoriesResponsedata: [getAllCategoryResponse] = []
@@ -120,7 +120,8 @@ var count = 0
     var wishlistDataResponse : WishlistResponse?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        SocketConeect()
+
         let animation = LottieAnimation.named("videoAnimation")
         videoAnimationView.animation = animation
         videoAnimationView.contentMode = .scaleAspectFit
@@ -130,7 +131,6 @@ var count = 0
         videoAnimationView.play()
 
         
-        self.categoriesApi(isbackground: false)
         scrollView.delegate = self
         let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: "#101010"), "beyond boundaries", secondTextColor:  UIColor(hexString: "#2E8BF8"))
 //            .attributedStringWithColoredLastWord(
@@ -213,7 +213,7 @@ var count = 0
         if offsetY > contentHeight - frameHeight {
             // Call your API
             if load == true {
-                getrandomproduct()
+                getrandomproduct(isbackground: false)
             }
         }
     }
@@ -278,17 +278,17 @@ var count = 0
             randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
         }
 
-        if(AppDefault.groupbydealdata?.count ?? 0 > 0){
-            groupByDeals(limit: 20, page: 1, isbackground: true)
-            self.groupbydealsdata = AppDefault.groupbydealdata ?? []
-            self.hotDealViewHeight.constant = 300
-            self.hotDealView.isHidden = false
-
-            self.hotDealCollectionV.reloadData()
-
-        }else{
-            groupByDeals(limit: 20, page: 1, isbackground: false)
-        }
+//        if(AppDefault.groupbydealdata?.count ?? 0 > 0){
+//            groupByDeals(limit: 20, page: 1, isbackground: true)
+//            self.groupbydealsdata = AppDefault.groupbydealdata ?? []
+//            self.hotDealViewHeight.constant = 300
+//            self.hotDealView.isHidden = false
+//
+//            self.hotDealCollectionV.reloadData()
+//
+//        }else{
+//            groupByDeals(limit: 20, page: 1, isbackground: false)
+//        }
         
         if(AppDefault.productcategoriesApi?.count ?? 0 > 0){
             productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: true)
@@ -302,7 +302,6 @@ var count = 0
 
             self.homeTblView.reloadData()
 
-
         }else{
             self.productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
         }
@@ -310,12 +309,11 @@ var count = 0
         
         
         if(AppDefault.getAllCategoriesResponsedata?.count ?? 0 > 0){
-            self.categoriesApi(isbackground: true)
 
             self.CategoriesResponsedata = AppDefault.getAllCategoriesResponsedata ?? []
 
             self.topcell_1.reloadData()
-//            self.categoriesApi(isbackground: true)
+            self.categoriesApi(isbackground: true)
 
         }
         else
@@ -343,8 +341,28 @@ var count = 0
         homeswitchbtn.isOn = false
         hotDealCollectionV.reloadData()
         self.LanguageRender()
-        SocketConeect()
-        getrandomproduct()
+        
+        if(AppDefault.getrandomproductapiModel?.count ?? 0 > 0){
+            let res = AppDefault.getrandomproductapiModel!
+            if(res.count > 0){
+                self.getrandomproductapiModel.append(contentsOf: res)
+            }
+            print(res)
+            self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count))
+            
+            let hh = (300 * 3) + 1440
+            let ll = ((self.getrandomproductapiModel.count) / 2) * 280
+            let final = hh + ll
+
+            self.scrollHeight.constant = CGFloat(final) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)
+           
+            self.lastRandomProductsCollectionView.reloadData()
+            self.load = true
+           
+            getrandomproduct(isbackground: true)
+        }else{
+            getrandomproduct(isbackground: false)
+        }
 
         if(AppDefault.islogin){
               wishList()
@@ -561,14 +579,14 @@ var count = 0
         })
     }
     
-    private func getrandomproduct(){
+    private func getrandomproduct(isbackground:Bool){
         load = false
-        APIServices.getrandomproduct(completion: {[weak self] data in
+        APIServices.getrandomproduct(isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
             
-             
                 if(res.count > 0){
+                    AppDefault.getrandomproductapiModel = res
                     self?.getrandomproductapiModel.append(contentsOf: res)
                 }
                 print(res)

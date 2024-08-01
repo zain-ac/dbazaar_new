@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import AVKit
+import SocketIO
 
 class New_SingleVideoview: UIViewController {
   
@@ -27,7 +28,8 @@ class New_SingleVideoview: UIViewController {
     var visibleIP : IndexPath?
     var indexValue =  0
     var currentIndex: Int = 0
-    
+    var manager:SocketManager?
+    var socket: SocketIOClient?
     var indexPath = IndexPath()
     
     var isLiked = false
@@ -44,30 +46,6 @@ class New_SingleVideoview: UIViewController {
 
         }
  
-    
-    override func viewWillAppear(_ animated: Bool) {
-//        let cell = singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
-//        cell.volumeview.isHidden = false
-//        cell.volumebtn.isHidden = false
-//        cell.exclamationview.isHidden = false
-//        cell.expandbtn.isHidden = false
-//        cell.shareview.isHidden = false
-//        cell.sharebtn.isHidden = false
-//        cell.likeview.isHidden = false
-//        cell.likebtn.isHidden = false
-//        cell.expandview.isHidden = false
-//        cell.expandbtn.isHidden = false
-//        cell.followbtn.isHidden = false
-//        cell.storename.isHidden = false
-//        cell.storeimg.isHidden = false
-//        cell.headerlbl.isHidden = false
-//        cell.hiddenview.isHidden = false
-//        cell.buybtn.isHidden = false
-    }
- 
-    private func videoDidEnded() {
-        
-    }
     
     func showShareSheet(id:String) {
         print(id)
@@ -184,6 +162,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         let cell = self.singlevideotable.dequeueReusableCell(withIdentifier: "SingleVideoCell") as! SingleVideoCell
         let data = LiveStreamingResultsdata[indexPath.row]
         cell.navigationController = self.navigationController
+        self.SocketConeect(scheduleId: data.resultID ?? "")
         getLike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId: AppDefault.currentUser?.id ?? "", indexPath: indexPath)
         cell.LiveStreamingResultsdataArray = data
             if(indexPath.row == indexValue){
@@ -468,4 +447,35 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
 
     
     
+extension New_SingleVideoview {
+    
+    func SocketConeect(scheduleId:String) {
+       
+        manager = SocketManager(socketURL: AppConstants.API.baseURL, config: [.log(true),
+                                                                                  .compress,
+                                                                                  .forceWebsockets(true),.connectParams( ["roomId":scheduleId])])
+        
 
+        socket?.on(clientEvent: .connect) { (data, ack) in
+            self.socket?.on("newChatMessage") { data, ack in
+                print("comment data",data)
+            
+            }
+           }
+        self.socket?.on("newChatMessage") { data, ack in
+            print("comment data",data)
+        
+        }
+
+        
+        socket?.connect()
+        
+        socket?.on(clientEvent: .disconnect) { data, ack in
+           // Handle the disconnection event
+           print("Socket disconnected")
+       }
+      
+    }
+
+    
+}

@@ -42,6 +42,7 @@ struct AppConstants {
         
     struct API{
         static let environment: NetworkEnvironment = .live
+        
         static var baseURL: URL {
             switch AppConstants.API.environment{
                 case .live:
@@ -50,9 +51,20 @@ struct AppConstants {
                 case .staging:
                     return URL(string: "https://apix-stage.bazaarghar.com/v1/")!
             case.local:
-                return URL(string: "http://192.168.0.7:3000/v1/")!
+                return URL(string: "http://192.168.1.44:3000/v1/")!
             }
         }
+        static var typeSenseUrl: URL {
+              switch AppConstants.API.environment{
+                case .live:
+                  return URL(string: "https://search.bazaarghar.com/multi_search?x-typesense-api-key=EeWttEyOdPY8OjKA0E6ayaSWHuyaS8yd")!
+                case .staging:
+                //return URL(string: "http://192.168.1.41:3003/chat/v1/message")!
+                return URL(string: "https://search.bazaarghar.com/multi_search?x-typesense-api-key=RCWZ1ftzaBXQ3wjXwvT5velUhQJJlfdn")!
+              case.local:
+                return URL(string: "https://search.bazaarghar.com/multi_search?x-typesense-api-key=RCWZ1ftzaBXQ3wjXwvT5velUhQJJlfdn")!
+              }
+            }
         static var baseURLSearchProduct: URL {
             switch AppConstants.API.environment{
             case .live:
@@ -62,7 +74,7 @@ struct AppConstants {
                 return URL(string: "https://apix-stage.bazaarghar.com/v2/")!
                 
             case.local:
-                return URL(string: "http://192.168.0.7:3000/v2/")!
+                return URL(string: "http://192.168.1.44:3000/v2/")!
             }
         }
         
@@ -76,7 +88,7 @@ struct AppConstants {
                     return URL(string: "https://apix-stage.bazaarghar.com/streaming/v1/")!
                 
             case.local:
-                return URL(string: "http://192.168.0.7:3002/streaming/v1/")!
+                return URL(string: "http://192.168.1.44:3002/streaming/v1/")!
                 
 
             }
@@ -92,7 +104,7 @@ struct AppConstants {
                    return URL(string: "https://chat-api-stage.bazaarghar.com/chat/v1/message")!
                 
             case.local:
-                return URL(string: "http://192.168.0.7:3003/chat/v1/message")!
+                return URL(string: "http://192.168.1.44:3003/chat/v1/message")!
 
             }
         }
@@ -107,7 +119,7 @@ struct AppConstants {
                    return URL(string: "https://chat-api-stage.bazaarghar.com/chat/v1/notification")!
                 
             case.local:
-                return URL(string: "http://192.168.0.7:3003/chat/v1/notification")!
+                return URL(string: "http://192.168.1.44:3003/chat/v1/notification")!
 
             }
         }
@@ -122,7 +134,7 @@ struct AppConstants {
                    return URL(string: "https://chat-api-stage.bazaarghar.com/chat/v1/")!
                 
             case.local:
-                return URL(string: "http://192.168.0.7:3003/chat/v1/")!
+                return URL(string: "http://192.168.1.44:3003/chat/v1/")!
 
             }
         }

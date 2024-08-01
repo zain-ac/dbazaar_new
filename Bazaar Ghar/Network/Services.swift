@@ -33,6 +33,13 @@ enum Services {
     case getaddress
     case placeOrder(cartId:String)
     case myOrder(limit:Int,sortBy:String)
+    case typeSenseApi(val:String,txt:String,facet_by:String)
+
+
+
+
+
+
     case addAddress(fullname:String,phone:String,province:String,city:String,city_code:String,address:String,addressType:String,localType:String,zipCode:String,addressLine_2:String,country:String)
     case adressdelete(addressId: String)
     case wishList
@@ -75,6 +82,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return AppConstants.API.baseURLVideoStreaming
         case .chinesebell:
             return AppConstants.API.baseURLChatNotification
+        case .typeSenseApi:
+             return AppConstants.API.typeSenseUrl
       
         default:
             return AppConstants.API.baseURL
@@ -136,6 +145,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return "address"
         case let .adressdelete(addressId):
             return "address/\(addressId)"
+            
         case .addwishList:
             return "wishList/new"
         case .wishListRemove:
@@ -238,7 +248,26 @@ extension Services: TargetType, AccessTokenAuthorizable {
             }
             
         case let .getAllProductsByCategories(limit,page,sortBy,category, _):
-            return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default)  
+            return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default) 
+        case let .typeSenseApi(val,str,facet_by):
+              let parameters: [String: Any] = [
+                "searches": [
+                  [
+                    "query_by": "productName",
+                    "highlight_full_fields": "productName",
+        //            "collection": "db_live_products",
+                    "collection": "bg_stage_products",
+                    "q": str,
+        //            "facet_by": "lvl0,color,brandName,averageRating,price,size,style",
+                    "facet_by": facet_by,
+                  "filter_by": val,
+                    "max_facet_values": 250,
+                    "page": 1,
+                    "per_page": 20
+                  ]
+                ]
+              ]
+              return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case let .myOrder(limit,sortBy):
             return .requestParameters(parameters: ["limit": limit,"sortBy":sortBy], encoding: URLEncoding.default)
     

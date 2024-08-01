@@ -42,6 +42,17 @@ class APIServices{
               }
           }
       }
+    class func TPHitsApi(val: String,txt: String ,facet_by:String,completion:@escaping(APIResult<[TpResult]>)->Void) {
+        Provider.services.request(.typeSenseApi(val: val, txt: txt,facet_by: facet_by)) { result in
+          do{
+            let categories: [TpResult] = try result.decoded(keypath: "results")
+            completion(.success(categories))
+          }catch{
+              print("-----Error------ \n",error)
+              completion(.failure(error.customDescription))
+          }
+        }
+      }
     class func banner(isbackground:Bool,completion:@escaping(APIResult<[BannerResponse]>)->Void){
         
         
@@ -339,7 +350,31 @@ class APIServices{
         
     }
     
-    class func getrandomproduct(completion:@escaping(APIResult<[Product]>)->Void){
+    class func getrandomproduct(isbackground :Bool,completion:@escaping(APIResult<[Product]>)->Void){
+        if(isbackground){
+            Provider.backgroundServices.request(.randomproduct){ result in
+                
+                do{
+                    
+                    let categories: [Product] = try result.decoded(keypath: "data")
+                    
+                    completion(.success(categories))
+                }catch{
+                    if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                    }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                        DispatchQueue.main.async {
+                            appDelegate.GotoDashBoard(ischecklogin: true)
+                        }
+                    }
+                    else{
+                        print("-----Error------ \n",error)
+                        completion(.failure(error.customDescription))
+                    }
+                }
+            }
+        
+        }else {
             Provider.services.request(.randomproduct){ result in
                 
                 do{
@@ -362,7 +397,21 @@ class APIServices{
                 }
             }
         
+        }
+          
     }
+    
+    class func typeSenseApi(val: String,txt: String ,facet_by:String,completion:@escaping(APIResult<[TypeSenseResult]>)->Void) {
+        Provider.services.request(.typeSenseApi(val: val, txt: txt,facet_by: facet_by)) { result in
+          do{
+            let categories: [TypeSenseResult] = try result.decoded(keypath: "results")
+            completion(.success(categories))
+          }catch{
+              print("-----Error------ \n",error)
+              completion(.failure(error.customDescription))
+          }
+        }
+      }
     
     class func productcategoriesdetails(slug:String,completion:@escaping(APIResult<ProductCategoriesDetailsResponse>)->Void) {
         Provider.services.request(.productcategoriesdetails(slug: slug)) { result in

@@ -6,7 +6,8 @@
 //
 
 import UIKit
-
+import Frames
+import Checkout
 class NewOrderConfirmation_ViewController: UIViewController {
     @IBOutlet weak var mapview: UIView!
     
@@ -192,7 +193,50 @@ extension NewOrderConfirmation_ViewController:UITableViewDelegate,UITableViewDat
         
         return cell
     }
-    
+    private func handleTokenResponse(with result: Result<TokenDetails, TokenRequestError>) {
+        switch result {
+        case .failure(let failure):
+            switch failure {
+            case .userCancelled:
+                print("user tapped cancelled with Error code : \(failure.code)")
+            case .applePayTokenInvalid:
+                showAlert(with: "Error code: \(failure.code)", title: "ApplePay Token Invalid")
+            case .cardValidationError(let cardValidationError):
+                showAlert(with: "Error code: \(cardValidationError.code)", title: "Card Validation Error")
+            case .networkError(let networkError):
+                showAlert(with: "Error code: \(networkError.code)", title: "Network Error")
+            case .serverError(let serverError):
+                showAlert(with: "Error code: \(serverError.code)", title: "Server Error")
+            case .couldNotBuildURLForRequest:
+                showAlert(with: "Error code: \(failure.code)", title: "Could Not Build URL")
+            case .missingAPIKey:
+                showAlert(with: "You need to make sure an API key is present", title: "Missing API Key")
+            }
+        case .success(let tokenDetails):
+            showAlert(with: tokenDetails.token, title: "Success")
+        }
+    }
+    private func showAlert(with message: String, title: String = "Payment") {
+      DispatchQueue.main.async {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default) { _ in
+          alert.dismiss(animated: true)
+        }
+        alert.addAction(action)
+        self.present(alert, animated: true)
+      }
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            customizeNavigationBarAppearance(backgroundColor: .white, foregroundColor: .black)
+            let viewController = Factory.getDefaultPaymentViewController { [weak self] result in
+              self?.handleTokenResponse(with: result)
+            }
+            navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
     @objc func checkBtnTapped(_ sender: UIButton) {
         print("Button was clicked!")
         self.selectedIndex = sender.tag

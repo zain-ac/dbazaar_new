@@ -29,6 +29,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Checkout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>CheckoutEventLoggerKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Cosmos.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -45,6 +55,11 @@
 			<false/>
 		</dict>
 		<key>FSPagerView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FingerprintPro.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -85,6 +100,16 @@
 			<false/>
 		</dict>
 		<key>FirebaseMessaging.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Frames-Frames.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Frames.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -159,6 +184,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>PhoneNumberKit-PhoneNumberKitPrivacy.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PhoneNumberKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Bazaar Ghar-Bazaar GharUITests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -194,12 +229,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>RangeSeekSlider.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>RecaptchaInterop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Result.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Risk.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

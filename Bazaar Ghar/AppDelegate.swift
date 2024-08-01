@@ -41,6 +41,15 @@ var window: UIWindow?
         IQKeyboardManager.shared.shouldShowToolbarPlaceholder = false
       FirebaseApp.configure()
       registerForPushNotifications()
+        
+        
+        
+        if AppDefault.getAllCategoriesResponsedata?.count ?? 0 > 0{
+            
+        }else{
+            self.onBoardingVc()
+        }
+        
         if AppDefault.languages == "en" {
              LanguageManager.language = AppDefault.languages
 
@@ -96,6 +105,30 @@ var window: UIWindow?
                 UIApplication.shared.registerForRemoteNotifications()
             }
         }
+    }
+    func onBoardingVc() {
+        // Load the TabBarViewController from the Main storyboard
+//        guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController") as? TabBarViewController else {
+//            // Failed to instantiate TabBarViewController
+//            return
+//        }
+        guard let tabBarViewController = UIStoryboard(name: "sidemenu", bundle: nil).instantiateViewController(withIdentifier: "Shake_ViewController") as? Shake_ViewController else {
+            // Failed to instantiate TabBarViewController
+            return
+        }
+        
+        // Set the login status
+       
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                // Failed to get AppDelegate
+                return
+            }
+            
+            // Dismiss any presented view controllers before setting the root view controller
+            appDelegate.window?.rootViewController?.dismiss(animated: false, completion: nil)
+            
+            appDelegate.window?.rootViewController = tabBarViewController
     }
   
     func GotoDashBoard(ischecklogin: Bool) {
