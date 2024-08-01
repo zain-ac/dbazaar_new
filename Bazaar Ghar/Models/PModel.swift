@@ -1576,3 +1576,27 @@ struct ProductLangg: Codable {
 struct FluffyArr: Codable {
     let productName, description: String?
 }
+
+
+// comments model
+
+
+struct CommentsData: Codable {
+    let fbComment: Bool
+    let scheduleID, comment, commentDate, userID: String
+    let userName, createdAt, id: String
+
+    enum CodingKeys: String, CodingKey {
+        case fbComment
+        case scheduleID = "scheduleId"
+        case comment, commentDate
+        case userID = "userId"
+        case userName, createdAt, id
+    }
+}
+
+
+
+
+
+// end of comments model

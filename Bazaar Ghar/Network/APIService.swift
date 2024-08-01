@@ -41,6 +41,18 @@ class APIServices{
                   completion(.failure(error.customDescription))
               }
           }
+      } 
+    class func getvideoComments(scheduleId:String,completion:@escaping(APIResult<[CommentsData]>)->Void){
+          Provider.services.request(.getComments(scheduleId:scheduleId)) { result in
+              do{
+                  let  commentsData: [CommentsData] =  try result.decoded(keypath: "data")
+                  completion(.success(commentsData))
+              }
+              catch{
+                  print("-----Error------ \n",error)
+                  completion(.failure(error.customDescription))
+              }
+          }
       }
     class func TPHitsApi(val: String,txt: String ,facet_by:String,completion:@escaping(APIResult<[TpResult]>)->Void) {
         Provider.services.request(.typeSenseApi(val: val, txt: txt,facet_by: facet_by)) { result in
