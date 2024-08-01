@@ -91,6 +91,8 @@
 		8B2955E32A8F8965008D6BD8 /* Bazaar_GharTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2955E22A8F8965008D6BD8 /* Bazaar_GharTests.swift */; };
 		8B2955ED2A8F8965008D6BD8 /* Bazaar_GharUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2955EC2A8F8965008D6BD8 /* Bazaar_GharUITests.swift */; };
 		8B2955EF2A8F8965008D6BD8 /* Bazaar_GharUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2955EE2A8F8965008D6BD8 /* Bazaar_GharUITestsLaunchTests.swift */; };
+		8B2B6E512C5B82C100D8FBAF /* VideoCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B6E502C5B82C000D8FBAF /* VideoCommentViewController.swift */; };
+		8B2B6E532C5B899100D8FBAF /* VideoCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B6E522C5B899100D8FBAF /* VideoCommentTableViewCell.swift */; };
 		8B3AE3062C2AA1CF00064687 /* HomeLastProductCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B3AE3042C2AA1CE00064687 /* HomeLastProductCollectionViewCell.xib */; };
 		8B3AE3082C2AD4CC00064687 /* CartPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3AE3072C2AD4CC00064687 /* CartPopupViewController.swift */; };
 		8B50F0A02AFA09CF002A5CB6 /* Page_Vc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B50F09F2AFA09CF002A5CB6 /* Page_Vc.swift */; };
@@ -393,6 +395,8 @@
 		8B2955E82A8F8965008D6BD8 /* Bazaar GharUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Bazaar GharUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B2955EC2A8F8965008D6BD8 /* Bazaar_GharUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bazaar_GharUITests.swift; sourceTree = "<group>"; };
 		8B2955EE2A8F8965008D6BD8 /* Bazaar_GharUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bazaar_GharUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8B2B6E502C5B82C000D8FBAF /* VideoCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCommentViewController.swift; sourceTree = "<group>"; };
+		8B2B6E522C5B899100D8FBAF /* VideoCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCommentTableViewCell.swift; sourceTree = "<group>"; };
 		8B3AE3042C2AA1CE00064687 /* HomeLastProductCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeLastProductCollectionViewCell.xib; sourceTree = "<group>"; };
 		8B3AE3072C2AD4CC00064687 /* CartPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPopupViewController.swift; sourceTree = "<group>"; };
 		8B50F09F2AFA09CF002A5CB6 /* Page_Vc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page_Vc.swift; sourceTree = "<group>"; };
@@ -823,6 +827,7 @@
 				8BE6CB002C1CB5F500AB174B /* Live_videoCell1TableViewCell.xib */,
 				8B3AE3042C2AA1CE00064687 /* HomeLastProductCollectionViewCell.xib */,
 				8B7CC4AF2C40122000C930F8 /* shopbycat_CollectionViewCell.swift */,
+				8B2B6E522C5B899100D8FBAF /* VideoCommentTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -890,6 +895,7 @@
 				8BCDE51E2C2D7A9A0067EA0B /* MenuVc.swift */,
 				8BADD28D2C327CE5004FF16A /* New_StorepageVC.swift */,
 				2A9C81A72C37D522002DE75F /* AddtocartPopup.swift */,
+				8B2B6E502C5B82C000D8FBAF /* VideoCommentViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1504,6 +1510,7 @@
 				8BB406B02ABD6758001B4EF2 /* wishlist_vc.swift in Sources */,
 				8BE5CE632A971AD600B86E3A /* HomeLastProductCollectionViewCell.swift in Sources */,
 				8B1437BB2A8F9077008A2705 /* Extension+Error.swift in Sources */,
+				8B2B6E532C5B899100D8FBAF /* VideoCommentTableViewCell.swift in Sources */,
 				8B208F7E2A93479600B6BFF7 /* HomeImageSliderCell.swift in Sources */,
 				8BA719B22AA8A34C00641B29 /* vediocategory_Cell.swift in Sources */,
 				8B71A9FB2BD7784A00A2344B /* ShopChinaViewController.swift in Sources */,
@@ -1513,6 +1520,7 @@
 				8BCEF95F2C5A10DA00152BFB /* StoreFiltersColors_TableViewCell.swift in Sources */,
 				8B7666F72C4501530041FB30 /* OrderSummary_CollectionViewCell.swift in Sources */,
 				8BB656AD2C1C68A70097C465 /* Shopbeyound_TableViewCell.swift in Sources */,
+				8B2B6E512C5B82C100D8FBAF /* VideoCommentViewController.swift in Sources */,
 				8B14381A2A8F9417008A2705 /* ColorManager.swift in Sources */,
 				8BB03D822A9F103100DB737F /* PRoductCategory_cell.swift in Sources */,
 				8BD02A3C2AC45D25007D6CFD /* LiveCategory_Cell.swift in Sources */,

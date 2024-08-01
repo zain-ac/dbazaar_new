@@ -4768,7 +4768,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgO-7e-mwF">
-                                                                <rect key="frame" x="295" y="15.999999999999998" width="25" height="23.666666666666664"/>
+                                                                <rect key="frame" x="295" y="16" width="25" height="23.666666666666664"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="25" id="i3b-D8-XzV"/>
                                                                     <constraint firstAttribute="width" constant="25" id="ioE-8J-SrZ"/>
@@ -17907,6 +17907,18 @@
             <point key="canvasLocation" x="-7642.3999999999996" y="-1666.2561576354681"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="4VR-A0-djO">
+            <size key="intrinsicContentSize" width="120" height="20"/>
+        </designable>
+        <designable name="94d-mJ-0AP"/>
+        <designable name="N4j-be-yzz">
+            <size key="intrinsicContentSize" width="120" height="20"/>
+        </designable>
+        <designable name="aGQ-2P-hcz">
+            <size key="intrinsicContentSize" width="120" height="20"/>
+        </designable>
+    </designables>
     <resources>
         <image name="17" width="225" height="225"/>
         <image name="5" width="720" height="405"/>

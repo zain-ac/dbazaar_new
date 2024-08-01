@@ -47,6 +47,8 @@ class SingleVideoCell: UITableViewCell {
     
     @IBOutlet weak var viewslbl: UILabel!
     @IBOutlet weak var storeImgView: UIView!
+    @IBOutlet weak var commentBtn: UIButton!
+
 
     let centerTransitioningDelegate = CenterTransitioningDelegate()
     var randomproductapiModel: [PChat] = []
@@ -126,6 +128,7 @@ class SingleVideoCell: UITableViewCell {
          buybtn.isHidden = false
          likelbl.isHidden = false
          storeImgView.isHidden = false
+          commentBtn.isHidden = false
 
     }
 

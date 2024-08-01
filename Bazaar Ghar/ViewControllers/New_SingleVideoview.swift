@@ -12,7 +12,6 @@ import AVKit
 import SocketIO
 
 class New_SingleVideoview: UIViewController {
-  
     
     @IBOutlet weak var singlevideotable: UITableView!
 
@@ -45,7 +44,15 @@ class New_SingleVideoview: UIViewController {
             }
 
         }
- 
+    func initializeSocket(scheduleId: String) {
+            manager = SocketManager(socketURL: URL(string: "https://apid.bazaarghar.com")!, config: [.log(true), .compress, .forceWebsockets(true), .connectParams(["roomId": scheduleId])])
+       socket   =  manager?.socket(forNamespace: "/")
+        socket = manager?.defaultSocket
+        setupSocketHandlers()
+            socket?.connect()
+        
+   
+        }
     
     func showShareSheet(id:String) {
         print(id)
@@ -162,7 +169,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         let cell = self.singlevideotable.dequeueReusableCell(withIdentifier: "SingleVideoCell") as! SingleVideoCell
         let data = LiveStreamingResultsdata[indexPath.row]
         cell.navigationController = self.navigationController
-        self.SocketConeect(scheduleId: data.resultID ?? "")
+        self.initializeSocket(scheduleId: data.resultID ?? "")
         getLike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId: AppDefault.currentUser?.id ?? "", indexPath: indexPath)
         cell.LiveStreamingResultsdataArray = data
             if(indexPath.row == indexValue){
@@ -191,7 +198,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         }
 //        cell.volumebtn.addTarget(self, action: #selector(volumebtnTapped(_:)), for: .touchUpInside)
         cell.sharebtn.addTarget(self, action: #selector(shareBtnTapped(_:)), for: .touchUpInside)
-//        cell.exclamationbtn.addTarget(self, action: #selector(exclamationbtnTapped(_:)), for: .touchUpInside)
+
         cell.exclamationbtn.mk_addTapHandler { (btn) in
              print("You can use here also directly : \(indexPath.row)")
              self.exclamationbtnTapped(btn: btn, indexPath: indexPath)
@@ -207,6 +214,10 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         cell.likebtn.mk_addTapHandler { (btn) in
              print("You can use here also directly : \(indexPath.row)")
              self.likeBtnTapped(btn: btn, indexPath: indexPath)
+        }
+        cell.commentBtn.mk_addTapHandler { (btn) in
+             print("You can use here also directly : \(indexPath.row)")
+             self.commentBtnTapped(btn: btn, indexPath: indexPath)
         }
         
         let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
@@ -316,42 +327,46 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         cell.buybtn.isHidden = true
         cell.likelbl.isHidden = true
         cell.storeImgView.isHidden = true
-        
+        cell.commentBtn.isHidden = true
+
         let vc = ReportViewController()
         vc.videoId = data.resultID
         self.present(vc, animated: true, completion: nil)
     }
+    
+    func commentBtnTapped(btn:UIButton, indexPath:IndexPath) {
+        let cell = singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
+        cell.volumeview.isHidden = true
+        cell.volumebtn.isHidden = true
+        cell.exclamationview.isHidden = true
+        cell.exclamationbtn.isHidden = true
+        cell.expandbtn.isHidden = true
+        cell.shareview.isHidden = true
+        cell.sharebtn.isHidden = true
+        cell.likeview.isHidden = true
+        cell.likebtn.isHidden = true
+        cell.expandview.isHidden = true
+        cell.expandbtn.isHidden = true
+        cell.followbtn.isHidden = true
+        cell.storename.isHidden = true
+        cell.storeimg.isHidden = true
+        cell.headerlbl.isHidden = true
+        cell.hiddenview.isHidden = true
+        cell.buybtn.isHidden = true
+        cell.likelbl.isHidden = true
+        cell.storeImgView.isHidden = true
+        cell.commentBtn.isHidden = true
+        
+        
+        let vc = VideoCommentViewController.getVC(.sidemenu)
+        self.present(vc, animated: true, completion: nil)
+    }
+    
 //    @objc func volumebtnTapped(_ sender: UIButton) {
 //        let selectedCell = singlevideotable.cellForRow(at: self.indexPath) as! SingleVideoCell
 //           selectedCell.toggleMute()
 //    }
-    @objc func exclamationbtnTapped(_ sender: UIButton) {
-//        let data = LiveStreamingResultsdata[sender.tag]
-//        let cell = singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
-//        cell.volumeview.isHidden = true
-//        cell.volumebtn.isHidden = true
-//        cell.exclamationview.isHidden = true
-//        cell.exclamationbtn.isHidden = true
-//        cell.expandbtn.isHidden = true
-//        cell.shareview.isHidden = true
-//        cell.sharebtn.isHidden = true
-//        cell.likeview.isHidden = true
-//        cell.likebtn.isHidden = true
-//        cell.expandview.isHidden = true
-//        cell.expandbtn.isHidden = true
-//        cell.followbtn.isHidden = true
-//        cell.storename.isHidden = true
-//        cell.storeimg.isHidden = true
-//        cell.headerlbl.isHidden = true
-//        cell.hiddenview.isHidden = true
-//        cell.buybtn.isHidden = true
-//        cell.likelbl.isHidden = true
-//        cell.storeImgView.isHidden = true
-//        
-//        let vc = ReportViewController()
-//        vc.videoId = data.resultID
-//        self.present(vc, animated: true, completion: nil)
-    }
+   
     @objc func shareBtnTapped(_ sender: UIButton) {
         let data = LiveStreamingResultsdata[sender.tag]
         showShareSheet(id: data.streamingURL ?? "")
@@ -446,36 +461,32 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
    
 
     
-    
 extension New_SingleVideoview {
-    
-    func SocketConeect(scheduleId:String) {
-       
-        manager = SocketManager(socketURL: AppConstants.API.baseURL, config: [.log(true),
-                                                                                  .compress,
-                                                                                  .forceWebsockets(true),.connectParams( ["roomId":scheduleId])])
-        
-
+    func setupSocketHandlers() {
         socket?.on(clientEvent: .connect) { (data, ack) in
-            self.socket?.on("newChatMessage") { data, ack in
-                print("comment data",data)
-            
-            }
-           }
-        self.socket?.on("newChatMessage") { data, ack in
-            print("comment data",data)
+            print("Socket connected: \(data)")
+            // Emit a test event to verify communication
+            self.socket?.emit("newChatMessage", "Test message from client")
+        }
         
+        socket?.on("newChatMessage") { data, ack in
+            print("Received newChatMessage: \(data)")
+        }
+        
+        socket?.on(clientEvent: .disconnect) { (data, ack) in
+            print("Socket disconnected: \(data)")
+        }
+        
+        socket?.on(clientEvent: .error) { (data, ack) in
+            print("Socket error: \(data)")
+        }
+        
+        socket?.on(clientEvent: .statusChange) { (data, ack) in
+            print("Socket status changed: \(data)")
         }
 
-        
-        socket?.connect()
-        
-        socket?.on(clientEvent: .disconnect) { data, ack in
-           // Handle the disconnection event
-           print("Socket disconnected")
-       }
-      
+        socket?.on("testEventResponse") { data, ack in
+            print("Received testEventResponse: \(data)")
+        }
     }
-
-    
 }
