@@ -34,6 +34,7 @@ enum Services {
     case placeOrder(cartId:String)
     case myOrder(limit:Int,sortBy:String)
     case typeSenseApi(val:String,txt:String,facet_by:String)
+    case getComments(scheduleId:String)
 
 
 
@@ -78,7 +79,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
         switch self {
         case .searchproduct:
             return AppConstants.API.baseURLSearchProduct
-        case .searchVideo, .getStreamingVideos , .getVideoToken, .report , .savelike, .deletelike, .getLike, .getLiveStream:
+        case .searchVideo, .getStreamingVideos , .getVideoToken, .report , .savelike, .deletelike, .getLike, .getLiveStream ,.getComments:
             return AppConstants.API.baseURLVideoStreaming
         case .chinesebell:
             return AppConstants.API.baseURLChatNotification
@@ -94,7 +95,9 @@ extension Services: TargetType, AccessTokenAuthorizable {
     var path: String {
         switch self {
         case  .getVideoToken:
-                    return "videoCall/token" 
+                    return "videoCall/token"
+        case  .getComments:
+                    return "getbyscheduleId"
         case let .followcheck(storeId):
                     return "follow/\(storeId)"
         case .banner:
@@ -276,7 +279,9 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case let .loginwithgoogle(googleId,displayName):
             return .requestParameters(parameters: ["googleId": googleId,"displayName": displayName], encoding: JSONEncoding.default)
         case let .loginwithOtp(googleId, _):
-            return .requestParameters(parameters: ["phoneNumber": googleId], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["phoneNumber": googleId], encoding: JSONEncoding.default)  
+        case let .getComments(scheduleId):
+            return .requestParameters(parameters: ["scheduleId": scheduleId], encoding: JSONEncoding.default)
             
         case let .loginWithGoogleVerification(googleId, id):
             return .requestParameters(parameters: ["phoneToken": googleId,"hash": id], encoding: JSONEncoding.default)

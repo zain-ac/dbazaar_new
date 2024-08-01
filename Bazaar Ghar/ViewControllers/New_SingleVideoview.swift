@@ -15,7 +15,7 @@ class New_SingleVideoview: UIViewController {
     
     @IBOutlet weak var singlevideotable: UITableView!
 
-
+    var schId : String?
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
     var getvidoebyproductIdsdata: [Product] = []
 
@@ -43,15 +43,6 @@ class New_SingleVideoview: UIViewController {
                 self.scrollToRow(at: self.indexValue)
             }
 
-        }
-    func initializeSocket(scheduleId: String) {
-            manager = SocketManager(socketURL: URL(string: "https://apid.bazaarghar.com")!, config: [.log(true), .compress, .forceWebsockets(true), .connectParams(["roomId": scheduleId])])
-       socket   =  manager?.socket(forNamespace: "/")
-        socket = manager?.defaultSocket
-        setupSocketHandlers()
-            socket?.connect()
-        
-   
         }
     
     func showShareSheet(id:String) {
@@ -168,8 +159,9 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.singlevideotable.dequeueReusableCell(withIdentifier: "SingleVideoCell") as! SingleVideoCell
         let data = LiveStreamingResultsdata[indexPath.row]
+        schId = data.resultID ?? ""
         cell.navigationController = self.navigationController
-        self.initializeSocket(scheduleId: data.resultID ?? "")
+//        self.initializeSocket(scheduleId: data.resultID ?? "")
         getLike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId: AppDefault.currentUser?.id ?? "", indexPath: indexPath)
         cell.LiveStreamingResultsdataArray = data
             if(indexPath.row == indexValue){
@@ -359,6 +351,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         
         
         let vc = VideoCommentViewController.getVC(.sidemenu)
+        vc.scheduleId = schId ?? ""
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -460,33 +453,3 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
 
    
 
-    
-extension New_SingleVideoview {
-    func setupSocketHandlers() {
-        socket?.on(clientEvent: .connect) { (data, ack) in
-            print("Socket connected: \(data)")
-            // Emit a test event to verify communication
-            self.socket?.emit("newChatMessage", "Test message from client")
-        }
-        
-        socket?.on("newChatMessage") { data, ack in
-            print("Received newChatMessage: \(data)")
-        }
-        
-        socket?.on(clientEvent: .disconnect) { (data, ack) in
-            print("Socket disconnected: \(data)")
-        }
-        
-        socket?.on(clientEvent: .error) { (data, ack) in
-            print("Socket error: \(data)")
-        }
-        
-        socket?.on(clientEvent: .statusChange) { (data, ack) in
-            print("Socket status changed: \(data)")
-        }
-
-        socket?.on("testEventResponse") { data, ack in
-            print("Received testEventResponse: \(data)")
-        }
-    }
-}
