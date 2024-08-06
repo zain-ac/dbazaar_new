@@ -44,15 +44,20 @@ class AppDefault {
         print("UserDefault: \(shared.dictionaryRepresentation())")
     }
     
- 
-    
-    
         public static var accessToken: String {
             get {
                 return shared.string(forKey: "token") ?? ""
             }
             set {
                 shared.set(newValue, forKey: "token")
+            }
+        }
+    public static var miscid: String {
+            get {
+                return shared.string(forKey: "miscid") ?? ""
+            }
+            set {
+                shared.set(newValue, forKey: "miscid")
             }
         }
     public static var facetFilters: [TypeSenseResult]? {

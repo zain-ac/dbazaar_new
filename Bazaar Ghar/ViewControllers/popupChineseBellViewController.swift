@@ -66,15 +66,6 @@ class popupChineseBellViewController: UIViewController {
                           callback
                       }
                   }
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-              
-
                  case .failure(let error):
                   print(error)
               }
@@ -89,7 +80,7 @@ class popupChineseBellViewController: UIViewController {
     }
     @IBAction func didTapRightButton(_ sender: UIButton) {
  
-        if(self.miscid == ""){
+        if(self.miscid == "self.miscid"){
             if let callback = self.btn2Callback{
                 self.dismiss(animated: true) {
                     callback("test", "1")

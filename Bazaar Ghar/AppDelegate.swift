@@ -156,7 +156,7 @@ var window: UIWindow?
             appDelegate.window?.rootViewController = tabBarViewController
     }
      func GotoDashBoardnotification(ischecklogin: Bool,misc: String){
-       
+        
         // Load the TabBarViewController from the Main storyboard
         guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RoundTabbarVc") as? RoundTabbarVc else {
             // Failed to instantiate TabBarViewController
@@ -369,7 +369,7 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 //        print(deviceToken)
 //    }
-//    
+//
 //    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
 //        print(error)
 //    }
@@ -394,18 +394,34 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     print(dateString)
       
       let tittle = alert?["title"] as? String
+     
       
           let misc = userInfo["misc"] as? String
-        print(misc)
-          if(misc != ""){
-              self.GotoDashBoardnotification(ischecklogin: false, misc: misc ?? "")
-          }else {
-              appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Seller \(AppDefault.brandname) is busy." , heading: "Busy", note: "", miscid: "hide", btn1Title: "Cancel", btn1Callback: {
-                  
-              }, btn2Title: "Ok") { token, id in
-                  
-              }
+      
+      
+      if(misc != ""){
+          AppDefault.miscid = misc ?? ""
+      }else{
+          
+      }
+      let body = alert?["body"] as? String ?? ""
+      let lastFourCharacters = String(body.suffix(5))
+      if(lastFourCharacters == "busy."){
+          appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Seller \(AppDefault.brandname) is busy." , heading: "Busy", note: "", miscid: "hide", btn1Title: "Cancel", btn1Callback: {
+              
+          }, btn2Title: "Ok") { token, id in
+              
           }
+      }else{
+          
+          
+          
+          
+          if(AppDefault.miscid != ""){
+              self.GotoDashBoardnotification(ischecklogin: false, misc: AppDefault.miscid )
+              
+          }
+      }
            
         
       
@@ -437,13 +453,44 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
          let misc = userInfo["misc"] as? String
 
-      print(misc)
-     
      if(misc != ""){
-         self.GotoDashBoardnotification(ischecklogin: false, misc: misc ?? "")
-     } else {
-         self.GotoDashBoardnotification(ischecklogin: false, misc: "cancel")
+         AppDefault.miscid = misc ?? ""
+     }else{
+         
      }
+     
+     
+     
+     
+     let body = alert?["body"] as? String ?? ""
+     let lastFourCharacters = String(body.suffix(5))
+     if(lastFourCharacters == "busy."){
+         appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Seller \(AppDefault.brandname) is busy." , heading: "Busy", note: "", miscid: "hide", btn1Title: "Cancel", btn1Callback: {
+             
+         }, btn2Title: "Ok") { token, id in
+             
+         }
+     }else{
+         
+         
+         
+         
+         if(AppDefault.miscid != ""){
+             self.GotoDashBoardnotification(ischecklogin: false, misc: AppDefault.miscid )
+             
+         }else {
+             
+             
+             
+         }
+     }
+     
+     
+     
+     
+     
+     
+    
       
          
      

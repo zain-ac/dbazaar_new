@@ -44,6 +44,9 @@ class AddAddressViewController: UIViewController {
     @IBOutlet weak var scrollHeight: NSLayoutConstraint!
     @IBOutlet weak var scrollHeightinnerview: NSLayoutConstraint!
 
+    @IBOutlet weak var arealbl: UILabel!
+    @IBOutlet weak var citlbl: UILabel!
+    @IBOutlet weak var provincelbl: UILabel!
     
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var addNewAddressi18: UILabel!
@@ -59,6 +62,11 @@ class AddAddressViewController: UIViewController {
     @IBOutlet weak var zipcodei18: UILabel!
     @IBOutlet weak var saveAddressBtn: UIButton!
     @IBOutlet weak var selectCountry18n: UILabel!
+    @IBOutlet weak var provinceView: UIView!
+    @IBOutlet weak var AreaView: UIView!
+    @IBOutlet weak var ProvincePullDownButton: UIButton!
+    @IBOutlet weak var CityPullDownButton: UIButton!
+    @IBOutlet weak var AreaPullDownButton: UIButton!
 
 
     
@@ -81,118 +89,55 @@ class AddAddressViewController: UIViewController {
     
     var isComeChange = Bool()
     var isComeOrder = Bool()
-    var cities : [String] = []
+   
 
     var countriesName: [String] = []
     var countriesFlag: [String] = []
-
+    var province:ProvinceDataModel? {
+        didSet {
+            let actions = province?.provinces?.enumerated().map { (index, province) in
+                UIAction(title: province.province ?? "", handler: { _ in
+                            print("\(province.province ?? "") selected at index \(index)")
+                            self.cities = self.province?.provinces?[index].cities ?? []
+                              self.provincelbl.text = province.province
+                        })
+                    }
+                     ProvincePullDownButton.menu = UIMenu(children: actions!)
+                     ProvincePullDownButton.showsMenuAsPrimaryAction = true
+            
+        }
+    }
+    var cities:[City]? {
+        didSet {
+            let actions = cities?.enumerated().map { (index, city) in
+                UIAction(title: city.city ?? "", handler: { _ in
+                            print("\(city.city ?? "") selected at index \(index)")
+//                            self.cities = self.province?.provinces?[index].cities ?? []
+                             self.areas = city.areas
+                             self.citlbl.text = city.city
+                        })
+                    }
+                     CityPullDownButton.menu = UIMenu(children: actions!)
+                     CityPullDownButton.showsMenuAsPrimaryAction = true
+        }
+    }
+    var areas:[String]? {
+        didSet {
+            let actions = areas?.enumerated().map { (index, area) in
+                UIAction(title: area, handler: { _ in
+                            print("\(area) selected at index \(index)")
+                           self.arealbl.text = area
+                        })
+                    }
+                    AreaPullDownButton.menu = UIMenu(children: actions!)
+                    AreaPullDownButton.showsMenuAsPrimaryAction = true
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = true
-         cities = [
-            "Riyadh",
-            "Jeddah",
-            "Mecca (Makkah)",
-            "Medina (Al Madinah)",
-            "Dammam",
-            "Khobar (Al Khobar)",
-            "Ta'if",
-            "Buraidah",
-            "Tabuk",
-            "Abha",
-            "Khamis Mushait",
-            "Hofuf (Al-Hofuf)",
-            "Jubail (Jubail Industrial City)",
-            "Yanbu (Yanbu Al Bahr)",
-            "Hail",
-            "Najran",
-            "Al Qatif",
-            "Arar",
-            "Qassim (Buraydah)",
-            "Al-Ahsa",
-            "Al Kharj",
-            "Sakaka",
-            "Al Bahah",
-            "Rafha",
-            "Al Khafji",
-            "Ad Dawadimi",
-            "Dhahran",
-            "Al Qunfudhah",
-            "Al Wajh",
-            "Tarout Island",
-            "Turaif",
-            "Umluj",
-            "Turubah",
-            "Al Majma'ah",
-            "Duba",
-            "Al Duwadimi",
-            "Al Ghat",
-            "Al Hareeq",
-            "Al Jawf (Sakakah)",
-            "Al Lith",
-            "Al-Ula",
-            "Baish",
-            "Baljurashi",
-            "Bisha",
-            "Al-Bukayriyah",
-            "Dawadmi",
-            "Domat Al-Jandal",
-            "Duba (Dubai)",
-            "Fursan",
-            "Haql",
-            "Kharj",
-            "Mahd Al Thahab",
-            "Al Mikhwah",
-            "Al Namas",
-            "Al Nairyah",
-            "Al Nouf",
-            "Al Ola",
-            "Al Omran",
-            "Al Qarah",
-            "Al Qunfidhah",
-            "Al Qurayyat",
-            "Al Safwa",
-            "Al Sajir",
-            "Al-Salmi",
-            "Al Sawda",
-            "Al Zabirah",
-            "As Saffaniyah",
-            "As Saffaniyah (Safaniya)",
-            "Al Sairafi",
-            "Al-`Ula",
-            "Al `Uyaynah",
-            "An Nimas",
-            "Ash Shafa",
-            "At Taif",
-            "Ad Dilam",
-            "Ad Darb",
-            "Al Musawwarah",
-            "Al Qurayn",
-            "Al Jumum",
-            "Al Midhnab",
-            "Al Mithnab",
-            "Al Muwayh",
-            "Al Ula (Al-Ulah)",
-            "Al Wajih",
-            "Al Wurud",
-            "Badr",
-            "Balahmar",
-            "Bani Malik",
-            "Buqayq",
-            "Al Buraik",
-            "Duruma",
-            "Ghat",
-            "Hadda",
-            "Haradh",
-            "Hareeq",
-            "Al Harjah",
-            "Al Harth",
-            "Al Jandal",
-            "Al Jumum",
-            "Al Kharj (Al Kharg)"
-        ]
-
-
+        
         cityTblV.delegate = self
         cityTblV.dataSource = self
         countryTblV.delegate = self
@@ -206,7 +151,7 @@ class AddAddressViewController: UIViewController {
         address2TF.text = addressLine_2
         zipCodeTF.text = zipCode
         if cityy == "" {
-            cityLbl.text = "Select City"
+//            cityLbl.text = "Select City"
 		}
         if country == "" {
             countryLbl.text = "Saudi Arabia"
@@ -214,7 +159,7 @@ class AddAddressViewController: UIViewController {
             countryLbl.text = country
         }
         if localType == "local" {
-            scrollHeight.constant  = 650
+//            scrollHeight.constant  = 650
          
             countryView.isHidden = true
             pakistanRadioImg.image = UIImage(named: "selectedRadioBlue")
@@ -222,9 +167,9 @@ class AddAddressViewController: UIViewController {
             cityViewPakistan.isHidden = false
             cityViewInternational.isHidden = true
             if cityy == "" {
-                cityLbl.text = "Select City"
+//                cityLbl.text = "Select City"
             }else {
-                cityLbl.text = cityy
+//                cityLbl.text = cityy
             }
             mobileNumerHeadingLbl.text = "mobilenmber".pLocalized(lang: LanguageManager.language) // whatsappnmber
 //            mobileNumerCodeLbl.text = "+92"
@@ -241,11 +186,17 @@ class AddAddressViewController: UIViewController {
             mobileNumerHeadingLbl.text = "whatsappnmber".pLocalized(lang: LanguageManager.language) // whatsappnmber
             mobileNumerCodeLbl.text = "+355"
         }
+        
+        
+       
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         LanguageRender()
         getcities()
+        getprovince(countryCode: "SA", language: "en", checkCache: false)
         for code in NSLocale.isoCountryCodes {
             let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
             let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country not found for code: \(code)"
@@ -322,15 +273,15 @@ class AddAddressViewController: UIViewController {
             mobileNumberValidationImg.isHidden = true
         }
         if localType == "local" {
-            if cityLbl.text == "Select City" || cityLbl.text == "" {
-                Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(hideView), userInfo: nil, repeats: false)
-                view.makeToast("City Name Required")
-
-//                cityValidationView.isHidden = false
-                return false
-            }else {
-                cityValidationView.isHidden = true
-            }
+//            if cityLbl.text == "Select City" || cityLbl.text == "" {
+//                Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(hideView), userInfo: nil, repeats: false)
+//                view.makeToast("City Name Required")
+//
+////                cityValidationView.isHidden = false
+//                return false
+//            }else {
+//                cityValidationView.isHidden = true
+//            }
         }else {
             if cityTF.text == "Select City" || cityTF.text == "" {
 //                cityValidationImg.isHidden = false
@@ -481,6 +432,21 @@ class AddAddressViewController: UIViewController {
             }
         })
     }
+    
+    private func getprovince(countryCode:String,language:String,checkCache:Bool){
+        APIServices.getprovince(countryCode: countryCode, language: language, checkCache: checkCache, completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                print(res)
+             
+                self?.province = res
+                
+             case .failure(let error):
+                print(error)
+                self?.view.makeToast(error)
+            }
+        })
+    }
 
     
     
@@ -490,9 +456,7 @@ class AddAddressViewController: UIViewController {
         cityView.isHidden = true
 
     }
-    @IBAction func cityBtnTapped(_ sender: Any) {
-        cityView.isHidden = false
-    }
+    
     @IBAction func countryCrossbtntapped(_ sender: Any) {
         countryTableView.isHidden = true
         backgroundHandleView.isHidden = true
@@ -513,8 +477,9 @@ class AddAddressViewController: UIViewController {
         localType = "local"
         cityViewPakistan.isHidden = false
         cityViewInternational.isHidden = true
-       
-            scrollHeight.constant  = 650
+        provinceView.isHidden = false
+        AreaView.isHidden = false
+            scrollHeight.constant  = 800
          
             countryView.isHidden = true
             pakistanRadioImg.image = UIImage(named: "selectedRadioBlue")
@@ -522,9 +487,9 @@ class AddAddressViewController: UIViewController {
             cityViewPakistan.isHidden = false
             cityViewInternational.isHidden = true
             if cityy == "" {
-                cityLbl.text = "selctcity".pLocalized(lang: LanguageManager.language)
+//                cityLbl.text = "selctcity".pLocalized(lang: LanguageManager.language)
             }else {
-                cityLbl.text = cityy
+//                cityLbl.text = cityy
             }
             mobileNumerHeadingLbl.text = "mobilenmber".pLocalized(lang: LanguageManager.language) // whatsappnmber
 //            mobileNumerCodeLbl.text = "+92"
@@ -538,7 +503,8 @@ class AddAddressViewController: UIViewController {
         localType = "international"
         cityViewPakistan.isHidden = true
         cityViewInternational.isHidden = false
-    
+        provinceView.isHidden = true
+        AreaView.isHidden = true
             scrollHeight.constant = 750
            
             countryView.isHidden = false
@@ -585,8 +551,8 @@ extension AddAddressViewController: UITableViewDelegate, UITableViewDataSource {
         if tableView == countryTblV {
             return countriesName.count
         }else {
-            return cities.count
-
+//            return dropDownData.count
+             return 0
         }
     }
     
@@ -600,8 +566,8 @@ extension AddAddressViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CityTableViewCell", for: indexPath) as! CityTableViewCell
-            let data = cities[indexPath.row]
-            cell.textLabel?.text = data
+//            let data = dropDownData[indexPath.row]
+//            cell.textLabel?.text = data
 
             return cell
         }
@@ -617,12 +583,12 @@ extension AddAddressViewController: UITableViewDelegate, UITableViewDataSource {
             backgroundHandleView.isHidden = true
 
         }else {
-            let selectedValue = cities[indexPath.row]
-            cityName = selectedValue
-            cityLbl.text = selectedValue
-            cityy = selectedValue
-            cityCode = selectedValue
-            cityView.isHidden = true
+//            let selectedValue = dropDownData[indexPath.row]
+//            cityName = selectedValue
+//            cityLbl.text = selectedValue
+//            cityy = selectedValue
+//            cityCode = selectedValue
+//            cityView.isHidden = true
         }
     }
     

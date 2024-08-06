@@ -33,6 +33,9 @@ class CartViewController: UIViewController {
     @IBOutlet weak var headerBackgroudView: UIView!
     @IBOutlet weak var V1: UIView!
     @IBOutlet weak var V2: UIView!
+    @IBOutlet weak var topCountView: UIView!
+    @IBOutlet weak var priceView: UIView!
+    @IBOutlet weak var checkoutbuttonView: UIView!
 
     // localizationOutlest
     // localizationOutlest
@@ -116,6 +119,17 @@ class CartViewController: UIViewController {
                 }else{
                     self?.emptyCart.isHidden = false
                     self?.deleteBtn.isHidden = true
+                }
+                
+                if res.packages?.count == 0 {
+                    self?.topCountView.isHidden = true
+                    self?.priceView.isHidden = true
+                    self?.checkoutbuttonView.isHidden = true
+                    
+                }else {
+                    self?.topCountView.isHidden = false
+                    self?.priceView.isHidden = false
+                    self?.checkoutbuttonView.isHidden = false
                 }
 //                self?.cartchargesmessagelbl.text = "Shipping Charges in Saudia are \(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.shippmentCharges ?? 0)) per package" //"cartchargesmessage".pLocalized(lang: LanguageManager.language)
 

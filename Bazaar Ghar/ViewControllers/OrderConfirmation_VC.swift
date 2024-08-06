@@ -161,8 +161,8 @@ class OrderConfirmation_VC: UIViewController {
             switch data{
             case .success(let res):
               print(res)
-                let vc = PlaceOrder_VC.getVC(.main)
-                vc.orderID = res.orderDetailID
+                let vc = InVoice_ViewController.getVC(.sidemenu)
+//                vc.orderID = res
                 self?.navigationController?.pushViewController(vc, animated: false)
 
             case .failure(let error):

@@ -13,7 +13,9 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var cateogorylbl: UILabel!
     @IBOutlet weak var catBannerBtn: UIButton!
     @IBOutlet weak var arrowBtn: UIButton!
-   
+    @IBOutlet weak var subCatCollectionView: UICollectionView!
+    @IBOutlet weak var subCatViewHeight: NSLayoutConstraint!
+
     
     var productvariantsapi: [Variants]? = nil{
         didSet{
@@ -30,14 +32,24 @@ class HomeTableViewCell: UITableViewCell {
          didSet{
              if(AppDefault.islogin){
                    wishList()
-                 }//             self.Homecollectionview.reloadData()
+                 }//  
+             self.Homecollectionview.reloadData()
          }
      }
-     
+    var subCatData: [DatumSubCategory] = [] {
+        didSet {
+            if subCatData.count > 0 {
+                subCatViewHeight.constant = 150
+            }else {
+                subCatViewHeight.constant = 0
+            }
+            subCatCollectionView.reloadData()
+        }
+    }
     var nav:UINavigationController?
     
     
-    
+    var index:Int?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -93,6 +105,26 @@ class HomeTableViewCell: UITableViewCell {
           }
         })
       }
+    
+    
+    private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground:Bool){
+        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                if(res.count > 0){
+                    if res.first?.product?.first?.regularPrice == nil {
+                        UIApplication.pTopViewController().view.makeToast("product not found")
+                    }else {
+                        self?.productapi = res.first?.product
+                    }
+                }
+            
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
+    
 
 }
 
@@ -101,55 +133,69 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
 //            return 1
 //        }
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return productapi?.count ?? 0
+            if collectionView == subCatCollectionView {
+                return subCatData.count
+            }else {
+                return productapi?.count ?? 0
+            }
         }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
-        let data = productapi?[indexPath.row]
-        Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-
-        self.productvariantsapi = data?.variants!
-        cell.productimage.pLoadImage(url: data?.mainImage ?? "")
-        if LanguageManager.language == "ar"{
-            cell.productname.text = data?.lang?.ar?.productName
-        }else{
-            cell.productname.text =  data?.productName
-        }
-
-        if data?.onSale == true {
-            cell.discountPrice.isHidden = false
-            cell.productPrice.isHidden = false
-            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
-            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
-            cell.productPriceLine.isHidden = false
-            cell.productPrice.textColor = UIColor.red
-            cell.productPriceLine.backgroundColor = UIColor.red
-            cell.percentBGView.isHidden = false
-
+        if collectionView == subCatCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SubCategoryCollectionViewCell", for: indexPath) as! SubCategoryCollectionViewCell
+            let data = subCatData[indexPath.row]
+            cell.catName.text = data.name
+            cell.catImg.pLoadImage(url: data.mainImage ?? "")
+            return cell
         }else {
-            cell.productPriceLine.isHidden = true
-            cell.productPrice.isHidden = true
-            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
-            cell.percentBGView.isHidden = true
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
+            let data = productapi?[indexPath.row]
+            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
-         }
-        cell.cartButton.tag = indexPath.row
-        cell.cartButton.addTarget(self, action: #selector(catBannerBtnTapped(_:)), for: .touchUpInside)
-        cell.heartBtn.tag = indexPath.row
-        cell.heartBtn.addTarget(self, action: #selector(LatestMobileheartButtonTap(_:)), for: .touchUpInside)
+            self.productvariantsapi = data?.variants!
+            cell.productimage.pLoadImage(url: data?.mainImage ?? "")
+            if LanguageManager.language == "ar"{
+                cell.productname.text = data?.lang?.ar?.productName
+            }else{
+                cell.productname.text =  data?.productName
+            }
 
-        if let wishlistProducts = AppDefault.wishlistproduct {
-                if wishlistProducts.contains(where: { $0.id == data?.id }) {
-                  cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                  cell.heartBtn.tintColor = .red
-                } else {
-                  cell.backgroundColor = .white
-                  cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-                  cell.heartBtn.tintColor = .white
-                }
-              }
+            if data?.onSale == true {
+                cell.discountPrice.isHidden = false
+                cell.productPrice.isHidden = false
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
+                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+                cell.productPriceLine.isHidden = false
+                cell.productPrice.textColor = UIColor.red
+                cell.productPriceLine.backgroundColor = UIColor.red
+                cell.percentBGView.isHidden = false
+
+            }else {
+                cell.productPriceLine.isHidden = true
+                cell.productPrice.isHidden = true
+                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
+                cell.percentBGView.isHidden = true
+
+             }
+            cell.cartButton.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(catBannerBtnTapped(_:)), for: .touchUpInside)
+            cell.heartBtn.tag = indexPath.row
+            cell.heartBtn.addTarget(self, action: #selector(LatestMobileheartButtonTap(_:)), for: .touchUpInside)
+
+            if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == data?.id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+                  }
+            
+            return cell
+        }
         
-        return cell
+       
     }
     @objc func LatestMobileheartButtonTap(_ sender: UIButton) {
         if(AppDefault.islogin){
@@ -186,16 +232,33 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
 
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let data = productapi?[indexPath.row]
-        appDelegate.slugid = data?.slug ?? ""
-        NotificationCenter.default.post(name: Notification.Name("Productid"), object: nil)
-        
+        if collectionView == subCatCollectionView {
+            let data = subCatData[indexPath.row]
+//            let imageDataDict:[String: Any] = ["id": data.id ?? "", "index": self.index ?? 0]
+//            NotificationCenter.default.post(name: Notification.Name("subcatupdate"), object: nil,userInfo: imageDataDict)
+            
+            self.productcategoriesApi(cat: data.id ?? "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
+
+            
+        }else {
+            let data = productapi?[indexPath.row]
+            appDelegate.slugid = data?.slug ?? ""
+            NotificationCenter.default.post(name: Notification.Name("Productid"), object: nil)
+        }
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: Homecollectionview.frame.width/2-5, height: 280)
-
+        if collectionView == subCatCollectionView {
+            let data = subCatData[indexPath.row]
+            if data.productsCount == 0 {
+                return CGSize(width: 0, height: 0)
+            }else {
+                return CGSize(width: subCatCollectionView.frame.width/1.7, height: subCatCollectionView.frame.height)
+            }
+        }else {
+            return CGSize(width: Homecollectionview.frame.width/2-5, height: 280)
+        }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

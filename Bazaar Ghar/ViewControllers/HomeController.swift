@@ -435,7 +435,18 @@ var count = 0
             self?.wishList()
           case .failure(let error):
             print(error)
-    //        self?.view.makeToast(error)
+              if error == "Please authenticate" {
+                  if AppDefault.islogin{
+                      
+                  }else{
+//                       DispatchQueue.main.async {
+//                          self.selectedIndex = 0
+//                       }
+                      let vc = PopupLoginVc.getVC(.main)
+                      vc.modalPresentationStyle = .overFullScreen
+                      self?.present(vc, animated: true, completion: nil)
+                  }
+              }
           }
         })
       }

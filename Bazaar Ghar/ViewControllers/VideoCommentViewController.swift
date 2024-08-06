@@ -80,6 +80,7 @@ class VideoCommentViewController: UIViewController {
               ]
             if(sendTextFeild.text?.count != 0){
                 socket?.emit("newChatMessage", message)
+                sendTextFeild.text = ""
             }else{
                 view.makeToast("Enter Some Text")
             }

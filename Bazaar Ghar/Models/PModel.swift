@@ -1434,16 +1434,16 @@ struct DatumSubCategory: Codable {
     let categorySpecs: DatumCategorySpecs?
     let lang: PurpleLang?
     let videoCount: Int?
-    let subCategories: [PurppleSubCategory]?
+    let subCategories: [DatumSubCategory]?
     let id: String?
     let commission: Int?
     let bannerImage, wideBannerImage: String?
     let platformID: String?
-
+    let productsCount: Int?
     enum CodingKeys: String, CodingKey {
         case gallery, type, attributes, attributeRequired, platform, deleted, name, mainCategory, createdAt, updatedAt, description, mainImage
         case v = "__v"
-        case slug, products, categorySpecs, lang, videoCount, subCategories, id, commission, bannerImage, wideBannerImage
+        case slug, products, categorySpecs, lang, videoCount, subCategories, id, commission, bannerImage, wideBannerImage,productsCount
         case platformID = "platformId"
     }
 }
@@ -1600,3 +1600,187 @@ struct CommentsData: Codable {
 
 
 // end of comments model
+
+
+struct CheckOutModel: Codable {
+  let orderAddress: CheckOutOrderAddress?
+  let paymentTrace: CheckOutPaymentTrace?
+  let orders: [CheckOutOrder]?
+  let status: String?
+  let isAdmin: Bool?
+  let adminUser: String?
+  let paymentMethod: String?
+  let paymentMethodTotal: Int?
+  let groupBuy: Bool?
+  let adminDiscount: Int?
+  let customer: CheckOutCustomer?
+  let orderNote, payment: String?
+  let createdAt, updatedAt, orderDetailID: String?
+  let subTotal, total, retailTotal, shippmentCharges: Int?
+  let payableShippment, payable, discount, v: Int?
+  let id: String?
+  enum CodingKeys: String, CodingKey {
+    case orderAddress, paymentTrace, orders, status, isAdmin, adminUser, paymentMethod, paymentMethodTotal, groupBuy, adminDiscount, customer, orderNote, payment, createdAt, updatedAt
+    case orderDetailID = "OrderDetailId"
+    case subTotal, total, retailTotal, shippmentCharges, payableShippment, payable, discount
+    case v = "__v"
+    case id
+  }
+}
+// MARK: - Customer
+struct CheckOutCustomer: Codable {
+  let origin: CheckOutOrigin?
+  let wallet: CheckOutWallet?
+  let isEmailVarified, isPhoneVarified: Bool?
+  let userType, role, status, googleID: String?
+  let fullname, createdAt, updatedAt, refCode: String?
+  let v: Int?
+  let email: String?
+  let defaultAddress: CheckOutDefaultAddress?
+  let phone, id: String?
+  enum CodingKeys: String, CodingKey {
+    case origin, wallet, isEmailVarified, isPhoneVarified, userType, role, status
+    case googleID = "googleId"
+    case fullname, createdAt, updatedAt, refCode
+    case v = "__v"
+    case email, defaultAddress, phone, id
+  }
+}
+// MARK: - DefaultAddress
+struct CheckOutDefaultAddress: Codable {
+  let addressType, localType, fullname, address: String?
+  let city, province, area, phone: String?
+  let user, createdAt, updatedAt: String?
+  let v: Int?
+  let id: String?
+  enum CodingKeys: String, CodingKey {
+    case addressType, localType, fullname, address, city, province, area, phone, user, createdAt, updatedAt
+    case v = "__v"
+    case id
+  }
+}
+// MARK: - Origin
+struct CheckOutOrigin: Codable {
+  let source: String?
+}
+// MARK: - Wallet
+struct CheckOutWallet: Codable {
+  let balance: Int?
+}
+// MARK: - OrderAddress
+struct CheckOutOrderAddress: Codable {
+  let addressType, localType, fullname, address: String?
+    let city, province, phone: String?
+    let user, id: String?
+}
+// MARK: - Order
+struct CheckOutOrder: Codable {
+  let orderItems: [CheckOutOrderItem]?
+  let paymentMethod: String?
+  let wallet: Bool?
+  let paymentMethodTotal: Int?
+  let groupBuy: Bool?
+  let groupBuyQuantity: Int?
+  let customer, seller, orderDetail: String?
+  let shippmentCharges: Int?
+  let address: String?
+  let orderNote: String?
+  let orderAddress: CheckOutOrderAddress?
+  let subTotal, retailTotal, discount, subWeight: Int?
+  let orderID, statusUpdatedAt: String?
+  let adminDiscount: Int?
+  let vendor: Vendor?
+  let store: CheckOutStore?
+  let payableShippment, payable: Int?
+  let orderStatus: CheckOutOrderStatus?
+  let v: Int?
+  let createdAt, updatedAt, id: String?
+  enum CodingKeys: String, CodingKey {
+    case orderItems, paymentMethod, wallet, paymentMethodTotal, groupBuy, groupBuyQuantity, customer, seller, orderDetail, shippmentCharges, address, orderNote, orderAddress, subTotal, retailTotal, discount, subWeight
+    case orderID = "orderId"
+    case statusUpdatedAt, adminDiscount, vendor, store, payableShippment, payable, orderStatus
+    case v = "__v"
+    case createdAt, updatedAt, id
+  }
+}
+// MARK: - OrderItem
+struct CheckOutOrderItem: Codable {
+  let adminDiscount: CheckOutAdminDiscount?
+  let discount, adminTotalDiscount: Int?
+  let product: CheckOutProduct?
+  let quantity: Int?
+  let createdAt, updatedAt: String?
+  let total, weight, retailTotal, v: Int?
+  let id: String?
+  enum CodingKeys: String, CodingKey {
+    case adminDiscount, discount, adminTotalDiscount, product, quantity, createdAt, updatedAt, total, weight, retailTotal
+    case v = "__v"
+    case id
+  }
+}
+// MARK: - AdminDiscount
+struct CheckOutAdminDiscount: Codable {
+  let discountType: String?
+  let amount: Int
+}
+// MARK: - Product
+struct CheckOutProduct: Codable {
+  let featured, onSale: Bool?
+  let attributes, selectedAttributes: [String]?
+  let isVariable: Bool?
+  let productType: String?
+  let gallery: [String]?
+  let variantGroupBuy: Bool?
+  let categoryTree: [String]?
+  let onDeal, relief: Bool?
+  let videoType, platform, currency: String?
+  let embedding, region: [String]?
+  let origin, productName, slug: String?
+  let mainImage: String?
+  let active: Bool?
+  let description: String?
+  let price, quantity, regularPrice, weight: Int?
+  let lang: CheckOutLang?
+  let user, createdAt, updatedAt, id: String?
+}
+// MARK: - Lang
+struct CheckOutLang: Codable {
+  let ar: Ar?
+}
+// MARK: - Ar
+struct CheckOutAr: Codable {
+  let productName, description: String?
+}
+// MARK: - OrderStatus
+struct CheckOutOrderStatus: Codable {
+  let name: String?
+  let current: Bool?
+  let order, createdAt, seller: String?
+  let v: Int
+  let updatedAt, id: String?
+  enum CodingKeys: String, CodingKey {
+    case name, current, order, createdAt, seller
+    case v = "__v"
+    case updatedAt, id
+  }
+}
+// MARK: - Store
+struct CheckOutStore: Codable {
+  let id, brandName, slug: String?
+  enum CodingKeys: String, CodingKey {
+    case id = "_id"
+    case brandName, slug
+  }
+}
+// MARK: - Vendor
+struct CheckOutVendor: Codable {
+  let id, email, fullname: String?
+  enum CodingKeys: String, CodingKey {
+    case id = "_id"
+    case email, fullname
+  }
+}
+// MARK: - PaymentTrace
+struct CheckOutPaymentTrace: Codable {
+  let walletPaid, cardPaid: Int?
+}

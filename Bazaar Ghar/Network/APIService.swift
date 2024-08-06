@@ -412,6 +412,29 @@ class APIServices{
         }
           
     }
+    class func getrandomproduct(origin :String,completion:@escaping(APIResult<[Product]>)->Void){
+            Provider.services.request(.shopChinarandomproduct(origin: origin)){ result in
+                
+                do{
+                    
+                    let categories: [Product] = try result.decoded(keypath: "data")
+                    
+                    completion(.success(categories))
+                }catch{
+                    if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                    }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                        DispatchQueue.main.async {
+                            appDelegate.GotoDashBoard(ischecklogin: true)
+                        }
+                    }
+                    else{
+                        print("-----Error------ \n",error)
+                        completion(.failure(error.customDescription))
+                    }
+                }
+            }
+    }
     
     class func typeSenseApi(val: String,txt: String ,facet_by:String,completion:@escaping(APIResult<[TypeSenseResult]>)->Void) {
         Provider.services.request(.typeSenseApi(val: val, txt: txt,facet_by: facet_by)) { result in
@@ -1049,7 +1072,18 @@ class APIServices{
             }
         }
     }
-    
+    class func checkoutpayment(token: String, amount: Int, currency: String, cartId: String,completion:@escaping(APIResult<OrderResponse>)->Void){
+        Provider.services.request(.cardpaymentApi(token: token, amount: amount, currency: currency, cartId: cartId)) { result in
+           do{
+             let commentsData: OrderResponse = try result.decoded(keypath: "data")
+             completion(.success(commentsData))
+           }
+           catch{
+             print("-----Error------ \n",error)
+             completion(.failure(error.customDescription))
+           }
+         }
+       }
     class func removeWishList(product:String,completion:@escaping(APIResult<RemoveWishListResponse>)->Void){
         Provider.services.request(.wishListRemove(product: product)) { result in
             do{
@@ -1355,6 +1389,43 @@ class APIServices{
             }
         }
     }
+    class func shopchinaStreamingVideo(origin:String,completion:@escaping(APIResult<ShopChinaStreaminVideoDataModel>)->Void) {
+        Provider.services.request(.shopchinaStreamingVideo(origin: origin)){ result in
+            do{
+                let appleLogin: ShopChinaStreaminVideoDataModel = try result.decoded(keypath: "data")
+                completion(.success(appleLogin))
+            }catch{
+                
+                print("-----Error------ \n",error)
+                completion(.failure(error.customDescription))
+                
+            }
+        }
+    }
+    class func getprovince(countryCode:String,language:String,checkCache:Bool,completion:@escaping(APIResult<ProvinceDataModel>)->Void){
+        Provider.services.request(.getprovince(countryCode: countryCode, language: language, checkCache: checkCache)) { result in
+            do{
+                
+                let  personaldetail: ProvinceDataModel =  try result.decoded(keypath: "data")
+                
+                completion(.success(personaldetail))
+            }catch{
+                if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                    DispatchQueue.main.async {
+                        appDelegate.GotoDashBoard(ischecklogin: true)
+                    }}
+                else{
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                }
+            }
+            
+        }
+    }
+    
+    
     
     
 }

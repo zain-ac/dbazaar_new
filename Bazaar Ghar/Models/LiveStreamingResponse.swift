@@ -325,3 +325,33 @@ struct Hashes: Codable {
 //        case resultID = "id"
 //    }
 //}
+
+
+
+
+struct ShopChinaStreaminVideoDataModel: Codable {
+    let page, totalPages, limit, totalResults: Int?
+    let results, featured: [LiveStreamingResults]?
+}
+
+
+
+
+
+// MARK: - DataClass
+struct ProvinceDataModel: Codable {
+    let countryname: String?
+    let provinces: [Province]?
+}
+
+// MARK: - Province
+struct Province: Codable {
+    let province: String?
+    let cities: [City]?
+}
+
+// MARK: - City
+struct City: Codable {
+    let city: String?
+    let areas: [String]?
+}

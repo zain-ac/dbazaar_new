@@ -118,7 +118,19 @@ var count = 0
     var shoptxtColor:String?
     var catBGColor : String?
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
-
+    var kk = 0
+    var subCatData: [DatumSubCategory] = [] {
+        didSet {
+         kk += 150
+            if subCatData.count > 0 {
+                self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count) + kk)
+                let hh =  820
+                let ll = ((self.getrandomproductapiModel.count) / 2) * 280
+                let final = hh + ll
+                self.scrollHeight.constant = CGFloat(final) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)    
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -150,7 +162,6 @@ var count = 0
 
         ]
         
-        getStreamingVideos(limit: 20, page: 1, categories: [])
         
      print(KSA)
         print(Pak)
@@ -180,9 +191,7 @@ var count = 0
         let attributedText5 =  Utility().attributedStringWithColoredLastWord("Trending Products", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
         trendingproductlbl.attributedText = attributedText5
-        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Gamers Sale", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
-        
-        recommendationLbl.attributedText = attributedText1
+  
         
         let attributedText2 =  Utility().attributedStringWithColoredLastWord("Shopping Reels", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
@@ -221,8 +230,57 @@ var count = 0
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(notification:)), name: Notification.Name("Productid"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationSubCatUpadate(notification:)), name: Notification.Name("subcatupdate"), object: nil)
 //        homeswitchbtn.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         
+    }
+    
+    @objc func methodOfReceivedNotificationSubCatUpadate(notification: Notification) {
+         let id = notification.userInfo?["id"] as? String
+         let index = notification.userInfo?["index"] as? Int
+         var cinaId1 = "65e82aa5067e0d3f4c5f76c2"
+        var cinaId2 = "65e82aa5067e0d3f4c5f773c"
+        var cinaId3 = "5fe1cbaac05d6b3eb844f6ed"
+
+        var saudiId1 = "604f48f648fcad02d8aaceeb"
+        var saudiId2 = "60c9dce26f0fe647a547713c"
+        var saudiId3 = "61c0665ec59a3763f321635a"
+
+        var pakiId1 = "6038dd317e4d2a1f859d8255"
+        var pakiId2 = "6051de7711747985fdce2faa"
+        var pakiId3 = "6048c62a05ec9502c9f8cde3"
+    
+
+        
+        if shop == "Shop China" {
+            if index == 0 {
+                cinaId1 = id ?? ""
+            }else if index == 1{
+                cinaId2 = id ?? ""
+            }else {
+                cinaId3 = id ?? ""
+            }
+            self.productcategoriesApi(cat: cinaId1, cat2: cinaId2, cat3: cinaId3, cat4: "", cat5: "",isbackground: false)
+
+        }else if shop == "Shop Saudi" {
+            if index == 0 {
+                saudiId1 = id ?? ""
+            }else if index == 1{
+                saudiId2 = id ?? ""
+            }else {
+                saudiId3 = id ?? ""
+            }
+            self.productcategoriesApi(cat: saudiId1, cat2: saudiId2, cat3: saudiId3, cat4: "", cat5: "",isbackground: false)
+        }else {
+            if index == 0 {
+                pakiId1 = id ?? ""
+            }else if index == 1{
+                pakiId2 = id ?? ""
+            }else {
+                pakiId3 = id ?? ""
+            }
+            self.productcategoriesApi(cat: pakiId1, cat2: pakiId2, cat3: pakiId3, cat4: "", cat5: "",isbackground: false)
+        }
     }
     
     private func categoriesApi(isbackground:Bool,id:String) {
@@ -263,10 +321,18 @@ var count = 0
         if offsetY > contentHeight - frameHeight {
             // Call your API
             if load == true {
-                getrandomproduct(isbackground: false)
+                
+                if shop == "Shop China" {
+                    getrandomproduct(origin: "china")
+                }else if shop == "Shop Saudi" {
+                    getrandomproduct(origin: "ksa")
+                }else {
+                    getrandomproduct(origin: "pak")
+                }
             }
         }
     }
+    
         func loadMoreData() {
             // Your API call
             print("Reached the end of the scroll view, loading more data...")
@@ -319,28 +385,47 @@ var count = 0
         catView.backgroundColor = UIColor(hex: catBGColor ?? "")
         shoplabel.textColor = UIColor(hex: shoptxtColor ?? "")	
         if shop == "Shop China" {
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Gamers Sale", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+            recommendationLbl.attributedText = attributedText1
             let imageDataDict:[String: String] = ["img": "china"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
             CategoriesResponsedata.removeAll()
             for i in China {
                 categoriesApi(isbackground: false, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f774e", cat2: "65e82aa5067e0d3f4c5f774c", cat3: "65e82aa5067e0d3f4c5f7746", cat4: "65e82aa5067e0d3f4c5f76c8", cat5: "",isbackground: false)
+            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f76c2", cat2: "65e82aa5067e0d3f4c5f773c", cat3: "5fe1cbaac05d6b3eb844f6ed", cat4: "", cat5: "",isbackground: false)
+            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+            getStreamingVideos(origin: "china")
+            getrandomproduct(origin: "china")
 
         }else if shop == "Shop Saudi" {
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+            recommendationLbl.attributedText = attributedText1
             let imageDataDict:[String: String] = ["img": "saudi"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
             CategoriesResponsedata.removeAll()
             for i in KSA {
                 categoriesApi(isbackground: false, id: i.id ?? "")
             }
+            self.productcategoriesApi(cat: "604f48f648fcad02d8aaceeb", cat2: "60c9dce26f0fe647a547713c", cat3: "61c0665ec59a3763f321635a", cat4: "", cat5: "",isbackground: false)
+            randomproduct(cat: "60d30fafadf1df13d41b56d5", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+            getStreamingVideos(origin: "ksa")
+            getrandomproduct(origin: "ksa")
+
         }else {
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+            recommendationLbl.attributedText = attributedText1
             let imageDataDict:[String: String] = ["img": "pakistan-image"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
             CategoriesResponsedata.removeAll()
             for i in Pak {
                 categoriesApi(isbackground: false, id: i.id ?? "")
             }
+            self.productcategoriesApi(cat: "6038dd317e4d2a1f859d8255", cat2: "6051de7711747985fdce2faa", cat3: "6048c62a05ec9502c9f8cde3", cat4: "", cat5: "",isbackground: false)
+
+            randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+            getStreamingVideos(origin: "pak")
+            getrandomproduct(origin: "pak")
         }
    
         
@@ -351,11 +436,9 @@ var count = 0
 //            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
 //            self.randomproductapiModel = AppDefault.randonproduct ?? []
 //        }else{
-            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
         groupByDeals(limit: 20, page: 1, isbackground: false)
         self.bannerApi(isbackground: false)
 //                self.categoriesApi(isbackground: false)
-        getrandomproduct(isbackground: false)
 //        }
         
 
@@ -442,8 +525,8 @@ var count = 0
 //              }
         
     }
-    private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
+    private func getStreamingVideos(origin:String){
+        APIServices.shopchinaStreamingVideo(origin: origin,completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
@@ -580,13 +663,21 @@ var count = 0
                     } else {
                     let banners =  res
                     
-                    
-                    for item in res{
-                        let objext = item.id
-                        if objext?.bannerName == "Mob Banner Home" {
-                            self?.bannerapidata = (objext?.banners)!
-                        }
-                    }
+                        if LanguageManager.language == "ar" {
+                            for item in res{
+                                let objext = item.id
+                                if objext?.bannerName == "Country Pakistan App Arabic" {
+                                    self?.bannerapidata = (objext?.banners)!
+                                }
+                            }
+                        }else {
+                            for item in res{
+                                let objext = item.id
+                                if objext?.bannerName == "Country Pakistan App" {
+                                    self?.bannerapidata = (objext?.banners)!
+                                }
+                              }
+                            }
                 }
                     self?.pageControl.numberOfPages = self?.bannerapidata?.count ?? 0
                     self?.pageControl.currentPage = 0
@@ -619,15 +710,15 @@ var count = 0
         APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
+                self?.kk = 0
                 AppDefault.productcategoriesApi = res
                 if(res.count > 0){
                     self?.ProductCategoriesResponsedata = res
-                    self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
-                    
-                    let hh =  1440
+                   
+                    self?.tableViewHeight.constant = CGFloat(920 * (self?.ProductCategoriesResponsedata.count ?? 0))
+                    let hh =  820
                     let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
                     let final = hh + ll
-
                     self?.scrollHeight.constant = CGFloat(final) + (self?.hotDealViewHeight.constant ?? 0) + (self?.tableViewHeight.constant ?? 0)
                 }
                 self?.lastRandomProductsCollectionView.reloadData()
@@ -661,9 +752,9 @@ var count = 0
         })
     }
     
-    private func getrandomproduct(isbackground:Bool){
+    private func getrandomproduct(origin:String){
         load = false
-        APIServices.getrandomproduct(isbackground:isbackground,completion: {[weak self] data in
+        APIServices.getrandomproduct(origin: origin,completion: {[weak self] data in
             switch data{
             case .success(let res):
             
@@ -672,9 +763,9 @@ var count = 0
                     self?.getrandomproductapiModel.append(contentsOf: res)
                 }
                 print(res)
-                self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
+                self?.tableViewHeight.constant = CGFloat(920 * (self?.ProductCategoriesResponsedata.count ?? 0))
                 
-                let hh = 1440
+                let hh = 820
                 let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
                 let final = hh + ll
 
@@ -1171,7 +1262,33 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
             }
             //        cell.cateogorylbl.text = data.name ?? ""
             cell.productapi = data.product ?? []
-            
+        cell.index = indexPath.row
+        for i in AppDefault.getAllCategoriesResponsedata ?? [] {
+            if i.id == data.id {
+                cell.subCatData = i.subCategories ?? []
+                self.subCatData = i.subCategories ?? []
+                break
+            }else {
+                for j in i.subCategories ?? [] {
+                    if j.id == data.id {
+                        cell.subCatData = j.subCategories ?? []
+                        self.subCatData = j.subCategories ?? []
+                        break
+                    } else {
+                        for h in j.subCategories ?? [] {
+                            if h.id == data.id {
+                                cell.subCatData = h.subCategories ?? []
+                                self.subCatData = h.subCategories ?? []
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        
             cell.catBannerBtn.tag = indexPath.row
             cell.arrowBtn.tag = indexPath.row
             cell.catBannerBtn.addTarget(self, action: #selector(catBannerBtnTapped(_:)), for: .touchUpInside)
@@ -1225,9 +1342,12 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
+        if subCatData.count > 0 {
+            return 920
+        }else {
             return 770
         }
+    }
 }
 
 

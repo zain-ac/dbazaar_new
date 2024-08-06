@@ -75,6 +75,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         headerlbl.text = "Live Video"
         self.CategoriesResponsedata = AppDefault.CategoriesResponsedata ?? []
         getStreamingVideos(limit:100,page:1,categories: [], city: "")
+        getLiveStream()
     }
     
 //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -245,6 +246,9 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
                 cell.LiveStreamingResultsAlldata = LiveStreamingResultsdata
+                if self.LiveVideoData.count  > 0 {
+//                    cell.LiveVideoData = self.LiveVideoData
+                }
                 return cell
             } else {
                 LiveStreamingResultsdatafilter.removeAll()

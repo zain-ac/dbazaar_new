@@ -15,7 +15,6 @@ class New_SingleVideoview: UIViewController {
     
     @IBOutlet weak var singlevideotable: UITableView!
 
-    var schId : String?
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
     var getvidoebyproductIdsdata: [Product] = []
 
@@ -159,7 +158,6 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.singlevideotable.dequeueReusableCell(withIdentifier: "SingleVideoCell") as! SingleVideoCell
         let data = LiveStreamingResultsdata[indexPath.row]
-        schId = data.resultID ?? ""
         cell.navigationController = self.navigationController
 //        self.initializeSocket(scheduleId: data.resultID ?? "")
         getLike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId: AppDefault.currentUser?.id ?? "", indexPath: indexPath)
@@ -327,6 +325,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
     }
     
     func commentBtnTapped(btn:UIButton, indexPath:IndexPath) {
+        let data = LiveStreamingResultsdata[indexPath.row]
         let cell = singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
         cell.volumeview.isHidden = true
         cell.volumebtn.isHidden = true
@@ -351,7 +350,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         
         
         let vc = VideoCommentViewController.getVC(.sidemenu)
-        vc.scheduleId = schId ?? ""
+        vc.scheduleId = data.resultID ?? ""
         self.present(vc, animated: true, completion: nil)
     }
     
