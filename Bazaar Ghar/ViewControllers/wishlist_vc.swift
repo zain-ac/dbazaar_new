@@ -44,7 +44,7 @@ class wishlist_vc: UIViewController {
     }
     
      func wishList(){
-        APIServices.wishlist(){[weak self] data in
+         APIServices.wishlist(isbackground: false){[weak self] data in
             switch data{
             case .success(let res):
               print(res)

@@ -2512,7 +2512,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="byh-Fh-655">
+                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="byh-Fh-655">
                                                         <rect key="frame" x="15" y="10" width="345" height="195"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="5" minimumInteritemSpacing="20" id="enm-Kx-3Ij">
@@ -4768,7 +4768,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgO-7e-mwF">
-                                                                <rect key="frame" x="295" y="15.999999999999998" width="25" height="23.666666666666664"/>
+                                                                <rect key="frame" x="295" y="16" width="25" height="23.666666666666664"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="25" id="i3b-D8-XzV"/>
                                                                     <constraint firstAttribute="width" constant="25" id="ioE-8J-SrZ"/>
@@ -13542,7 +13542,7 @@
         <!--Category ProductsVC-->
         <scene sceneID="mu9-gK-z20">
             <objects>
-                <viewController storyboardIdentifier="Category_ProductsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QTR-hD-WAm" customClass="Category_ProductsVC" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Category_ProductsVC" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QTR-hD-WAm" customClass="Category_ProductsVC" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mfV-HX-e7m">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -16130,11 +16130,11 @@
         <scene sceneID="Cox-WK-6r0">
             <objects>
                 <viewController storyboardIdentifier="ShopChina_VC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nNB-ab-T1B" customClass="ShopChina_VC" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="21D-dy-lAV">
+                    <view key="view" contentMode="scaleToFill" id="21D-dy-lAV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iyi-ko-1WG">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iyi-ko-1WG">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="113"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NqS-22-Oib">
@@ -16158,13 +16158,13 @@
                                             <action selector="popViewController:" destination="nNB-ab-T1B" eventType="touchUpInside" id="YX5-sP-w8M"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Bazaar Live" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qmu-Op-0h1">
-                                        <rect key="frame" x="135.33333333333331" y="61.666666666666657" width="104.33333333333334" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bazaar Live" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qmu-Op-0h1">
+                                        <rect key="frame" x="127" y="61.666666666666657" width="121.33333333333331" height="28"/>
                                         <fontDescription key="fontDescription" name="Poppins-Bold" family="Poppins" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Di-1u-Si7">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Di-1u-Si7">
                                         <rect key="frame" x="329" y="62.666666666666657" width="26" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="26" id="nyx-iw-LBM"/>
@@ -16192,7 +16192,7 @@
                                     <constraint firstAttribute="height" constant="113" id="Wgc-vY-qdB"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGx-gT-n0H">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGx-gT-n0H">
                                 <rect key="frame" x="0.0" y="113" width="375" height="699"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQ0-dC-BVM">
@@ -17471,7 +17471,7 @@
                                     <constraint firstAttribute="width" constant="90" id="aNr-5k-HEj"/>
                                 </constraints>
                             </imageView>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eFQ-H0-CgN">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFQ-H0-CgN">
                                 <rect key="frame" x="290" y="700.66666666666663" width="65" height="65"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whatsapp 1" translatesAutoresizingMaskIntoConstraints="NO" id="TVm-23-Lf6">
@@ -17559,7 +17559,7 @@
         <!--New StoreVC-->
         <scene sceneID="pPq-WE-DQa">
             <objects>
-                <viewController storyboardIdentifier="New_StoreVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1hk-63-nnk" customClass="New_StoreVC" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="New_StoreVC" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1hk-63-nnk" customClass="New_StoreVC" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jgo-7Y-F6Q">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -17657,7 +17657,7 @@
                                                         </connections>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sony Store" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixI-4F-cKS">
-                                                        <rect key="frame" x="20" y="186" width="97" height="25.333333333333343"/>
+                                                        <rect key="frame" x="20" y="186" width="167" height="25.333333333333343"/>
                                                         <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="18"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -17812,6 +17812,7 @@
                                                     <constraint firstItem="bSe-kG-KU8" firstAttribute="top" secondItem="ixI-4F-cKS" secondAttribute="bottom" constant="2" id="j5G-2K-Pam"/>
                                                     <constraint firstItem="H88-3O-Sq3" firstAttribute="centerX" secondItem="Hre-tG-6yc" secondAttribute="centerX" id="oFz-nv-bTh"/>
                                                     <constraint firstAttribute="height" constant="260" id="qNp-QV-FhS"/>
+                                                    <constraint firstItem="0cF-Ja-unu" firstAttribute="leading" secondItem="ixI-4F-cKS" secondAttribute="trailing" constant="5" id="sng-Tb-kAw"/>
                                                     <constraint firstItem="H88-3O-Sq3" firstAttribute="leading" secondItem="Hre-tG-6yc" secondAttribute="leading" id="ueL-XW-nSZ"/>
                                                 </constraints>
                                             </view>

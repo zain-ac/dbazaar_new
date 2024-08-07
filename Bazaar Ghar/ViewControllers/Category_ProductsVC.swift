@@ -411,7 +411,7 @@ class Category_ProductsVC: UIViewController {
     }
     
     @IBAction func backBtnTapped(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: false)
     }
     @IBAction func bellIconBtnTapped(_ sender: Any) {
         

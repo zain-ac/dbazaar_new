@@ -626,7 +626,7 @@ class ProductDetail_VC: UIViewController {
     }
     
     private func wishlist(){
-        APIServices.wishlist(completion: {[weak self] data in
+        APIServices.wishlist(isbackground: false, completion: {[weak self] data in
             switch data{
             case .success(let res):
                 for i in res.products ?? []{

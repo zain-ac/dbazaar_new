@@ -1017,24 +1017,45 @@ class APIServices{
         }
     }
     
-    class func wishlist(completion:@escaping(APIResult<WishlistResponse>)->Void){
-        Provider.services.request(.wishList) { result in
-            do{
+    class func wishlist(isbackground:Bool ,completion:@escaping(APIResult<WishlistResponse>)->Void){
+        if(isbackground){
+            Provider.backgroundServices.request(.wishList) { result in
+                do{
+                    
+                    let  wishList: WishlistResponse =  try result.decoded(keypath: "data")
+                    
+                    completion(.success(wishList))
+                }catch{
+                    
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                    
+                }
                 
-                let  wishList: WishlistResponse =  try result.decoded(keypath: "data")
                 
-                completion(.success(wishList))
-            }catch{
                 
-                print("-----Error------ \n",error)
-                completion(.failure(error.customDescription))
                 
             }
-            
-            
-            
-            
+        }else{
+            Provider.services.request(.wishList) { result in
+                do{
+                    
+                    let  wishList: WishlistResponse =  try result.decoded(keypath: "data")
+                    
+                    completion(.success(wishList))
+                }catch{
+                    
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                    
+                }
+                
+                
+                
+                
+            }
         }
+        
     }
     
     class func newwishlist(product:String,completion:@escaping(APIResult<String>)->Void){

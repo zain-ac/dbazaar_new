@@ -142,30 +142,30 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
         cell.selectionStyle = .none
             
             if currentLevel == 0 {
-                let category = currentCategories[indexPath.row] as! getAllCategoryResponse
+                let category = currentCategories[indexPath.row] as? getAllCategoryResponse
                 if LanguageManager.language == "ar"{
-                    cell.lab.text = category.lang?.ar?.name
+                    cell.lab.text = category?.lang?.ar?.name
                 }else{
-                    cell.lab.text = category.name
+                    cell.lab.text = category?.name
                 }
-                cell.imagelbl.pLoadImage(url: category.mainImage ?? "")
+                cell.imagelbl.pLoadImage(url: category?.mainImage ?? "")
                 
             } else if currentLevel == 1 {
-                let subCategory = currentCategories[indexPath.row] as! DatumSubCategory
+                let subCategory = currentCategories[indexPath.row] as? DatumSubCategory
                 if LanguageManager.language == "ar"{
-                    cell.lab.text = subCategory.lang?.ar?.name
+                    cell.lab.text = subCategory?.lang?.ar?.name
                 }else{
-                    cell.lab.text = subCategory.name
+                    cell.lab.text = subCategory?.name
                 }
-                cell.imagelbl.pLoadImage(url: subCategory.mainImage ?? "")
+                cell.imagelbl.pLoadImage(url: subCategory?.mainImage ?? "")
             } else if currentLevel == 2 {
-                let subSubCategory = currentCategories[indexPath.row] as! PurppleSubCategory
+                let subSubCategory = currentCategories[indexPath.row] as? PurppleSubCategory
                 if LanguageManager.language == "ar"{
-                    cell.lab.text = subSubCategory.lang?.ar?.name
+                    cell.lab.text = subSubCategory?.lang?.ar?.name
                 }else{
-                    cell.lab.text = subSubCategory.name
+                    cell.lab.text = subSubCategory?.name
                 }
-                cell.imagelbl.pLoadImage(url: subSubCategory.mainImage ?? "")
+                cell.imagelbl.pLoadImage(url: subSubCategory?.mainImage ?? "")
             } else if currentLevel == 3 {
                 let subSubSubCategory = currentCategories[indexPath.row] as! FlufffySubCategory
 //                cell.lab.text = subSubSubCategory.name
@@ -188,64 +188,64 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
        
 
         if currentLevel == 0 {
-                let selectedCategory = currentCategories[indexPath.row] as! getAllCategoryResponse
-                if let subCategories = selectedCategory.subCategories, !subCategories.isEmpty {
+                let selectedCategory = currentCategories[indexPath.row] as? getAllCategoryResponse
+            if let subCategories = selectedCategory?.subCategories, !subCategories.isEmpty {
                     currentCategories = subCategories
                     currentLevel = 1
                     tableView.reloadData()
                 } else {
                     let vc = Category_ProductsVC.getVC(.main)
-                    vc.prductid = selectedCategory.id ?? ""
+                    vc.prductid = selectedCategory?.id ?? ""
                     vc.video_section = false
                     vc.storeFlag = false
-                    vc.catNameTitle = selectedCategory.name ?? ""
+                    vc.catNameTitle = selectedCategory?.name ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                     categoryStates.removeAll()
                 }
             } else if currentLevel == 1 {
-                let selectedSubCategory = currentCategories[indexPath.row] as! DatumSubCategory
-                if let subSubCategories = selectedSubCategory.subCategories, !subSubCategories.isEmpty {
+                let selectedSubCategory = currentCategories[indexPath.row] as? DatumSubCategory
+                if let subSubCategories = selectedSubCategory?.subCategories, !subSubCategories.isEmpty {
                     currentCategories = subSubCategories
                     currentLevel = 2
                     tableView.reloadData()
                 } else {
                   
                     let vc = Category_ProductsVC.getVC(.main)
-                    vc.prductid = selectedSubCategory.id ?? ""
+                    vc.prductid = selectedSubCategory?.id ?? ""
                     vc.video_section = false
                     vc.storeFlag = false
-                    vc.catNameTitle = selectedSubCategory.name ?? ""
+                    vc.catNameTitle = selectedSubCategory?.name ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                     categoryStates.removeAll()
 //                    self.view.makeToast("Subcategories are empty")
                 }
             } else if currentLevel == 2 {
-                let selectedSubSubCategory = currentCategories[indexPath.row] as! PurppleSubCategory
-                if let subSubSubCategories = selectedSubSubCategory.subCategories, !subSubSubCategories.isEmpty {
+                let selectedSubSubCategory = currentCategories[indexPath.row] as? PurppleSubCategory
+                if let subSubSubCategories = selectedSubSubCategory?.subCategories, !subSubSubCategories.isEmpty {
                     currentCategories = subSubSubCategories
                     currentLevel = 3
                     tableView.reloadData()
                 } else {
                     let vc = Category_ProductsVC.getVC(.main)
-                    vc.prductid = selectedSubSubCategory.id ?? ""
+                    vc.prductid = selectedSubSubCategory?.id ?? ""
                     vc.video_section = false
                     vc.storeFlag = false
-                    vc.catNameTitle = selectedSubSubCategory.name ?? ""
+                    vc.catNameTitle = selectedSubSubCategory?.name ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                     categoryStates.removeAll()
                 }
             } else if currentLevel == 3 {
-                let selectedSubSubSubCategory = currentCategories[indexPath.row] as! FlufffySubCategory
-                if let subSubSubSubCategories = selectedSubSubSubCategory.subCategories, !subSubSubSubCategories.isEmpty {
+                let selectedSubSubSubCategory = currentCategories[indexPath.row] as? FlufffySubCategory
+                if let subSubSubSubCategories = selectedSubSubSubCategory?.subCategories, !subSubSubSubCategories.isEmpty {
                     currentCategories = subSubSubSubCategories
                     currentLevel = 4
                     tableView.reloadData()
                 } else {
                     let vc = Category_ProductsVC.getVC(.main)
-                    vc.prductid = selectedSubSubSubCategory.id ?? ""
+                    vc.prductid = selectedSubSubSubCategory?.id ?? ""
                     vc.video_section = false
                     vc.storeFlag = false
-                    vc.catNameTitle = selectedSubSubSubCategory.name ?? ""
+                    vc.catNameTitle = selectedSubSubSubCategory?.name ?? ""
                     self.navigationController?.pushViewController(vc, animated: false)
                     categoryStates.removeAll()
                 }

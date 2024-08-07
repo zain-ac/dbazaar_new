@@ -31,8 +31,8 @@ class HomeTableViewCell: UITableViewCell {
      var productapi: [Product]? = nil{
          didSet{
              if(AppDefault.islogin){
-                   wishList()
-                 }//  
+                 wishList(isbackground: true)
+                 }//
              self.Homecollectionview.reloadData()
          }
      }
@@ -70,8 +70,8 @@ class HomeTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func wishList(){
-        APIServices.wishlist(){[weak self] data in
+    func wishList(isbackground: Bool){
+        APIServices.wishlist(isbackground: isbackground){[weak self] data in
           switch data{
           case .success(let res):
            print(res)
@@ -98,7 +98,7 @@ class HomeTableViewCell: UITableViewCell {
     //          button.tintColor = .gray
     //
     //        }
-            self?.wishList()
+              self?.wishList(isbackground: false)
           case .failure(let error):
             print(error)
     //        self?.view.makeToast(error)

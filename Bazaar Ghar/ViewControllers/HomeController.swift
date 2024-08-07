@@ -191,6 +191,12 @@ var count = 0
         
         homeswitchbtn.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         
+        if(AppDefault.randonproduct?.count ?? 0 > 0){
+            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
+            self.randomproductapiModel = AppDefault.randonproduct ?? []
+        }else{
+            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+        }
     }
     
     func setupCollectionView() {
@@ -271,12 +277,6 @@ var count = 0
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.isNavigationBarHidden = true
 
-        if(AppDefault.randonproduct?.count ?? 0 > 0){
-            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
-            self.randomproductapiModel = AppDefault.randonproduct ?? []
-        }else{
-            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
-        }
 
 //        if(AppDefault.groupbydealdata?.count ?? 0 > 0){
 //            groupByDeals(limit: 20, page: 1, isbackground: true)
@@ -364,8 +364,15 @@ var count = 0
             getrandomproduct(isbackground: false)
         }
 
-        if(AppDefault.islogin){
-              wishList()
+        if(AppDefault.islogin ){
+            
+            if AppDefault.wishlistproduct != nil{
+                wishList(isbackground: true)
+            }else{
+                wishList(isbackground: false)
+            }
+            
+            
             }
 //        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "you want to join ?", btn1Title: "Accept", btn1Callback: {
 //            print("Accept")
@@ -403,8 +410,8 @@ var count = 0
                 UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
     }
     
-    func wishList(){
-        APIServices.wishlist(){[weak self] data in
+    func wishList(isbackground:Bool){
+        APIServices.wishlist(isbackground: isbackground){[weak self] data in
           switch data{
           case .success(let res):
            print(res)
@@ -432,7 +439,7 @@ var count = 0
     //          button.tintColor = .gray
     //
     //        }
-            self?.wishList()
+              self?.wishList(isbackground: false)
           case .failure(let error):
             print(error)
               if error == "Please authenticate" {
@@ -486,9 +493,8 @@ var count = 0
 //            UITabBar.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
             UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
             NotificationCenter.default.post(name: Notification.Name("RefreshAllTabs"), object: nil)
-            self.navigationController?.popToRootViewController(animated: true)
-            self.viewDidLoad()
-            self.viewWillAppear(true)
+            appDelegate.GotoDashBoard(ischecklogin: false)
+          
         }
    
     }
@@ -1236,51 +1242,14 @@ extension HomeController {
         socket = manager?.socket(forNamespace: "/chat/v1/notification")
 
         socket?.on(clientEvent: .connect) { (data, ack) in
-//            self.socket?.emit("allNotifications", ["userId":AppDefault.currentUser?.id ?? "","page":1,"limit":200])
-//            self.socket?.emit("unreadNotifications", ["userId":AppDefault.currentUser?.id ?? ""])
+
          
            }
         self.socket?.on("notifyChineseBell") { data, ack in
             print("chinise bell",data)
         
         }
-        
-//        self.socket?.on("allNotifications") { data, ack in
-//            
-//            if let rooms = data[0] as? [String: Any]{
-//                if let item = rooms["results"] as? [[String: Any]]{
-//                    
-//                    self.messageItem.removeAll()
-//                    var messageItem:[notificationmodel] = []
-//                    let Datamodel = JSON(item)
-//                    let message = Datamodel.array
-//                    
-//                    for items in message ?? []{
-//                        messageItem.append(notificationmodel(jsonData: items))
-//                    }
-//                    
-//                    print(messageItem)
-//                    
-//                    
-//                    self.messageItem = messageItem
-//                
-//                    
-//                }
-// 
-//            }
-//        }
-        
- 
-    
-//        self.socket?.on("unreadNotifications") { data, ack in
-//            print("chinise bell",data)
-// //
-//        }
-       
-//        self.socket?.on("chineseBell") { data, ack in
-//            print("chinise bell",data)
-// //
-//        }
+     
         
         socket?.connect()
         

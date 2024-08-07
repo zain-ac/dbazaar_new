@@ -303,6 +303,7 @@ extension CategoriesVC: UICollectionViewDelegate,UICollectionViewDataSource,UICo
             vc.video_section = false
             vc.storeFlag = false
             vc.catNameTitle = data?.name ?? ""
+            
             self.navigationController?.pushViewController(vc, animated: false)
         }
         self.Maincollectionview.reloadData()

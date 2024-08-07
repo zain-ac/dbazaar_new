@@ -2980,7 +2980,7 @@
                                                                                             <state key="normal" backgroundImage="Image 120"/>
                                                                                         </button>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Automotive" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UPL-zg-z0Z">
-                                                                                            <rect key="frame" x="55" y="15.666666666666666" width="94" height="22.666666666666679"/>
+                                                                                            <rect key="frame" x="55" y="15.666666666666666" width="94" height="22.666666666666671"/>
                                                                                             <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
@@ -6583,14 +6583,6 @@
             <point key="canvasLocation" x="820" y="136"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="Ggz-iR-EBx">
-            <size key="intrinsicContentSize" width="120" height="20"/>
-        </designable>
-        <designable name="eJU-ki-le9">
-            <size key="intrinsicContentSize" width="-1" height="65"/>
-        </designable>
-    </designables>
     <resources>
         <image name="1 " width="428" height="717"/>
         <image name="17" width="225" height="225"/>
