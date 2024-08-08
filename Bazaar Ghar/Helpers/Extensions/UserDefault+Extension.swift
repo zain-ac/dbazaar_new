@@ -52,6 +52,14 @@ class AppDefault {
                 shared.set(newValue, forKey: "token")
             }
         }
+    public static var socketId: String {
+            get {
+                return shared.string(forKey: "socketId") ?? ""
+            }
+            set {
+                shared.set(newValue, forKey: "socketId")
+            }
+        }
     public static var miscid: String {
             get {
                 return shared.string(forKey: "miscid") ?? ""

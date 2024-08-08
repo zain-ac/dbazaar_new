@@ -80,7 +80,7 @@ extension Shopbeyound_TableViewCell: UICollectionViewDelegate,UICollectionViewDa
         if count == 1 {
             let data = CategoriesResponsedata[indexPath.row]
 
-            let vc = Category_ProductsVC.getVC(.main)
+            let vc = Category_ProductsVC.getVC(.productStoryBoard)
             vc.prductid = data.id ?? ""
             vc.video_section = false
             vc.storeFlag = false
@@ -89,7 +89,7 @@ extension Shopbeyound_TableViewCell: UICollectionViewDelegate,UICollectionViewDa
         }else if count == 2 {
             let data = CategoriesResponsedata[indexPath.row + 12]
 
-            let vc = Category_ProductsVC.getVC(.main)
+            let vc = Category_ProductsVC.getVC(.productStoryBoard)
             vc.prductid = data.id ?? ""
             vc.video_section = false
             vc.storeFlag = false
@@ -98,7 +98,7 @@ extension Shopbeyound_TableViewCell: UICollectionViewDelegate,UICollectionViewDa
         }else {
             let data = CategoriesResponsedata[indexPath.row + 22]
 
-            let vc = Category_ProductsVC.getVC(.main)
+            let vc = Category_ProductsVC.getVC(.productStoryBoard)
             vc.prductid = data.id ?? ""
             vc.video_section = false
             vc.storeFlag = false

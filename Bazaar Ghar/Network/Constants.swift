@@ -71,7 +71,7 @@ struct AppConstants {
     static var baseURLVideoStreaming: URL {
       switch AppConstants.API.environment{
         case .live:
-          return URL(string: "https://apid.bazaarghar.com/streaming/v2/")!
+          return URL(string: "https://apid.bazaarghar.com/streaming/v1/")!
         case .staging:
           return URL(string: "https://apix-stage.bazaarghar.com/streaming/v1/")!
       case.local:

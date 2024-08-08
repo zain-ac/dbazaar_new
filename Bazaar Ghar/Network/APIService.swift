@@ -1093,7 +1093,7 @@ class APIServices{
             }
         }
     }
-    class func checkoutpayment(token: String, amount: Int, currency: String, cartId: String,completion:@escaping(APIResult<OrderResponse>)->Void){
+    class func checkoutpayment(token: String, amount: Float, currency: String, cartId: String,completion:@escaping(APIResult<OrderResponse>)->Void){
         Provider.services.request(.cardpaymentApi(token: token, amount: amount, currency: currency, cartId: cartId)) { result in
            do{
              let commentsData: OrderResponse = try result.decoded(keypath: "data")
@@ -1398,10 +1398,10 @@ class APIServices{
     }
     
     
-    class func getLiveStream(completion:@escaping(APIResult<[LiveVideoResponse]>)->Void) {
+    class func getLiveStream(completion:@escaping(APIResult<[LiveStreamingResults]>)->Void) {
         Provider.services.request(.getLiveStream){ result in
             do{
-                let getLiveStream: [LiveVideoResponse] = try result.decoded(keypath: "data")
+                let getLiveStream: [LiveStreamingResults] = try result.decoded(keypath: "data")
                 completion(.success(getLiveStream))
             }catch{
                 print("-----Error------ \n",error)

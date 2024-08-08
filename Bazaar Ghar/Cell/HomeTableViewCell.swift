@@ -150,7 +150,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = productapi?[indexPath.row]
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-
+            cell.product = data
             self.productvariantsapi = data?.variants!
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
             if LanguageManager.language == "ar"{
@@ -203,7 +203,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
               let item = productapi?[index]
               self.wishListApi(productId: (item?.id ?? ""))
             }else{
-              let vc = PopupLoginVc.getVC(.main)
+                let vc = PopupLoginVc.getVC(.popups)
               vc.modalPresentationStyle = .overFullScreen
                 UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
             }
@@ -216,7 +216,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         
         
         if (data?.variants?.first?.id == nil) {
-            let vc = CartPopupViewController.getVC(.main)
+            let vc = CartPopupViewController.getVC(.popups)
            
             vc.modalPresentationStyle = .custom
             vc.transitioningDelegate = centerTransitioningDelegate
@@ -224,7 +224,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             vc.nav = self.nav
             UIApplication.pTopViewController().present(vc, animated: true, completion: nil)
         }else {
-            let vc = NewProductPageViewController.getVC(.sidemenu)
+            let vc = NewProductPageViewController.getVC(.productStoryBoard)
             vc.slugid = data?.slug
             nav?.pushViewController(vc, animated: false)
         }
@@ -242,7 +242,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             
         }else {
             let data = productapi?[indexPath.row]
-            let vc = NewProductPageViewController.getVC(.sidemenu)
+            let vc = NewProductPageViewController.getVC(.productStoryBoard)
             vc.slugid = data?.slug
             nav?.pushViewController(vc, animated: false)
         }

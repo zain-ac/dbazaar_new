@@ -182,7 +182,7 @@ var window: UIWindow?
        
     
     func showCustomerAlertControllerHeight(title:String,heading:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.2), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10
@@ -199,7 +199,7 @@ var window: UIWindow?
         UIApplication.pTopViewController().customPresentViewController(presenter, viewController: vc, animated: true)
       }
     func showCustomerLanguageAlertControllerHeight(title:String,heading:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: LanguagePopupViewController.self)) as? LanguagePopupViewController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: LanguagePopupViewController.self)) as? LanguagePopupViewController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.2), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10
@@ -217,7 +217,7 @@ var window: UIWindow?
       }
     
     func ChineseShowCustomerAlertControllerHeight(title:String,heading:String,note:String,miscid:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping(_ token:String,_ id:String)->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: popupChineseBellViewController.self)) as? popupChineseBellViewController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: popupChineseBellViewController.self)) as? popupChineseBellViewController else {return}
         if miscid == "" {
             var h = 0.0
             if title.count < 45{
@@ -266,7 +266,7 @@ var window: UIWindow?
      
       }
       func showCustomerAlertControllerwithOneButton(title:String,btn2Title:String,btn2Callback:@escaping()->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.2), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10
@@ -285,7 +285,7 @@ var window: UIWindow?
           
       }
       func showCustomerAlertController(title:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.25), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10

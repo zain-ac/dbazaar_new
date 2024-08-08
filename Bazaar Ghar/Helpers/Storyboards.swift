@@ -10,7 +10,16 @@ import UIKit
 
 enum Boards: String {
     case main = "Main"
+    case popups = "Popups"
     case sidemenu = "sidemenu"
+    case faqsBoard = "FaqsBoard"
+    case chatBoard = "ChatStoryBoard"
+    case oldStoryboard = "OldStoryboard"
+    case videoStoryBoard = "VideoStoryBoard"
+    case profileSubVIewStoryBoard = "ProfileSubVIewStoryBoard"
+    case searchStoryBoard = "SearchStoryBoard"
+    case orderJourneyStoryBoard = "OrderJourneyStoryBoard"
+    case productStoryBoard = "ProductStoryBoard"
     var stortBoard: UIStoryboard {
         return UIStoryboard(name: rawValue, bundle: Bundle.main)
     }

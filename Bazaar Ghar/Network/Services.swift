@@ -70,7 +70,7 @@ enum Services {
     case getAllCategories
     case getSellerDetail(id:String)
     case moreFrom(category:String,user:String)
-    case cardpaymentApi(token:String,amount:Int,currency:String,cartId:String)
+    case cardpaymentApi(token:String,amount:Float,currency:String,cartId:String)
     case newishlist(product:String)
     case shopchinaStreamingVideo(origin:String)
     case getprovince(countryCode:String,language:String,checkCache:Bool)
