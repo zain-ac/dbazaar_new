@@ -58,7 +58,6 @@ class Search_ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBarController?.tabBar.isHidden = true
         search_txtfield.text = searchText
         self.setupSegments(self.segmentedControl)
         search_txtfield.addTarget(self, action: #selector(enterPressed), for: .editingDidEndOnExit)
@@ -69,6 +68,13 @@ class Search_ViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+            appDelegate.isbutton = true
+        }else{
+            appDelegate.isbutton = false
+        }
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         self.LanguageRender()
     }
     
@@ -163,7 +169,11 @@ class Search_ViewController: UIViewController {
     }
  
     @IBAction func bacbtn(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+//        appDelegate.isbutton = false
+//    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        DispatchQueue.main.async {
+            self.navigationController?.popToRootViewController(animated: true)
+        }
     }
     
     //MARK: - Setup Scrollable Segmented Control

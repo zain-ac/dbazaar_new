@@ -610,7 +610,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="popViewController:" destination="52j-dm-kbR" eventType="touchUpInside" id="b4h-9E-gjQ"/>
+                                            <action selector="backBtnTapped:" destination="52j-dm-kbR" eventType="touchUpInside" id="1zX-Hf-1Z7"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PlayStation 5 Console" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jeY-X1-JGT">
@@ -2980,7 +2980,7 @@
                                                                                             <state key="normal" backgroundImage="Image 120"/>
                                                                                         </button>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Automotive" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UPL-zg-z0Z">
-                                                                                            <rect key="frame" x="55" y="15.666666666666666" width="94" height="22.666666666666671"/>
+                                                                                            <rect key="frame" x="55" y="15.666666666666666" width="94" height="22.666666666666679"/>
                                                                                             <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="16"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
@@ -5552,8 +5552,8 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9f-wr-2oY">
                                                     <rect key="frame" x="0.0" y="0.0" width="378" height="773"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1 " translatesAutoresizingMaskIntoConstraints="NO" id="JPS-Dd-TkL">
-                                                            <rect key="frame" x="0.0" y="0.0" width="378" height="475"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1 " translatesAutoresizingMaskIntoConstraints="NO" id="JPS-Dd-TkL">
+                                                            <rect key="frame" x="0.0" y="20" width="378" height="455"/>
                                                         </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2hd-6q-2wA">
                                                             <rect key="frame" x="0.0" y="445" width="378" height="328"/>
@@ -5687,7 +5687,7 @@
                                                         <constraint firstItem="2hd-6q-2wA" firstAttribute="leading" secondItem="n9f-wr-2oY" secondAttribute="leading" id="8Gj-fB-QYr"/>
                                                         <constraint firstAttribute="trailing" secondItem="JPS-Dd-TkL" secondAttribute="trailing" id="BjU-wk-YkX"/>
                                                         <constraint firstItem="2hd-6q-2wA" firstAttribute="top" secondItem="JPS-Dd-TkL" secondAttribute="bottom" constant="-30" id="Lbk-2K-xUT"/>
-                                                        <constraint firstItem="JPS-Dd-TkL" firstAttribute="top" secondItem="n9f-wr-2oY" secondAttribute="top" id="TBe-yS-c2m"/>
+                                                        <constraint firstItem="JPS-Dd-TkL" firstAttribute="top" secondItem="n9f-wr-2oY" secondAttribute="top" constant="20" id="TBe-yS-c2m"/>
                                                         <constraint firstItem="JPS-Dd-TkL" firstAttribute="leading" secondItem="n9f-wr-2oY" secondAttribute="leading" id="YGc-tq-7qf"/>
                                                         <constraint firstAttribute="bottom" secondItem="2hd-6q-2wA" secondAttribute="bottom" id="bNI-uE-4d9"/>
                                                         <constraint firstAttribute="trailing" secondItem="2hd-6q-2wA" secondAttribute="trailing" id="qIc-MZ-MTf"/>
@@ -6583,6 +6583,14 @@
             <point key="canvasLocation" x="820" y="136"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="Ggz-iR-EBx">
+            <size key="intrinsicContentSize" width="120" height="20"/>
+        </designable>
+        <designable name="eJU-ki-le9">
+            <size key="intrinsicContentSize" width="-1" height="65"/>
+        </designable>
+    </designables>
     <resources>
         <image name="1 " width="428" height="717"/>
         <image name="17" width="225" height="225"/>

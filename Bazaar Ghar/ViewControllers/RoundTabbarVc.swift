@@ -16,15 +16,15 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
     var ischecklogin = false
     
     private var customTabBar: CustomTabBar?
-    let menuButton = UIButton(type: .system)
+    var tabBarItemONE: UITabBarItem = UITabBarItem()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewControllers?.forEach({
             $0.tabBarItem.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 12, weight: .regular)], for: .normal)
         })
-     
+        
         self.setupSideMenu()
-       
+        
         UITabBar.appearance().unselectedItemTintColor = UIColor.black
         LanguageRander()
         
@@ -53,6 +53,7 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
                         appDelegate.videoid = id
                         
                         NotificationCenter.default.post(name: Notification.Name("videocallid"), object: nil)
+                        
                     }
                 }
                 
@@ -61,9 +62,7 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
         
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(notification:)), name: Notification.Name("isback"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification3(notification:)), name: Notification.Name("RefreshAllTabs"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification2(notification:)), name: Notification.Name("googleauth"), object: nil)
+        
         
         // Create a floating action menu
         
@@ -96,50 +95,33 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
         
         self.tabBar.tintColor = .blue
         self.tabBar.unselectedItemTintColor = .gray
-        setupMenuButton()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(notification:)), name: Notification.Name("isback"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification3(notification:)), name: Notification.Name("RefreshAllTabs"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification2(notification:)), name: Notification.Name("googleauth"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.ishidden(notification:)), name: Notification.Name("ishideens"), object: nil)
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        menuButton.isHidden = true
-    }
-    private func setupMenuButton() {
-            menuButton.setTitle("", for: .normal)
-            menuButton.setTitleColor(.clear, for: .normal)
-            menuButton.setTitleColor(.clear, for: .highlighted)
-            menuButton.backgroundColor = .clear
-           
-        
-//        menuButton.setTitle("Menu", for: .normal)
-//        menuButton.setTitleColor(.black, for: .normal)
-//        menuButton.setTitleColor(.yellow, for: .highlighted)
-//        menuButton.backgroundColor = .orange
-        
-        
-            menuButton.layer.borderColor = UIColor.clear.cgColor
     
-            menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
-        menuButton.semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
-        self.view.insertSubview(menuButton, aboveSubview: self.tabBar)
-     
-        }
+  
+
     override func viewDidLayoutSubviews() {
            super.viewDidLayoutSubviews()
            // Position the button over the fourth tab item
-        if(LanguageManager.language == "ar"){
-            let tabBarItemCount = CGFloat(viewControllers?.count ?? 1)
-              let tabBarItemWidth = tabBar.bounds.width / tabBarItemCount
-              menuButton.frame = CGRect(
-                  x: (tabBarItemWidth - 64) / 2, // Center the button horizontally over the first tab item
-                  y: self.view.bounds.height - tabBar.bounds.height - 0,
-                  width: 64,
-                  height: 64
-              )
-          
-        }else{
-            let tabBarItemCount = CGFloat(viewControllers?.count ?? 1)
-            let tabBarItemWidth = tabBar.bounds.width / tabBarItemCount
-            menuButton.frame = CGRect(x: tabBarItemWidth * 4 + (tabBarItemWidth - 64) / 2, y: self.view.bounds.height - tabBar.bounds.height - 0, width: 64, height: 64)
-        }
+//        if(LanguageManager.language == "ar"){
+//            let tabBarItemCount = CGFloat(viewControllers?.count ?? 1)
+//              let tabBarItemWidth = tabBar.bounds.width / tabBarItemCount
+//              menuButton.frame = CGRect(
+//                  x: (tabBarItemWidth - 64) / 2, // Center the button horizontally over the first tab item
+//                  y: self.view.bounds.height - tabBar.bounds.height - 0,
+//                  width: 64,
+//                  height: 64
+//              )
+//          
+//        }else{
+//            let tabBarItemCount = CGFloat(viewControllers?.count ?? 1)
+//            let tabBarItemWidth = tabBar.bounds.width / tabBarItemCount
+//            menuButton.frame = CGRect(x: tabBarItemWidth * 4 + (tabBarItemWidth - 64) / 2, y: self.view.bounds.height - tabBar.bounds.height - 0, width: 64, height: 64)
+//        }
         
         
           
@@ -148,11 +130,7 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
         super.didReceiveMemoryWarning()
     }
 
-    @objc private func menuButtonTapped() {
-            // Set selected index back to Home
-          
-            openMenu()
-        }
+    
     private func setupSideMenu() {
         // Create the side menu
         let vc = MenuVCList.getVC(.sidemenu)
@@ -176,7 +154,7 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
         
         
         // Add gesture to open side menu
-       SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+//       SideMenuManager.default.addPanGestureToPresent(toView: self.view)
         SideMenuManager.default.rightMenuNavigationController = sideMenu
         
         // Optionally, add gesture recognizer to a button in your tab bar
@@ -185,7 +163,7 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
     
    
     override func viewWillAppear(_ animated: Bool) {
-        print("df")
+   
     }
     func LanguageRander() {
         tabBar.semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
@@ -194,7 +172,12 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
         //                tabBar.items?[2].title = "cart".pLocalized(lang: LanguageManager.language)
         tabBar.items?[3].title = "profile".pLocalized(lang: LanguageManager.language)
         tabBar.items?[4].title = "Menu".pLocalized(lang: LanguageManager.language)
-  
+        tabBar.items?[4].isEnabled = false
+   
+             
+             // Disable a specific tab bar item
+       
+      
         UIView.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
         UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
     }
@@ -212,10 +195,10 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
         self.present(vc, animated: true)
      
     }
-    @objc private func openMenu() {
-    
+    @objc func ishidden(notification: Notification) {
         present(SideMenuManager.default.rightMenuNavigationController!, animated: true, completion: nil)
     }
+   
     
   
       override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
@@ -241,10 +224,10 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
                let index = viewControllers.firstIndex(of: viewController),
                index == 3 {
                 // Show the menu button only if the "Menu" tab is selected
-                menuButton.isHidden = false
+              
             } else {
                 // Hide the menu button for all other tabs
-                menuButton.isHidden = true
+                
             }
             return true
         }
@@ -320,22 +303,53 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
           return sampleButtons
       }()
      var middleButton = WCCircularFloatingActionMenu()
+    let menuButton = UIButton(type: .system)
     var selectedIndex = Int()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupMiddleButton()
+        setupMenuButton()
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationGlobe(notification:)), name: Notification.Name("globe"), object: nil)
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupMiddleButton()
+        setupMenuButton()
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationGlobe(notification:)), name: Notification.Name("globe"), object: nil)
         
         
     }
-
+    private func setupMenuButton() {
+            menuButton.setTitle("", for: .normal)
+            menuButton.setTitleColor(.clear, for: .normal)
+            menuButton.setTitleColor(.clear, for: .highlighted)
+            menuButton.backgroundColor = .clear
+        menuButton.frame = CGRect(
+                       x: 0, // Center the button horizontally over the first tab item
+                       y: 0,
+                       width:64,
+                       height: 64
+                   )
+    
+        menuButton.center = CGPoint(x: UIScreen.main.bounds.width - menuButton.frame.width / 2 - 20, y: 20)
+           
+            
+        menuButton.semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
+        menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+        self.addSubview(menuButton)
+     
+        }
+    @objc private func openMenu() {
+        NotificationCenter.default.post(name: Notification.Name("ishideens"), object: nil)
+       
+    }
+    @objc private func menuButtonTapped() {
+            // Set selected index back to Home
+          
+            openMenu()
+        }
     private func setupMiddleButton() {
         middleButton.frame.size = CGSize(width: 58, height: 58)
         middleButton.backgroundColor = .white

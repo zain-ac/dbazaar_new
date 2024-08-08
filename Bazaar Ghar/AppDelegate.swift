@@ -25,6 +25,8 @@ var slugid = String()
     var videotoken = String()
     var videoid = String()
     var phonenowithout = String()
+    var isbutton = Bool()
+    
 var currencylabel = "SAR "
 var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"

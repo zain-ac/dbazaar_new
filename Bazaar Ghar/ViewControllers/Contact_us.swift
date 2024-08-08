@@ -17,8 +17,14 @@ class Contact_us: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.tabBarController?.tabBar.isHidden = true
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+            appDelegate.isbutton = true
+        }else{
+            appDelegate.isbutton = false
+        }
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,4 +46,9 @@ class Contact_us: UIViewController {
 
     }
 
+    @IBAction func backBtnTapped(_ sender: Any) {
+        appDelegate.isbutton = false
+    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
 }

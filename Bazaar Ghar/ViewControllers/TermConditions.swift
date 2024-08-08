@@ -19,6 +19,14 @@ class TermConditions: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.isHidden = true
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+            appDelegate.isbutton = true
+        }else{
+            appDelegate.isbutton = false
+        }
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        
         faqsheader = ["How can I login/sign up inot BazaarGhar?","Can I login into BazaarGhar from multiple devices?","What should I do if in case I don‘t get the OTP or verification code when signing up?","What is BazaarGhar Customer Support helpline number?","BazaarGhar App not working. What should I do?","There are brands on Bazaar Ghar website. Are they authentic and have genuine products?","Why am I seeing different prices for the same product?","How much delivery cost I’ve to pay on my packages?","What is average delivery timeline?","Do you ship internationally?","What payment options are available at BazaarGhar?","How to place an order on BazaarGhar?","Can I place an order via WhatsApp?","How to add or remove items in the cart?","How would I know if my order has been confirmed?","How to check the status of my order?","I ordered multiple items but I have received only one item so far. What needs to be done?","How can I return a product?","Can I cancel my order?"]
         
         
@@ -50,6 +58,11 @@ class TermConditions: UIViewController {
         }
     }
 
+    @IBAction func backBtnTapped(_ sender: Any) {
+        appDelegate.isbutton = false
+    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
 
 }
 extension TermConditions:UITableViewDataSource,UITableViewDelegate

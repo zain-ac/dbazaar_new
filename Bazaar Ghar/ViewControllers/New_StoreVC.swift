@@ -56,6 +56,13 @@ class New_StoreVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+            appDelegate.isbutton = true
+        }else{
+            appDelegate.isbutton = false
+        }
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        
         setupCollectionView()
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         HeaderbrandNameLbl.text = brandName ?? ""
@@ -364,7 +371,11 @@ class New_StoreVC: UIViewController {
             followStore(storeId: self.storeId, web: true)
         }
     }
-    
+    @IBAction func backBtnTapped(_ sender: Any) {
+        appDelegate.isbutton = false
+    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
     @IBAction func callIconBtnTapped(_ sender: Any) {
         
         AppDefault.brandname = brandName ?? ""

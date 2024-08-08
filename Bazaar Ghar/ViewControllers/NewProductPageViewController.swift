@@ -89,6 +89,12 @@ class NewProductPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+            appDelegate.isbutton = true
+        }else{
+            appDelegate.isbutton = false
+        }
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         bannerApi(isbackground: false)
@@ -249,6 +255,12 @@ class NewProductPageViewController: UIViewController {
         
     }
     
+    @IBAction func backBtnTapped(_ sender: Any) {
+        appDelegate.isbutton = false
+    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     private func relatedProductApi(limit:Int,page:Int,sortBy:String,category:String,active:Bool){
         APIServices.getAllProductsByCategories(limit:limit,page:page,sortBy:sortBy,category:category,active:active){[weak self] data in
             switch data{
@@ -387,7 +399,7 @@ class NewProductPageViewController: UIViewController {
                 self?.orderDetails = res
                 
                 
-                let vc = OrderConfirmation_VC.getVC(.main)
+                let vc = NewOrderConfirmation_ViewController.getVC(.sidemenu)
                 vc.orderDetails =  self?.orderDetails
                 if self?.isnav == true{
                     self?.dismiss(animated: false)
@@ -400,7 +412,7 @@ class NewProductPageViewController: UIViewController {
 //                }else{
 //                    self?.emptyCart.isHidden = false
 //
-//                }
+//                } 
 
 //                self?.subTotal.text = Utility().convertAmountInComma("\(res.subTotal ?? 0)")
 //                self?.total.text = Utility().convertAmountInComma("\(res.total ?? 0)")

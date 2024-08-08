@@ -48,6 +48,14 @@ class CartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+            appDelegate.isbutton = true
+        }else{
+            appDelegate.isbutton = false
+        }
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 //        Utility().setGradientBackgroundForBtn(button: checkoutbutton, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 //        Utility().setGradientBackground(view: V1, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
@@ -150,6 +158,8 @@ class CartViewController: UIViewController {
     }
     
     @IBAction func backBtnTapped(_ sender: Any) {
+        appDelegate.isbutton = false
+    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         self.tabBarController?.selectedIndex = 0
         self.navigationController?.popViewController(animated: true)
     }

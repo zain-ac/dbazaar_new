@@ -35,7 +35,15 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBarController?.tabBar.isHidden = true
+      
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+         
+            appDelegate.isbutton = true
+        }else{
+       
+            appDelegate.isbutton = false
+        }
+    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         let nib = UINib(nibName: "Live_videoCell1TableViewCell", bundle: nil)
          videocategorytableview.register(nib, forCellReuseIdentifier: "Live_videoCell1TableViewCell")
         let nib2 = UINib(nibName: "Live_videoCell1TableViewCel2", bundle: nil)
@@ -70,8 +78,11 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
 
     }
     
+   
+    
     
     override func viewWillAppear(_ animated: Bool) {
+      
         headerlbl.text = "Live Video"
         self.CategoriesResponsedata = AppDefault.CategoriesResponsedata ?? []
         getStreamingVideos(limit:100,page:1,categories: [], city: "")
@@ -165,7 +176,6 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
                 
             case .failure(let error):
                 print(error)
-                self?.view.makeToast(error)
             }
         })
     }
@@ -180,6 +190,13 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @IBAction func backBtnTapped(_ sender: Any) {
+//        appDelegate.isbutton = false
+//    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
     
     @IBAction func categoriesTap(_ sender: Any) {
         let vc = CategoriesPopUpVC.getVC(.main)

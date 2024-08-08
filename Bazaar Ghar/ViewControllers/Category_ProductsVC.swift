@@ -13,29 +13,18 @@ class Category_ProductsVC: UIViewController {
     @IBOutlet weak var filterPullDownButtom: UIButton!
     @IBOutlet weak var categoryproduct_collectionview: UICollectionView!
     @IBOutlet weak var categoryNameTitle: UILabel!
-    @IBOutlet weak var storeView: UIView!
-    @IBOutlet weak var brandName: UILabel!
-    @IBOutlet weak var bellIconBtn: UIButton!
-    @IBOutlet weak var followBtn: UIButton!
-    @IBOutlet weak var videossection: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
-    @IBOutlet weak var viewAll: UIButton!
    
     @IBOutlet weak var cartbtn: UIButton!
-    @IBOutlet weak var videosection_collectionview: UICollectionView!
     @IBOutlet weak var pagecontrol: UIPageControl!
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
         
-    @IBOutlet weak var stackviewheight: NSLayoutConstraint!
     @IBOutlet weak var scrollheight: NSLayoutConstraint!
-    @IBOutlet weak var videoLabelHeight: NSLayoutConstraint!
-    @IBOutlet weak var videoLabelView: UIView!
 
     @IBOutlet weak var searchProductslbs: UITextField!
     @IBOutlet weak var livelbl: UILabel!
     @IBOutlet weak var productSortByLbl: UILabel!
     @IBOutlet weak var backBtn: UIButton!
-    @IBOutlet weak var videosLbl: UILabel!
     @IBOutlet weak var homeswitchbtn: UISwitch!
     @IBOutlet weak var productEmptyLbl: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -63,19 +52,33 @@ class Category_ProductsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.productEmptyLbl.isHidden = true
+
         scrollView.delegate = self
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-       getStreamingVideos(userId: prductid, limit: 10, page: 1, categories: [])
-        followcheck(storeId: self.storeId)
+//       getStreamingVideos(userId: prductid, limit: 10, page: 1, categories: [])
+//        followcheck(storeId: self.storeId)
        
-        videosection_collectionview.delegate = self
-        videosection_collectionview.dataSource = self
+
         setupCollectionView()
         
 
         
         self.tabBarController?.tabBar.isHidden = true
+        
+        
+        
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+         
+            appDelegate.isbutton = true
+        }else{
+       
+            appDelegate.isbutton = false
+        }
      
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        
+        
         let ASC = {(action: UIAction) in
             self.sort = "price"
             self.getAllProductsByCategoriesData.removeAll()
@@ -102,20 +105,17 @@ class Category_ProductsVC: UIViewController {
         }
     
         categoryNameTitle.text = catNameTitle
-        brandName.text = catNameTitle
 
         update(count: 1)
         
         if storeFlag == false {
             categoryNameTitle.isHidden = false
-            storeView.isHidden = true
 //            stackviewheight.constant = 50
 //            videossection.isHidden = true
 
 
         } else {
             categoryNameTitle.isHidden = true
-            storeView.isHidden = false
 
         }
         
@@ -152,9 +152,7 @@ class Category_ProductsVC: UIViewController {
     }
     
     func LanguageRender(){
-        followBtn.setTitle("follow".pLocalized(lang: LanguageManager.language), for: .normal)
-        viewAll.setTitle("viewall".pLocalized(lang: LanguageManager.language), for: .normal)
-        videosLbl.text = "videos".pLocalized(lang: LanguageManager.language)
+       
 
         productSortByLbl.text = "productsortby".pLocalized(lang: LanguageManager.language)
         searchProductslbs.placeholder = "searchproducts".pLocalized(lang: LanguageManager.language)
@@ -167,51 +165,45 @@ class Category_ProductsVC: UIViewController {
            }
     }
     
-    private func getStreamingVideos(userId:String,limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:userId, city: "",completion: {[weak self] data in
-            switch data{
-            case .success(let res):
-                print(res)
-                self?.LiveStreamingResultsdata = res.results ?? []
-                
-                if(self?.LiveStreamingResultsdata.count ?? 0 > 0){
-                    self?.stackviewheight.constant = 260
-//                    self?.videoLabelView.isHidden = true
-                    self?.videossection.isHidden = false
-                }else{
-                    if self?.storeFlag == false {
-                        self?.stackviewheight.constant = 10
-                    }else {
-                        self?.stackviewheight.constant = 40
-                    }
-//                    self?.videoLabelView.isHidden = false
-                    self?.videossection.isHidden = true
-
-                }
-                self?.videosection_collectionview.reloadData()
-             
-
-            case .failure(let error):
-                print(error)
-                self?.view.makeToast(error)
-            }
-        })
-    }
+//    private func getStreamingVideos(userId:String,limit:Int,page:Int,categories: [String]){
+//        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:userId, city: "",completion: {[weak self] data in
+//            switch data{
+//            case .success(let res):
+//                print(res)
+//                self?.LiveStreamingResultsdata = res.results ?? []
+//                
+//                if(self?.LiveStreamingResultsdata.count ?? 0 > 0){
+////                    self?.videoLabelView.isHidden = true
+//                }else{
+//                    if self?.storeFlag == false {
+//                    }else {
+//                    }
+////                    self?.videoLabelView.isHidden = false
+//
+//                }
+//             
+//
+//            case .failure(let error):
+//                print(error)
+//                self?.view.makeToast(error)
+//            }
+//        })
+//    }
     
-    func setupSwipeGesture() {
-        pagecontrol.pageIndicatorTintColor = UIColor.red
-        pagecontrol.currentPageIndicatorTintColor = UIColor.orange
-
-        pagecontrol.currentPage += 1
-
-        let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
-        videosection_collectionview.addGestureRecognizer(swipeGesture)
-    }
-
-    @objc func handleSwipe(_ gesture: UIPanGestureRecognizer) {
-        let velocity = gesture.velocity(in: videosection_collectionview)
-       
-    }
+//    func setupSwipeGesture() {
+//        pagecontrol.pageIndicatorTintColor = UIColor.red
+//        pagecontrol.currentPageIndicatorTintColor = UIColor.orange
+//
+//        pagecontrol.currentPage += 1
+//
+//        let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+//        videosection_collectionview.addGestureRecognizer(swipeGesture)
+//    }
+//
+//    @objc func handleSwipe(_ gesture: UIPanGestureRecognizer) {
+//        let velocity = gesture.velocity(in: videosection_collectionview)
+//       
+//    }
 
 
     
@@ -246,9 +238,8 @@ class Category_ProductsVC: UIViewController {
 //                       
 //                        self?.categoryproduct_collectionview.reloadData()
 //                    }else {
-                        let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 240
-                        let hh = 60 + (self?.stackviewheight.constant ?? 0)
-                        self?.scrollheight.constant = CGFloat(hh + CGFloat(ll) + 20)
+                        let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 282
+                    self?.scrollheight.constant = CGFloat(ll + 105)
                        
                         self?.categoryproduct_collectionview.reloadData()
 //                    }
@@ -283,9 +274,8 @@ class Category_ProductsVC: UIViewController {
                     // Update flag after loading
                     self?.isLoadingNextPage = false
                     
-                    let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 240
-                    let hh = 60 + (self?.stackviewheight.constant ?? 0)
-                    self?.scrollheight.constant = CGFloat(hh + CGFloat(ll) + 20)
+                    let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 282
+                self?.scrollheight.constant = CGFloat(ll + 105)
                     self?.categoryproduct_collectionview.reloadData()
                 }else {
 
@@ -333,69 +323,69 @@ class Category_ProductsVC: UIViewController {
         }
     }
     
-    private func followStore(storeId:String,web:Bool){
-        APIServices.followStore(storeId: storeId, web: web){[weak self] data in
-            switch data{
-            case .success(let res):
-                self?.followBtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
-                self?.isFollow = true
-              print(res)
-            case .failure(let error):
-                print(error)
-                if(error == "Please authenticate" && AppDefault.islogin){
-                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
-                }else{
-                    self?.view.makeToast(error)
-                }
-            }
-        }
-    } 
-    private func unfollowStore(storeId:String){
-        APIServices.unfollowstore(storeId: storeId){[weak self] data in
-            switch data{
-            case .success(let res):
-                if(res == "OK"){
-                    self?.followBtn.setTitle("follow".pLocalized(lang: LanguageManager.language), for: .normal)
-                    self?.isFollow = false
-                }
-             
-              print(res)
-            case .failure(let error):
-                print(error)
-                if(error == "Please authenticate" && AppDefault.islogin){
-                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
-                }else{
-                    self?.view.makeToast(error)
-                }
-            }
-        }
-    } 
-    
-    private func followcheck(storeId:String){
-        APIServices.followcheck(storeId: storeId){[weak self] data in
-            switch data{
-            case .success(let res):
-                if(res == "OK"){
-                    self?.followBtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
-                    self?.isFollow = true
-                }else{
-                    self?.followBtn.setTitle("follow".pLocalized(lang: LanguageManager.language), for: .normal)
-                    self?.isFollow = false
-                }
-            case .failure(let error):
-                print(error)
-                if(error == "Please authenticate" && AppDefault.islogin){
-                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
-                }else{
-                    if error == "Not found" {
-                        
-                    }else {
-//                        self?.view.makeToast(error)
-                    }
-                }
-            }
-        }
-    }
+//    private func followStore(storeId:String,web:Bool){
+//        APIServices.followStore(storeId: storeId, web: web){[weak self] data in
+//            switch data{
+//            case .success(let res):
+//                self?.followBtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
+//                self?.isFollow = true
+//              print(res)
+//            case .failure(let error):
+//                print(error)
+//                if(error == "Please authenticate" && AppDefault.islogin){
+//                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+//                }else{
+//                    self?.view.makeToast(error)
+//                }
+//            }
+//        }
+//    } 
+//    private func unfollowStore(storeId:String){
+//        APIServices.unfollowstore(storeId: storeId){[weak self] data in
+//            switch data{
+//            case .success(let res):
+//                if(res == "OK"){
+//                    self?.followBtn.setTitle("follow".pLocalized(lang: LanguageManager.language), for: .normal)
+//                    self?.isFollow = false
+//                }
+//             
+//              print(res)
+//            case .failure(let error):
+//                print(error)
+//                if(error == "Please authenticate" && AppDefault.islogin){
+//                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+//                }else{
+//                    self?.view.makeToast(error)
+//                }
+//            }
+//        }
+//    } 
+//    
+//    private func followcheck(storeId:String){
+//        APIServices.followcheck(storeId: storeId){[weak self] data in
+//            switch data{
+//            case .success(let res):
+//                if(res == "OK"){
+//                    self?.followBtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
+//                    self?.isFollow = true
+//                }else{
+//                    self?.followBtn.setTitle("follow".pLocalized(lang: LanguageManager.language), for: .normal)
+//                    self?.isFollow = false
+//                }
+//            case .failure(let error):
+//                print(error)
+//                if(error == "Please authenticate" && AppDefault.islogin){
+//                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+//                }else{
+//                    if error == "Not found" {
+//                        
+//                    }else {
+////                        self?.view.makeToast(error)
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     
     
@@ -411,35 +401,37 @@ class Category_ProductsVC: UIViewController {
     }
     
     @IBAction func backBtnTapped(_ sender: Any) {
+            appDelegate.isbutton = false
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         self.navigationController?.popViewController(animated: false)
     }
-    @IBAction func bellIconBtnTapped(_ sender: Any) {
-        
-        AppDefault.brandname = catNameTitle
-        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Do you want to video call \(self.brandName.text ?? "")?", heading: "Request Call", note: "Note: Make sure to be available for next 30 mins", miscid: "", btn1Title: "Cancel", btn1Callback: {
-            
-        }, btn2Title: "Request Call") { token, id in
-            self.chinesebell(sellerId:self.prductid , brandName: self.catNameTitle, description: "sellerDescription")
-        }
-//            appDelegate.ChineseShowCustomerAlertControllerHeight(title: "You want to send request \(self.brandName.text ?? "") to do video call?", miscid: "", btn1Title: "Cancel", btn1Callback: {
-//                
-//            }, btn2Title: "Send Request") { token, id in
-//                print("click")
-//              
-//                
-//            }
-        }
+//    @IBAction func bellIconBtnTapped(_ sender: Any) {
+//        
+//        AppDefault.brandname = catNameTitle
+//        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Do you want to video call \(self.brandName.text ?? "")?", heading: "Request Call", note: "Note: Make sure to be available for next 30 mins", miscid: "", btn1Title: "Cancel", btn1Callback: {
+//            
+//        }, btn2Title: "Request Call") { token, id in
+//            self.chinesebell(sellerId:self.prductid , brandName: self.catNameTitle, description: "sellerDescription")
+//        }
+////            appDelegate.ChineseShowCustomerAlertControllerHeight(title: "You want to send request \(self.brandName.text ?? "") to do video call?", miscid: "", btn1Title: "Cancel", btn1Callback: {
+////                
+////            }, btn2Title: "Send Request") { token, id in
+////                print("click")
+////              
+////                
+////            }
+//        }
     
     
-    @IBAction func followBtnTapped(_ sender: Any) {
-        if(isFollow){
-            unfollowStore(storeId: self.storeId)
-        }else{
-            followStore(storeId: self.storeId, web: true)
-        }
-       
-    
-    }
+//    @IBAction func followBtnTapped(_ sender: Any) {
+//        if(isFollow){
+//            unfollowStore(storeId: self.storeId)
+//        }else{
+//            followStore(storeId: self.storeId, web: true)
+//        }
+//       
+//    
+//    }
     
     @IBAction func viewAllBtnTapped(_ sender: Any) {
         let vc = New_SingleVideoview.getVC(.sidemenu)
@@ -452,21 +444,13 @@ class Category_ProductsVC: UIViewController {
 
 extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == videosection_collectionview {
-            return  self.LiveStreamingResultsdata.count
-        }else {
+   
             return self.getAllProductsByCategoriesData.count
-        }
+    
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == videosection_collectionview {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VideoSection_cell", for: indexPath) as! VideoSection_cell
-            let data =  self.LiveStreamingResultsdata[indexPath.row]
-            cell.backgroundImage.pLoadImage(url: data.thumbnail ?? "")
-            
-            return cell
-        }else{
+
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data =  self.getAllProductsByCategoriesData[indexPath.row]
             Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
@@ -497,7 +481,7 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
             cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
                      
             return cell
-        }
+    
         
       
     }
@@ -549,18 +533,19 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == videosection_collectionview
-        {
-            return CGSize(width: self.videosection_collectionview.frame.width/2.2, height: self.videosection_collectionview.frame.height/0.5)
-        }
-        else{
-            return CGSize(width: self.categoryproduct_collectionview.frame.width/2.1-2, height: 280)
-        }
+       
+        return CGSize(width: self.categoryproduct_collectionview.frame.width/2.03, height: 280)
+        
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 0, left: 5, bottom: 10, right: 5)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            return 2
+
     }
+    
+  
+    
+
     
     }
     
@@ -568,10 +553,7 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
 
 extension Category_ProductsVC: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == videosection_collectionview {
-            let scrollPos = scrollView.contentOffset.x / view.frame.width
-            pagecontrol.currentPage = Int(scrollPos)
-        } else {
+       
             let offsetY = scrollView.contentOffset.y
             let contentHeight = scrollView.contentSize.height
             let height = scrollView.frame.size.height
@@ -581,7 +563,7 @@ extension Category_ProductsVC: UIScrollViewDelegate {
                 // Call your function to load more products
                 loadMoreProducts()
             }
-        }
+        
     }
     
     func loadMoreProducts() {

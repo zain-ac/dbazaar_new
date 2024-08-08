@@ -242,8 +242,9 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             
         }else {
             let data = productapi?[indexPath.row]
-            appDelegate.slugid = data?.slug ?? ""
-            NotificationCenter.default.post(name: Notification.Name("Productid"), object: nil)
+            let vc = NewProductPageViewController.getVC(.sidemenu)
+            vc.slugid = data?.slug
+            nav?.pushViewController(vc, animated: false)
         }
         
     }

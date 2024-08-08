@@ -571,7 +571,9 @@ var count = 0
                self.navigationController?.pushViewController(vc, animated: false)
            }
        }
-    
+    @IBAction func backBtnTapped(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
     @IBAction func shopByCatArrowBtnTapped(_ sender: Any) {
         let vc = CategoriesVC.getVC(.main)
         self.navigationController?.pushViewController(vc, animated: false)

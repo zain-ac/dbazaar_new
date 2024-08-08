@@ -58,7 +58,7 @@ extension Shake_ViewController:UICollectionViewDelegate,UICollectionViewDataSour
            let indexPath = IndexPath(item: currentIndex, section: 0)
            
            // Scroll to the new item
-           shake_collect.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+           shake_collect.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
            
            // Reload the specific item to update its color
            shake_collect.reloadItems(at: [indexPath])

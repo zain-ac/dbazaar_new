@@ -20,7 +20,14 @@ class Orders_VC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
 
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+            appDelegate.isbutton = true
+        }else{
+            appDelegate.isbutton = false
+        }
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         ordertable.dataSource = self
         ordertable.delegate = self
         // Do any additional setup after loading the view.
@@ -58,11 +65,15 @@ class Orders_VC: UIViewController {
     }
     
     @IBAction func newBtnTapped(_ sender: Any) {
-        
         let vc = MyOrdersDetailsViewController.getVC(.main)
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
+    @IBAction func backBtnTapped(_ sender: Any) {
+        appDelegate.isbutton = false
+    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
     
 }
 

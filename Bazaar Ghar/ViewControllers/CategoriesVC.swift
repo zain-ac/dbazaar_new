@@ -32,6 +32,14 @@ class CategoriesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+     
+        
+        
+        
+        
+        
         Utility().setGradientBackground(view: hederView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         
         let left = UISwipeGestureRecognizer(target : self, action : #selector(Swipeleft))

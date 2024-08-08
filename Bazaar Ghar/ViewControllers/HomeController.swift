@@ -128,7 +128,7 @@ var count = 0
         videoAnimationView.loopMode = .loop
                
                // Play the animation
-        videoAnimationView.play()
+//        videoAnimationView.play()
 
         
         scrollView.delegate = self
@@ -196,6 +196,85 @@ var count = 0
             self.randomproductapiModel = AppDefault.randonproduct ?? []
         }else{
             randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+        }
+        if(AppDefault.getrandomproductapiModel?.count ?? 0 > 0){
+            let res = AppDefault.getrandomproductapiModel!
+            if(res.count > 0){
+                self.getrandomproductapiModel.append(contentsOf: res)
+            }
+            print(res)
+            self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count))
+            
+            let hh = (300 * 3) + 1440
+            let ll = ((self.getrandomproductapiModel.count) / 2) * 280
+            let final = hh + ll
+
+            self.scrollHeight.constant = CGFloat(final) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)
+           
+            self.lastRandomProductsCollectionView.reloadData()
+            self.load = true
+           
+            getrandomproduct(isbackground: true)
+        }else{
+            getrandomproduct(isbackground: false)
+        }
+
+        if(AppDefault.islogin ){
+            
+            if AppDefault.wishlistproduct != nil{
+                wishList(isbackground: true)
+            }else{
+                wishList(isbackground: false)
+            }
+            
+            
+            }
+        if(AppDefault.productcategoriesApi?.count ?? 0 > 0){
+            productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: true)
+
+            self.ProductCategoriesResponsedata = AppDefault.productcategoriesApi ?? []
+
+            self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count ))
+            let hh = (300 * 3) + 1440 + ((getrandomproductapiModel.count) / 2) * 280
+
+            self.scrollHeight.constant = CGFloat(hh) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)
+
+            self.homeTblView.reloadData()
+
+        }else{
+            self.productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
+        }
+
+        
+        
+        if(AppDefault.getAllCategoriesResponsedata?.count ?? 0 > 0){
+
+            self.CategoriesResponsedata = AppDefault.getAllCategoriesResponsedata ?? []
+
+            self.topcell_1.reloadData()
+            self.categoriesApi(isbackground: true)
+
+        }
+        else
+        {
+            self.categoriesApi(isbackground: false)
+        }
+                
+
+        if(AppDefault.Bannerdata?.count ?? 0 > 0){
+            let res = AppDefault.Bannerdata!
+            if(res.count > 0){
+                for item in res {
+                    let objext = item.id
+                    if objext?.bannerName == "Mob Banner Home" {
+                        self.bannerapidata = (objext?.banners)!
+                    }
+                }
+            }
+           
+            self.bannerApi(isbackground: true)
+        }else{
+            self.bannerApi(isbackground: false)
         }
     }
     
@@ -274,7 +353,6 @@ var count = 0
         let imageDataDict:[String: String] = ["img": "World_Button"]
         NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
 
-        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.isNavigationBarHidden = true
 
 
@@ -290,90 +368,13 @@ var count = 0
 //            groupByDeals(limit: 20, page: 1, isbackground: false)
 //        }
         
-        if(AppDefault.productcategoriesApi?.count ?? 0 > 0){
-            productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: true)
-
-            self.ProductCategoriesResponsedata = AppDefault.productcategoriesApi ?? []
-
-            self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count ))
-            let hh = (300 * 3) + 1440 + ((getrandomproductapiModel.count) / 2) * 280
-
-            self.scrollHeight.constant = CGFloat(hh) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)
-
-            self.homeTblView.reloadData()
-
-        }else{
-            self.productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
-        }
-
-        
-        
-        if(AppDefault.getAllCategoriesResponsedata?.count ?? 0 > 0){
-
-            self.CategoriesResponsedata = AppDefault.getAllCategoriesResponsedata ?? []
-
-            self.topcell_1.reloadData()
-            self.categoriesApi(isbackground: true)
-
-        }
-        else
-        {
-            self.categoriesApi(isbackground: false)
-        }
-                
-
-        if(AppDefault.Bannerdata?.count ?? 0 > 0){
-            let res = AppDefault.Bannerdata!
-            if(res.count > 0){
-                for item in res {
-                    let objext = item.id
-                    if objext?.bannerName == "Mob Banner Home" {
-                        self.bannerapidata = (objext?.banners)!
-                    }
-                }
-            }
-           
-            self.bannerApi(isbackground: true)
-        }else{
-            self.bannerApi(isbackground: false)
-        }
+       
         
         homeswitchbtn.isOn = false
         hotDealCollectionV.reloadData()
         self.LanguageRender()
         
-        if(AppDefault.getrandomproductapiModel?.count ?? 0 > 0){
-            let res = AppDefault.getrandomproductapiModel!
-            if(res.count > 0){
-                self.getrandomproductapiModel.append(contentsOf: res)
-            }
-            print(res)
-            self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count))
-            
-            let hh = (300 * 3) + 1440
-            let ll = ((self.getrandomproductapiModel.count) / 2) * 280
-            let final = hh + ll
-
-            self.scrollHeight.constant = CGFloat(final) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)
-           
-            self.lastRandomProductsCollectionView.reloadData()
-            self.load = true
-           
-            getrandomproduct(isbackground: true)
-        }else{
-            getrandomproduct(isbackground: false)
-        }
-
-        if(AppDefault.islogin ){
-            
-            if AppDefault.wishlistproduct != nil{
-                wishList(isbackground: true)
-            }else{
-                wishList(isbackground: false)
-            }
-            
-            
-            }
+       
 //        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "you want to join ?", btn1Title: "Accept", btn1Callback: {
 //            print("Accept")
 //
@@ -385,7 +386,9 @@ var count = 0
         
     }
     
-
+    override func viewWillDisappear(_ animated: Bool) {
+        view.endEditing(true)
+    }
     func LanguageRender() {
         searchFeild.placeholder = "whatareyoulookingfor".pLocalized(lang: LanguageManager.language)
         livelbl.text = "live".pLocalized(lang: LanguageManager.language)

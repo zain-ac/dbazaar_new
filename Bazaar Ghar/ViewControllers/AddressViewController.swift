@@ -20,14 +20,19 @@ class AddressViewController: UIViewController {
     var defaultAdress : DefaultAddress?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tabBarController?.tabBar.isHidden = true
+        if((self.tabBarController?.tabBar.isHidden) != nil){
+            appDelegate.isbutton = true
+        }else{
+            appDelegate.isbutton = false
+        }
+        NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         addressTblv.delegate = self
         addressTblv.dataSource = self
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
         getaddress()
         LanguageRender()
     }
@@ -115,7 +120,12 @@ class AddressViewController: UIViewController {
         vc.isComeOrder = false
         self.navigationController?.pushViewController(vc, animated: false)
     }
-    
+   
+    @IBAction func backBtnTapped(_ sender: Any) {
+        appDelegate.isbutton = false
+    NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
 
 }
 
