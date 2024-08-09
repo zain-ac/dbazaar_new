@@ -31,11 +31,12 @@ enum Factory {
     
     let billingFormStyle = FramesFactory.defaultBillingFormStyle
 
-    let paymentFormStyle = FramesFactory.defaultPaymentFormStyle
+      var paymentFormStyle = FramesFactory.defaultPaymentFormStyle
+     
       
       // Comment out below lines to hide billing address (Optional)
-      // paymentFormStyle.editBillingSummary = nil
-      // paymentFormStyle.addBillingSummary = nil
+      paymentFormStyle.editBillingSummary = nil
+      paymentFormStyle.addBillingSummary = nil
 
     let supportedSchemes: [CardScheme] = [.mada, .visa, .mastercard, .maestro, .americanExpress, .discover, .dinersClub, .jcb]
 

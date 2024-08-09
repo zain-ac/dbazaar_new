@@ -1500,6 +1500,7 @@ struct FlufffySubCategory: Codable {
     let v: Int?
     let createdAt: String?
     let updatedAt: String?
+    let mainImage: String?
     let slug: String?
     let lang: FluffyLang?
     let categorySpecs: PurpleCategorySpecs?
@@ -1507,7 +1508,7 @@ struct FlufffySubCategory: Codable {
     let id: String?
 
     enum CodingKeys: String, CodingKey {
-        case gallery, type, attributes, attributeRequired, platform, name, mainCategory
+        case gallery, type, attributes, attributeRequired, platform, name, mainCategory, mainImage
         case v = "__v"
         case createdAt, updatedAt, slug, lang, categorySpecs, subCategories, id
     }

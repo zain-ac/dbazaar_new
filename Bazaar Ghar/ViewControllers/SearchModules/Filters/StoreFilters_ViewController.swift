@@ -115,11 +115,7 @@ class StoreFilters_ViewController: UIViewController {
         self.rangeSlider.handleColor = .white
         self.rangeSlider.handleBorderColor = .blue
         self.rangeSlider.handleBorderWidth = 1
-        
-        
-        
-        
-        if(FiltermodelArray.count > 0){
+          if(FiltermodelArray.count > 0){
             self.heightFilter.constant = 60
         }else{
             self.heightFilter.constant = 0
@@ -130,8 +126,11 @@ class StoreFilters_ViewController: UIViewController {
         
         FilterColletion.reloadData()
         
+
+        
         
     }
+
     override func viewWillAppear(_ animated: Bool) {
         categoriestbl.delegate = self
         categoriestbl.dataSource = self
@@ -454,7 +453,7 @@ extension StoreFilters_ViewController:UITableViewDelegate,UITableViewDataSource{
         }
         else
         {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreFiltersColors_TableViewCell2", for: indexPath) as! StoreFiltersColors_TableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreFiltersColors_TableViewCell", for: indexPath) as! StoreFiltersColors_TableViewCell
             let data = ColorModel?.counts?[indexPath.row]
             cell.colorBtnTap.tag = indexPath.row
             if(self.SelectedColorModel?.value == data?.value){

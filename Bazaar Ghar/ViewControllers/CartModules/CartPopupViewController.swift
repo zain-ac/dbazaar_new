@@ -76,7 +76,7 @@ class CartPopupViewController: UIViewController {
             case .success(let res):
                    
                 
-                let storyboard = UIStoryboard(name: "sidemenu", bundle: nil)
+                let storyboard = UIStoryboard(name: "Popups", bundle: nil)
                 guard let addToCartPopupVC = storyboard.instantiateViewController(withIdentifier: "AddtocartPopup") as? AddtocartPopup else { return }
 
                 addToCartPopupVC.modalPresentationStyle = .custom

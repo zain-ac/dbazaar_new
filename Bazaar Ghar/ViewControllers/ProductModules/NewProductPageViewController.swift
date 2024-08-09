@@ -94,6 +94,7 @@ class NewProductPageViewController: UIViewController {
         }else{
             appDelegate.isbutton = false
         }
+        
         NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")

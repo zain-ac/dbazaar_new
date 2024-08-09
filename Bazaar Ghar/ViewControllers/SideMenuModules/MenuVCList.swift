@@ -168,8 +168,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                 cell.imagelbl.pLoadImage(url: subSubCategory?.mainImage ?? "")
             } else if currentLevel == 3 {
                 let subSubSubCategory = currentCategories[indexPath.row] as! FlufffySubCategory
-//                cell.lab.text = subSubSubCategory.name
-//                cell.imagelbl.pLoadImage(url: subSubSubCategory.mainImage ?? "")
+                cell.lab.text = subSubSubCategory.name
+                cell.imagelbl.pLoadImage(url: subSubSubCategory.mainImage ?? "")
             }
             
             cell.imagelbl.tintColor = .gray

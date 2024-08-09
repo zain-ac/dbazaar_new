@@ -35,7 +35,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
   var itemCount = 0
   var defaultAdress : DefaultAddress?
   var methodimgArray = ["cash-on-delivery","cash-on-delivery"]
-  var methodNameArray = ["Alfalah Credit/Debit Card","Cash On Delivery"]
+    var methodNameArray = ["Credit/Debit Card","Cash On Delivery"]
   var selectedIndex:Int?
   var bannerapidata: [Package] = []
   var cartItems : [CartPackageItem] = []
@@ -211,11 +211,16 @@ extension NewOrderConfirmation_ViewController:UITableViewDelegate,UITableViewDat
   }
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if indexPath.row == 0 {
-      customizeNavigationBarAppearance(backgroundColor: .white, foregroundColor: .black)
-      let viewController = Factory.getDefaultPaymentViewController { [weak self] result in
-       self?.handleTokenResponse(with: result)
-      }
-      navigationController?.pushViewController(viewController, animated: true)
+        if(defaultAdress?.address == nil){
+            self.view.makeToast("Please Enter Address")
+        }else{
+            let viewController = Factory.getDefaultPaymentViewController { [weak self] result in
+             self?.handleTokenResponse(with: result)
+            }
+            navigationController?.pushViewController(viewController, animated: false)
+        }
+    
+      
     }
   }
   @objc func checkBtnTapped(_ sender: UIButton) {

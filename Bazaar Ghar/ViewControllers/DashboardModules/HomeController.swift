@@ -61,8 +61,7 @@ class HomeController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var langLbl: UILabel!
 
     @IBOutlet weak var videoAnimationView: LottieAnimationView!
-    
-    
+   
     
     var bannerapidata: [Banner]? = nil{
         didSet{
@@ -121,7 +120,9 @@ var count = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         SetupView()
+        
     }
+    
     func SetupView(){
         SocketConeect()
 

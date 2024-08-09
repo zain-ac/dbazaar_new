@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -412,7 +412,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEt-s8-3er">
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wCw-RD-Ka2">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wCw-RD-Ka2">
                                         <rect key="frame" x="20" y="19.999999999999996" width="313" height="37.666666666666657"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qef-OY-MLi">
@@ -847,7 +847,7 @@
                                                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                         </collectionViewFlowLayout>
                                                                         <cells>
-                                                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StoreFiltersStore_CollectionViewCell2" id="uJo-R9-AaQ" customClass="StoreFiltersStore_CollectionViewCell" customModule="Bazaar_Ghar" customModuleProvider="target">
+                                                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="StoreFiltersStore_CollectionViewCell" reuseIdentifier="StoreFiltersStore_CollectionViewCell" id="uJo-R9-AaQ" customClass="StoreFiltersStore_CollectionViewCell" customModule="Bazaar_Ghar" customModuleProvider="target">
                                                                                 <rect key="frame" x="0.0" y="12" width="115" height="36"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="RxR-LX-RLN">
@@ -1203,10 +1203,10 @@
                                                                                     </constraints>
                                                                                 </tableViewCellContentView>
                                                                                 <connections>
-                                                                                    <outlet property="colorBtnTap" destination="SBA-el-phX" id="dCx-Ep-zSa"/>
-                                                                                    <outlet property="countlabel" destination="nXh-oI-1NY" id="bXG-Ov-Ehd"/>
-                                                                                    <outlet property="img" destination="SBA-el-phX" id="eZq-wL-jXo"/>
-                                                                                    <outlet property="lbl" destination="nPy-b9-rad" id="rKc-5b-xnO"/>
+                                                                                    <outlet property="colorBtnTap" destination="SBA-el-phX" id="4TU-jf-I76"/>
+                                                                                    <outlet property="countlabel" destination="nXh-oI-1NY" id="BnH-g3-2x4"/>
+                                                                                    <outlet property="img" destination="SBA-el-phX" id="zTK-Ig-PQU"/>
+                                                                                    <outlet property="lbl" destination="nPy-b9-rad" id="wQw-lf-Dm0"/>
                                                                                 </connections>
                                                                             </tableViewCell>
                                                                         </prototypes>
@@ -1588,19 +1588,19 @@
             <color red="0.023529411764705882" green="0.61568627450980395" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
