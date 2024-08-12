@@ -7,8 +7,17 @@
 
 import UIKit
 import FSPagerView
-
+import SocketIO
+import SwiftyJSON
 class NewProductPageViewController: UIViewController {
+    var manager:SocketManager?
+    var socket: SocketIOClient?
+    var messages: [PMsg]? = nil{
+        didSet{
+           
+     
+        }
+    }
     @IBOutlet weak var producttitle: UILabel!
     @IBOutlet weak var deliveryTableView: UITableView!
     @IBOutlet weak var pagerView: FSPagerView!
@@ -94,6 +103,7 @@ class NewProductPageViewController: UIViewController {
         }else{
             appDelegate.isbutton = false
         }
+      
         
         NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
@@ -103,6 +113,7 @@ class NewProductPageViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationFromCartCell(notification:)), name: Notification.Name("variantSlug"), object: nil)
         setupCollectionView()
+        self.connectSocket()
     
     }
     
@@ -127,6 +138,7 @@ class NewProductPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         wishList()
         productcategoriesdetails(slug: slugid ?? "")
+      
        
         
        
@@ -249,6 +261,59 @@ class NewProductPageViewController: UIViewController {
             }
         }
         
+    }
+    @IBAction func chatButton(_ sender: Any) {
+        guard let socket = self.socket,
+                 let brandName = productcategoriesdetailsdata?.sellerDetail?.brandName,
+                 let customerId = AppDefault.currentUser?.id,
+                 let storeId = productcategoriesdetailsdata?.sellerDetail?.id,
+                 let sellerId = productcategoriesdetailsdata?.sellerDetail?.seller else {
+               return
+           }
+
+           let roomData: [String: Any] = [
+               "customerId": customerId,
+               "brandName": brandName,
+               "storeId": storeId,
+               "sellerId": sellerId,
+               "isSeller": false
+           ]
+
+           socket.emit("room-join", roomData)
+
+        let vc = ChatViewController.getVC(.chatBoard)
+        vc.socket = self.socket
+                           vc.manager = self.manager
+        self.navigationController?.pushViewController(vc, animated: true)
+
+        
+        
+//        self.socket?.emit("room-join", ["brandName":productcategoriesdetailsdata?.sellerDetail?.brandName ?? "","customerId":AppDefault.currentUser?.id ?? "","isSeller":false,"sellerId":productcategoriesdetailsdata?.sellerDetail?.seller ?? "","storeId":productcategoriesdetailsdata?.sellerDetail?.id ?? "","options":["page":1,"limit":200]])
+//        self.socket?.on("room-join") { datas, ack in
+//            if let rooms = datas[0] as? [String: Any]{
+//                
+//              
+//                let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+//                
+//                
+//                print(obj)
+////                if(ispass == false){
+//                    let vc = ChatViewController.getVC(.chatBoard)
+//                    vc.socket = self.socket
+//                    vc.manager = self.manager
+////                    vc.messages = data
+//                    vc.latestMessages = obj.messages.chat
+//                    vc.PuserMainArray = obj
+//                    vc.newChat = false
+//                    self.navigationController?.pushViewController(vc, animated: true)
+////                    ispass = true
+////                }
+//            }
+//        }
+
+        
+        
+       
     }
     @IBAction func buyNowBtnTapped(_ sender: Any) {
         
@@ -1205,3 +1270,110 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
     }
     
 }
+extension NewProductPageViewController{
+ 
+        
+        
+        
+         func connectSocket() {
+            
+             
+             
+           
+             manager = SocketManager(socketURL: AppConstants.API.baseURLChat, config: [.log(true),
+                                                                                       .compress,
+                                                                                       .forceWebsockets(true),.connectParams( ["token":AppDefault.accessToken])])
+             socket = manager?.socket(forNamespace: "/chat/v1/message")
+     
+            
+             if((self.socket?.connect()) != nil){
+                 
+             }else{
+              
+                 socket?.connect()
+             }
+            
+            
+             socket?.on(clientEvent: .connect) { (data, ack) in
+               
+                
+                
+                 self.socket?.emit("allUnread", ["userId":AppDefault.currentUser?.id ?? ""])
+                 print(self.socket?.status)
+                 print("socketid " + (self.socket?.sid ?? ""))
+                print("Socket Connected")
+                
+            
+                
+                }
+                
+            
+        
+            self.socket?.on("allUnread") { data, ack in
+                if let rooms = data[0] as? [[String: Any]]{
+                  print(rooms)
+                    
+                    
+                    
+                    
+                    
+                    
+                    var messageItem:[PMsg] = []
+                    let Datamodel = JSON(rooms)
+                    let message = Datamodel.array
+                    
+                    for item in message ?? []{
+                        
+                        messageItem.append(PMsg(jsonData: item))
+                    }
+                    
+                    print(messageItem)
+                       
+                    self.messages = messageItem
+                    
+                    
+//                    self.Inbox_tableview.reloadData()
+                    
+                  
+                   
+                    
+                }
+            }
+             
+             
+             
+    //         self.socket?.on("unread") { data, ack in
+    //             if let rooms = data[0] as? [[String: Any]]{
+    //                 print(rooms)
+    //             }
+    //         }
+    //         self.socket?.on("newChatMessage") { data, ack in
+    //             if let rooms = data[0] as? [[String: Any]]{
+    //                 print(rooms)
+    //             }
+    //         }
+    //         }
+    //         self.socket?.on("messages") { data, ack in
+    //             if let rooms = data[0] as? [[String: Any]]{
+    //                 print(rooms)
+    //             }
+    //         }
+             
+             
+             
+             socket?.on(clientEvent: .disconnect) { data, ack in
+                // Handle the disconnection event
+                print("Socket disconnected")
+            }
+            
+            
+          
+        
+           
+        }
+       
+      
+        
+        
+    }
+

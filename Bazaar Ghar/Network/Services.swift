@@ -271,15 +271,15 @@ extension Services: TargetType, AccessTokenAuthorizable {
               let parameters: [String: Any] = [
                 "searches": [
                   [
-                    "query_by": "productName",
-                    "highlight_full_fields": "productName",
-        //            "collection": "db_live_products",
-                    "collection": "bg_stage_products",
+                    "query_by": "productName,ar.productName",
+                    "highlightFullFields" : "productName,ar.productName",
+                    "collection": "db_live_products",
+//                    "collection": "bg_stage_products",
                     "q": str,
         //            "facet_by": "lvl0,color,brandName,averageRating,price,size,style",
                     "facet_by": facet_by,
                   "filter_by": val,
-                    "max_facet_values": 250,
+                    "max_facet_values": 120,
                     "page": 1,
                     "per_page": 20
                   ]

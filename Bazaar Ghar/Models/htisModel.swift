@@ -27,7 +27,7 @@ struct TpResult: Codable {
 
 // MARK: - Hit
 struct TPHit: Codable {
-    let document: TpDocument?
+    let document: Product?
     let highlights: [TypeSenseHighlight]?
 }
 
