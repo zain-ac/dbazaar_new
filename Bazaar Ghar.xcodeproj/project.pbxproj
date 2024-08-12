@@ -283,6 +283,8 @@
 		8BF432D82AA89EEE00CD13D0 /* VediosSearch_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF432D62AA89EEE00CD13D0 /* VediosSearch_VC.swift */; };
 		8BF8F1332C4416C9004344C9 /* moreFrom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF8F1322C4416C8004344C9 /* moreFrom.swift */; };
 		B67C7009E29CC2150B4B41F1 /* Pods_Bazaar_GharTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E0AB92C646720DDDD4A460 /* Pods_Bazaar_GharTests.framework */; };
+		C10027992C6A34CB00BDCB8D /* sideanimation.json in Resources */ = {isa = PBXBuildFile; fileRef = C10027982C6A34CB00BDCB8D /* sideanimation.json */; };
+		C100279B2C6A36CB00BDCB8D /* new_side_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = C100279A2C6A36CB00BDCB8D /* new_side_animation.json */; };
 		D8F634E835768153739C008A /* Pods_Bazaar_Ghar_Bazaar_GharUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1635B08410000905C5DEBA3E /* Pods_Bazaar_Ghar_Bazaar_GharUITests.framework */; };
 		DAE61B3E2B29D9810087E776 /* receiverImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE61B3C2B29D9800087E776 /* receiverImageCell.swift */; };
 		DAE61B3F2B29D9810087E776 /* receiverImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE61B3D2B29D9800087E776 /* receiverImageCell.xib */; };
@@ -611,6 +613,8 @@
 		8BF8F1322C4416C8004344C9 /* moreFrom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moreFrom.swift; sourceTree = "<group>"; };
 		90E9A44FFE206EE0FF2EF3B5 /* Pods_Bazaar_Ghar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bazaar_Ghar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2D379007B8BBAA06B92A8FC /* Pods-Bazaar Ghar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar Ghar.release.xcconfig"; path = "Target Support Files/Pods-Bazaar Ghar/Pods-Bazaar Ghar.release.xcconfig"; sourceTree = "<group>"; };
+		C10027982C6A34CB00BDCB8D /* sideanimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sideanimation.json; sourceTree = "<group>"; };
+		C100279A2C6A36CB00BDCB8D /* new_side_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = new_side_animation.json; sourceTree = "<group>"; };
 		C623F50BAF50B3B8D8530437 /* Pods-Bazaar GharTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar GharTests.release.xcconfig"; path = "Target Support Files/Pods-Bazaar GharTests/Pods-Bazaar GharTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB8D41113E13524DF7783A23 /* Pods-Bazaar Ghar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar Ghar.debug.xcconfig"; path = "Target Support Files/Pods-Bazaar Ghar/Pods-Bazaar Ghar.debug.xcconfig"; sourceTree = "<group>"; };
 		D5E2F6DFF6135F0778E64E2D /* Pods-Bazaar GharTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar GharTests.debug.xcconfig"; path = "Target Support Files/Pods-Bazaar GharTests/Pods-Bazaar GharTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1306,6 +1310,8 @@
 		8BBD36602C64CCF600AE0C44 /* Gifs */ = {
 			isa = PBXGroup;
 			children = (
+				C100279A2C6A36CB00BDCB8D /* new_side_animation.json */,
+				C10027982C6A34CB00BDCB8D /* sideanimation.json */,
 				8B672C6A2C512FCE0048AC7A /* videoAnimation.json */,
 				8BAC09DF2AEF8ECC00920C82 /* live_icon_gif.gif */,
 				8BD02A332AC40901007D6CFD /* yy3.gif */,
@@ -1638,12 +1644,14 @@
 				8BCEF9C52C5A35D900152BFB /* GraphikLCG-Medium.otf in Resources */,
 				8BCEF9F92C5A35DA00152BFB /* Main.strings in Resources */,
 				8BCEF9C22C5A35D900152BFB /* GraphikLCG-ExtralightItalic.otf in Resources */,
+				C10027992C6A34CB00BDCB8D /* sideanimation.json in Resources */,
 				8BB03D832A9F103100DB737F /* PRoductCategory_cell.xib in Resources */,
 				8BB5CF672C64F15800FE5413 /* SearchStoryBoard.storyboard in Resources */,
 				8BCEF9F32C5A35DA00152BFB /* Main.strings in Resources */,
 				8B1438162A8F9417008A2705 /* Poppins-SemiBold.ttf in Resources */,
 				8BE6CB082C1CBC0600AB174B /* Live_videoCell1TableViewCel2.xib in Resources */,
 				8BCEF9F22C5A35DA00152BFB /* LaunchScreen.strings in Resources */,
+				C100279B2C6A36CB00BDCB8D /* new_side_animation.json in Resources */,
 				8B96710B2AD5703F0033671A /* ReportViewController.xib in Resources */,
 				8B041C272AF0E9CD00DE4829 /* SellerMessageTableViewCell.xib in Resources */,
 				8BCEF9C42C5A35D900152BFB /* GraphikLCG-LightItalic.otf in Resources */,

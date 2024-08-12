@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import SwiftyJSON
+
+import Lottie
 
 
 class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate {
@@ -30,7 +33,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     var imagedata = [String]()
     var categoryStates: [CategoryState] = []
 
-    
+    @IBOutlet weak var videoAnimationView: LottieAnimationView!
+
     
     
     
@@ -39,18 +43,17 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     var currentLevel: Int = 0
     var currentCategories: [Any] = []
     // newStores
-    var top_name = [String]()
-    var images = [String]()
+  
     override func viewDidLoad() {
         super.viewDidLoad()
 //        backButton.isHidden = true
         isSelected  = "Home"
-    
+        let animation = LottieAnimation.named("new_side_animation")
+        videoAnimationView.animation = animation
+        videoAnimationView.loopMode = .loop
 
       
         
-      top_name =  ["Brands","bazaars","Live","Stores","Offers","GroupBuy"]
-        images = ["Brandsimg","Bazaarsimg","","Storesimg","Offersimg","Groupbuyimg"]
         self.menuview.backgroundColor = UIColor.white
         let fullText = "Top Categories"
                 let topText = "Top"
@@ -72,14 +75,25 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     }
     @IBAction func crossbtn(_ sender: Any) {
     }
+    @IBAction func brandstap(_ sender: Any) {
+    }
+    @IBAction func storetap(_ sender: Any) {
+    }
+    @IBAction func bazaarstap(_ sender: Any) {
+    }
     
+    @IBAction func offerstap(_ sender: Any) {
+    }
+    @IBAction func livetap(_ sender: Any) {
+    }
+    @IBAction func groupbuytap(_ sender: Any) {
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         SetupAppColor()
         self.CreateMenuitemList()
         loadInitialData()
-        Top_sidemenuCollect.delegate = self
-        Top_sidemenuCollect.dataSource = self
+      
         let attributedText1 =  Utility().attributedStringWithColoredLastWord("Top Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
         name.attributedText = attributedText1
@@ -93,6 +107,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
            
         }
     }
+    
     override func dismissViewController(_ sender: UIButton) {
         if isShowingSubcategories {
                isShowingSubcategories = false
@@ -276,21 +291,4 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
 struct CategoryState {
     let categories: [Any]
     let level: Int
-}
-extension MenuVCList:UICollectionViewDelegate,UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return top_name.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Top_SidemenuCollectionViewCell", for: indexPath) as! Top_SidemenuCollectionViewCell
-        cell.imageView.image = UIImage(named: images[indexPath.item])
-        cell.lbl.text = top_name[indexPath.item]
-        return cell
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width/1.5, height: collectionView.frame.size.height/13)
-    }
 }
