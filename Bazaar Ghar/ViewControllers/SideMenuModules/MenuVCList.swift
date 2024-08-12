@@ -17,7 +17,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var btnBack: UIButton!
 
-
+    @IBOutlet weak var Top_sidemenuCollect: UICollectionView!
+    
     var isSelected  =  ""
 
     @IBOutlet weak var backButton: UIView!
@@ -37,12 +38,19 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     // new
     var currentLevel: Int = 0
     var currentCategories: [Any] = []
-    // new
-    
+    // newStores
+    var top_name = [String]()
+    var images = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        backButton.isHidden = true
+//        backButton.isHidden = true
         isSelected  = "Home"
+    
+
+      
+        
+      top_name =  ["Brands","bazaars","Live","Stores","Offers","GroupBuy"]
+        images = ["Brandsimg","Bazaarsimg","","Storesimg","Offersimg","Groupbuyimg"]
         self.menuview.backgroundColor = UIColor.white
         let fullText = "Top Categories"
                 let topText = "Top"
@@ -62,20 +70,26 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSSideMenu), name: NSNotification.Name(rawValue: "sidemenuReload"), object: nil)
     }
-   
+    @IBAction func crossbtn(_ sender: Any) {
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         SetupAppColor()
         self.CreateMenuitemList()
         loadInitialData()
+        Top_sidemenuCollect.delegate = self
+        Top_sidemenuCollect.dataSource = self
+        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Top Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
+        name.attributedText = attributedText1
     }
     func loadInitialData() {
         if let categories = AppDefault.getAllCategoriesResponsedata {
             currentCategories = categories
             currentLevel = 0
             tableview.reloadData()
-            backButton.isHidden = true
+//            backButton.isHidden = true
            
         }
     }
@@ -94,17 +108,17 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     func SetupAppColor(){
         
     }
-    @IBAction func backButtonPressed(_ sender: Any) {
-        if(currentLevel == 1){
-            backButton.isHidden = true
-        }
-        guard !categoryStates.isEmpty else { return }
-           let previousState = categoryStates.removeLast()
-           currentCategories = previousState.categories
-           currentLevel = previousState.level
-           tableview.reloadData()
-           
-    }
+//    @IBAction func backButtonPressed(_ sender: Any) {
+//        if(currentLevel == 1){
+//            backButton.isHidden = true
+//        }
+//        guard !categoryStates.isEmpty else { return }
+//           let previousState = categoryStates.removeLast()
+//           currentCategories = previousState.categories
+//           currentLevel = previousState.level
+//           tableview.reloadData()
+//           
+//    }
 //    @IBAction func btnMenu_click(_ sender: Any) {
 //        self.sideMenuController?.toggle()
 //    }
@@ -250,11 +264,11 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                     categoryStates.removeAll()
                 }
             }
-        if categoryStates.isEmpty {
-            self.backButton.isHidden = true // Hide back button when no more previous states
-        }else{
-            self.backButton.isHidden = false
-        }
+//        if categoryStates.isEmpty {
+//            self.backButton.isHidden = true // Hide back button when no more previous states
+//        }else{
+//            self.backButton.isHidden = false
+//        }
     }
  }
 
@@ -262,4 +276,21 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
 struct CategoryState {
     let categories: [Any]
     let level: Int
+}
+extension MenuVCList:UICollectionViewDelegate,UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return top_name.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Top_SidemenuCollectionViewCell", for: indexPath) as! Top_SidemenuCollectionViewCell
+        cell.imageView.image = UIImage(named: images[indexPath.item])
+        cell.lbl.text = top_name[indexPath.item]
+        return cell
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.size.width/1.5, height: collectionView.frame.size.height/13)
+    }
 }

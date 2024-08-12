@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A4629732C69E99D0061D61A /* Top_SidemenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4629722C69E99D0061D61A /* Top_SidemenuCollectionViewCell.swift */; };
 		2A8C6AE82B57DDF6005A72A7 /* NotificationBellPoppu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C6AE72B57DDF6005A72A7 /* NotificationBellPoppu.swift */; };
 		2A9C81A82C37D522002DE75F /* AddtocartPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9C81A72C37D522002DE75F /* AddtocartPopup.swift */; };
 		2AA19DAE2C3ABD67001E0CCD /* New_StoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA19DAD2C3ABD66001E0CCD /* New_StoreVC.swift */; };
@@ -313,6 +314,7 @@
 /* Begin PBXFileReference section */
 		10C79DEDBE2CEBEB7831B19D /* Pods-Bazaar Ghar-Bazaar GharUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar Ghar-Bazaar GharUITests.debug.xcconfig"; path = "Target Support Files/Pods-Bazaar Ghar-Bazaar GharUITests/Pods-Bazaar Ghar-Bazaar GharUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		1635B08410000905C5DEBA3E /* Pods_Bazaar_Ghar_Bazaar_GharUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bazaar_Ghar_Bazaar_GharUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A4629722C69E99D0061D61A /* Top_SidemenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Top_SidemenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		2A8C6AE72B57DDF6005A72A7 /* NotificationBellPoppu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBellPoppu.swift; sourceTree = "<group>"; };
 		2A9C81A72C37D522002DE75F /* AddtocartPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddtocartPopup.swift; sourceTree = "<group>"; };
 		2AA19DAD2C3ABD66001E0CCD /* New_StoreVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = New_StoreVC.swift; sourceTree = "<group>"; };
@@ -819,6 +821,7 @@
 				8BD32AD22C18202F00168E2A /* BottomBarCollectionViewCell.swift */,
 				8BB656AC2C1C68A70097C465 /* Shopbeyound_TableViewCell.swift */,
 				8BB656AE2C1C68C50097C465 /* Shopbeyound_CollectionViewCell.swift */,
+				2A4629722C69E99D0061D61A /* Top_SidemenuCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1971,6 +1974,7 @@
 				8BCEF96B2C5A355E00152BFB /* ThemeDemo+Border.swift in Sources */,
 				2A8C6AE82B57DDF6005A72A7 /* NotificationBellPoppu.swift in Sources */,
 				8BAEBC932ABDA98B0031D07F /* Privacypolicy_VC.swift in Sources */,
+				2A4629732C69E99D0061D61A /* Top_SidemenuCollectionViewCell.swift in Sources */,
 				8B02BF0C2A93909000E0F83C /* HomeTableViewCell.swift in Sources */,
 				8BB606EE2A94D69C0092D3B1 /* PModel.swift in Sources */,
 				2A9C81A82C37D522002DE75F /* AddtocartPopup.swift in Sources */,
