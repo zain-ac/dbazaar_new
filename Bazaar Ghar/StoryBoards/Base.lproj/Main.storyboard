@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N9Q-my-JxT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N9Q-my-JxT">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -1541,11 +1541,11 @@
             </objects>
             <point key="canvasLocation" x="-9514" y="-2871"/>
         </scene>
-        <!--Offers-->
+        <!--Categories-->
         <scene sceneID="6Ck-9Z-vkG">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="o1b-E1-XS7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Offers" image="discount (1)" selectedImage="discount fill" id="usB-r3-fy7"/>
+                    <tabBarItem key="tabBarItem" title="Categories" image="Icon Categories" selectedImage="selectCategories" id="usB-r3-fy7"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="G6F-gA-6ot">
                         <rect key="frame" x="0.0" y="50" width="375" height="44"/>
@@ -5306,6 +5306,7 @@
         <image name="17" width="225" height="225"/>
         <image name="5" width="720" height="405"/>
         <image name="Home" width="25" height="25"/>
+        <image name="Icon Categories" width="25" height="25"/>
         <image name="Icon Profile" width="25" height="25"/>
         <image name="Icon feather-arrow-right" width="19.643999099731445" height="15.27400016784668"/>
         <image name="SelectHome" width="25" height="25"/>
@@ -5318,8 +5319,6 @@
         <image name="chevron.backward.circle.fill" catalog="system" width="128" height="123"/>
         <image name="chevron.down" catalog="system" width="128" height="70"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
-        <image name="discount (1)" width="25.5" height="26.5"/>
-        <image name="discount fill" width="25.5" height="26.5"/>
         <image name="group_photo" width="73" height="39"/>
         <image name="hamburger" width="20" height="16"/>
         <image name="homebazarimg" width="76" height="31"/>
@@ -5330,6 +5329,7 @@
         <image name="pakistan-image" width="40" height="40"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="selectCategories" width="25" height="25"/>
         <image name="selectProfile" width="25" height="25"/>
         <image name="trash" catalog="system" width="117" height="128"/>
         <image name="whatsapp 1" width="63" height="63"/>

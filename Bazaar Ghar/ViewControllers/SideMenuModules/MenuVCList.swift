@@ -159,7 +159,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                 }
                 cell.imagelbl.pLoadImage(url: subCategory?.mainImage ?? "")
             } else if currentLevel == 2 {
-                let subSubCategory = currentCategories[indexPath.row] as? PurppleSubCategory
+                let subSubCategory = currentCategories[indexPath.row] as? DatumSubCategory
                 if LanguageManager.language == "ar"{
                     cell.lab.text = subSubCategory?.lang?.ar?.name
                 }else{
@@ -167,7 +167,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                 }
                 cell.imagelbl.pLoadImage(url: subSubCategory?.mainImage ?? "")
             } else if currentLevel == 3 {
-                let subSubSubCategory = currentCategories[indexPath.row] as! FlufffySubCategory
+                let subSubSubCategory = currentCategories[indexPath.row] as! DatumSubCategory
                 cell.lab.text = subSubSubCategory.name
                 cell.imagelbl.pLoadImage(url: subSubSubCategory.mainImage ?? "")
             }
@@ -220,7 +220,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
 //                    self.view.makeToast("Subcategories are empty")
                 }
             } else if currentLevel == 2 {
-                let selectedSubSubCategory = currentCategories[indexPath.row] as? PurppleSubCategory
+                let selectedSubSubCategory = currentCategories[indexPath.row] as? DatumSubCategory
                 if let subSubSubCategories = selectedSubSubCategory?.subCategories, !subSubSubCategories.isEmpty {
                     currentCategories = subSubSubCategories
                     currentLevel = 3
@@ -235,7 +235,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                     categoryStates.removeAll()
                 }
             } else if currentLevel == 3 {
-                let selectedSubSubSubCategory = currentCategories[indexPath.row] as? FlufffySubCategory
+                let selectedSubSubSubCategory = currentCategories[indexPath.row] as? DatumSubCategory
                 if let subSubSubSubCategories = selectedSubSubSubCategory?.subCategories, !subSubSubSubCategories.isEmpty {
                     currentCategories = subSubSubSubCategories
                     currentLevel = 4

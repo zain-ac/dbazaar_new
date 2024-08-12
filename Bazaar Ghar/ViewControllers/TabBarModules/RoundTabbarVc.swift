@@ -168,7 +168,7 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
     func LanguageRander() {
         tabBar.semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
         tabBar.items?[0].title = "home".pLocalized(lang: LanguageManager.language)
-        tabBar.items?[1].title = "offers".pLocalized(lang: LanguageManager.language)
+        tabBar.items?[1].title = "categories".pLocalized(lang: LanguageManager.language)
         //                tabBar.items?[2].title = "cart".pLocalized(lang: LanguageManager.language)
         tabBar.items?[3].title = "profile".pLocalized(lang: LanguageManager.language)
         tabBar.items?[4].title = "Menu".pLocalized(lang: LanguageManager.language)

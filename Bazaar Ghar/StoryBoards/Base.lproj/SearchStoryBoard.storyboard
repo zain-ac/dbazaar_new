@@ -412,43 +412,21 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEt-s8-3er">
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wCw-RD-Ka2">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wCw-RD-Ka2">
                                         <rect key="frame" x="20" y="19.999999999999996" width="313" height="37.666666666666657"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qef-OY-MLi">
-                                                <rect key="frame" x="2" y="1.3333333333333286" width="35" height="35"/>
-                                                <color key="backgroundColor" red="0.054901960780000002" green="0.70196078429999997" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="35" id="3Cg-6C-qPK"/>
-                                                    <constraint firstAttribute="width" constant="35" id="gco-Ku-SLk"/>
-                                                </constraints>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" image="magnifyingglass" catalog="system"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="17.5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="searchButton:" destination="LLB-bS-WzA" eventType="touchUpInside" id="WV2-gw-7LZ"/>
-                                                </connections>
-                                            </button>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What are you looking for?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eIp-uj-jfM">
-                                                <rect key="frame" x="42" y="0.0" width="271" height="37.666666666666664"/>
-                                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="12"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 item" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNE-tn-nSa">
+                                                <rect key="frame" x="134.33333333333334" y="9.0000000000000018" width="44.333333333333343" height="19.666666666666671"/>
+                                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
+                                                <color key="textColor" systemColor="systemGray2Color"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="eIp-uj-jfM" secondAttribute="trailing" id="0B7-4i-oHf"/>
-                                            <constraint firstItem="eIp-uj-jfM" firstAttribute="top" secondItem="wCw-RD-Ka2" secondAttribute="top" id="J5Q-h7-Yfb"/>
-                                            <constraint firstItem="eIp-uj-jfM" firstAttribute="leading" secondItem="qef-OY-MLi" secondAttribute="trailing" constant="5" id="Jaa-70-ntO"/>
-                                            <constraint firstItem="qef-OY-MLi" firstAttribute="leading" secondItem="wCw-RD-Ka2" secondAttribute="leading" constant="2" id="Tny-NY-Du9"/>
+                                            <constraint firstItem="ZNE-tn-nSa" firstAttribute="centerY" secondItem="wCw-RD-Ka2" secondAttribute="centerY" id="FMU-TD-psU"/>
+                                            <constraint firstItem="ZNE-tn-nSa" firstAttribute="centerX" secondItem="wCw-RD-Ka2" secondAttribute="centerX" id="Ll0-LW-Y3l"/>
                                             <constraint firstAttribute="height" constant="37.5" id="ZlJ-bL-xNl"/>
-                                            <constraint firstAttribute="bottom" secondItem="eIp-uj-jfM" secondAttribute="bottom" id="q92-4o-STQ"/>
-                                            <constraint firstItem="qef-OY-MLi" firstAttribute="centerY" secondItem="wCw-RD-Ka2" secondAttribute="centerY" id="x8W-0z-hXb"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -718,8 +696,8 @@
                                             <constraint firstAttribute="width" constant="30" id="PUQ-a6-gXJ"/>
                                             <constraint firstAttribute="height" constant="30" id="WbG-aj-YdQ"/>
                                         </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="line.3.horizontal.decrease.circle.fill" catalog="system"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" backgroundImage="filter"/>
                                         <connections>
                                             <action selector="filterButtonTap:" destination="LLB-bS-WzA" eventType="touchUpInside" id="nNE-le-DYe"/>
                                         </connections>
@@ -773,7 +751,7 @@
                         <outlet property="filterButton" destination="zzw-8r-JFW" id="gMy-Bv-YfM"/>
                         <outlet property="lastRandomProductsCollectionView" destination="R4G-Hi-utA" id="UPY-Um-ORQ"/>
                         <outlet property="noDataView" destination="ll8-6X-HzV" id="G17-oq-rQK"/>
-                        <outlet property="searchFeild" destination="eIp-uj-jfM" id="uPp-dC-bYu"/>
+                        <outlet property="productCounts" destination="ZNE-tn-nSa" id="Ouz-gK-ZPW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="crz-d4-Un0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1576,8 +1554,8 @@
         <image name="close" width="24" height="24"/>
         <image name="cross" width="50" height="50"/>
         <image name="delete.left.fill" catalog="system" width="128" height="102"/>
+        <image name="filter" width="512" height="512"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
-        <image name="line.3.horizontal.decrease.circle.fill" catalog="system" width="128" height="123"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="multiply.circle" catalog="system" width="128" height="123"/>
         <image name="online-shopping" width="19" height="18"/>
@@ -1588,19 +1566,22 @@
             <color red="0.023529411764705882" green="0.61568627450980395" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

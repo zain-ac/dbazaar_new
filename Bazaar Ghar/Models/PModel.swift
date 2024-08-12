@@ -1373,7 +1373,6 @@ class GetDataOfPushProduct {
 // MARK: - Datum
 struct getAllCategoryResponse: Codable {
     let type: String?
-    let platform: Platform?
     let name: String?
     let mainImage: String?
     let slug: String?
@@ -1411,10 +1410,7 @@ struct PurpleAr: Codable {
     let wideBannerImageAr: String?
 }
 
-enum Platform: String, Codable {
-    case aliExpress = "aliExpress"
-    case bazaarGhar = "bazaarGhar"
-}
+
 
 // MARK: - DatumSubCategory
 struct DatumSubCategory: Codable {
@@ -1422,7 +1418,6 @@ struct DatumSubCategory: Codable {
     let type: String?
     let attributes: [String]?
     let attributeRequired: Bool?
-    let platform: Platform?
     let deleted: Bool?
     let name, mainCategory, createdAt: String?
     let updatedAt: String?
@@ -1441,7 +1436,7 @@ struct DatumSubCategory: Codable {
     let platformID: String?
     let productsCount: Int?
     enum CodingKeys: String, CodingKey {
-        case gallery, type, attributes, attributeRequired, platform, deleted, name, mainCategory, createdAt, updatedAt, description, mainImage
+        case gallery, type, attributes, attributeRequired,  deleted, name, mainCategory, createdAt, updatedAt, description, mainImage
         case v = "__v"
         case slug, products, categorySpecs, lang, videoCount, subCategories, id, commission, bannerImage, wideBannerImage,productsCount
         case platformID = "platformId"
@@ -1459,124 +1454,7 @@ struct FluffyAr: Codable {
 }
 
 // MARK: - PurpleSubCategory
-struct PurppleSubCategory: Codable {
-    let gallery: [String]?
-    let type: String?
-    let attributes: [String]?
-    let attributeRequired: Bool?
-    let platform: Platform?
-    let name: String?
-    let commission: Int?
-    let mainCategory, createdAt: String?
-    let updatedAt: String?
-    let v: Int?
-    let description: String?
-    let mainImage: String?
-    let slug: String?
-    let categorySpecs: DatumCategorySpecs?
-    let lang: PurpleLang?
-    let subCategories: [FlufffySubCategory]?
-    let id: String?
-    let products: Int?
-    let deleted: Bool?
-    let bannerImage: String?
-    let videoCount: Int?
 
-    enum CodingKeys: String, CodingKey {
-        case gallery, type, attributes, attributeRequired, platform, name, commission, mainCategory, createdAt, updatedAt
-        case v = "__v"
-        case description, mainImage, slug, categorySpecs, lang, subCategories, id, products, deleted, bannerImage, videoCount
-    }
-}
-
-// MARK: - FluffySubCategory
-struct FlufffySubCategory: Codable {
-    let gallery: [String]?
-    let type: String?
-    let attributes: [String]?
-    let attributeRequired: Bool?
-    let platform: Platform?
-    let name, mainCategory: String?
-    let v: Int?
-    let createdAt: String?
-    let updatedAt: String?
-    let mainImage: String?
-    let slug: String?
-    let lang: FluffyLang?
-    let categorySpecs: PurpleCategorySpecs?
-    let subCategories: [String]?
-    let id: String?
-
-    enum CodingKeys: String, CodingKey {
-        case gallery, type, attributes, attributeRequired, platform, name, mainCategory, mainImage
-        case v = "__v"
-        case createdAt, updatedAt, slug, lang, categorySpecs, subCategories, id
-    }
-}
-
-// MARK: - PurpleCategorySpecs
-struct PurpleCategorySpecs: Codable {
-    let productsCount: Int?
-    let active: Bool?
-    let id: String?
-
-    enum CodingKeys: String, CodingKey {
-        case productsCount, active
-        case id = "_id"
-    }
-}
-
-// MARK: - FluffyLang
-struct FluffyLang: Codable {
-    let ar: TentacledAr?
-}
-
-// MARK: - TentacledAr
-struct TentacledAr: Codable {
-    let name: String?
-}
-
-//struct latestMobileDataModel: Codable {
-//    let name, id, slug: String?
-//    let lang: DatumLang?
-//    let products: [Product]?
-//    let wideBannerImage: String?
-//}
-
-// MARK: - DatumLang
-struct DatumLangg: Codable {
-    let ar: PurpleAr?
-}
-
-// MARK: - PurpleAr
-struct PurpleArr: Codable {
-    let name, description: String?
-}
-
-// MARK: - Product
-struct latestMobileDataModel: Codable {
-    let featured, onSale, isVariable: Bool?
-    let productName: String?
-    let regularPrice: Double?
-    let salePrice: Double?
-    let quantity: Int?
-    let mainImage: String?
-    let slug: String?
-    let price: Double?
-    let variants: [Variant]?
-    let id: String?
-    let lang: ProductLangg?
-}
-
-// MARK: - ProductLang
-struct ProductLangg: Codable {
-    let ar: FluffyAr?
-}
-
-// MARK: - FluffyAr
-struct FluffyArr: Codable {
-    let productName, description: String?
-}
 
 
 // comments model
@@ -1734,7 +1612,7 @@ struct CheckOutProduct: Codable {
   let variantGroupBuy: Bool?
   let categoryTree: [String]?
   let onDeal, relief: Bool?
-  let videoType, platform, currency: String?
+  let videoType,  currency: String?
   let embedding, region: [String]?
   let origin, productName, slug: String?
   let mainImage: String?

@@ -10,10 +10,16 @@ import Alamofire
 
 class RealTimeSearchViewController: UIViewController {
    
+    @IBOutlet weak var productCounts: UILabel!
     private var results: [String] = []
     var  facetCounts: [TypeSenseFacetCount] = []
     @IBOutlet weak var lastRandomProductsCollectionView: UICollectionView!
-
+    var searchText: String? {
+        didSet {
+            productcategoriesApi(val: "", str: searchText ?? "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
+            
+        }
+    }
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var noDataView: UIView!
     var DisplayCat0Model:  TypeSenseFacetCount? = nil
@@ -82,9 +88,11 @@ class RealTimeSearchViewController: UIViewController {
  
     
     private func productcategoriesApi(val:String, str: String,facet_by:String){
+       
         APIServices.typeSenseApi(val:val, txt: str ,facet_by:facet_by,completion: {[weak self] data in
             switch data{
             case .success(let res):
+                self?.hits =  []
                 AppDefault.facetFilters = res
                 
                 for item in res.first?.facetCounts ?? []{
@@ -157,7 +165,7 @@ class RealTimeSearchViewController: UIViewController {
                 
                 
                 
-                
+                self?.productCounts.text = "\(self?.hits?.count ?? 0) items Found"
                 
 
 //                for r in res {
