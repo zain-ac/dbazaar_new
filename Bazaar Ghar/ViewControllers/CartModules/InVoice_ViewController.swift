@@ -27,8 +27,9 @@ class InVoice_ViewController: UIViewController {
         invoicelbl.text = orderitems?.id ?? ""
         totalamountlbl.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(orderitems?.subTotal ?? 0))
         setCurrentDate()
-        
-        tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = true
+               tabBarController?.tabBar.isHidden = true
+      
 //        placeOrder(cartId: orderitems)
         // Do any additional setup after loading the view.
     }
@@ -42,6 +43,8 @@ class InVoice_ViewController: UIViewController {
         datelbl.text = formattedDate
     }
     @IBAction func myorderbtntap(_ sender: Any) {
+        let vc = Orders_VC.getVC(.orderJourneyStoryBoard)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
 //    private func placeOrder(cartId:String){
 //
@@ -60,9 +63,7 @@ class InVoice_ViewController: UIViewController {
 //    }
 
     @IBAction func homebtntap(_ sender: Any) {
-        
-        let vc = NoInternet_ViewController.getVC(.popups)
-        self.navigationController?.pushViewController(vc, animated: false)
+        appDelegate.GotoDashBoard(ischecklogin: false)
     }
     
 }
@@ -77,7 +78,7 @@ extension InVoice_ViewController: UITableViewDelegate,UITableViewDataSource{
         cell.img.pLoadImage(url: data?.product?.mainImage ?? "")
         cell.produtname.text = data?.product?.productName
         cell.Price.attributedText    = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.product?.price ?? 0))
-        cell.qtylbl.text = "\(data?.quantity ?? 0)"
+        cell.qtylbl.text = "Qty \(data?.quantity ?? 0)"
         
         
 //        cell.img.pLoadImage(url: orderitems?.orders?.first?.orderItems?[indexPath.row].product?.mainImage ?? ""
@@ -88,7 +89,8 @@ extension InVoice_ViewController: UITableViewDelegate,UITableViewDataSource{
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 75
+        
     }
     
 }

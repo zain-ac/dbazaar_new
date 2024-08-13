@@ -21,6 +21,7 @@ class CartPopupViewController: UIViewController {
     @IBOutlet weak var crossBtn: UIButton!
     @IBOutlet weak var addToCartBtn: UIButton!
     @IBOutlet weak var outOfStockLbl: UILabel!
+    @IBOutlet weak var heartBtn: UIButton!
 
     let centerTransitioningDelegate = CenterTransitioningDelegate()
     var products: Product?
@@ -58,6 +59,7 @@ class CartPopupViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        wishList()
         if products?.quantity ?? 0 > 0 {
             addToCartBtn.backgroundColor = UIColor(hex: "#06B7FD")
             addToCartBtn.isEnabled = true
@@ -76,7 +78,7 @@ class CartPopupViewController: UIViewController {
             case .success(let res):
                    
                 
-                let storyboard = UIStoryboard(name: "sidemenu", bundle: nil)
+                let storyboard = UIStoryboard(name: "Popups", bundle: nil)
                 guard let addToCartPopupVC = storyboard.instantiateViewController(withIdentifier: "AddtocartPopup") as? AddtocartPopup else { return }
 
                 addToCartPopupVC.modalPresentationStyle = .custom
@@ -162,29 +164,72 @@ class CartPopupViewController: UIViewController {
         
     }
     @IBAction func likeaction(_ sender: Any) {
-        addtowishlist(product: products?.id  ?? "")
-    }
-    private func addtowishlist(product: String){
-        APIServices.addwishlist(proudct:product,completion: {[weak self] data in
-            switch data{
-            case .success(let res):
-                print(res)
-//                self?.Likebtn.isSelected = true
-                self?.view.makeToast("Product added to wishlist successfully")
-            case .failure(let error):
-                print(error)
-                self?.view.makeToast(error)
+        if(AppDefault.islogin){
+            if products?.id == nil {
+                self.wishListApi(productId: (products?._id ?? ""))
+            }else {
+                self.wishListApi(productId: (products?.id ?? ""))
             }
+            }else{
+                let vc = PopupLoginVc.getVC(.popups)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
+    }
+    
+    private func wishListApi(productId:String) {
+        APIServices.newwishlist(product:productId,completion: {[weak self] data in
+          switch data{
+          case .success(let res):
+            print(res)
+    //        if(res == "OK"){
+    //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+    //          button.tintColor = .red
+    //
+    //        }else{
+    //          button.setImage(UIImage(systemName: "heart"), for: .normal)
+    //          button.tintColor = .gray
+    //
+    //        }
+              self?.wishList()
+          case .failure(let error):
+            print(error)
+              if error == "Please authenticate" {
+                  if AppDefault.islogin{
+                      
+                  }else{
+//                       DispatchQueue.main.async {
+//                          self.selectedIndex = 0
+//                       }
+                        let vc = PopupLoginVc.getVC(.popups)
+                      vc.modalPresentationStyle = .overFullScreen
+                      self?.present(vc, animated: true, completion: nil)
+                  }
+              }
+          }
         })
-    }
-    /*
-    // MARK: - Navigation
+      }
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    func wishList(){
+        APIServices.wishlist(isbackground: false){[weak self] data in
+          switch data{
+          case .success(let res):
+           print(res)
+            AppDefault.wishlistproduct = res.products
+              if let wishlistProducts = AppDefault.wishlistproduct {
+                  if wishlistProducts.contains(where: { $0.id == self?.products?.id }) {
+                      self?.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      self?.heartBtn.tintColor = .red
+                      } else {
+                          self?.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                          self?.heartBtn.tintColor = .white
+                      }
+                    }
 
+          case .failure(let error):
+            print(error)
+          }
+        }
+      }
+    
 }

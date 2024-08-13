@@ -246,7 +246,7 @@ class Category_ProductsVC: UIViewController {
 //                       
 //                        self?.categoryproduct_collectionview.reloadData()
 //                    }else {
-                        let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 282
+                        let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 284
                     self?.scrollheight.constant = CGFloat(ll + 105)
                        
                         self?.categoryproduct_collectionview.reloadData()
@@ -282,7 +282,7 @@ class Category_ProductsVC: UIViewController {
                     // Update flag after loading
                     self?.isLoadingNextPage = false
                     
-                    let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 282
+                    let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 284
                 self?.scrollheight.constant = CGFloat(ll + 105)
                     self?.categoryproduct_collectionview.reloadData()
                 }else {
@@ -613,7 +613,7 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 2
+            return 4
 
     }
     

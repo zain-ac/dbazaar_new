@@ -414,7 +414,9 @@ extension ChatViewController{
              
                 self.view.endEditing(true)
                 self.ChatTblV.reloadData()
-                self.ChatTblV.scrollToBottom()
+                if(self.latestMessages?.count ?? 0 > 0){
+                    self.ChatTblV.scrollToBottom()
+                }
             }
         }
     }

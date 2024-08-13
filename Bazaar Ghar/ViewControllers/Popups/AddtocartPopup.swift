@@ -49,6 +49,10 @@ class AddtocartPopup: UIViewController {
                 print(error)
                 if(error == "Please authenticate" && AppDefault.islogin){
                     appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                }else if(error == "Please authenticate" && !AppDefault.islogin) {
+                    let vc = PopupLoginVc.getVC(.popups)
+                  vc.modalPresentationStyle = .overFullScreen
+                  self?.present(vc, animated: true, completion: nil)
                 }else{
                     self?.view.makeToast(error)
                 }

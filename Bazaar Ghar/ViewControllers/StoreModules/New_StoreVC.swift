@@ -47,7 +47,11 @@ class New_StoreVC: UIViewController {
     var categoryPage = 1
     var isLoadingNextPage = false
     var isEndReached = false
-    var sellerID:String?
+    var sellerID:String? {
+        didSet {
+            getSellerDetail(id: sellerID ?? "")
+        }
+    }
     var CategoriesResponsedata: [CategoriesResponse] = []
     var catId:String? {
         didSet {
@@ -67,7 +71,6 @@ class New_StoreVC: UIViewController {
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
         HeaderbrandNameLbl.text = brandName ?? ""
         brandNameLbl.text = brandName ?? ""
-//        storeproductquantity.text = 
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         pagerView.automaticSlidingInterval = 2.0
         getStreamingVideos(userId: prductid ?? "", limit: 10, page: 1, categories: [])
@@ -82,7 +85,9 @@ class New_StoreVC: UIViewController {
         shopbycat_collectionview.dataSource = self
         shopbycat_collectionview.delegate = self
         
-           
+        CategoriesResponsedata.removeAll()
+        self.shopByCatViewHeight.constant = 0
+        shopByCatView.isHidden = true
         // Do any additional setup after loading the view.
     }
     func setupCollectionView() {
@@ -93,11 +98,9 @@ class New_StoreVC: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        CategoriesResponsedata.removeAll()
-        getSellerDetail(id: sellerID ?? "")
-        self.shopByCatViewHeight.constant = 0
-        shopByCatView.isHidden = true
-
+    }
+    override func viewDidAppear(_ animated: Bool) {
+     
     }
     func update(count:Int) {
         getAllProductsByCategories(limit: 20, page: count, sortBy:"-price", category:prductid ?? "", active: false)
@@ -108,9 +111,12 @@ class New_StoreVC: UIViewController {
             switch data{
             case .success(let res):
             print(res)
+
                 self?.gallaryImages = res.images
+                self?.gallaryImages = Array(self?.gallaryImages?.prefix(2) ?? [])
                 self?.pageControl.numberOfPages = self?.gallaryImages?.count ?? 0
                 self?.pageControl.currentPage = 0
+                
                 self?.pagerView.reloadData()
                 
                 for i in res.categories ?? [] {
@@ -146,14 +152,15 @@ class New_StoreVC: UIViewController {
             case .success(let res):
                 if res.Categoriesdata?.count ?? 0 > 0 {
                     self?.getAllProductsByCategoriesData += res.Categoriesdata ?? []
-
+                     
+                    self?.storeproductquantity.text = "\(res.totalResults ?? 0) Products"
                     // Increment the page numbe
                     self?.categoryPage += 1
                     
                     // Update flag after loading
                     self?.isLoadingNextPage = false
                     
-                    let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 240
+                    let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 290
                     self?.scrollheight.constant = CGFloat( CGFloat(ll) + 900)
                     self?.categoryproduct_collectionview.reloadData()
                 }else {
@@ -215,7 +222,7 @@ class New_StoreVC: UIViewController {
             case .success(let res):
                 print(res)
                 if res.results?.count ?? 0 > 0 {
-                    self?.videoViewHeight.constant = 320
+                    self?.videoViewHeight.constant = 280
                     self?.LiveStreamingResultsdata = res.results ?? []
            
                     self?.videoCollection.reloadData()
@@ -341,14 +348,14 @@ class New_StoreVC: UIViewController {
                 if(error == "Please authenticate" && AppDefault.islogin){
                     DispatchQueue.main.async {
                         appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
-                          let vc = PopupLoginVc.getVC(.popups)
-                        vc.modalPresentationStyle = .overFullScreen
-                        self?.present(vc, animated: true, completion: nil)
+//                          let vc = PopupLoginVc.getVC(.popups)
+//                        vc.modalPresentationStyle = .overFullScreen
+//                        self?.present(vc, animated: true, completion: nil)
                     }
                 }else if(error == "Please authenticate" && AppDefault.islogin == false){
-                      let vc = PopupLoginVc.getVC(.popups)
-                    vc.modalPresentationStyle = .overFullScreen
-                    self?.present(vc, animated: true, completion: nil)
+//                      let vc = PopupLoginVc.getVC(.popups)
+//                    vc.modalPresentationStyle = .overFullScreen
+//                    self?.present(vc, animated: true, completion: nil)
 //                    appDelegate.GotoDashBoard(ischecklogin: true)
                 }
                 else{
@@ -379,23 +386,35 @@ class New_StoreVC: UIViewController {
     @IBAction func callIconBtnTapped(_ sender: Any) {
         
         AppDefault.brandname = brandName ?? ""
-        
-       let vc = AddtocartPopup.getVC(.popups)
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = self.centerTransitioningDelegate
-        vc.img = "video-call"
-        vc.titleText = "Video Call"
-        vc.messageText = "This is a video call, would you like to continue?"
-        vc.leftBtnText = "Cancel"
-        vc.rightBtnText = "Yes, Continue"
-        vc.iscomefor = "video"
-        vc.prductid = self.prductid ?? ""
-        self.present(vc, animated: true, completion: nil)
+        if AppDefault.islogin == true {
+            let vc = AddtocartPopup.getVC(.popups)
+             vc.modalPresentationStyle = .custom
+             vc.transitioningDelegate = self.centerTransitioningDelegate
+             vc.img = "video-call"
+             vc.titleText = "Video Call"
+             vc.messageText = "This is a video call, would you like to continue?"
+             vc.leftBtnText = "Cancel"
+             vc.rightBtnText = "Yes, Continue"
+             vc.iscomefor = "video"
+             vc.prductid = self.sellerID ?? ""
+             self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = PopupLoginVc.getVC(.popups)
+          vc.modalPresentationStyle = .overFullScreen
+          self.present(vc, animated: true, completion: nil)
+        }
+  
         
         }
     
     @IBAction func shareBtn(_ sender: Any) {
         showShareSheet(id:"")
+    }
+    
+    @IBAction func cartbtnTapped(_ sender: Any) {
+        let vc = CartViewController
+            .getVC(.main)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     func showShareSheet(id:String) {
@@ -415,26 +434,21 @@ class New_StoreVC: UIViewController {
     }
     
     @IBAction func videoArrowBtnTapped(_ sender: Any) {
-        let vc = New_SingleVideoview.getVC(.videoStoryBoard)
-        vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
-        vc.indexValue = 0
+        let vc = LIVE_videoNew.getVC(.videoStoryBoard)
+//        vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
+//        vc.indexValue = 0
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
     
 }
 extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == videoCollection{
             return self.LiveStreamingResultsdata.count
         }else if collectionView == shopbycat_collectionview{
             return CategoriesResponsedata.count
-        }
-        
-        else {
+        } else {
             return self.getAllProductsByCategoriesData.count
         }
     }
@@ -485,7 +499,7 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
                 cell.percentBGView.isHidden = true
              }
             
-                
+            cell.cartButton.tag = indexPath.row
                 
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
             
@@ -497,10 +511,6 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     @objc func cartButtonTap(_ sender: UIButton) {
         let data =  self.getAllProductsByCategoriesData[sender.tag]
-
-       
-        
-        
                 if (data.variants?.first?.id == nil) {
                     let vc = CartPopupViewController.getVC(.popups)
                    
@@ -514,10 +524,8 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
                     vc.slugid = data.slug
                     navigationController?.pushViewController(vc, animated: false)
                 }
-        
-        
-
-    }
+          }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
           return  UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
@@ -548,14 +556,12 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
        if collectionView == videoCollection {
-           return CGSize(width: collectionView.frame.size.width/2.3, height: collectionView.frame.size.height)
+           return CGSize(width: collectionView.frame.size.width/2.2, height: collectionView.frame.size.height)
        }else if collectionView == shopbycat_collectionview{
            return CGSize(width: collectionView.frame.width/2.7, height: 160
            )
-       }
-    else {
-            return CGSize(width: collectionView.frame.width/2.12-2, height: 280)
-
+       }else {
+           return CGSize(width: collectionView.frame.width/2.05, height: 280)
         }
     }
 }

@@ -274,6 +274,7 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
             vc.color = "#F7FFF2"
             vc.shopImg = "shop_pak"
             vc.catBGColor = "#F3FDE7"
+            vc.shoptxtColor = "#028E53"
             UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
         }
         

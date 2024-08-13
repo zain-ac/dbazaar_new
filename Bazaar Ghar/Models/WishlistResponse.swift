@@ -8,7 +8,7 @@
 import Foundation
 
 struct WishlistResponse: Codable {
-    let products: [WishlistProduct]?
+    let products: [Product]?
     let user, createdAt, updatedAt: String?
     let v: Int?
     let id: String?

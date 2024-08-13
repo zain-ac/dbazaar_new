@@ -41,7 +41,7 @@ enum Services {
 
 
 
-    case addAddress(fullname:String,phone:String,province:String,city:String,city_code:String,address:String,addressType:String,localType:String,zipCode:String,addressLine_2:String,country:String)
+    case addAddress(fullname:String,phone:String,province:String,city:String,city_code:String,address:String,addressType:String,localType:String,zipCode:String,addressLine_2:String,country:String,area:String)
     case adressdelete(addressId: String)
     case wishList
     case addwishList(product:String)
@@ -74,6 +74,10 @@ enum Services {
     case newishlist(product:String)
     case shopchinaStreamingVideo(origin:String)
     case getprovince(countryCode:String,language:String,checkCache:Bool)
+    
+    case shopchinaproductcategories(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,origin:String)
+
+    
 }
 
 extension Services: TargetType, AccessTokenAuthorizable {
@@ -82,8 +86,10 @@ extension Services: TargetType, AccessTokenAuthorizable {
         switch self {
         case .searchproduct:
             return AppConstants.API.baseURLSearchProduct
-        case .searchVideo, .getStreamingVideos , .getVideoToken, .report , .savelike, .deletelike, .getLike, .getLiveStream ,.getComments,.shopchinaStreamingVideo:
+        case .searchVideo, .getStreamingVideos , .getVideoToken, .savelike, .deletelike, .getLike, .getLiveStream,.shopchinaStreamingVideo:
             return AppConstants.API.baseURLVideoStreaming
+        case .report,.getComments:
+            return AppConstants.API.baseURLVideoStreamingV1
         case .chinesebell:
             return AppConstants.API.baseURLChatNotification
         case .typeSenseApi:
@@ -116,6 +122,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case .getAllCategories:
             return "categories/getAllCategories"
         case .productcategories(_,_,_,_,_) :
+            return "products/categories"
+        case .shopchinaproductcategories(_,_,_,_,_,_):
             return "products/categories"
         case .randomproduct:
             return "products/getRandomProducts"
@@ -226,7 +234,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
     
     var method: Moya.Method {
         switch self {
-        case .banner , .categories, .getcartItems, .productcategories, .randomproduct, .productcategoriesdetails, .getAllProductsByCategories, .searchproduct, .searchstore, .searchVideo,.getAllProductsByCategoriesbyid, .getStreamingVideos, .wishList , .myOrder , .cities, .getaddress,.collectionDataApi, .groupByDeals , .followcheck, .getLiveStream, .getAllCategories,.getSellerDetail,.moreFrom,.shopchinaStreamingVideo,.shopChinarandomproduct,.getprovince:
+        case .banner , .categories, .getcartItems, .productcategories, .randomproduct, .productcategoriesdetails, .getAllProductsByCategories, .searchproduct, .searchstore, .searchVideo,.getAllProductsByCategoriesbyid, .getStreamingVideos, .wishList , .myOrder , .cities, .getaddress,.collectionDataApi, .groupByDeals , .followcheck, .getLiveStream, .getAllCategories,.getSellerDetail,.moreFrom,.shopchinaStreamingVideo,.shopChinarandomproduct,.getprovince,.shopchinaproductcategories:
             return .get
      
         case .adressdelete , .deleteCart:
@@ -264,6 +272,9 @@ extension Services: TargetType, AccessTokenAuthorizable {
                     return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4], encoding: URLEncoding.default)
                 }
             }
+            
+        case let .shopchinaproductcategories(cat, cat2, cat3, cat4, cat5,origin):
+            return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"origin":origin], encoding: URLEncoding.default)
             
         case let .getAllProductsByCategories(limit,page,sortBy,category, _):
             return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default) 
@@ -354,8 +365,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case let .deletePackage(productId: productId, _package: _package):
             return .requestParameters(parameters: ["product": productId,"_package":_package], encoding: JSONEncoding.default)
             
-        case let .addAddress(fullname,phone,province,city,city_code,address,addressType,localType,zipCode,addressLine_2,country):
-            return .requestParameters(parameters: ["fullname": fullname,"phone":phone,"province": province,"city": city,"city_code": city_code,"address": address,"addressType": addressType,"localType": localType,"zipCode": zipCode,"addressLine_2": addressLine_2,"country":country], encoding: JSONEncoding.default)
+        case let .addAddress(fullname,phone,province,city,city_code,address,addressType,localType,zipCode,addressLine_2,country,area):
+            return .requestParameters(parameters: ["fullname": fullname,"phone":phone,"province": province,"city": city,"city_code": city_code,"address": address,"addressType": addressType,"localType": localType,"zipCode": zipCode,"addressLine_2": addressLine_2,"country":country,"area":area], encoding: JSONEncoding.default)
         case let .updateAddress(addressId, fullname, phone, province, city, city_code, address, addressType, localType, zipCode, addressLine_2,country):
             return .requestParameters(parameters: ["fullname": fullname,"phone":phone,"province": province,"city": city,"city_code": city_code,"address": address,"addressType": addressType,"localType": localType,"zipCode": zipCode,"addressLine_2": addressLine_2,"country":country], encoding: JSONEncoding.default)
         case let .addwishList(product):
@@ -436,7 +447,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
     
     var authorizationType: AuthorizationType {
         switch self{
-        case .banner , .categories, .productcategories, .randomproduct, .productcategoriesdetails,.getAllProductsByCategories, .loginwithgoogle, .searchstore,.searchVideo, .getStreamingVideos, .refreshToken, .getvidoebyproductIds , .loginwithOtp ,.collectionDataApi, .loginWithGoogleVerification, .groupByDeals,.appleLogin, .getLiveStream, .getAllCategories,.getSellerDetail,.moreFrom,.shopchinaStreamingVideo,.shopChinarandomproduct,.getprovince:
+        case .banner , .categories, .productcategories, .randomproduct, .productcategoriesdetails,.getAllProductsByCategories, .loginwithgoogle, .searchstore,.searchVideo, .getStreamingVideos, .refreshToken, .getvidoebyproductIds , .loginwithOtp ,.collectionDataApi, .loginWithGoogleVerification, .groupByDeals,.appleLogin, .getLiveStream, .getAllCategories,.getSellerDetail,.moreFrom,.shopchinaStreamingVideo,.shopChinarandomproduct,.getprovince,.shopchinaproductcategories:
             return .none
     
         default:

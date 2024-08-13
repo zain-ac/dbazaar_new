@@ -117,13 +117,17 @@ var count = 0
     var shopImg: String?
     var shoptxtColor:String?
     var catBGColor : String?
-    var LiveStreamingResultsdata: [LiveStreamingResults] = []
+    var LiveStreamingResultsdata: [LiveStreamingResults] = [] {
+        didSet {
+            videoCollection.reloadData()
+        }
+    }
     var kk = 0
     var subCatData: [DatumSubCategory] = [] {
         didSet {
          kk += 150
             if subCatData.count > 0 {
-                self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count) + kk)
+                self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count)) + CGFloat(kk)
                 let hh =  820
                 let ll = ((self.getrandomproductapiModel.count) / 2) * 280
                 let final = hh + ll
@@ -162,10 +166,6 @@ var count = 0
 
         ]
         
-        
-     print(KSA)
-        print(Pak)
-        print(China)
 
         scrollView.delegate = self
         topshoplbl.text = shop
@@ -173,10 +173,7 @@ var count = 0
         shopLblBackgoundView.backgroundColor = UIColor(hex: color ?? "")
         shopImage.image = UIImage(named: shopImg ?? "")
 
-        let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: "#101010"), "beyond boundaries", secondTextColor:  UIColor(hexString: "#2E8BF8"))
-//            .attributedStringWithColoredLastWord(
-//            "".lowercased().capitalized, lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
-        shoplabel.attributedText = attributedText11
+        
         Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 
         pagerView.dataSource = self
@@ -203,17 +200,7 @@ var count = 0
         shopchinaimg = ["Image 120","Image 121","saudi_product_image"]
         nameshopchina = ["Shop China","Shop Pakistan","Shop Saudi"]
         self.becomeFirstResponder()
-//        let jeremyGif = UIImage.gifImageWithName("live_icon_gif")
-//           LiveGif.image = UIImage.gifImageWithName("live_icon_gif")
-//        LiveGif.isUserInteractionEnabled = true
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.touchTapped(_:)))
-//          LiveGif.addGestureRecognizer(tap)
-//        
-////        chatBotGif.image = UIImage(named: "whatsapp 1")
-//        chatBotGif.isUserInteractionEnabled = true
-//     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.touchTapped2(_:)))
-//        chatBotGif.addGestureRecognizer(tap2)
-//  
+ 
         hotDealViewHeight.constant = 0
         hotDealView.isHidden = true
         homeTblView.delegate = self
@@ -230,58 +217,58 @@ var count = 0
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(notification:)), name: Notification.Name("Productid"), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationSubCatUpadate(notification:)), name: Notification.Name("subcatupdate"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationSubCatUpadate(notification:)), name: Notification.Name("subcatupdate"), object: nil)
 //        homeswitchbtn.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         
     }
     
-    @objc func methodOfReceivedNotificationSubCatUpadate(notification: Notification) {
-         let id = notification.userInfo?["id"] as? String
-         let index = notification.userInfo?["index"] as? Int
-         var cinaId1 = "65e82aa5067e0d3f4c5f76c2"
-        var cinaId2 = "65e82aa5067e0d3f4c5f773c"
-        var cinaId3 = "5fe1cbaac05d6b3eb844f6ed"
-
-        var saudiId1 = "604f48f648fcad02d8aaceeb"
-        var saudiId2 = "60c9dce26f0fe647a547713c"
-        var saudiId3 = "61c0665ec59a3763f321635a"
-
-        var pakiId1 = "6038dd317e4d2a1f859d8255"
-        var pakiId2 = "6051de7711747985fdce2faa"
-        var pakiId3 = "6048c62a05ec9502c9f8cde3"
-    
-
-        
-        if shop == "Shop China" {
-            if index == 0 {
-                cinaId1 = id ?? ""
-            }else if index == 1{
-                cinaId2 = id ?? ""
-            }else {
-                cinaId3 = id ?? ""
-            }
-            self.productcategoriesApi(cat: cinaId1, cat2: cinaId2, cat3: cinaId3, cat4: "", cat5: "",isbackground: false)
-
-        }else if shop == "Shop Saudi" {
-            if index == 0 {
-                saudiId1 = id ?? ""
-            }else if index == 1{
-                saudiId2 = id ?? ""
-            }else {
-                saudiId3 = id ?? ""
-            }
-            self.productcategoriesApi(cat: saudiId1, cat2: saudiId2, cat3: saudiId3, cat4: "", cat5: "",isbackground: false)
-        }else {
-            if index == 0 {
-                pakiId1 = id ?? ""
-            }else if index == 1{
-                pakiId2 = id ?? ""
-            }else {
-                pakiId3 = id ?? ""
-            }
-            self.productcategoriesApi(cat: pakiId1, cat2: pakiId2, cat3: pakiId3, cat4: "", cat5: "",isbackground: false)
-        }
-    }
+//    @objc func methodOfReceivedNotificationSubCatUpadate(notification: Notification) {
+//         let id = notification.userInfo?["id"] as? String
+//         let index = notification.userInfo?["index"] as? Int
+//         var cinaId1 = "65e82aa5067e0d3f4c5f76c2"
+//        var cinaId2 = "65e82aa5067e0d3f4c5f773c"
+//        var cinaId3 = "5fe1cbaac05d6b3eb844f6ed"
+//
+//        var saudiId1 = "604f48f648fcad02d8aaceeb"
+//        var saudiId2 = "60c9dce26f0fe647a547713c"
+//        var saudiId3 = "61c0665ec59a3763f321635a"
+//
+//        var pakiId1 = "6038dd317e4d2a1f859d8255"
+//        var pakiId2 = "6051de7711747985fdce2faa"
+//        var pakiId3 = "6048c62a05ec9502c9f8cde3"
+//    
+//
+//        
+//        if shop == "Shop China" {
+//            if index == 0 {
+//                cinaId1 = id ?? ""
+//            }else if index == 1{
+//                cinaId2 = id ?? ""
+//            }else {
+//                cinaId3 = id ?? ""
+//            }
+//            self.productcategoriesApi(cat: cinaId1, cat2: cinaId2, cat3: cinaId3, cat4: "", cat5: "",isbackground: false)
+//
+//        }else if shop == "Shop Saudi" {
+//            if index == 0 {
+//                saudiId1 = id ?? ""
+//            }else if index == 1{
+//                saudiId2 = id ?? ""
+//            }else {
+//                saudiId3 = id ?? ""
+//            }
+//            self.productcategoriesApi(cat: saudiId1, cat2: saudiId2, cat3: saudiId3, cat4: "", cat5: "",isbackground: false)
+//        }else {
+//            if index == 0 {
+//                pakiId1 = id ?? ""
+//            }else if index == 1{
+//                pakiId2 = id ?? ""
+//            }else {
+//                pakiId3 = id ?? ""
+//            }
+//            self.productcategoriesApi(cat: pakiId1, cat2: pakiId2, cat3: pakiId3, cat4: "", cat5: "",isbackground: false)
+//        }
+//    }
     
     private func categoriesApi(isbackground:Bool,id:String) {
         APIServices.categories2(isbackground:isbackground, id: id,completion: {[weak self] data in
@@ -383,7 +370,7 @@ var count = 0
          super.viewWillAppear(animated)
 
         catView.backgroundColor = UIColor(hex: catBGColor ?? "")
-        shoplabel.textColor = UIColor(hex: shoptxtColor ?? "")	
+        shopLbl.textColor =  UIColor(hex: shoptxtColor ?? "")
         if shop == "Shop China" {
             let attributedText1 =  Utility().attributedStringWithColoredLastWord("Gamers Sale", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
             recommendationLbl.attributedText = attributedText1
@@ -391,10 +378,10 @@ var count = 0
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
             CategoriesResponsedata.removeAll()
             for i in China {
-                categoriesApi(isbackground: false, id: i.id ?? "")
+                categoriesApi(isbackground: true, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f76c2", cat2: "65e82aa5067e0d3f4c5f773c", cat3: "5fe1cbaac05d6b3eb844f6ed", cat4: "", cat5: "",isbackground: false)
-            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f76c2", cat2: "65e82aa5067e0d3f4c5f773c", cat3: "5fe1cbaac05d6b3eb844f6ed", cat4: "", cat5: "", origin: "china",isbackground: true)
+            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
             getStreamingVideos(origin: "china")
             getrandomproduct(origin: "china")
 
@@ -407,7 +394,7 @@ var count = 0
             for i in KSA {
                 categoriesApi(isbackground: false, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "604f48f648fcad02d8aaceeb", cat2: "60c9dce26f0fe647a547713c", cat3: "61c0665ec59a3763f321635a", cat4: "", cat5: "",isbackground: false)
+            self.productcategoriesApi(cat: "604f48f648fcad02d8aaceeb", cat2: "60c9dce26f0fe647a547713c", cat3: "61c0665ec59a3763f321635a", cat4: "", cat5: "", origin: "ksa",isbackground: false)
             randomproduct(cat: "60d30fafadf1df13d41b56d5", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
             getStreamingVideos(origin: "ksa")
             getrandomproduct(origin: "ksa")
@@ -421,7 +408,7 @@ var count = 0
             for i in Pak {
                 categoriesApi(isbackground: false, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "6038dd317e4d2a1f859d8255", cat2: "6051de7711747985fdce2faa", cat3: "6048c62a05ec9502c9f8cde3", cat4: "", cat5: "",isbackground: false)
+            self.productcategoriesApi(cat: "6038dd317e4d2a1f859d8255", cat2: "6051de7711747985fdce2faa", cat3: "6048c62a05ec9502c9f8cde3", cat4: "", cat5: "", origin: "pak",isbackground: false)
 
             randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
             getStreamingVideos(origin: "pak")
@@ -436,7 +423,7 @@ var count = 0
 //            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
 //            self.randomproductapiModel = AppDefault.randonproduct ?? []
 //        }else{
-        groupByDeals(limit: 20, page: 1, isbackground: false)
+//        groupByDeals(limit: 20, page: 1, isbackground: false)
         self.bannerApi(isbackground: false)
 //                self.categoriesApi(isbackground: false)
 //        }
@@ -505,12 +492,7 @@ var count = 0
 //        }
         
 //        homeswitchbtn.isOn = false
-        hotDealCollectionV.reloadData()
         
-        imageslidercollectionview.reloadData()
-        topcell_1.reloadData()
-        
-        homeTblView.reloadData()
         self.LanguageRender()
         SocketConeect()
         
@@ -526,7 +508,7 @@ var count = 0
         
     }
     private func getStreamingVideos(origin:String){
-        APIServices.shopchinaStreamingVideo(origin: origin,completion: {[weak self] data in
+        APIServices.shopchinaStreamingVideo(isBackground: false, origin: origin,completion: {[weak self] data in
             switch data{
             case .success(let res):
                 print(res)
@@ -708,7 +690,7 @@ var count = 0
 //        })
 //    }
     
-    private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground:Bool){
+    private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,origin:String,isbackground:Bool){
         APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
@@ -756,7 +738,7 @@ var count = 0
     
     private func getrandomproduct(origin:String){
         load = false
-        APIServices.getrandomproduct(origin: origin,completion: {[weak self] data in
+        APIServices.getrandomproduct(isbackground: true, origin: origin,completion: {[weak self] data in
             switch data{
             case .success(let res):
             
@@ -765,8 +747,8 @@ var count = 0
                     self?.getrandomproductapiModel.append(contentsOf: res)
                 }
                 print(res)
-                self?.tableViewHeight.constant = CGFloat(920 * (self?.ProductCategoriesResponsedata.count ?? 0))
-                
+//                self?.tableViewHeight.constant = CGFloat(920 * (self?.ProductCategoriesResponsedata.count ?? 0))
+//                
                 let hh = 820
                 let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
                 let final = hh + ll
@@ -1035,7 +1017,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Videoscategorycell1", for: indexPath) as! Videoscategorycell
             let data = LiveStreamingResultsdata[indexPath.row]
             cell.productimage.pLoadImage(url: data.thumbnail ?? "")
-            cell.viewslbl.text = "\(data.totalViews ?? 0)"
+            cell.viewslbl.text = "\(data.totalViews ?? 0)  "
             cell.Productname.text = data.brandName
             cell.likeslbl.text = "\(data.like ?? 0)"
                 return cell
@@ -1071,7 +1053,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         } else if collectionView == shoesCollectionView {
             return 10
         }
-        return 0
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

@@ -34,8 +34,8 @@ class NewOrderConfirmation_ViewController: UIViewController {
   var orderDetails: CartItemsResponse?
   var itemCount = 0
   var defaultAdress : DefaultAddress?
-  var methodimgArray = ["cash-on-delivery","cash-on-delivery"]
-  var methodNameArray = ["Alfalah Credit/Debit Card","Cash On Delivery"]
+  var methodimgArray = ["creditcard"]
+  var methodNameArray = ["Credit/Debit Card"]
   var selectedIndex:Int?
   var bannerapidata: [Package] = []
   var cartItems : [CartPackageItem] = []
@@ -45,6 +45,11 @@ class NewOrderConfirmation_ViewController: UIViewController {
     paymentmethodtblview.dataSource = self
     ordersummarycollectview.delegate = self
     ordersummarycollectview.dataSource = self
+    entercoupontxt.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+      applybtn.isEnabled = false
+      applybtn.backgroundColor = .gray
+      
+      orderinstructiontxt.delegate = self
     Utility().setGradientBackground(view: headerview, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
 //    Utility().setGradientBackground(view: placeorderbtn, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
     orderinstructiontxt.addPlaceholder("Order Instructions".pLocalized(lang: LanguageManager.language))
@@ -65,16 +70,37 @@ class NewOrderConfirmation_ViewController: UIViewController {
        // Add the button to the view
        view.addSubview(button)
      }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+         if let text = textField.text {
+             if text.count == 5 {
+                 applybtn.isEnabled = true
+                 applybtn.backgroundColor = UIColor(hex: "#06B7FD")
+             }else if text.count < 5 {
+                 applybtn.isEnabled = false
+                 applybtn.backgroundColor = .gray
+             }
+             
+         }
+     }
+
   override func viewWillAppear(_ animated: Bool) {
     tabBarController?.tabBar.isHidden = true
+      navigationController?.navigationBar.isHidden = true
     defaultAdress = AppDefault.currentUser?.defaultAddress
-    homelbl.text = defaultAdress?.addressType
+      if defaultAdress?.localType == "local" {
+          homelbl.text = (defaultAdress?.addressType?.capitalized.uppercased() ?? "") + " - Saudi Arabia".capitalized.uppercased()
+       }else {
+          homelbl.text = (defaultAdress?.addressType?.capitalized.uppercased() ?? "") + " - \(defaultAdress?.localType?.capitalized.uppercased() ?? "")"
+      }
+//    homelbl.text = defaultAdress?.addressType
     addressLbl.text = defaultAdress?.address
+      cartItems.removeAll()
     for i in bannerapidata {
       cartItems += i.packageItems ?? []
     }
     orderSummaryHeight.constant = 320 + CGFloat(cartItems.count * 150)
-    scrollHeight.constant = CGFloat(orderSummaryHeight.constant) + 630
+    scrollHeight.constant = CGFloat(orderSummaryHeight.constant) + 560
     producttotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.retailTotal ?? 0)
     discounttxt.text = "(\(appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.discount ?? 0)))"
     subtotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.subTotal ?? 0)
@@ -100,7 +126,20 @@ class NewOrderConfirmation_ViewController: UIViewController {
     self.navigationController?.pushViewController(vc, animated: false)
   }
   @IBAction func placeorderbtntap(_ sender: Any) {
-    placeOrder(cartId: orderDetails?.id ?? "")
+      
+              if(defaultAdress?.address == nil){
+                  self.view.makeToast("Please Enter Address")
+              }else{
+                  let viewController = Factory.getDefaultPaymentViewController { [weak self] result in
+                   self?.handleTokenResponse(with: result)
+                  }
+                  navigationController?.pushViewController(viewController, animated: false)
+              }
+          
+            
+          
+    
+//    placeOrder(cartId: orderDetails?.id ?? "")
   }
   private func placeOrder(cartId:String){
     APIServices.palceOrder(cartId: cartId){[weak self] data in
@@ -158,20 +197,20 @@ extension NewOrderConfirmation_ViewController:UITableViewDelegate,UITableViewDat
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "Paymentmethod_TableViewCell", for: indexPath) as! Paymentmethod_TableViewCell
     cell.namelbl.text = methodNameArray[indexPath.row]
-    cell.methodImg.setBackgroundImage(UIImage(named: methodimgArray[indexPath.row]), for: .normal)
+    cell.methodImg.setBackgroundImage(UIImage(systemName: methodimgArray[indexPath.row]), for: .normal)
     cell.checkBtn.tag = indexPath.row
     cell.checkBtn.addTarget(self, action: #selector(checkBtnTapped(_:)), for: .touchUpInside)
-    if selectedIndex == nil {
-      if indexPath.row == 1 {
-        cell.checkBtn.setBackgroundImage(UIImage(named: "checked"), for: .normal)
-      }
-    }else {
-      if selectedIndex == indexPath.row {
-        cell.checkBtn.setBackgroundImage(UIImage(named: "checked"), for: .normal)
-      }else {
-        cell.checkBtn.setBackgroundImage(UIImage(named: "uncheck"), for: .normal)
-      }
-    }
+//    if selectedIndex == nil {
+//      if indexPath.row == 1 {
+//        cell.checkBtn.setBackgroundImage(UIImage(named: "checked"), for: .normal)
+//      }
+//    }else {
+//      if selectedIndex == indexPath.row {
+//        cell.checkBtn.setBackgroundImage(UIImage(named: "checked"), for: .normal)
+//      }else {
+//        cell.checkBtn.setBackgroundImage(UIImage(named: "uncheck"), for: .normal)
+//      }
+//    }
     return cell
   }
   private func handleTokenResponse(with result: Result<TokenDetails, TokenRequestError>) {
@@ -211,19 +250,39 @@ extension NewOrderConfirmation_ViewController:UITableViewDelegate,UITableViewDat
   }
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if indexPath.row == 0 {
-      customizeNavigationBarAppearance(backgroundColor: .white, foregroundColor: .black)
-      let viewController = Factory.getDefaultPaymentViewController { [weak self] result in
-       self?.handleTokenResponse(with: result)
-      }
-      navigationController?.pushViewController(viewController, animated: true)
+//      customizeNavigationBarAppearance(backgroundColor: .white, foregroundColor: .black)
+//      let viewController = Factory.getDefaultPaymentViewController { [weak self] result in
+//       self?.handleTokenResponse(with: result)
+//      }
+//      navigationController?.pushViewController(viewController, animated: true)
     }
   }
   @objc func checkBtnTapped(_ sender: UIButton) {
-    print("Button was clicked!")
-    self.selectedIndex = sender.tag
-    paymentmethodtblview.reloadData()
+//    print("Button was clicked!")
+//    self.selectedIndex = sender.tag
+//    paymentmethodtblview.reloadData()
   }
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 60
   }
+}
+
+extension NewOrderConfirmation_ViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if  orderinstructiontxt.text == ""
+           {
+            orderinstructiontxt.showPlaceholder()
+           }
+           else
+           {
+               orderinstructiontxt.hidePlaceholder()
+           }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+         return newText.count < 200
+    }
+
 }

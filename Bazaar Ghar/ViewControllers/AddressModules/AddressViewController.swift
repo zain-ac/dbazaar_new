@@ -143,8 +143,6 @@ extension AddressViewController: UITableViewDelegate, UITableViewDataSource {
            
         }else {
             cell.addressType.text = (data.addressType ?? "") + " - \(data.localType ?? "")"
-            
-
         }
       
         cell.name.text = data.fullname

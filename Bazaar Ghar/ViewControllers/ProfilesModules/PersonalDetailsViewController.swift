@@ -10,7 +10,6 @@ import UIKit
 class PersonalDetailsViewController: UIViewController {
     @IBOutlet weak var personalDetailslbl: UILabel!
     @IBOutlet weak var fullnamelbl: UILabel!
-    @IBOutlet weak var fullnamefeildlbl: UITextField!
     @IBOutlet weak var emaillbl: UILabel!
     @IBOutlet weak var emailfeildlbl: UITextField!
     @IBOutlet weak var savechnageslbl: UIButton!
@@ -24,7 +23,7 @@ class PersonalDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        fullname.delegate = self
         if((self.tabBarController?.tabBar.isHidden) != nil){
             appDelegate.isbutton = true
         }else{
@@ -33,7 +32,7 @@ class PersonalDetailsViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         personalDetailslbl.text = "personaldetails".pLocalized(lang: LanguageManager.language)
         fullnamelbl.text = "fullname".pLocalized(lang: LanguageManager.language)
-        fullnamefeildlbl.placeholder = "fullnamefeild".pLocalized(lang: LanguageManager.language)
+        fullname.placeholder = "fullnamefeild".pLocalized(lang: LanguageManager.language)
         emaillbl.text = "email".pLocalized(lang: LanguageManager.language)
         emailfeildlbl.placeholder = "enteremail".pLocalized(lang: LanguageManager.language)
         savechnageslbl.setTitle("savechanges".pLocalized(lang: LanguageManager.language), for: .normal)
@@ -72,4 +71,16 @@ class PersonalDetailsViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+}
+extension PersonalDetailsViewController: UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            // Get the current text in the text field
+            let currentText = textField.text ?? ""
+            
+            // Create a string with the new text by replacing the range with the new string
+            let updatedText = (currentText as NSString).replacingCharacters(in: range, with: string)
+            
+            // Return true if the new text length is less than or equal to 24, otherwise false
+            return updatedText.count <= 24
+        }
 }

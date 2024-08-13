@@ -123,7 +123,10 @@ func setupSocketHandlers() {
                            let chatMessage = try JSONDecoder().decode(CommentsData.self, from: jsonData)
                            self.commentsData?.append(chatMessage)
                            self.commentTblV.reloadData()
-                           self.commentTblV.scrollToBottom()// Reload the table view to display the new comment
+                           if(self.commentsData?.count != 0){
+                               self.commentTblV.scrollToBottom()
+                           }
+                       // Reload the table view to display the new comment
                        } catch {
                            print("Error parsing chat message: \(error)")
                        }

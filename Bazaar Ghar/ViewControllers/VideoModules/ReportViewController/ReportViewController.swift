@@ -11,6 +11,7 @@ class ReportViewController: UIViewController  {
 
     @IBOutlet weak var reportTblV : UITableView!
 
+    @IBOutlet weak var reasonTF: UITextField!
     
     var nameArray = ["Copyright","Fake Content","Nudity","Violence","Harassment","Spam","Unauthorized","Hate speech","Somthing else"]
     
@@ -21,7 +22,10 @@ class ReportViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.isModalInPresentation = true
-
+        reasonTF.attributedPlaceholder = NSAttributedString(
+                  string: "Reasons",
+                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+              )
         reportTblV.register(UINib(nibName: "ReportTableViewCell", bundle: nil), forCellReuseIdentifier: "ReportTableViewCell")
 
     }
@@ -73,9 +77,10 @@ extension ReportViewController: UITableViewDelegate,UITableViewDataSource {
         cell.lbl.text = nameArray[indexPath.row]
         
         if indexPath.row == selectedRow {
-                    cell.img.image = UIImage(named: "selectedRadioBlue") // Replace with your checked checkbox image
+                    cell.img.image = UIImage(named: "radio-button-svgrepo-com") // Replace with your checked checkbox image
                 } else {
-                    cell.img.image = UIImage(named: "radioBlue") // Replace with your unchecked checkbox image
+                    cell.img.tintColor = UIColor(hex: "#069DDD")
+                    cell.img.image = UIImage(systemName: "circle") // Replace with your unchecked checkbox image
                 }
         return cell
     }
@@ -86,14 +91,14 @@ extension ReportViewController: UITableViewDelegate,UITableViewDataSource {
                    let previouslySelectedIndexPath = IndexPath(row: selectedRow, section: 0)
                    if let previouslySelectedCell = tableView.cellForRow(at: previouslySelectedIndexPath) as? ReportTableViewCell {
                        // Update the checkbox image for the previously selected cell to unchecked
-                       previouslySelectedCell.img.image = UIImage(named: "radioBlue") // Replace with your unchecked checkbox image
+                       previouslySelectedCell.img.image = UIImage(systemName: "circle") // Replace with your unchecked checkbox image
                    }
                }
 
                // Update the selected row and change the checkbox image for the selected cell
                selectedRow = indexPath.row
                let selectedCell = tableView.cellForRow(at: indexPath) as! ReportTableViewCell
-               selectedCell.img.image = UIImage(named: "selectedRadioBlue") // Replace with your checked checkbox image
+               selectedCell.img.image = UIImage(named: "radio-button-svgrepo-com") // Replace with your checked checkbox image
 
                // Reload the selected cell to update the checkbox image
                tableView.reloadRows(at: [indexPath], with: .none)

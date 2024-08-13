@@ -9,12 +9,14 @@ import UIKit
 
 class wishlist_vc: UIViewController {
     
-    var wishListItems: [WishlistProduct] = []
+    var wishListItems: [Product] = []
     @IBOutlet weak var wishlistcollection: UICollectionView!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var wishlistLbl: UILabel!
     @IBOutlet weak var emptyview: UIView!
     @IBOutlet weak var emptylbl: UILabel!
+
+    let centerTransitioningDelegate = CenterTransitioningDelegate()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +30,18 @@ class wishlist_vc: UIViewController {
         
         self.emptyview.isHidden = true
 
-        wishlistcollection.delegate = self
-        wishlistcollection.dataSource  = self
         setupCollectionView()
         // Do any additional setup after loading the view.
     }
+    
+    func setupCollectionView() {
+        let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
+        wishlistcollection.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        wishlistcollection.delegate = self
+        wishlistcollection.dataSource  = self
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         wishList()
         LanguageRender()
@@ -72,15 +81,39 @@ class wishlist_vc: UIViewController {
         }
     }
     
-        
-    
-    func setupCollectionView() {
-                let nib = UINib(nibName: "PRoductCategory_cell", bundle: nil)
-                wishlistcollection.register(nib, forCellWithReuseIdentifier: "PRoductCategory_cell")
-        wishlistcollection.delegate = self
-        wishlistcollection.dataSource = self
+    private func wishListApi(productId:String) {
+        APIServices.newwishlist(product:productId,completion: {[weak self] data in
+          switch data{
+          case .success(let res):
+            print(res)
+    //        if(res == "OK"){
+    //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+    //          button.tintColor = .red
+    //
+    //        }else{
+    //          button.setImage(UIImage(systemName: "heart"), for: .normal)
+    //          button.tintColor = .gray
+    //
+    //        }
+              self?.wishList()
+          case .failure(let error):
+            print(error)
+              if error == "Please authenticate" {
+                  if AppDefault.islogin{
+                      
+                  }else{
+//                       DispatchQueue.main.async {
+//                          self.selectedIndex = 0
+//                       }
+                        let vc = PopupLoginVc.getVC(.popups)
+                      vc.modalPresentationStyle = .overFullScreen
+                      self?.present(vc, animated: true, completion: nil)
+                  }
+              }
+          }
+        })
+      }
 
-            }
     
     
     @IBAction func backBtnTapped(_ sender: Any) {
@@ -97,32 +130,86 @@ extension wishlist_vc:UICollectionViewDelegate,UICollectionViewDataSource,UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PRoductCategory_cell", for: indexPath) as! PRoductCategory_cell
-       let data =  self.wishListItems[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
+        let data = wishListItems[indexPath.row]
+        Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        cell.product = data
         cell.productimage.pLoadImage(url: data.mainImage ?? "")
-        cell.productname.text = data.productName
-        
         if LanguageManager.language == "ar"{
-            cell.productname.text  = data.category?.lang?.ar?.name
+            cell.productname.text = data.lang?.ar?.productName
         }else{
-            cell.productname.text = data.productName
+            cell.productname.text =  data.productName
         }
+
         if data.onSale == true {
             cell.discountPrice.isHidden = false
-            cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0)
+            cell.productPrice.isHidden = false
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+            cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
             cell.productPriceLine.isHidden = false
-            cell.productPrice.textColor = UIColor.systemGray3
+            cell.productPrice.textColor = UIColor.red
+            cell.productPriceLine.backgroundColor = UIColor.red
+            cell.percentBGView.isHidden = false
 
         }else {
-            cell.discountPrice.isHidden = true
             cell.productPriceLine.isHidden = true
-            cell.productPrice.textColor = UIColor.black
-        }
-        cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+            cell.productPrice.isHidden = true
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+            cell.percentBGView.isHidden = true
+         }
         
-
+        cell.heartBtn.tag = indexPath.row
+        cell.cartButton.tag = indexPath.row
+        cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+        cell.heartBtn.addTarget(self, action: #selector(homeLatestMobileheartButtonTap(_:)), for: .touchUpInside)
+        
+        if let wishlistProducts = AppDefault.wishlistproduct {
+                if wishlistProducts.contains(where: { $0.id == data.id }) {
+                  cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                  cell.heartBtn.tintColor = .red
+                } else {
+                  cell.backgroundColor = .white
+                  cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                  cell.heartBtn.tintColor = .white
+                }
+              }
+        
         return cell
     }
+    @objc func cartButtonTap(_ sender: UIButton) {
+        let data = wishListItems[sender.tag]
+        
+        if (data.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.popups)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.productStoryBoard)
+            vc.slugid = data.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
+
+    }
+    
+    @objc func homeLatestMobileheartButtonTap(_ sender: UIButton) {
+        if(AppDefault.islogin){
+              let index = sender.tag
+              let item = wishListItems[index]
+            if item.id == nil {
+                self.wishListApi(productId: (item._id ?? ""))
+            }else {
+                self.wishListApi(productId: (item.id ?? ""))
+            }            }else{
+                let vc = PopupLoginVc.getVC(.popups)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
+    }
+
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let data =  self.wishListItems[indexPath.row]
@@ -134,7 +221,7 @@ extension wishlist_vc:UICollectionViewDelegate,UICollectionViewDataSource,UIColl
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: self.wishlistcollection.frame.width/2.1-2,
-                      height: self.wishlistcollection.frame.height/2.9)
+                      height: 280)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

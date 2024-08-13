@@ -343,7 +343,7 @@ struct Ratings: Codable {
 
 // MARK: - SellerDetail
 struct SellerDetail: Codable {
-    let brandName, seller, slug, id: String?
+    let brandName, seller, slug, id , logo: String?
     
    
 }
@@ -1459,123 +1459,6 @@ struct FluffyAr: Codable {
 }
 
 // MARK: - PurpleSubCategory
-struct PurppleSubCategory: Codable {
-    let gallery: [String]?
-    let type: String?
-    let attributes: [String]?
-    let attributeRequired: Bool?
-    let platform: Platform?
-    let name: String?
-    let commission: Int?
-    let mainCategory, createdAt: String?
-    let updatedAt: String?
-    let v: Int?
-    let description: String?
-    let mainImage: String?
-    let slug: String?
-    let categorySpecs: DatumCategorySpecs?
-    let lang: PurpleLang?
-    let subCategories: [FlufffySubCategory]?
-    let id: String?
-    let products: Int?
-    let deleted: Bool?
-    let bannerImage: String?
-    let videoCount: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case gallery, type, attributes, attributeRequired, platform, name, commission, mainCategory, createdAt, updatedAt
-        case v = "__v"
-        case description, mainImage, slug, categorySpecs, lang, subCategories, id, products, deleted, bannerImage, videoCount
-    }
-}
-
-// MARK: - FluffySubCategory
-struct FlufffySubCategory: Codable {
-    let gallery: [String]?
-    let type: String?
-    let attributes: [String]?
-    let attributeRequired: Bool?
-    let platform: Platform?
-    let name, mainCategory: String?
-    let v: Int?
-    let createdAt: String?
-    let updatedAt: String?
-    let slug: String?
-    let lang: FluffyLang?
-    let categorySpecs: PurpleCategorySpecs?
-    let subCategories: [String]?
-    let id: String?
-
-    enum CodingKeys: String, CodingKey {
-        case gallery, type, attributes, attributeRequired, platform, name, mainCategory
-        case v = "__v"
-        case createdAt, updatedAt, slug, lang, categorySpecs, subCategories, id
-    }
-}
-
-// MARK: - PurpleCategorySpecs
-struct PurpleCategorySpecs: Codable {
-    let productsCount: Int?
-    let active: Bool?
-    let id: String?
-
-    enum CodingKeys: String, CodingKey {
-        case productsCount, active
-        case id = "_id"
-    }
-}
-
-// MARK: - FluffyLang
-struct FluffyLang: Codable {
-    let ar: TentacledAr?
-}
-
-// MARK: - TentacledAr
-struct TentacledAr: Codable {
-    let name: String?
-}
-
-//struct latestMobileDataModel: Codable {
-//    let name, id, slug: String?
-//    let lang: DatumLang?
-//    let products: [Product]?
-//    let wideBannerImage: String?
-//}
-
-// MARK: - DatumLang
-struct DatumLangg: Codable {
-    let ar: PurpleAr?
-}
-
-// MARK: - PurpleAr
-struct PurpleArr: Codable {
-    let name, description: String?
-}
-
-// MARK: - Product
-struct latestMobileDataModel: Codable {
-    let featured, onSale, isVariable: Bool?
-    let productName: String?
-    let regularPrice: Double?
-    let salePrice: Double?
-    let quantity: Int?
-    let mainImage: String?
-    let slug: String?
-    let price: Double?
-    let variants: [Variant]?
-    let id: String?
-    let lang: ProductLangg?
-}
-
-// MARK: - ProductLang
-struct ProductLangg: Codable {
-    let ar: FluffyAr?
-}
-
-// MARK: - FluffyAr
-struct FluffyArr: Codable {
-    let productName, description: String?
-}
 
 
 // comments model

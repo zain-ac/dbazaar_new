@@ -50,7 +50,7 @@ class HomeTableViewCell: UITableViewCell {
     
     
     var index:Int?
-
+    var selectedIndex = 0
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -145,6 +145,18 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             let data = subCatData[indexPath.row]
             cell.catName.text = data.name
             cell.catImg.pLoadImage(url: data.mainImage ?? "")
+            
+            
+            if selectedIndex == indexPath.row {
+                cell.backgroundVieww.backgroundColor = UIColor(hex: "#06B7FD")
+                cell.catName.textColor = .white
+                cell.backgroundVieww.borderWidth = 0
+            }else {
+                cell.backgroundVieww.backgroundColor = .white
+                cell.catName.textColor = .black
+                cell.backgroundVieww.borderWidth = 1
+            }
+            
             return cell
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
@@ -233,13 +245,14 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == subCatCollectionView {
+            selectedIndex = indexPath.row
             let data = subCatData[indexPath.row]
 //            let imageDataDict:[String: Any] = ["id": data.id ?? "", "index": self.index ?? 0]
 //            NotificationCenter.default.post(name: Notification.Name("subcatupdate"), object: nil,userInfo: imageDataDict)
             
             self.productcategoriesApi(cat: data.id ?? "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
 
-            
+            subCatCollectionView.reloadData()
         }else {
             let data = productapi?[indexPath.row]
             let vc = NewProductPageViewController.getVC(.productStoryBoard)

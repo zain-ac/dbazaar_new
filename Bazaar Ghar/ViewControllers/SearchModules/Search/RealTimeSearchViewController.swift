@@ -28,6 +28,11 @@ class RealTimeSearchViewController: UIViewController {
     var StyleModel:  TypeSenseFacetCount? = nil
     var typeSenseData : TypeSenseModel?
     var hits: [TPHit]? = []
+    var searchText: String? {
+        didSet {
+            productcategoriesApi(val: "", str:  searchText ?? "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
+        }
+    }
     @IBOutlet weak var searchFeild: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +90,7 @@ class RealTimeSearchViewController: UIViewController {
         APIServices.typeSenseApi(val:val, txt: str ,facet_by:facet_by,completion: {[weak self] data in
             switch data{
             case .success(let res):
+                self?.hits = []
                 AppDefault.facetFilters = res
                 
                 for item in res.first?.facetCounts ?? []{

@@ -33,6 +33,7 @@ class New_SingleVideoview: UIViewController {
     var indexPath = IndexPath()
     
     var isLiked = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         singlevideotable.dataSource = self
@@ -63,7 +64,7 @@ class New_SingleVideoview: UIViewController {
     }
     
     
-//
+  
     
     func savelike(token:String,scheduleId:String,userId:String,indexPath:IndexPath,id:String, likeId: String){
        APIServices.savelike(token: token, scheduleId: scheduleId, userId: userId){[weak self] data in
@@ -141,6 +142,8 @@ class New_SingleVideoview: UIViewController {
        }
    }
     
+    
+    
 }
 extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -173,12 +176,11 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         
         cell.sharebtn.tag = indexPath.row
         self.indexPath = indexPath
-//        cell.buybtn.addTarget(self, action: #selector(buynowBtnTapped(_:)), for: .touchUpInside)
+        cell.storeId = data.userID ?? ""
         cell.backBtn.mk_addTapHandler { (btn) in
              print("You can use here also directly : \(indexPath.row)")
              self.backBtnTapped(btn: btn, indexPath: indexPath)
         }
-//        cell.volumebtn.addTarget(self, action: #selector(volumebtnTapped(_:)), for: .touchUpInside)
         cell.sharebtn.addTarget(self, action: #selector(shareBtnTapped(_:)), for: .touchUpInside)
 
         cell.exclamationbtn.mk_addTapHandler { (btn) in
@@ -200,6 +202,14 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         cell.commentBtn.mk_addTapHandler { (btn) in
              print("You can use here also directly : \(indexPath.row)")
              self.commentBtnTapped(btn: btn, indexPath: indexPath)
+        }
+        cell.storeBtn.mk_addTapHandler { (btn) in
+             print("You can use here also directly : \(indexPath.row)")
+             self.storeBtnTapped(btn: btn, indexPath: indexPath)
+        }
+        cell.followbtn.mk_addTapHandler { (btn) in
+             print("You can use here also directly : \(indexPath.row)")
+             self.followBtnTapped(btn: btn, indexPath: indexPath)
         }
         
         let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
@@ -359,6 +369,29 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         vc.scheduleId = data.resultID ?? ""
         self.present(vc, animated: true, completion: nil)
     }
+    
+    func storeBtnTapped(btn:UIButton, indexPath:IndexPath) {
+        let data =  LiveStreamingResultsdata[indexPath.row]
+        let vc = New_StoreVC.getVC(.productStoryBoard)
+        vc.prductid = data.userID     //productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+        vc.brandName =  data.brandName        //productcategoriesdetailsdata?.sellerDetail?.brandName ?? ""
+//        vc.gallaryImages = data.        //productcategoriesdetailsdata?.gallery
+        vc.storeId = data.userID ?? ""    //productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
+        vc.sellerID = data.brandID ?? ""
+        self.navigationController?.pushViewController(vc, animated: false)
+
+    }
+    
+    func followBtnTapped(btn:UIButton, indexPath:IndexPath) {
+        let cell = singlevideotable.cellForRow(at: indexPath) as? SingleVideoCell
+        let data =  LiveStreamingResultsdata[indexPath.row]
+        if(cell?.isFollow == true){
+            cell?.unfollowStore(storeId: data.userID ?? "")
+        }else{
+            cell?.followStore(storeId: data.userID ?? "", web: true)
+        }
+    }
+    
     
 //    @objc func volumebtnTapped(_ sender: UIButton) {
 //        let selectedCell = singlevideotable.cellForRow(at: self.indexPath) as! SingleVideoCell

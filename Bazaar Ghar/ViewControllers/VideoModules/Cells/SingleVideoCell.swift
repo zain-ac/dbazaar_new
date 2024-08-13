@@ -55,6 +55,7 @@ class SingleVideoCell: UITableViewCell {
     @IBOutlet weak var viewslbl: UILabel!
     @IBOutlet weak var storeImgView: UIView!
     @IBOutlet weak var commentBtn: UIButton!
+    @IBOutlet weak var storeBtn: UIButton!
 
 
     let centerTransitioningDelegate = CenterTransitioningDelegate()
@@ -113,7 +114,13 @@ class SingleVideoCell: UITableViewCell {
         }
     }
     var likeId = ""
-   
+    var isFollow : Bool?
+    var storeId:String?{
+        didSet {
+            followcheck(storeId: storeId ?? "")
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         hiddenviewheight.constant = 0
@@ -126,6 +133,117 @@ class SingleVideoCell: UITableViewCell {
         
 
        }
+    
+     func unfollowStore(storeId:String){
+        APIServices.unfollowstore(storeId: storeId){[weak self] data in
+            switch data{
+            case .success(let res):
+                if(res == "OK"){
+                    self?.followbtn.setTitle("follow".pLocalized(lang: LanguageManager.language), for: .normal)
+                    self?.isFollow = false
+                }
+             
+              print(res)
+            case .failure(let error):
+                print(error)
+                
+                if(error == "Please authenticate" && AppDefault.islogin){
+                    DispatchQueue.main.async {
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                          let vc = PopupLoginVc.getVC(.popups)
+                        vc.modalPresentationStyle = .overFullScreen
+                        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                    }
+                }else if(error == "Please authenticate" && AppDefault.islogin == false){
+                      let vc = PopupLoginVc.getVC(.popups)
+                    vc.modalPresentationStyle = .overFullScreen
+                    UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+//                    appDelegate.GotoDashBoard(ischecklogin: true)
+                }
+                else{
+//                    if self?.varientSlug != nil {
+//                        print(error)
+//                        self?.view.makeToast(error)
+//                    }else {
+//                        self?.view.makeToast("Please Select Varient")
+//                    }
+                }
+            }
+        }
+    }
+    
+     func followStore(storeId:String,web:Bool){
+        APIServices.followStore(storeId: storeId, web: web){[weak self] data in
+            switch data{
+            case .success(let res):
+                self?.followbtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
+                self?.isFollow = true
+              print(res)
+            case .failure(let error):
+                print(error)
+                
+                if(error == "Please authenticate" && AppDefault.islogin){
+                    DispatchQueue.main.async {
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                          let vc = PopupLoginVc.getVC(.popups)
+                        vc.modalPresentationStyle = .overFullScreen
+                        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                    }
+                }else if(error == "Please authenticate" && AppDefault.islogin == false){
+                      let vc = PopupLoginVc.getVC(.popups)
+                    vc.modalPresentationStyle = .overFullScreen
+                    UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+//                    appDelegate.GotoDashBoard(ischecklogin: true)
+                }
+                else{
+//                    if self?.varientSlug != nil {
+//                        print(error)
+//                        self?.view.makeToast(error)
+//                    }else {
+//                        self?.view.makeToast("Please Select Varient")
+//                    }
+                }            }
+        }
+    }
+    
+    private func followcheck(storeId:String){
+        APIServices.followcheck(storeId: storeId){[weak self] data in
+            switch data{
+            case .success(let res):
+                if(res == "OK"){
+                    self?.followbtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
+                    self?.isFollow = true
+                }else{
+                    self?.followbtn.setTitle("follow".pLocalized(lang: LanguageManager.language), for: .normal)
+                    self?.isFollow = false
+                }
+            case .failure(let error):
+                print(error)
+                
+                if(error == "Please authenticate" && AppDefault.islogin){
+                    DispatchQueue.main.async {
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+//                          let vc = PopupLoginVc.getVC(.popups)
+//                        vc.modalPresentationStyle = .overFullScreen
+//                        self?.present(vc, animated: true, completion: nil)
+                    }
+                }else if(error == "Please authenticate" && AppDefault.islogin == false){
+//                      let vc = PopupLoginVc.getVC(.popups)
+//                    vc.modalPresentationStyle = .overFullScreen
+//                    self?.present(vc, animated: true, completion: nil)
+//                    appDelegate.GotoDashBoard(ischecklogin: true)
+                }
+                else{
+//                    if self?.varientSlug != nil {
+//                        print(error)
+//                        self?.view.makeToast(error)
+//                    }else {
+//                        self?.view.makeToast("Please Select Varient")
+//                    }
+                }
+            }
+        }
+    }
     
     
     @objc func hideandshow(notification: Notification) {

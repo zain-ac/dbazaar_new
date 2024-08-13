@@ -71,13 +71,23 @@ struct AppConstants {
     static var baseURLVideoStreaming: URL {
       switch AppConstants.API.environment{
         case .live:
-          return URL(string: "https://apid.bazaarghar.com/streaming/v1/")!
+          return URL(string: "https://apid.bazaarghar.com/streaming/v2/")!
         case .staging:
           return URL(string: "https://apix-stage.bazaarghar.com/streaming/v1/")!
       case.local:
         return URL(string: "http://192.168.1.44:3002/streaming/v1/")!
       }
     }
+      static var baseURLVideoStreamingV1: URL {
+        switch AppConstants.API.environment{
+          case .live:
+            return URL(string: "https://apid.bazaarghar.com/streaming/v1/")!
+          case .staging:
+            return URL(string: "https://apix-stage.bazaarghar.com/streaming/v1/")!
+        case.local:
+          return URL(string: "http://192.168.1.44:3002/streaming/v1/")!
+        }
+      }
     static var baseURLChat: URL {
       switch AppConstants.API.environment{
         case .live:

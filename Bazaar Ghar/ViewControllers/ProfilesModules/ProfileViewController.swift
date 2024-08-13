@@ -117,7 +117,7 @@ class ProfileViewController: UIViewController {
         if(AppDefault.currentUser != nil){
             self.userName.text  = AppDefault.currentUser?.fullname
             self.userEmail.text = AppDefault.currentUser?.email
-            self.walletBalance.text = "PKR " + "\(AppDefault.currentUser?.wallet?.balance ?? 0)"
+            self.walletBalance.text = appDelegate.currencylabel + "\(AppDefault.currentUser?.wallet?.balance ?? 0)"
         }
         wish()
         myOrders()
@@ -144,7 +144,7 @@ class ProfileViewController: UIViewController {
         faqslbl.text = "faqs".pLocalized(lang: LanguageManager.language)
         privacypolicylbl.text = "privacypolicy".pLocalized(lang: LanguageManager.language)
         contactuslbl.text = "contactus".pLocalized(lang: LanguageManager.language)
-        languageLbl.text = "language".pLocalized(lang: LanguageManager.language)
+//        languageLbl.text = "language".pLocalized(lang: LanguageManager.language)
 
            UIView.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
             UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left

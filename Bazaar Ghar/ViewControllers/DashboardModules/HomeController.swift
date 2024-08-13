@@ -222,16 +222,6 @@ var count = 0
             getrandomproduct(isbackground: false)
         }
 
-        if(AppDefault.islogin ){
-            
-            if AppDefault.wishlistproduct != nil{
-                wishList(isbackground: true)
-            }else{
-                wishList(isbackground: false)
-            }
-            
-            
-            }
         if(AppDefault.productcategoriesApi?.count ?? 0 > 0){
             productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: true)
 
@@ -358,6 +348,16 @@ var count = 0
 
         self.navigationController?.isNavigationBarHidden = true
 
+        if(AppDefault.islogin ){
+            
+            if AppDefault.wishlistproduct != nil{
+                wishList(isbackground: true)
+            }else{
+                wishList(isbackground: false)
+            }
+            
+            
+            }
 
 //        if(AppDefault.groupbydealdata?.count ?? 0 > 0){
 //            groupByDeals(limit: 20, page: 1, isbackground: true)
@@ -401,7 +401,7 @@ var count = 0
  
 
         shopByCatLbl.text = "shopbycategories".pLocalized(lang: LanguageManager.language)
-        shoplabel.text = "shopbeyoundboundaries".pLocalized(lang: LanguageManager.language)
+//        shoplabel.text = "shopbeyoundboundaries".pLocalized(lang: LanguageManager.language)
 //        trendingproductlbl.text = "Trendingproducts".pLocalized(lang: LanguageManager.language)
         topcategorieslbl.text = "topcategories".pLocalized(lang: LanguageManager.language)
         langLbl.text = "language".pLocalized(lang: LanguageManager.language)
@@ -906,15 +906,15 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == homeLastProductCollectionView {
             return 8
-
+        }else if collectionView == lastRandomProductsCollectionView {
+            return 8
         }
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        if collectionView == homeLastProductCollectionView {
+        if collectionView == homeLastProductCollectionView  {
             return 5
-
         }
         return 0
     }

@@ -220,7 +220,6 @@
                         <outlet property="emailfeildlbl" destination="EuM-se-dpc" id="egi-KQ-hM2"/>
                         <outlet property="emaillbl" destination="E1z-RS-XIg" id="Rhc-C8-bqR"/>
                         <outlet property="fullname" destination="KeL-FB-OB4" id="Xh9-uT-Zzj"/>
-                        <outlet property="fullnamefeildlbl" destination="KeL-FB-OB4" id="lJW-IH-Oyz"/>
                         <outlet property="fullnamelbl" destination="ci2-pD-nVv" id="NFJ-PU-Aps"/>
                         <outlet property="personalDetailslbl" destination="gP2-Gh-mWz" id="dLj-3u-ED0"/>
                         <outlet property="savechnageslbl" destination="DO7-s2-ruv" id="rvn-JF-k2I"/>
@@ -233,7 +232,7 @@
         <!--My WalletVC-->
         <scene sceneID="Ozp-NH-Glj">
             <objects>
-                <viewController storyboardIdentifier="MyWallet_VC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rfM-UC-soC" customClass="MyWallet_VC" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyWallet_VC" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rfM-UC-soC" customClass="MyWallet_VC" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0CX-1v-itC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -284,7 +283,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PKR 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lSW-O6-dfe">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SAR 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lSW-O6-dfe">
                                                 <rect key="frame" x="307" y="21" width="36" height="17"/>
                                                 <fontDescription key="fontDescription" name="Poppins-Bold" family="Poppins" pointSize="12"/>
                                                 <nil key="textColor"/>
@@ -352,7 +351,7 @@
         <!--Address View Controller-->
         <scene sceneID="A2S-c4-T9G">
             <objects>
-                <viewController storyboardIdentifier="AddressViewController" id="tbh-Qo-5A1" customClass="AddressViewController" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddressViewController" hidesBottomBarWhenPushed="YES" id="tbh-Qo-5A1" customClass="AddressViewController" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gJG-sO-XqX">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -654,7 +653,7 @@
         <!--wishlist_vc-->
         <scene sceneID="0Wd-p6-3xA">
             <objects>
-                <viewController storyboardIdentifier="wishlist_vc" title="wishlist_vc" id="rDE-Ua-T75" customClass="wishlist_vc" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="wishlist_vc" title="wishlist_vc" hidesBottomBarWhenPushed="YES" id="rDE-Ua-T75" customClass="wishlist_vc" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="d26-7o-wel">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -766,7 +765,7 @@
         <!--Add Address View Controller-->
         <scene sceneID="2Ie-Yb-DgZ">
             <objects>
-                <viewController storyboardIdentifier="AddAddressViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WUL-o1-2sf" customClass="AddAddressViewController" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddAddressViewController" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WUL-o1-2sf" customClass="AddAddressViewController" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LFe-m2-rnX">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

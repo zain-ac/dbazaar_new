@@ -139,7 +139,8 @@ class CartViewController: UIViewController {
                     self?.priceView.isHidden = false
                     self?.checkoutbuttonView.isHidden = false
                 }
-//                self?.cartchargesmessagelbl.text = "Shipping Charges in Saudia are \(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.shippmentCharges ?? 0)) per package" //"cartchargesmessage".pLocalized(lang: LanguageManager.language)
+//                self?.cartchargesmessagelbl.text = "Shipping Charges in Saudia Arabia are \(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.shippmentCharges ?? 0)) per package" //"cartchargesmessage".pLocalized(lang: LanguageManager.language)
+                self?.cartchargesmessagelbl.text = "Shipping Charges in Saudia Arabia are SAR: 30.0 per package"
 
                 self?.subTotal.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.subTotal ?? 0) //Utility().convertAmountInComma("\(res.subTotal ?? 0)")
                 self?.total.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.total ?? 0) //Utility().convertAmountInComma("\(res.total ?? 0)")
@@ -149,7 +150,10 @@ class CartViewController: UIViewController {
                 print(error)
                 self?.emptyCart.isHidden = false
                 if(error == "Please authenticate" && AppDefault.islogin){
-                     appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+//                     appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                    let vc = PopupLoginVc.getVC(.popups)
+                  vc.modalPresentationStyle = .overFullScreen
+                  self?.present(vc, animated: true, completion: nil)
                  }else{
                      self?.view.makeToast(error)
                  }

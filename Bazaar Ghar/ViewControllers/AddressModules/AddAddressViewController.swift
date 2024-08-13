@@ -248,6 +248,18 @@ class AddAddressViewController: UIViewController {
     }
     
     func validate() -> Bool {
+        if citlbl.text == "" {
+            view.makeToast("city is required")
+            return false
+        }else {
+            cityValidationImg.isHidden = true
+        }
+        if arealbl.text == "" {
+            view.makeToast("area is required")
+            return false
+        }else {
+            cityValidationImg.isHidden = true
+        }
         if fullnameTF.text == "" {
 //            fullnameValidationImg.isHidden = false
             view.makeToast("fullName is required")
@@ -385,8 +397,8 @@ class AddAddressViewController: UIViewController {
     }
     
     
-    private func addAddress(fullname:String,phone:String,province:String,city:String,city_code:String,address:String,addressType:String,localType:String,zipCode:String,addressLine_2:String,country:String){
-        APIServices.addAddress(fullname: fullname, phone: phone, province: province, city: city, city_code: city_code, address: address, addressType: addressType, localType: localType, zipCode: zipCode, addressLine_2: addressLine_2, country: country){[weak self] data in
+    private func addAddress(fullname:String,phone:String,province:String,city:String,city_code:String,address:String,addressType:String,localType:String,zipCode:String,addressLine_2:String,country:String,area:String){
+        APIServices.addAddress(fullname: fullname, phone: phone, province: province, city: city, city_code: city_code, address: address, addressType: addressType, localType: localType, zipCode: zipCode, addressLine_2: addressLine_2, country: country, area: area){[weak self] data in
             switch data{
             case .success(let res):
                     self?.defaultAddress = res
@@ -536,10 +548,18 @@ class AddAddressViewController: UIViewController {
         
         if(validate()) {
             if(isComeChange) {
-                updateAddress(addressId: addressID,fullname: fullnameTF.text ?? "", phone: "\(mobileNumberTF.text ?? "")", province: "Punjab", city: cityy , city_code: "+966", address: address1TF.text ?? "", addressType: addressType, localType: localType, zipCode: zipCodeTF.text ?? "", addressLine_2: address2TF.text ?? "", country: countryLbl.text ?? "")
+                if AppDefault.cartId == nil {
+                    view.makeToast("Make sure you have atleast 1 item in a cart")
+                }else {
+                    updateAddress(addressId: addressID,fullname: fullnameTF.text ?? "", phone: "\(mobileNumberTF.text ?? "")", province: "Punjab", city: citlbl.text ?? "" , city_code: "+966", address: address1TF.text ?? "", addressType: addressType, localType: localType, zipCode: zipCodeTF.text ?? "", addressLine_2: address2TF.text ?? "", country: countryLbl.text ?? "")
+                }
             }else {
-                addAddress(fullname: fullnameTF.text ?? "", phone: "+966\(mobileNumberTF.text ?? "")", province: "Punjab", city: cityy , city_code: "+966", address: address1TF.text ?? "", addressType: addressType, localType: localType, zipCode: zipCodeTF.text ?? "", addressLine_2: address2TF.text ?? "", country: countryLbl.text ?? "")
-
+                if AppDefault.cartId == nil {
+                    view.makeToast("Make sure you have atleast 1 item in a cart")
+                }else {
+                    addAddress(fullname: fullnameTF.text ?? "", phone: "+966\(mobileNumberTF.text ?? "")", province: "Punjab", city: citlbl.text ?? "" , city_code: "+966", address: address1TF.text ?? "", addressType: addressType, localType: localType, zipCode: zipCodeTF.text ?? "", addressLine_2: address2TF.text ?? "", country: countryLbl.text ?? "",area: arealbl.text ?? "")
+                    
+                }
             }
 
         } else {}

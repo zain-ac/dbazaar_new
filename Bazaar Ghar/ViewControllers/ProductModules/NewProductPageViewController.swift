@@ -8,7 +8,7 @@
 import UIKit
 import FSPagerView
 
-class NewProductPageViewController: UIViewController {
+class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var producttitle: UILabel!
     @IBOutlet weak var deliveryTableView: UITableView!
     @IBOutlet weak var pagerView: FSPagerView!
@@ -50,6 +50,8 @@ class NewProductPageViewController: UIViewController {
     @IBOutlet weak var cartBtnLbl: UILabel!
     @IBOutlet weak var cartBtnView: UIView!
     @IBOutlet weak var heartBtn: UIButton!
+    @IBOutlet weak var percentView: UIView!
+    @IBOutlet weak var showMoreBtn: UIButton!
 
     var productCount = 1
     var incrementproductCount = 1
@@ -87,8 +89,13 @@ class NewProductPageViewController: UIViewController {
     var relatedProductResponse: [Product] = []
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
 
+
+    var isTextExpanded = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        showMoreBtn.setTitle("Show More", for: .normal)
+        showMoreBtn.addTarget(self, action: #selector(toggleDescription), for: .touchUpInside)
         if((self.tabBarController?.tabBar.isHidden) != nil){
             appDelegate.isbutton = true
         }else{
@@ -105,6 +112,13 @@ class NewProductPageViewController: UIViewController {
     
     }
     
+    @objc func toggleDescription() {
+         isTextExpanded.toggle()
+         
+         // Toggle number of lines and button title
+         DescriptionProduct.numberOfLines = isTextExpanded ? 0 : 2
+        showMoreBtn.setTitle(isTextExpanded ? "Show Less" : "Show More", for: .normal)
+     }
     func setupCollectionView() {
         let nib = UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil)
         moreFrom.register(nib, forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
@@ -141,8 +155,8 @@ class NewProductPageViewController: UIViewController {
                       self?.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
                       self?.heartBtn.tintColor = .red
                       } else {
-                          self?.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-                          self?.heartBtn.tintColor = .white
+                          self?.heartBtn.setImage(UIImage(named: "shareIcon"), for: .normal)
+                          self?.heartBtn.tintColor = UIColor(hex: "#069DDD")
                       }
                     }
 
@@ -190,6 +204,9 @@ class NewProductPageViewController: UIViewController {
               vc.modalPresentationStyle = .overFullScreen
               self.present(vc, animated: true, completion: nil)
             }
+    }
+    @IBAction func chatBtnTapped(_ sender: Any) {
+     
     }
     
     @IBAction func viewstorebtn(_ sender: Any) {
@@ -279,7 +296,7 @@ class NewProductPageViewController: UIViewController {
                 }else {
                     self?.relatedProductView.isHidden = true
                     self?.relatedProductViewHeight.constant = 0
-                    self?.scrollHeight.constant = 2300
+                    self?.scrollHeight.constant = 2200 + (self?.varientViewHeight.constant ?? 0)
 
                 }
                 
@@ -495,11 +512,24 @@ class NewProductPageViewController: UIViewController {
             switch data{
             case .success(let res):
               print(res)
-                self?.scrollHeight.constant = 2300
 
                 self?.productcategoriesdetailsdata = res
 
-                self?.headerLbl.text = res.productName
+                
+                if res.attributes?.count == 0 {
+                        self?.varientViewHeight.constant = 0
+                    }else {
+                        self?.varientViewHeight.constant = CGFloat((res.attributes?.count ?? 0) * 90)
+                    }
+                
+                self?.scrollHeight.constant = 2200 +  (self?.varientViewHeight.constant ?? 0)
+                
+                self?.headerLbl.text = res.sellerDetail?.brandName
+                if res.salePrice == nil || res.salePrice == 0 {
+                    self?.percentView.isHidden = true
+                }else {
+                    self?.percentView.isHidden = false
+                }
                 self?.mainImage = res.mainImage
                 if(res.gallery?.count == 0){
                     self!.gallaryImages?.append(res.mainImage ?? "")
@@ -522,7 +552,11 @@ class NewProductPageViewController: UIViewController {
                     self?.producttitle.text = res.productName
                 }
                 self?.storename.text = res.sellerDetail?.brandName
-                self?.storeimg.pLoadImage(url: res.mainImage ?? "")
+                if res.sellerDetail?.logo == nil {
+                    self?.storeimg.image = UIImage(named: "homebazarimg")
+                } else {
+                    self?.storeimg.pLoadImage(url: res.sellerDetail?.logo ?? "")
+                }
                 self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
                 if res.onSale == true {
                     self?.Salesprice.isHidden = false
@@ -637,13 +671,8 @@ class NewProductPageViewController: UIViewController {
                 self?.scrollHeight.constant =  (self?.scrollHeight.constant ?? 0) + (self?.DescriptionProduct.bounds.height ?? 0)
                 self?.varientsTblV.reloadData()
                 
-//                if res.mainAttributes == nil {
-//                    self?.varientViewHeight.constant = 0
-//                }else if res.attributes == nil {
-//                    self?.varientViewHeight.constant = 0
-//                }else {
-//                    self?.varientViewHeight.constant = 100
-//                }
+           
+
                 
                 if let wishlistProducts = AppDefault.wishlistproduct {
                     if wishlistProducts.contains(where: { $0.id == self?.productcategoriesdetailsdata?.welcomeID }) {
@@ -910,70 +939,82 @@ extension NewProductPageViewController: FSPagerViewDataSource, FSPagerViewDelega
     }
     
     func showImagePreview(_ image: UIImage) {
-        // Create the image preview view controller
-        let imagePreviewVC = UIViewController()
-        
-        // Create a semi-transparent background view
-        let backgroundView = UIView(frame: imagePreviewVC.view.bounds)
-        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        imagePreviewVC.view.addSubview(backgroundView)
-        
-        // Create a container view to hold the image and allow it to be centered
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400))
-        containerView.center = imagePreviewVC.view.center
-        containerView.backgroundColor = .clear
-        imagePreviewVC.view.addSubview(containerView)
-        
-        // Create a scroll view to enable zooming
-        let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400))
-        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        scrollView.delegate = self
-        scrollView.minimumZoomScale = 1.0
-        scrollView.maximumZoomScale = 5.0
-        containerView.addSubview(scrollView)
-        
-        // Configure image view
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        imageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400)
-        scrollView.addSubview(imageView)
-        
-        // Set up zooming properties for the scroll view
-        scrollView.contentSize = imageView.frame.size
-        
-        // Add double tap gesture recognizer for zooming
-        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapGesture(_:)))
-            doubleTapGesture.numberOfTapsRequired = 2
-            imageView.addGestureRecognizer(doubleTapGesture)
-            imageView.isUserInteractionEnabled = true
-        
-        // Add cross button
-        let closeButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeImagePreview))
-        imagePreviewVC.navigationItem.rightBarButtonItem = closeButton
-        imagePreviewVC.navigationItem.rightBarButtonItem?.tintColor = .white
-        
-        // Present image preview view controller
-        let navController = UINavigationController(rootViewController: imagePreviewVC)
-        navController.modalPresentationStyle = .overFullScreen
-        present(navController, animated: true, completion: nil)
-        
-    }
-    
-    @objc func handleDoubleTapGesture(_ sender: UITapGestureRecognizer) {
-        guard let scrollView = sender.view?.superview as? UIScrollView else { return }
-        
-        if scrollView.zoomScale == scrollView.minimumZoomScale {
-            // Zoom in if the current zoom scale is minimum
-            let center = sender.location(in: scrollView)
-            let zoomRect = CGRect(x: center.x, y: center.y, width: 1, height: 1)
-            scrollView.zoom(to: zoomRect, animated: true)
-        } else {
-            // Zoom out if the current zoom scale is not minimum
-            scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
-        }
-    }
-    
-
+           let imagePreviewVC = UIViewController()
+           
+           let backgroundView = UIView(frame: imagePreviewVC.view.bounds)
+           backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+           imagePreviewVC.view.addSubview(backgroundView)
+           
+           let containerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400))
+           containerView.center = imagePreviewVC.view.center
+           containerView.backgroundColor = .clear
+           imagePreviewVC.view.addSubview(containerView)
+           
+           let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400))
+           scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+           scrollView.delegate = self
+           scrollView.minimumZoomScale = 1.0
+           scrollView.maximumZoomScale = 5.0
+           containerView.addSubview(scrollView)
+           
+           let imageView = UIImageView(image: image)
+           imageView.contentMode = .scaleAspectFit
+           imageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400)
+           scrollView.addSubview(imageView)
+           
+           scrollView.contentSize = imageView.frame.size
+           
+           // Add double-tap gesture recognizer for zooming
+           let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapGesture(_:)))
+           doubleTapGesture.numberOfTapsRequired = 2
+           scrollView.addGestureRecognizer(doubleTapGesture)
+           
+           imageView.isUserInteractionEnabled = true
+           
+//           let closeButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeImagePreview))
+//           imagePreviewVC.navigationItem.rightBarButtonItem = closeButton
+//           imagePreviewVC.navigationItem.rightBarButtonItem?.tintColor = .white
+           
+           let tap = UITapGestureRecognizer(target: self, action: #selector(closeImagePreview))
+           backgroundView.addGestureRecognizer(tap)
+           
+           let navController = UINavigationController(rootViewController: imagePreviewVC)
+           navController.modalPresentationStyle = .overFullScreen
+           present(navController, animated: true, completion: nil)
+       }
+       
+       @objc func handleDoubleTapGesture(_ sender: UITapGestureRecognizer) {
+           guard let scrollView = sender.view?.superview as? UIScrollView else { return }
+           
+           if scrollView.zoomScale == scrollView.minimumZoomScale {
+               let tapPoint = sender.location(in: sender.view)
+               let zoomRect = zoomRectForScale(scale: scrollView.maximumZoomScale, center: tapPoint, in: scrollView)
+               scrollView.zoom(to: zoomRect, animated: true)
+           } else {
+               scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+           }
+       }
+       
+       func zoomRectForScale(scale: CGFloat, center: CGPoint, in scrollView: UIScrollView) -> CGRect {
+           var zoomRect = CGRect()
+           let size = CGSize(
+               width: scrollView.frame.size.width / scale,
+               height: scrollView.frame.size.height / scale
+           )
+           
+           zoomRect.size = size
+           zoomRect.origin = CGPoint(
+               x: center.x - (size.width / 2.0),
+               y: center.y - (size.height / 2.0)
+           )
+           
+           return zoomRect
+       }
+       
+       func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+           return scrollView.subviews.first(where: { $0 is UIImageView })
+       }
+       
        @objc func closeImagePreview() {
            dismiss(animated: true, completion: nil)
        }
