@@ -130,6 +130,7 @@ var count = 0
         videoAnimationView.animation = animation
         videoAnimationView.contentMode = .scaleAspectFit
         videoAnimationView.loopMode = .loop
+        
                
                // Play the animation
 //        videoAnimationView.play()

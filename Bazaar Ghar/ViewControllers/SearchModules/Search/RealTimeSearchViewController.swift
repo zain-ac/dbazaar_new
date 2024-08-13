@@ -104,7 +104,7 @@ class RealTimeSearchViewController: UIViewController {
         AppDefault.facetFilterArray = []
     }
     override func viewWillAppear(_ animated: Bool) {
-        productcategoriesApi(val: "", str: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
+//        productcategoriesApi(val: "", str: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
 //        hitsapi(val: "", str: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
 
     }

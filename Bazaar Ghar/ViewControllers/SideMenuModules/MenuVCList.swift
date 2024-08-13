@@ -73,20 +73,32 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSSideMenu), name: NSNotification.Name(rawValue: "sidemenuReload"), object: nil)
     }
+    
+    
     @IBAction func crossbtn(_ sender: Any) {
+        
     }
     @IBAction func brandstap(_ sender: Any) {
+        let vc = Search_ViewController.getVC(.searchStoryBoard)
+        
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     @IBAction func storetap(_ sender: Any) {
+        
     }
     @IBAction func bazaarstap(_ sender: Any) {
+        
     }
     
     @IBAction func offerstap(_ sender: Any) {
+        
     }
     @IBAction func livetap(_ sender: Any) {
+        
     }
     @IBAction func groupbuytap(_ sender: Any) {
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -113,7 +113,7 @@ class NewProductPageViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationFromCartCell(notification:)), name: Notification.Name("variantSlug"), object: nil)
         setupCollectionView()
-        self.connectSocket()
+      
     
     }
     
@@ -138,6 +138,8 @@ class NewProductPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         wishList()
         productcategoriesdetails(slug: slugid ?? "")
+       
+        self.connectSocket()
       
        
         
@@ -147,7 +149,7 @@ class NewProductPageViewController: UIViewController {
         APIServices.wishlist(isbackground: false){[weak self] data in
           switch data{
           case .success(let res):
-           print(res)
+         
             AppDefault.wishlistproduct = res.products
               if let wishlistProducts = AppDefault.wishlistproduct {
                   if wishlistProducts.contains(where: { $0.id == self?.productcategoriesdetailsdata?.welcomeID }) {
@@ -169,7 +171,7 @@ class NewProductPageViewController: UIViewController {
         APIServices.newwishlist(product:productId,completion: {[weak self] data in
           switch data{
           case .success(let res):
-            print(res)
+              
             self?.wishList()
           case .failure(let error):
             print(error)
@@ -263,28 +265,66 @@ class NewProductPageViewController: UIViewController {
         
     }
     @IBAction func chatButton(_ sender: Any) {
-        guard let socket = self.socket,
-                 let brandName = productcategoriesdetailsdata?.sellerDetail?.brandName,
-                 let customerId = AppDefault.currentUser?.id,
-                 let storeId = productcategoriesdetailsdata?.sellerDetail?.id,
-                 let sellerId = productcategoriesdetailsdata?.sellerDetail?.seller else {
-               return
-           }
-
-           let roomData: [String: Any] = [
-               "customerId": customerId,
-               "brandName": brandName,
-               "storeId": storeId,
-               "sellerId": sellerId,
-               "isSeller": false
-           ]
-
-           socket.emit("room-join", roomData)
-
-        let vc = ChatViewController.getVC(.chatBoard)
-        vc.socket = self.socket
+        var idMatched = false // Flag to check if id matched
+           
+           for i in messages ?? [] {
+               if productcategoriesdetailsdata?.sellerDetail?.seller == i.idarray?.sellerId {
+                   idMatched = true // Set the flag to true when id matches
+                   
+                   self.socket?.emit("room-join", ["brandName": i.idarray?.brandName ?? "",
+                                                   "customerId": AppDefault.currentUser?.id ?? "",
+                                                   "isSeller": false,
+                                                   "sellerId": i.idarray?.sellerId ?? "",
+                                                   "storeId": i.idarray?.storeId ?? "",
+                                                   "options": ["page": 1, "limit": 200]])
+                   
+                   self.socket?.on("room-join") { datas, ack in
+                       if let rooms = datas[0] as? [String: Any] {
+                           let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+                           print(obj)
+                           
+                           let vc = ChatViewController.getVC(.chatBoard)
+                           vc.socket = self.socket
                            vc.manager = self.manager
-        self.navigationController?.pushViewController(vc, animated: true)
+                           vc.messages = i
+                           vc.latestMessages = obj.messages.chat
+                           vc.PuserMainArray = obj
+                           vc.newChat = false
+                           self.navigationController?.pushViewController(vc, animated: true)
+                       }
+                   }
+                   break // Break the loop once id is matched to prevent further looping
+               }
+           }
+           
+           // Execute this block only if no id matched
+           if !idMatched {
+               self.socket?.emit("room-join", ["brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
+                                               "customerId": AppDefault.currentUser?.id ?? "",
+                                               "isSeller": false,
+                                               "sellerId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
+                                               "storeId": productcategoriesdetailsdata?.id ?? "",
+                                               "options": ["page": 1, "limit": 200]])
+               
+               self.socket?.on("room-join") { datas, ack in
+                   if let rooms = datas[0] as? [String: Any] {
+                       let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+                       print(obj)
+                       
+                       let vc = ChatViewController.getVC(.chatBoard)
+                       vc.socket = self.socket
+                       vc.manager = self.manager
+                       vc.messages = nil
+                       vc.latestMessages = obj.messages.chat
+                       vc.PuserMainArray = obj
+                       vc.newChat = false
+                       self.navigationController?.pushViewController(vc, animated: true)
+                   }
+               }
+           }
+       
+
+       
 
         
         
@@ -416,7 +456,7 @@ class NewProductPageViewController: UIViewController {
         APIServices.moreFrom(category: category, user: user,completion: {[weak self] data in
             switch data{
             case .success(let res):
-             print(res)
+               
                 self?.moreFromResponse = res
                 if res.results?.count ?? 0 > 2 {
                     self?.moreFromViewHeight.constant = 620
@@ -526,7 +566,7 @@ class NewProductPageViewController: UIViewController {
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+                  
 
                 self?.LiveStreamingResultsdata = res.results ?? []
                 if res.results?.count ?? 0 > 0 {
@@ -560,7 +600,7 @@ class NewProductPageViewController: UIViewController {
         APIServices.productcategoriesdetails(slug: slug){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+                
                 self?.scrollHeight.constant = 2300
 
                 self?.productcategoriesdetailsdata = res
@@ -1271,47 +1311,46 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
     
 }
 extension NewProductPageViewController{
- 
+    
+    
+    
+    
+    func connectSocket() {
         
         
         
-         func connectSocket() {
-            
-             
-             
-           
-             manager = SocketManager(socketURL: AppConstants.API.baseURLChat, config: [.log(true),
-                                                                                       .compress,
-                                                                                       .forceWebsockets(true),.connectParams( ["token":AppDefault.accessToken])])
-             socket = manager?.socket(forNamespace: "/chat/v1/message")
-     
-            
-             if((self.socket?.connect()) != nil){
-                 
-             }else{
-              
-                 socket?.connect()
-             }
-            
-            
-             socket?.on(clientEvent: .connect) { (data, ack) in
-               
-                
-                
-                 self.socket?.emit("allUnread", ["userId":AppDefault.currentUser?.id ?? ""])
-                 print(self.socket?.status)
-                 print("socketid " + (self.socket?.sid ?? ""))
-                print("Socket Connected")
-                
-            
-                
-                }
-                
-            
         
-            self.socket?.on("allUnread") { data, ack in
+        manager = SocketManager(socketURL: AppConstants.API.baseURLChat, config: [.log(true),
+                                                                                  .compress,
+                                                                                  .forceWebsockets(true),.connectParams( ["token":AppDefault.accessToken])])
+        socket = manager?.socket(forNamespace: "/chat/v1/message")
+        
+        
+      
+         
+            socket?.connect()
+    
+       
+       
+        socket?.on(clientEvent: .connect) { (data, ack) in
+            
+            
+            
+            self.socket?.emit("allUnread", ["userId":AppDefault.currentUser?.id ?? ""])
+       
+            print("socketid " + (self.socket?.sid ?? ""))
+            print("Socket Connected")
+            
+            
+            
+        }
+        
+        
+        
+        self.socket?.on("allUnread") { data, ack in
+            if let rooms = data[0] as? [[String: Any]]{
                 if let rooms = data[0] as? [[String: Any]]{
-                  print(rooms)
+                    print(rooms)
                     
                     
                     
@@ -1328,52 +1367,53 @@ extension NewProductPageViewController{
                     }
                     
                     print(messageItem)
-                       
+                    
                     self.messages = messageItem
                     
                     
-//                    self.Inbox_tableview.reloadData()
+                    //                    self.Inbox_tableview.reloadData()
                     
-                  
-                   
+                    
+                    
                     
                 }
             }
-             
-             
-             
-    //         self.socket?.on("unread") { data, ack in
-    //             if let rooms = data[0] as? [[String: Any]]{
-    //                 print(rooms)
-    //             }
-    //         }
-    //         self.socket?.on("newChatMessage") { data, ack in
-    //             if let rooms = data[0] as? [[String: Any]]{
-    //                 print(rooms)
-    //             }
-    //         }
-    //         }
-    //         self.socket?.on("messages") { data, ack in
-    //             if let rooms = data[0] as? [[String: Any]]{
-    //                 print(rooms)
-    //             }
-    //         }
-             
-             
-             
-             socket?.on(clientEvent: .disconnect) { data, ack in
+            
+            
+            
+            //         self.socket?.on("unread") { data, ack in
+            //             if let rooms = data[0] as? [[String: Any]]{
+            //                 print(rooms)
+            //             }
+            //         }
+            //         self.socket?.on("newChatMessage") { data, ack in
+            //             if let rooms = data[0] as? [[String: Any]]{
+            //                 print(rooms)
+            //             }
+            //         }
+            //         }
+            //         self.socket?.on("messages") { data, ack in
+            //             if let rooms = data[0] as? [[String: Any]]{
+            //                 print(rooms)
+            //             }
+            //         }
+            
+            
+            
+            self.socket?.on(clientEvent: .disconnect) { data, ack in
                 // Handle the disconnection event
                 print("Socket disconnected")
             }
             
             
-          
-        
-           
+            
+            
+            
         }
-       
-      
+        
+
         
         
     }
-
+    
+}
