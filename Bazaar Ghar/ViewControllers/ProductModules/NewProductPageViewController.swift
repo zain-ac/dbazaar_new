@@ -138,8 +138,10 @@ class NewProductPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         wishList()
         productcategoriesdetails(slug: slugid ?? "")
-       
-        self.connectSocket()
+        if(AppDefault.islogin){
+            self.connectSocket()
+        }
+        
       
        
         
@@ -265,17 +267,50 @@ class NewProductPageViewController: UIViewController {
         
     }
     @IBAction func chatButton(_ sender: Any) {
-        var idMatched = false // Flag to check if id matched
-           
-           for i in messages ?? [] {
-               if productcategoriesdetailsdata?.sellerDetail?.seller == i.idarray?.sellerId {
-                   idMatched = true // Set the flag to true when id matches
-                   
-                   self.socket?.emit("room-join", ["brandName": i.idarray?.brandName ?? "",
+        if(!AppDefault.islogin){
+            let vc = PopupLoginVc.getVC(.popups)
+          vc.modalPresentationStyle = .overFullScreen
+          self.present(vc, animated: true, completion: nil)
+        }else{
+            var idMatched = false // Flag to check if id matched
+               
+               for i in messages ?? [] {
+                   if productcategoriesdetailsdata?.sellerDetail?.seller == i.idarray?.sellerId {
+                       idMatched = true // Set the flag to true when id matches
+                       
+                       self.socket?.emit("room-join", ["brandName": i.idarray?.brandName ?? "",
+                                                       "customerId": AppDefault.currentUser?.id ?? "",
+                                                       "isSeller": false,
+                                                       "sellerId": i.idarray?.sellerId ?? "",
+                                                       "storeId": i.idarray?.storeId ?? "",
+                                                       "options": ["page": 1, "limit": 200]])
+                       
+                       self.socket?.on("room-join") { datas, ack in
+                           if let rooms = datas[0] as? [String: Any] {
+                               let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+                               print(obj)
+                               
+                               let vc = ChatViewController.getVC(.chatBoard)
+                               vc.socket = self.socket
+                               vc.manager = self.manager
+                               vc.messages = i
+                               vc.latestMessages = obj.messages.chat
+                               vc.PuserMainArray = obj
+                               vc.newChat = false
+                               self.navigationController?.pushViewController(vc, animated: true)
+                           }
+                       }
+                       break // Break the loop once id is matched to prevent further looping
+                   }
+               }
+               
+               // Execute this block only if no id matched
+               if !idMatched {
+                   self.socket?.emit("room-join", ["brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
                                                    "customerId": AppDefault.currentUser?.id ?? "",
                                                    "isSeller": false,
-                                                   "sellerId": i.idarray?.sellerId ?? "",
-                                                   "storeId": i.idarray?.storeId ?? "",
+                                                   "sellerId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
+                                                   "storeId": productcategoriesdetailsdata?.id ?? "",
                                                    "options": ["page": 1, "limit": 200]])
                    
                    self.socket?.on("room-join") { datas, ack in
@@ -286,42 +321,16 @@ class NewProductPageViewController: UIViewController {
                            let vc = ChatViewController.getVC(.chatBoard)
                            vc.socket = self.socket
                            vc.manager = self.manager
-                           vc.messages = i
+                           vc.messages = nil
                            vc.latestMessages = obj.messages.chat
                            vc.PuserMainArray = obj
                            vc.newChat = false
                            self.navigationController?.pushViewController(vc, animated: true)
                        }
                    }
-                   break // Break the loop once id is matched to prevent further looping
                }
-           }
-           
-           // Execute this block only if no id matched
-           if !idMatched {
-               self.socket?.emit("room-join", ["brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
-                                               "customerId": AppDefault.currentUser?.id ?? "",
-                                               "isSeller": false,
-                                               "sellerId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
-                                               "storeId": productcategoriesdetailsdata?.id ?? "",
-                                               "options": ["page": 1, "limit": 200]])
-               
-               self.socket?.on("room-join") { datas, ack in
-                   if let rooms = datas[0] as? [String: Any] {
-                       let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
-                       print(obj)
-                       
-                       let vc = ChatViewController.getVC(.chatBoard)
-                       vc.socket = self.socket
-                       vc.manager = self.manager
-                       vc.messages = nil
-                       vc.latestMessages = obj.messages.chat
-                       vc.PuserMainArray = obj
-                       vc.newChat = false
-                       self.navigationController?.pushViewController(vc, animated: true)
-                   }
-               }
-           }
+        }
+        
        
 
        
@@ -1327,8 +1336,10 @@ extension NewProductPageViewController{
         
         
       
-         
+       
             socket?.connect()
+        
+           
     
        
        

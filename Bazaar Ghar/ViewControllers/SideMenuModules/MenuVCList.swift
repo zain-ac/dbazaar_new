@@ -76,30 +76,70 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     
     
     @IBAction func crossbtn(_ sender: Any) {
+//<<<<<<< Updated upstream
         
+//=======
+        self.dismiss(animated: false)
+
+//>>>>>>> Stashed changes
     }
+    private lazy var StoreSearchVCs: StoreSearchVC = {
+        var vc = StoreSearchVC.getVC(.searchStoryBoard)
+        return vc
+    }()
     @IBAction func brandstap(_ sender: Any) {
         let vc = Search_ViewController.getVC(.searchStoryBoard)
+//<<<<<<< Updated upstream
         
         self.navigationController?.pushViewController(vc, animated: false)
     }
-    @IBAction func storetap(_ sender: Any) {
+//    @IBAction func storetap(_ sender: Any) {
+//        
+//    }
+//    @IBAction func bazaarstap(_ sender: Any) {
+//        
+//    }
+//    
+//    @IBAction func offerstap(_ sender: Any) {
+//        
+//    }
+//    @IBAction func livetap(_ sender: Any) {
+//        
+//    }
+    @IBAction func groupbuytap(_ sender: Any) {
         
+
+        let vc = Search_ViewController.getVC(.searchStoryBoard)
+
+        vc.index = 1
+        self.navigationController?.pushViewController(vc, animated: false)
+
+    }
+    @IBAction func storetap(_ sender: Any) {
+        let vc = Search_ViewController.getVC(.searchStoryBoard)
+        vc.index = 1
+
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     @IBAction func bazaarstap(_ sender: Any) {
-        
+        let vc = Search_ViewController.getVC(.searchStoryBoard)
+        vc.index = 1
+
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     @IBAction func offerstap(_ sender: Any) {
-        
+        let vc = offers_page.getVC(.sidemenu)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     @IBAction func livetap(_ sender: Any) {
-        
+        let vc = LIVE_videoNew.getVC(.videoStoryBoard)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
-    @IBAction func groupbuytap(_ sender: Any) {
-        
-        
-    }
+//    @IBAction func groupbuytap(_ sender: Any) {
+//        let vc = offers_page.getVC(.sidemenu)
+//        self.navigationController?.pushViewController(vc, animated: false)
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         SetupAppColor()

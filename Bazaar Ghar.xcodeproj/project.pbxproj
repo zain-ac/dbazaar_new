@@ -285,6 +285,7 @@
 		B67C7009E29CC2150B4B41F1 /* Pods_Bazaar_GharTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E0AB92C646720DDDD4A460 /* Pods_Bazaar_GharTests.framework */; };
 		C10027992C6A34CB00BDCB8D /* sideanimation.json in Resources */ = {isa = PBXBuildFile; fileRef = C10027982C6A34CB00BDCB8D /* sideanimation.json */; };
 		C100279B2C6A36CB00BDCB8D /* new_side_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = C100279A2C6A36CB00BDCB8D /* new_side_animation.json */; };
+		C1D3B07E2C6B2D2B0040D010 /* offers_page.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D3B07D2C6B2D2B0040D010 /* offers_page.swift */; };
 		D8F634E835768153739C008A /* Pods_Bazaar_Ghar_Bazaar_GharUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1635B08410000905C5DEBA3E /* Pods_Bazaar_Ghar_Bazaar_GharUITests.framework */; };
 		DAE61B3E2B29D9810087E776 /* receiverImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE61B3C2B29D9800087E776 /* receiverImageCell.swift */; };
 		DAE61B3F2B29D9810087E776 /* receiverImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE61B3D2B29D9800087E776 /* receiverImageCell.xib */; };
@@ -615,6 +616,7 @@
 		A2D379007B8BBAA06B92A8FC /* Pods-Bazaar Ghar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar Ghar.release.xcconfig"; path = "Target Support Files/Pods-Bazaar Ghar/Pods-Bazaar Ghar.release.xcconfig"; sourceTree = "<group>"; };
 		C10027982C6A34CB00BDCB8D /* sideanimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sideanimation.json; sourceTree = "<group>"; };
 		C100279A2C6A36CB00BDCB8D /* new_side_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = new_side_animation.json; sourceTree = "<group>"; };
+		C1D3B07D2C6B2D2B0040D010 /* offers_page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = offers_page.swift; sourceTree = "<group>"; };
 		C623F50BAF50B3B8D8530437 /* Pods-Bazaar GharTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar GharTests.release.xcconfig"; path = "Target Support Files/Pods-Bazaar GharTests/Pods-Bazaar GharTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB8D41113E13524DF7783A23 /* Pods-Bazaar Ghar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar Ghar.debug.xcconfig"; path = "Target Support Files/Pods-Bazaar Ghar/Pods-Bazaar Ghar.debug.xcconfig"; sourceTree = "<group>"; };
 		D5E2F6DFF6135F0778E64E2D /* Pods-Bazaar GharTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bazaar GharTests.debug.xcconfig"; path = "Target Support Files/Pods-Bazaar GharTests/Pods-Bazaar GharTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1072,6 +1074,7 @@
 			children = (
 				8BBD36622C64CD8F00AE0C44 /* Cells */,
 				8BCF627F2C358D5E0024E534 /* MenuVCList.swift */,
+				C1D3B07D2C6B2D2B0040D010 /* offers_page.swift */,
 			);
 			path = SideMenuModules;
 			sourceTree = "<group>";
@@ -1895,6 +1898,7 @@
 				8B02BF062A937E3D00E0F83C /* topcategoriescell.swift in Sources */,
 				8BB03D7F2A9F100700DB737F /* Category_ProductsVC.swift in Sources */,
 				8B1582622AA05D3F00F33104 /* TabBarViewController.swift in Sources */,
+				C1D3B07E2C6B2D2B0040D010 /* offers_page.swift in Sources */,
 				8BD673AC2C355E09006C4B44 /* ShopChina_VC.swift in Sources */,
 				8BA0DD0E2AB87E1E00AEC8A4 /* PlaceOrder_VC.swift in Sources */,
 				8BB5FE342A9638240075E014 /* ChatServices.swift in Sources */,
