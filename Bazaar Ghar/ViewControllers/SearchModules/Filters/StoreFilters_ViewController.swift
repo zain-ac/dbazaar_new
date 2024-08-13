@@ -635,6 +635,7 @@ extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewD
         else if collectionView == size_collect {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Size_CollectionViewCell", for: indexPath) as! Size_CollectionViewCell
             let data = sizeModel?.counts?[indexPath.row]
+            
             cell.sizeButton.setTitle(data?.highlighted ?? "" + "\(data?.highlighted?.count ?? 0)", for: .normal)
             cell.sizeButton.tag = indexPath.row
             cell.sizeButton.addTarget(self, action: #selector(sizeCollection(_:)), for: .touchUpInside)

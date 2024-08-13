@@ -759,8 +759,20 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
              }
             
             cell.heartBtn.tag = indexPath.row
-            cell.cartButton.tag = indexPath.row
-            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            if(data?.variants?.count != 0 && data?.quantity != 0){
+                cell.cartButton.tag = indexPath.row
+                cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            }else if(data?.variants?.count != 0 && data?.quantity == 0){
+                let vc  = NewProductPageViewController.getVC(.productStoryBoard)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if(data?.variants?.count == 0 && data?.quantity != 0){
+                cell.cartButton.tag = indexPath.row
+                cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            }else{
+                let vc  = NewProductPageViewController.getVC(.productStoryBoard)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        
             cell.heartBtn.addTarget(self, action: #selector(homeLatestMobileheartButtonTap(_:)), for: .touchUpInside)
             
             if let wishlistProducts = AppDefault.wishlistproduct {

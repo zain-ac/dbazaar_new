@@ -42,6 +42,8 @@ class RealTimeSearchViewController: UIViewController {
         lastRandomProductsCollectionView.delegate = self
         lastRandomProductsCollectionView.dataSource = self
         lastRandomProductsCollectionView.register(UINib(nibName: "HomeLastProductCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "HomeLastProductCollectionViewCell")
+        productcategoriesApi(val: "", str: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
+        hitsapi(val: "", str: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
         if(hits?.count == 0){
             noDataView.isHidden = true
         }else{
@@ -104,8 +106,7 @@ class RealTimeSearchViewController: UIViewController {
         AppDefault.facetFilterArray = []
     }
     override func viewWillAppear(_ animated: Bool) {
-//        productcategoriesApi(val: "", str: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
-//        hitsapi(val: "", str: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
+      
 
     }
      
@@ -340,11 +341,23 @@ extension RealTimeSearchViewController: UICollectionViewDelegate, UICollectionVi
             cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
             cell.percentBGView.isHidden = true
          }
-        
-        cell.heartBtn.tag = indexPath.row
+        if(data?.variants?.count != 0 && data?.quantity != 0){
+            cell.cartButton.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+        }else if(data?.variants?.count != 0 && data?.quantity == 0){
+            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else if(data?.variants?.count == 0 && data?.quantity != 0){
+            cell.cartButton.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+        }else{
+            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+//        cell.heartBtn.tag = indexPath.row
         cell.cartButton.tag = indexPath.row
         cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
-        cell.heartBtn.addTarget(self, action: #selector(homeLatestMobileheartButtonTap(_:)), for: .touchUpInside)
+//        cell.heartBtn.addTarget(self, action: #selector(homeLatestMobileheartButtonTap(_:)), for: .touchUpInside)
         
         if let wishlistProducts = AppDefault.wishlistproduct {
             if wishlistProducts.contains(where: { $0.id == data?._id }) {

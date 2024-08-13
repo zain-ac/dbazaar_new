@@ -129,7 +129,15 @@ class CartPopupViewController: UIViewController {
                     self?.present(vc, animated: true, completion: nil)
 //                    appDelegate.GotoDashBoard(ischecklogin: true)
                 }
+                else if(error == "desired  quantity not available"){
+                      let vc = NewProductPageViewController.getVC(.productStoryBoard)
+                    vc.slugid = self?.products?.slug
+                    vc.iscome = true
+                    self?.nav?.pushViewController(vc, animated: true)//                    appDelegate.GotoDashBoard(ischecklogin: true)
+                   
+                }
                 else{
+                    
 //                    if self?.varientSlug != nil {
 //                        print(error)
 //                        self?.view.makeToast(error)

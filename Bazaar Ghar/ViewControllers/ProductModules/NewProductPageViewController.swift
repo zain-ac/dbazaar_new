@@ -12,6 +12,7 @@ import SwiftyJSON
 class NewProductPageViewController: UIViewController {
     var manager:SocketManager?
     var socket: SocketIOClient?
+    var iscome = Bool()
     var messages: [PMsg]? = nil{
         didSet{
            
@@ -102,6 +103,9 @@ class NewProductPageViewController: UIViewController {
             appDelegate.isbutton = true
         }else{
             appDelegate.isbutton = false
+        }
+        if iscome{
+            self.dismiss(animated: true)
         }
       
         
@@ -244,6 +248,7 @@ class NewProductPageViewController: UIViewController {
 //            self.nav?.pushViewController(vc, animated: true)
 //        }
 //        self.navigationController?.pushViewController(vc, animated: false)
+        
         self.addToCartApi(product:self.productcategoriesdetailsdata?.id ?? "",quantity:1,navigation: false)
 
         
@@ -412,9 +417,9 @@ class NewProductPageViewController: UIViewController {
         APIServices.additemtocart(product:product,quantity:quantity,completion: {[weak self] data in
             switch data{
             case .success(let res):
-                if(navigation){
+                if(navigation) {
                     self?.getCartProducts()
-                }else {
+                } else {
                     
                     let vc = AddtocartPopup.getVC(.popups)
                     vc.modalPresentationStyle = .custom
@@ -515,7 +520,7 @@ class NewProductPageViewController: UIViewController {
                 
                 
                 let vc = NewOrderConfirmation_ViewController.getVC(.orderJourneyStoryBoard)
-                vc.orderDetails =  self?.orderDetails
+                vc.orderDetails =  res
                 if self?.isnav == true{
                     self?.dismiss(animated: false)
                     self?.nav?.pushViewController(vc, animated: true)
