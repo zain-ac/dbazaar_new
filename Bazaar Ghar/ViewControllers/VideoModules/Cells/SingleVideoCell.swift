@@ -64,7 +64,6 @@ class SingleVideoCell: UITableViewCell {
     var avPlayer: AVPlayer?
     var avPlayerLayer: AVPlayerLayer?
     var paused: Bool = false
-
     var observer: Any? = nil
     let interval = CMTime(seconds: 1.0, preferredTimescale: 10)
     var LiveStreamingResultsdataArray: LiveStreamingResults? = nil{
@@ -384,16 +383,19 @@ class SingleVideoCell: UITableViewCell {
     }
 
     @IBAction func buybtnTapped(_ sender: UIButton) {
-       
+        buybtn.setTitle("Buy", for: .normal)
+
         if getvidoebyproductIdsdata.count == 0 {
             UIApplication.pTopViewController().view.makeToast("Showcase product data not found")
         }else {
             if hiddenview.isHidden == false {
                 hiddenview.isHidden = true
                 hiddenviewheight.constant = 0
+                buybtn.setTitle("Buy", for: .normal)
             }else{
                 hiddenview.isHidden = false
                 hiddenviewheight.constant = 150
+                buybtn.setTitle("Close", for: .normal)
 
             }
         }
@@ -445,7 +447,7 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
             
             cell.buynow.addTarget(self, action: #selector(viewproduct(_:)), for: .touchUpInside)
 //            cell.crossBtn.addTarget(self, action: #selector(crossBtnTapped(_:)), for: .touchUpInside)
-            
+         
             
             if data.onSale == true {
                 cell.Salesprice.isHidden = false
@@ -474,7 +476,7 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
             if data.onSale == true {
                 cell.Salesprice.isHidden = false
                 cell.price.isHidden = false
-                cell.Salesprice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+                cell.Salesprice.attributedText = Utility().formattedTextWhite(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
                 cell.price.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.price.textColor = UIColor.red
@@ -482,7 +484,7 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
             }else {
                 cell.productPriceLine.isHidden = true
                 cell.price.isHidden = true
-                cell.Salesprice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+                cell.Salesprice.attributedText = Utility().formattedTextWhite(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
              }
             
             
@@ -530,6 +532,7 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     @objc func viewproduct(_ sender: UIButton) {
+
         let data = getvidoebyproductIdsdata[0]
         
         let vc = NewProductPageViewController.getVC(.productStoryBoard)

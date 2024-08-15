@@ -472,6 +472,39 @@ class Utility {
         
         return attributedString
     }
+    func formattedTextWhite(text: String) -> NSAttributedString {
+        // Split the text into components
+        let components = text.split(separator: " ")
+        
+        // Ensure there are exactly two components: "SAR" and the number
+        guard components.count == 2 else {
+            return NSAttributedString(string: text) // Return unformatted text if the format is unexpected
+        }
+        
+        let currency = String(components[0])
+        let amount = String(components[1])
+        
+        // Create an NSMutableAttributedString from the full text
+        let attributedString = NSMutableAttributedString(string: text)
+        
+        // Define the attributes for the currency part ("SAR")
+        let currencyAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 10),
+            .foregroundColor: UIColor.white
+        ]
+        
+        // Define the attributes for the amount part ("1200")
+        let amountAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 14),
+            .foregroundColor: UIColor(hex: "#06B7FD")!
+        ]
+        
+        // Apply the attributes to the respective ranges
+        attributedString.addAttributes(currencyAttributes, range: (text as NSString).range(of: currency))
+        attributedString.addAttributes(amountAttributes, range: (text as NSString).range(of: amount))
+        
+        return attributedString
+    }
     func applyBottomLeftCornerRadius(to button: UIButton, radius: CGFloat) {
             let path = UIBezierPath(roundedRect: button.bounds,
                                     byRoundingCorners: [.bottomLeft],

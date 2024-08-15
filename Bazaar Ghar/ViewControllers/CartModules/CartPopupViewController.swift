@@ -72,77 +72,73 @@ class CartPopupViewController: UIViewController {
     }
     private func addToCartApi(product: String, quantity: Int,navigation:Bool){
         APIServices.additemtocart(product:product,quantity:quantity,completion: {[weak self] data in
-            guard let strongSelf = self else { return }
-
-            switch data {
-            case .success(let res):
-                   
-                
-                let storyboard = UIStoryboard(name: "Popups", bundle: nil)
-                guard let addToCartPopupVC = storyboard.instantiateViewController(withIdentifier: "AddtocartPopup") as? AddtocartPopup else { return }
-
-                addToCartPopupVC.modalPresentationStyle = .custom
-                addToCartPopupVC.transitioningDelegate = strongSelf.centerTransitioningDelegate
-                addToCartPopupVC.img = "addtocart"
-                addToCartPopupVC.titleText = "Added to Cart!"
-                addToCartPopupVC.messageText = "The item has been added successfully"
-                addToCartPopupVC.leftBtnText = "Continue Shopping"
-                addToCartPopupVC.rightBtnText = "Go to Cart"
-                addToCartPopupVC.iscomefor = "cart"
-                addToCartPopupVC.nav = strongSelf.nav
-
-                // Store a reference to the presenting view controller
-                if let presentingVC = strongSelf.presentingViewController {
-                    // Dismiss the current view controller
-                    strongSelf.dismiss(animated: true) {
-                        // Present the AddtocartPopup view controller
-                        presentingVC.present(addToCartPopupVC, animated: true, completion: nil)
-                    }
-                } else {
-                    // Present directly if there is no presenting view controller
-                    strongSelf.present(addToCartPopupVC, animated: true, completion: nil)
-                }
-                
-//               let vc = AddtocartPopup.getVC(.popups)
-//                          vc.modalPresentationStyle = .custom
-//                          vc.transitioningDelegate = self?.centerTransitioningDelegate
-//                self?.present(vc, animated: true, completion: {
-//                    // Dismiss the current view controller first
-//
-//                })
-                
-//                if(navigation){
-//                    self?.getCartProducts()
-//                  }
-                self?.view.makeToast("Item Added to cart")
-                
-            case .failure(let error):
-                
-                if(error == "Please authenticate" && AppDefault.islogin){
-                    DispatchQueue.main.async {
-                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
-                          let vc = PopupLoginVc.getVC(.popups)
-                        vc.modalPresentationStyle = .overFullScreen
-                        self?.present(vc, animated: true, completion: nil)
-                    }
-                }else if(error == "Please authenticate" && AppDefault.islogin == false){
-                      let vc = PopupLoginVc.getVC(.popups)
-                    vc.modalPresentationStyle = .overFullScreen
-                    self?.present(vc, animated: true, completion: nil)
-//                    appDelegate.GotoDashBoard(ischecklogin: true)
-                }
-                else{
-//                    if self?.varientSlug != nil {
-//                        print(error)
-//                        self?.view.makeToast(error)
-//                    }else {
-//                        self?.view.makeToast("Please Select Varient")
-//                    }
-                }
-                
+          guard let strongSelf = self else { return }
+          switch data {
+          case .success(let res):
+            let storyboard = UIStoryboard(name: "Popups", bundle: nil)
+            guard let addToCartPopupVC = storyboard.instantiateViewController(withIdentifier: "AddtocartPopup") as? AddtocartPopup else { return }
+            addToCartPopupVC.modalPresentationStyle = .custom
+            addToCartPopupVC.transitioningDelegate = strongSelf.centerTransitioningDelegate
+            addToCartPopupVC.img = "addtocart"
+            addToCartPopupVC.titleText = "Added to Cart!"
+            addToCartPopupVC.messageText = "The item has been added successfully"
+            addToCartPopupVC.leftBtnText = "Continue Shopping"
+            addToCartPopupVC.rightBtnText = "Go to Cart"
+            addToCartPopupVC.iscomefor = "cart"
+            addToCartPopupVC.nav = strongSelf.nav
+            // Store a reference to the presenting view controller
+            if let presentingVC = strongSelf.presentingViewController {
+              // Dismiss the current view controller
+              strongSelf.dismiss(animated: true) {
+                // Present the AddtocartPopup view controller
+                presentingVC.present(addToCartPopupVC, animated: true, completion: nil)
+              }
+            } else {
+              // Present directly if there is no presenting view controller
+              strongSelf.present(addToCartPopupVC, animated: true, completion: nil)
             }
+    //        let vc = AddtocartPopup.getVC(.popups)
+    //             vc.modalPresentationStyle = .custom
+    //             vc.transitioningDelegate = self?.centerTransitioningDelegate
+    //        self?.present(vc, animated: true, completion: {
+    //          // Dismiss the current view controller first
+    //
+    //        })
+    //        if(navigation){
+    //          self?.getCartProducts()
+    //         }
+            self?.view.makeToast("Item Added to cart")
+          case .failure(let error):
+            if(error == "Please authenticate" && AppDefault.islogin){
+              DispatchQueue.main.async {
+                appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                 let vc = PopupLoginVc.getVC(.popups)
+                vc.modalPresentationStyle = .overFullScreen
+                self?.present(vc, animated: true, completion: nil)
+              }
+            }else if(error == "Please authenticate" && AppDefault.islogin == false){
+               let vc = PopupLoginVc.getVC(.popups)
+              vc.modalPresentationStyle = .overFullScreen
+              self?.present(vc, animated: true, completion: nil)
+    //          appDelegate.GotoDashBoard(ischecklogin: true)
+            }
+            else if(error == "desired quantity not available"){
+               let vc = NewProductPageViewController.getVC(.productStoryBoard)
+              vc.slugid = self?.products?.slug
+              vc.iscome = true
+              self?.nav?.pushViewController(vc, animated: true)//          appDelegate.GotoDashBoard(ischecklogin: true)
+            }
+            else{
+    //          if self?.varientSlug != nil {
+    //            print(error)
+    //            self?.view.makeToast(error)
+    //          }else {
+    //            self?.view.makeToast("Please Select Varient")
+    //          }
+            }
+          }
         })
-    }
+      }
     @objc func buttonTapped() {
         self.dismiss(animated: true)
     }

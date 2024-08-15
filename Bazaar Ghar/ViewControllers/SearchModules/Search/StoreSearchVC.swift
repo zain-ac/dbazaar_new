@@ -183,7 +183,7 @@ extension StoreSearchVC: UICollectionViewDelegate,UICollectionViewDataSource,UIC
         vc.prductid = data.seller ?? ""
         vc.brandName = data.brandName ?? ""
         vc.storeId = data.seller ?? ""
-        vc.sellerID = data.id
+        vc.sellerID = data.seller
         self.navigationController?.pushViewController(vc, animated: false)
         
         

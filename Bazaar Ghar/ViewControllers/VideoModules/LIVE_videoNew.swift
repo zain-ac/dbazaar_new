@@ -15,7 +15,10 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var headerview: UIView!
     @IBOutlet weak var videocategorytableview: UITableView!
     
+    @IBOutlet weak var categoryview: UIView!
+    @IBOutlet weak var novideosview: UIView!
     @IBOutlet weak var catbtnview: UIView!
+    @IBOutlet weak var nearByView: UIView!
     var LiveVideoData: [LiveStreamingResults] = []
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
     var LiveStreamingResultsdatafilter: [LiveStreamingResults] = []
@@ -49,14 +52,28 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         searchFeild.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.method(notification:)), name: Notification.Name("idpass"), object: nil)
+        searchFeild.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 
     }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+           let currentText = textField.text ?? ""
+        if currentText == "" {
+            searchVideo(name: "title", value:  "", limit: 100, catId: [])
+        }else {
+            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 100, catId: [])
+        }
+        
+       }
     
     @objc func method(notification: Notification) {
         if let id = notification.userInfo?["id"] as? String {
             print(id)
             self.id = id
             LiveStreamingResultsdata.removeAll()
+            searchVideodata.removeAll()
+            catbtnview.backgroundColor = .oceanBlue
+            nearByView.backgroundColor = UIColor(hex: "#5ED0FD")
             getStreamingVideos(limit:100,page:1,categories: [self.id ?? ""], city: "")
 
         }
@@ -100,6 +117,13 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
                 self?.LiveStreamingResultsdata += res.results ?? []
                 self?.videocategorytableview.reloadData()
                 self?.count += 1
+                if res.results?.count ?? 0 > 5 {
+                    self?.novideosview.isHidden = true
+                    
+                }else {
+                    self?.novideosview.isHidden = false
+//                    self?.categoryview.isHidden = false
+                }
             case .failure(let error):
                 print(error)
 //                self?.view.makeToast(error)
@@ -143,6 +167,14 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
 //                    self?.notFound.isHidden = false
 //                }
                 self?.searchVideodata = res.results
+                
+                if res.results.count > 5 {
+                    self?.novideosview.isHidden = true
+                    
+                }else {
+                    self?.novideosview.isHidden = false
+//                    self?.categoryview.isHidden = false
+                }
               print(res)
                 self?.videocategorytableview.reloadData()
             case .failure(let error):
@@ -186,8 +218,8 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     @IBAction func categoriesTap(_ sender: Any) {
         let vc = CategoriesPopUpVC.getVC(.popups)
         vc.modalPresentationStyle = .overFullScreen
+        vc.id = self.id
         self.present(vc, animated: true, completion: nil)
-        catbtnview.backgroundColor = .oceanBlue
     }
     @IBAction func cartbutton(_ sender: Any) {
         let vc = CartViewController.getVC(.main)
@@ -196,19 +228,27 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     }
     @IBAction func nearByTap(_ sender: Any) {
         LiveStreamingResultsdata.removeAll()
-        self.getStreamingVideos(limit:100,page:self.count,categories: [], city: "rawalpindi")
+        searchVideodata.removeAll()
+        count = 0
+        nearByView.backgroundColor = .oceanBlue
+        catbtnview.backgroundColor = UIColor(hex: "#5ED0FD")
+        self.id = nil
+        self.getStreamingVideos(limit:100,page:self.count,categories: [], city: "islamabad")
     }
 }
 extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchFeild.text == "" {
             if(searchVideodata.isEmpty){
-                return Utility().combinedRoundDown(Double(LiveStreamingResultsdata.count / 5) - 1)
+//                return Utility().combinedRoundDown(Double(LiveStreamingResultsdata.count / 5) - 1)
+                return  LiveStreamingResultsdata.count / 5
             }else{
                 return Utility().combinedRoundDown(Double(searchVideodata.count / 5) - 1)
             }
         }else {
-            return Utility().combinedRoundDown(Double(searchVideodata.count / 5) - 1)
+//            return Utility().combinedRoundDown(Double(searchVideodata.count / 5) - 1)
+            return searchVideodata.count / 5
+
         }
     }
     

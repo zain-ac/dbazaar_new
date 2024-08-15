@@ -120,7 +120,7 @@ class New_StoreVC: UIViewController {
                 self?.pagerView.reloadData()
                 
                 for i in res.categories ?? [] {
-                    self?.catId = i.id
+                    self?.catId = i
                 }
                 
             case .failure(let error):

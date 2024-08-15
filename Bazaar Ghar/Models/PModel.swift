@@ -545,19 +545,20 @@ struct getSellerDetailDataModel: Codable {
     let id: String?
     let images: [String]?
     let country: String?
-    let categories: [getSellerDetailcategories]?
+    let categories: [String]?
     let categoryUpdated, costCode, approved: Bool?
-    let brandName, description, market, address: String?
+    let brandName, description, address: String?
     let cityCode, city, seller, createdAt: String?
     let updatedAt, rrp, slug, costCenterCode: String?
     let alias: String?
     let v: Int?
+//    let market:String?
 //    let products, followers: Followers?
 //    let videos: Videos?
 
     enum CodingKeys: String, CodingKey {
         case id = "_id"
-        case images, country, categories, categoryUpdated, costCode, approved, brandName, description, market, address, cityCode, city, seller, createdAt, updatedAt, rrp, slug, costCenterCode, alias
+        case images, country, categories, categoryUpdated, costCode, approved, brandName, description, address, cityCode, city, seller, createdAt, updatedAt, rrp, slug, costCenterCode, alias
         case v = "__v"
     }
 }

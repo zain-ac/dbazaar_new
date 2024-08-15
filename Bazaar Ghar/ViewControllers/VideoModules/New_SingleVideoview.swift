@@ -377,7 +377,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         vc.brandName =  data.brandName        //productcategoriesdetailsdata?.sellerDetail?.brandName ?? ""
 //        vc.gallaryImages = data.        //productcategoriesdetailsdata?.gallery
         vc.storeId = data.userID ?? ""    //productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
-        vc.sellerID = data.brandID ?? ""
+        vc.sellerID = data.userID ?? ""
         self.navigationController?.pushViewController(vc, animated: false)
 
     }

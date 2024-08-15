@@ -58,7 +58,7 @@ extension CategoriesPopUpVC: UICollectionViewDelegate, UICollectionViewDataSourc
                 cell.topCatLbl.text = data.name
             }
         
-        if selectedIndex == indexPath.row {
+        if self.id == data.id {
             cell.imageView.borderColor = UIColor(hex: "#5ED0FD")
             cell.imageView.borderWidth = 2
         }else {

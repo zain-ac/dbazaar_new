@@ -86,9 +86,9 @@ extension Services: TargetType, AccessTokenAuthorizable {
         switch self {
         case .searchproduct:
             return AppConstants.API.baseURLSearchProduct
-        case .searchVideo, .getStreamingVideos , .getVideoToken, .savelike, .deletelike, .getLike, .getLiveStream,.shopchinaStreamingVideo:
+        case .searchVideo, .getStreamingVideos , .getVideoToken, .savelike, .deletelike, .getLike,.shopchinaStreamingVideo:
             return AppConstants.API.baseURLVideoStreaming
-        case .report,.getComments:
+        case .report, .getComments, .getLiveStream:
             return AppConstants.API.baseURLVideoStreamingV1
         case .chinesebell:
             return AppConstants.API.baseURLChatNotification
@@ -214,7 +214,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case .getLiveStream:
             return "getslotinuse"
         case let .getSellerDetail(id):
-            return "sellerDetail/\(id)"
+            return "sellerDetail/seller/\(id)"
         case .moreFrom:
             return "products/getAllProducts"
         case .newishlist:
