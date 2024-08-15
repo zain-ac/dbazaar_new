@@ -219,6 +219,7 @@ class NewProductPageViewController: UIViewController {
         vc.brandName = productcategoriesdetailsdata?.sellerDetail?.brandName ?? ""
         vc.storeId = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
         vc.sellerID = productcategoriesdetailsdata?.sellerDetail?.id
+        vc.productcategoriesdetailsdata = productcategoriesdetailsdata
         self.navigationController?.pushViewController(vc, animated: false)
     }
     @IBAction func sharebtn(_ sender: Any) {
@@ -277,96 +278,67 @@ class NewProductPageViewController: UIViewController {
           vc.modalPresentationStyle = .overFullScreen
           self.present(vc, animated: true, completion: nil)
         }else{
-            var idMatched = false // Flag to check if id matched
+         
+            if ((messages?.contains(where: {$0.idarray?.sellerId == productcategoriesdetailsdata?.sellerDetail?.seller})) != nil){
+                
                
-               for i in messages ?? [] {
-                   if productcategoriesdetailsdata?.sellerDetail?.seller == i.idarray?.sellerId {
-                       idMatched = true // Set the flag to true when id matches
-                       
-                       self.socket?.emit("room-join", ["brandName": i.idarray?.brandName ?? "",
-                                                       "customerId": AppDefault.currentUser?.id ?? "",
-                                                       "isSeller": false,
-                                                       "sellerId": i.idarray?.sellerId ?? "",
-                                                       "storeId": i.idarray?.storeId ?? "",
-                                                       "options": ["page": 1, "limit": 200]])
-                       
-                       self.socket?.on("room-join") { datas, ack in
-                           if let rooms = datas[0] as? [String: Any] {
-                               let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
-                               print(obj)
-                               
-                               let vc = ChatViewController.getVC(.chatBoard)
-                               vc.socket = self.socket
-                               vc.manager = self.manager
-                               vc.messages = i
-                               vc.latestMessages = obj.messages.chat
-                               vc.PuserMainArray = obj
-                               vc.newChat = false
-                               self.navigationController?.pushViewController(vc, animated: true)
-                           }
-                       }
-                       break // Break the loop once id is matched to prevent further looping
-                   }
-               }
-               
-               // Execute this block only if no id matched
-               if !idMatched {
-                   self.socket?.emit("room-join", ["brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
-                                                   "customerId": AppDefault.currentUser?.id ?? "",
-                                                   "isSeller": false,
-                                                   "sellerId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
-                                                   "storeId": productcategoriesdetailsdata?.id ?? "",
-                                                   "options": ["page": 1, "limit": 200]])
+                var i:PMsg? = nil
+                i = messages?.first(where: { $0.idarray?.sellerId == productcategoriesdetailsdata?.sellerDetail?.seller })
+                
+                
+                self.socket?.emit("room-join", ["brandName": i?.idarray?.brandName ?? "",
+                                                "customerId": AppDefault.currentUser?.id ?? "",
+                                                "isSeller": false,
+                                                "sellerId": i?.idarray?.sellerId ?? "",
+                                                "storeId": i?.idarray?.storeId ?? "",
+                                                "options": ["page": 1, "limit": 200]])
+                
+                self.socket?.on("room-join") { datas, ack in
+                    if let rooms = datas[0] as? [String: Any] {
+                        let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+                        print(obj)
+                        
+                        let vc = ChatViewController.getVC(.chatBoard)
+                        vc.socket = self.socket
+                        vc.manager = self.manager
+                        vc.messages = i
+                        vc.latestMessages = obj.messages.chat
+                        vc.PuserMainArray = obj
+                        vc.newChat = false
+                        self.navigationController?.pushViewController(vc, animated: true)
+                        
+                        
+                    }
+                }
+            }else{
+                self.socket?.emit("room-join", ["brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
+                                                "customerId": AppDefault.currentUser?.id ?? "",
+                                                "isSeller": false,
+                                                "sellerId": productcategoriesdetailsdata?.sellerDetail?.seller ?? "",
+                                                "storeId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
+                                                "options": ["page": 1, "limit": 200]])
+                
+                self.socket?.on("room-join") { datas, ack in
+                    if let rooms = datas[0] as? [String: Any] {
+                        let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+                        print(obj)
+                        
+                        let vc = ChatViewController.getVC(.chatBoard)
+                        vc.socket = self.socket
+                        vc.manager = self.manager
+                        vc.messages = nil
+                        vc.latestMessages = obj.messages.chat
+                        vc.PuserMainArray = obj
+                        vc.newChat = false
+                        self.navigationController?.pushViewController(vc, animated: true)
+                        
+                    }
                    
-                   self.socket?.on("room-join") { datas, ack in
-                       if let rooms = datas[0] as? [String: Any] {
-                           let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
-                           print(obj)
-                           
-                           let vc = ChatViewController.getVC(.chatBoard)
-                           vc.socket = self.socket
-                           vc.manager = self.manager
-                           vc.messages = nil
-                           vc.latestMessages = obj.messages.chat
-                           vc.PuserMainArray = obj
-                           vc.newChat = false
-                           self.navigationController?.pushViewController(vc, animated: true)
-                       }
-                   }
-               }
+                }
+            }
+  
         }
-        
-       
 
-       
-
-        
-        
-//        self.socket?.emit("room-join", ["brandName":productcategoriesdetailsdata?.sellerDetail?.brandName ?? "","customerId":AppDefault.currentUser?.id ?? "","isSeller":false,"sellerId":productcategoriesdetailsdata?.sellerDetail?.seller ?? "","storeId":productcategoriesdetailsdata?.sellerDetail?.id ?? "","options":["page":1,"limit":200]])
-//        self.socket?.on("room-join") { datas, ack in
-//            if let rooms = datas[0] as? [String: Any]{
-//                
-//              
-//                let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
-//                
-//                
-//                print(obj)
-////                if(ispass == false){
-//                    let vc = ChatViewController.getVC(.chatBoard)
-//                    vc.socket = self.socket
-//                    vc.manager = self.manager
-////                    vc.messages = data
-//                    vc.latestMessages = obj.messages.chat
-//                    vc.PuserMainArray = obj
-//                    vc.newChat = false
-//                    self.navigationController?.pushViewController(vc, animated: true)
-////                    ispass = true
-////                }
-//            }
-//        }
-
-        
-        
        
     }
     @IBAction func buyNowBtnTapped(_ sender: Any) {
@@ -418,7 +390,10 @@ class NewProductPageViewController: UIViewController {
             switch data{
             case .success(let res):
                 if(navigation) {
-                    self?.getCartProducts()
+                    let vc = CartViewController.getVC(.main)
+                    vc.iccomeformProduct = true
+                    self?.navigationController?.pushViewController(vc, animated: false)
+//                    self?.getCartProducts()
                 } else {
                     
                     let vc = AddtocartPopup.getVC(.popups)
@@ -508,7 +483,7 @@ class NewProductPageViewController: UIViewController {
         })
     }
     
-    private func getCartProducts(){
+    private func c(){
         APIServices.getCartItems(){[weak self] data in
             switch data{
             case .success(let res):

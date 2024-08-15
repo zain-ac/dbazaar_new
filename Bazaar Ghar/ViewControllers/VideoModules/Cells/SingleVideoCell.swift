@@ -164,8 +164,12 @@ class SingleVideoCell: UITableViewCell {
            //        You need to have different variations
            //        according to the device so as the avplayer fits well
        
-               avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: self.videoView.frame.width, height: self.videoView.frame.height)
+           avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
           
+ 
+           avPlayerLayer?.videoGravity = .resizeAspectFill
+           
+           
            self.backgroundColor = .clear
            self.videoView.layer.insertSublayer(avPlayerLayer!, at: 0)
 

@@ -14,6 +14,7 @@ class CartViewController: UIViewController {
     @IBOutlet weak var subTotal: UILabel!
     @IBOutlet weak var emptyCart: UIView!
     @IBOutlet weak var total: UILabel!
+    var iccomeformProduct : Bool = false
 
     
     // localizationOutlest
@@ -75,6 +76,8 @@ class CartViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         self.dismiss(animated: false)
+        getCartProducts()
+        
         self.LanguageRender()
     
         self.navigationController?.isNavigationBarHidden = true
@@ -82,7 +85,7 @@ class CartViewController: UIViewController {
             appDelegate.isback = false
             self.tabBarController?.selectedIndex = 0
         }
-        getCartProducts()
+      
     }
     
     func LanguageRender(){
@@ -142,8 +145,17 @@ class CartViewController: UIViewController {
 //                self?.cartchargesmessagelbl.text = "Shipping Charges in Saudia are \(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.shippmentCharges ?? 0)) per package" //"cartchargesmessage".pLocalized(lang: LanguageManager.language)
 
                 self?.subTotal.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.subTotal ?? 0) //Utility().convertAmountInComma("\(res.subTotal ?? 0)")
-                self?.total.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.total ?? 0) //Utility().convertAmountInComma("\(res.total ?? 0)")
+                self?.total.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.total ?? 0)
+                if(self?.iccomeformProduct == true){
+                    self?.iccomeformProduct = false
+                    let vc = NewOrderConfirmation_ViewController.getVC(.orderJourneyStoryBoard)
+                    vc.orderDetails =  self?.orderDetails
+                    vc.bannerapidata = self?.bannerapidata ?? []
+                    self?.navigationController?.pushViewController(vc, animated: false)
+                    
+                }//Utility().convertAmountInComma("\(res.total ?? 0)")
                 self?.cartTableViewCell.reloadData()
+                
             
             case .failure(let error):
                 print(error)

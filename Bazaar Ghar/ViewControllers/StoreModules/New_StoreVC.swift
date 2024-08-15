@@ -7,6 +7,8 @@
 
 import UIKit
 import FSPagerView
+import SocketIO
+import SwiftyJSON
 
 
 class New_StoreVC: UIViewController {
@@ -20,6 +22,7 @@ class New_StoreVC: UIViewController {
     @IBOutlet weak var categoryproduct_collectionview: UICollectionView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollheight: NSLayoutConstraint!
+    var productcategoriesdetailsdata : ProductCategoriesDetailsResponse?
 
     @IBOutlet weak var storeproductquantity: UILabel!
     @IBOutlet weak var shopbycategorieslbl: UILabel!
@@ -31,9 +34,9 @@ class New_StoreVC: UIViewController {
     @IBOutlet weak var shopByCatViewHeight: NSLayoutConstraint!
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var shopByCatView: UIView!
-
+    
     var counter =  0
-
+    
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
     var latestProductModel: [PChat] = []
     let centerTransitioningDelegate = CenterTransitioningDelegate()
@@ -49,9 +52,17 @@ class New_StoreVC: UIViewController {
     var isEndReached = false
     var sellerID:String?
     var CategoriesResponsedata: [CategoriesResponse] = []
+    var manager:SocketManager?
+    var socket: SocketIOClient?
     var catId:String? {
         didSet {
            categoriesApi(isbackground: false, id: catId ?? "")
+        }
+    }
+    var messages: [PMsg]? = nil{
+        didSet{
+           
+     
         }
     }
     override func viewDidLoad() {
@@ -94,6 +105,9 @@ class New_StoreVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         CategoriesResponsedata.removeAll()
+        if(AppDefault.islogin){
+            self.connectSocket()
+        }
         getSellerDetail(id: sellerID ?? "")
         self.shopByCatViewHeight.constant = 0
         shopByCatView.isHidden = true
@@ -370,6 +384,72 @@ class New_StoreVC: UIViewController {
         }else{
             followStore(storeId: self.storeId, web: true)
         }
+    }
+    @IBAction func chatbuttonTapped(_ sender: Any) {
+        if(!AppDefault.islogin){
+            let vc = PopupLoginVc.getVC(.popups)
+          vc.modalPresentationStyle = .overFullScreen
+          self.present(vc, animated: true, completion: nil)
+        }else{
+            var idMatched = false // Flag to check if id matched
+               
+               for i in messages ?? [] {
+                   if productcategoriesdetailsdata?.sellerDetail?.seller == i.idarray?.sellerId {
+                       idMatched = true // Set the flag to true when id matches
+                       
+                       self.socket?.emit("room-join", ["brandName": i.idarray?.brandName ?? "",
+                                                       "customerId": AppDefault.currentUser?.id ?? "",
+                                                       "isSeller": false,
+                                                       "sellerId": i.idarray?.sellerId ?? "",
+                                                       "storeId": i.idarray?.storeId ?? "",
+                                                       "options": ["page": 1, "limit": 200]])
+                       
+                       self.socket?.on("room-join") { datas, ack in
+                           if let rooms = datas[0] as? [String: Any] {
+                               let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+                               print(obj)
+                               
+                               let vc = ChatViewController.getVC(.chatBoard)
+                               vc.socket = self.socket
+                               vc.manager = self.manager
+                               vc.messages = i
+                               vc.latestMessages = obj.messages.chat
+                               vc.PuserMainArray = obj
+                               vc.newChat = false
+                               self.navigationController?.pushViewController(vc, animated: true)
+                           }
+                       }
+                       break // Break the loop once id is matched to prevent further looping
+                   }
+               }
+               
+               // Execute this block only if no id matched
+               if !idMatched {
+                   self.socket?.emit("room-join", ["brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
+                                                   "customerId": AppDefault.currentUser?.id ?? "",
+                                                   "isSeller": false,
+                                                   "sellerId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
+                                                   "storeId": productcategoriesdetailsdata?.id ?? "",
+                                                   "options": ["page": 1, "limit": 200]])
+                   
+                   self.socket?.on("room-join") { datas, ack in
+                       if let rooms = datas[0] as? [String: Any] {
+                           let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+                           print(obj)
+                           
+                           let vc = ChatViewController.getVC(.chatBoard)
+                           vc.socket = self.socket
+                           vc.manager = self.manager
+                           vc.messages = nil
+                           vc.latestMessages = obj.messages.chat
+                           vc.PuserMainArray = obj
+                           vc.newChat = false
+                           self.navigationController?.pushViewController(vc, animated: true)
+                       }
+                   }
+               }
+        }
+
     }
     @IBAction func backBtnTapped(_ sender: Any) {
         appDelegate.isbutton = false
@@ -748,4 +828,54 @@ extension New_StoreVC: UIScrollViewDelegate {
         // Call your API to fetch more products
         update(count: categoryPage)
     }
+}
+
+extension New_StoreVC {
+       func connectSocket() {
+        manager = SocketManager(socketURL: AppConstants.API.baseURLChat, config: [.log(true),
+                                                                                  .compress,
+                                                                                  .forceWebsockets(true),.connectParams( ["token":AppDefault.accessToken])])
+        socket = manager?.socket(forNamespace: "/chat/v1/message")
+           socket?.connect()
+        
+              socket?.on(clientEvent: .connect) { (data, ack) in
+            
+        self.socket?.emit("allUnread", ["userId":AppDefault.currentUser?.id ?? ""])
+       
+            print("socketid " + (self.socket?.sid ?? ""))
+            print("Socket Connected")
+            
+            
+            
+        }
+        
+        self.socket?.on("allUnread") { data, ack in
+            if let rooms = data[0] as? [[String: Any]]{
+                if let rooms = data[0] as? [[String: Any]]{
+                    print(rooms)
+                    
+                     var messageItem:[PMsg] = []
+                    let Datamodel = JSON(rooms)
+                    let message = Datamodel.array
+                    
+                    for item in message ?? []{
+                        
+                        messageItem.append(PMsg(jsonData: item))
+                    }
+                    
+                    print(messageItem)
+                    
+                    self.messages = messageItem
+                    
+                    
+                }
+            }
+              self.socket?.on(clientEvent: .disconnect) { data, ack in
+                // Handle the disconnection event
+                print("Socket disconnected")
+            }
+            }
+        
+    }
+    
 }

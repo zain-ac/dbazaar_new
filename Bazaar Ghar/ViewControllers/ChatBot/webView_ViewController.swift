@@ -11,11 +11,8 @@ import WebKit
 class webView_ViewController: UIViewController, WKNavigationDelegate {
 
     @IBOutlet weak var webView: WKWebView!
-    // this is new code 
-    var toyata  = String()
-    var honda  = String()
-    var city  = String()
-    var sonatta  = String()
+    // this is new code
+    
     
     
 // this is new code
