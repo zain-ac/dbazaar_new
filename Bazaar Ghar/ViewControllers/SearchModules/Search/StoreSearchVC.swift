@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import DropDown	
+import DropDown
 
 class StoreSearchVC: UIViewController {
     
@@ -183,7 +183,7 @@ extension StoreSearchVC: UICollectionViewDelegate,UICollectionViewDataSource,UIC
         vc.prductid = data.seller ?? ""
         vc.brandName = data.brandName ?? ""
         vc.storeId = data.seller ?? ""
-        vc.sellerID = data.seller
+        vc.sellerID = data.id
         self.navigationController?.pushViewController(vc, animated: false)
         
         
@@ -192,15 +192,15 @@ extension StoreSearchVC: UICollectionViewDelegate,UICollectionViewDataSource,UIC
 //        vc.video_section = true
 //        vc.storeFlag = true
 //        vc.storeId = data.seller ?? ""
-//        
+//
 //        if LanguageManager.language == "ar"{
 //            vc.catNameTitle = data.lang?.ar?.brandName ?? ""
 //        }else{
 //            vc.catNameTitle = data.brandName ?? ""
 //        }
 //
-//        
-//        
+//
+//
 ////        vc.catNameTitle = data.brandName ?? ""
 //        self.navigationController?.pushViewController(vc, animated: false)
     }

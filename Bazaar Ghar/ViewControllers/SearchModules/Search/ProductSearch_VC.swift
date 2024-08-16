@@ -134,7 +134,7 @@ extension ProductSearch_VC: UICollectionViewDelegate,UICollectionViewDataSource,
     }
 //        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
 //        let data = searchproductdata[indexPath.row]
-//        
+//
 //        cell.productimage.pLoadImage(url: data.mainImage ?? "")
 //        cell.productname.text = data.productName
 //        if data.onSale == true {

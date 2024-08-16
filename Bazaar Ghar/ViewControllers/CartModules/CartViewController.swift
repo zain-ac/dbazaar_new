@@ -14,6 +14,7 @@ class CartViewController: UIViewController {
     @IBOutlet weak var subTotal: UILabel!
     @IBOutlet weak var emptyCart: UIView!
     @IBOutlet weak var total: UILabel!
+    var iccomeformProduct : Bool = false
 
     
     // localizationOutlest
@@ -138,6 +139,14 @@ class CartViewController: UIViewController {
                     self?.topCountView.isHidden = false
                     self?.priceView.isHidden = false
                     self?.checkoutbuttonView.isHidden = false
+                }
+                if(self?.iccomeformProduct == true){
+                    self?.iccomeformProduct = false
+                    let vc = NewOrderConfirmation_ViewController.getVC(.orderJourneyStoryBoard)
+                    vc.orderDetails =  self?.orderDetails
+                    vc.bannerapidata = self?.bannerapidata ?? []
+                    self?.navigationController?.pushViewController(vc, animated: false)
+                    
                 }
 //                self?.cartchargesmessagelbl.text = "Shipping Charges in Saudia Arabia are \(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.shippmentCharges ?? 0)) per package" //"cartchargesmessage".pLocalized(lang: LanguageManager.language)
                 self?.cartchargesmessagelbl.text = "Shipping Charges in Saudia Arabia are SAR: 30.0 per package"

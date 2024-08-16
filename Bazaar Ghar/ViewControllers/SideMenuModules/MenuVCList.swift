@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import SwiftyJSON
+
+import Lottie
 
 
 class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate {
@@ -17,7 +20,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var btnBack: UIButton!
 
-
+    @IBOutlet weak var Top_sidemenuCollect: UICollectionView!
+    
     var isSelected  =  ""
 
     @IBOutlet weak var backButton: UIView!
@@ -29,7 +33,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     var imagedata = [String]()
     var categoryStates: [CategoryState] = []
 
-    
+    @IBOutlet weak var videoAnimationView: LottieAnimationView!
+
     
     
     
@@ -37,12 +42,18 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     // new
     var currentLevel: Int = 0
     var currentCategories: [Any] = []
-    // new
-    
+    // newStores
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        backButton.isHidden = true
+//        backButton.isHidden = true
         isSelected  = "Home"
+        let animation = LottieAnimation.named("new_side_animation")
+        videoAnimationView.animation = animation
+        videoAnimationView.loopMode = .loop
+
+      
+        
         self.menuview.backgroundColor = UIColor.white
         let fullText = "Top Categories"
                 let topText = "Top"
@@ -62,23 +73,93 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSSideMenu), name: NSNotification.Name(rawValue: "sidemenuReload"), object: nil)
     }
-   
+    
+    
+    @IBAction func crossbtn(_ sender: Any) {
+//<<<<<<< Updated upstream
+        
+//=======
+        self.dismiss(animated: false)
+
+//>>>>>>> Stashed changes
+    }
+    private lazy var StoreSearchVCs: StoreSearchVC = {
+        var vc = StoreSearchVC.getVC(.searchStoryBoard)
+        return vc
+    }()
+    @IBAction func brandstap(_ sender: Any) {
+        let vc = Search_ViewController.getVC(.searchStoryBoard)
+//<<<<<<< Updated upstream
+        
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+//    @IBAction func storetap(_ sender: Any) {
+//
+//    }
+//    @IBAction func bazaarstap(_ sender: Any) {
+//
+//    }
+//
+//    @IBAction func offerstap(_ sender: Any) {
+//
+//    }
+//    @IBAction func livetap(_ sender: Any) {
+//
+//    }
+    @IBAction func groupbuytap(_ sender: Any) {
+        
+
+        let vc = Search_ViewController.getVC(.searchStoryBoard)
+
+        vc.index = 1
+        self.navigationController?.pushViewController(vc, animated: false)
+
+    }
+    @IBAction func storetap(_ sender: Any) {
+        let vc = Search_ViewController.getVC(.searchStoryBoard)
+        vc.index = 1
+
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+    @IBAction func bazaarstap(_ sender: Any) {
+        let vc = Search_ViewController.getVC(.searchStoryBoard)
+        vc.index = 1
+
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+    
+    @IBAction func offerstap(_ sender: Any) {
+        let vc = offers_page.getVC(.sidemenu)
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+    @IBAction func livetap(_ sender: Any) {
+        let vc = LIVE_videoNew.getVC(.videoStoryBoard)
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+//    @IBAction func groupbuytap(_ sender: Any) {
+//        let vc = offers_page.getVC(.sidemenu)
+//        self.navigationController?.pushViewController(vc, animated: false)
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         SetupAppColor()
         self.CreateMenuitemList()
         loadInitialData()
+      
+        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Top Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
+        name.attributedText = attributedText1
     }
     func loadInitialData() {
         if let categories = AppDefault.getAllCategoriesResponsedata {
             currentCategories = categories
             currentLevel = 0
             tableview.reloadData()
-            backButton.isHidden = true
+//            backButton.isHidden = true
            
         }
     }
+    
     override func dismissViewController(_ sender: UIButton) {
         if isShowingSubcategories {
                isShowingSubcategories = false
@@ -94,17 +175,17 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     func SetupAppColor(){
         
     }
-    @IBAction func backButtonPressed(_ sender: Any) {
-        if(currentLevel == 1){
-            backButton.isHidden = true
-        }
-        guard !categoryStates.isEmpty else { return }
-           let previousState = categoryStates.removeLast()
-           currentCategories = previousState.categories
-           currentLevel = previousState.level
-           tableview.reloadData()
-           
-    }
+//    @IBAction func backButtonPressed(_ sender: Any) {
+//        if(currentLevel == 1){
+//            backButton.isHidden = true
+//        }
+//        guard !categoryStates.isEmpty else { return }
+//           let previousState = categoryStates.removeLast()
+//           currentCategories = previousState.categories
+//           currentLevel = previousState.level
+//           tableview.reloadData()
+//
+//    }
 //    @IBAction func btnMenu_click(_ sender: Any) {
 //        self.sideMenuController?.toggle()
 //    }
@@ -132,10 +213,10 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
 //        let dict  = AppDefault.getAllCategoriesResponsedata?[indexPath.row]
 //        cell.lab.text = dict?.name
 //        cell.imagelbl.pLoadImage(url: dict?.mainImage ?? "" )
-//        
+//
 //        cell.imagelbl.tintColor = .gray
 //        cell.lab.textColor  =  .black
-//        
+//
 //        if cell.lab.text == isSelected{
 //
 //        }
@@ -168,8 +249,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                 cell.imagelbl.pLoadImage(url: subSubCategory?.mainImage ?? "")
             } else if currentLevel == 3 {
                 let subSubSubCategory = currentCategories[indexPath.row] as! DatumSubCategory
-//                cell.lab.text = subSubSubCategory.name
-//                cell.imagelbl.pLoadImage(url: subSubSubCategory.mainImage ?? "")
+                cell.lab.text = subSubSubCategory.name
+                cell.imagelbl.pLoadImage(url: subSubSubCategory.mainImage ?? "")
             }
             
             cell.imagelbl.tintColor = .gray
@@ -250,11 +331,11 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
                     categoryStates.removeAll()
                 }
             }
-        if categoryStates.isEmpty {
-            self.backButton.isHidden = true // Hide back button when no more previous states
-        }else{
-            self.backButton.isHidden = false
-        }
+//        if categoryStates.isEmpty {
+//            self.backButton.isHidden = true // Hide back button when no more previous states
+//        }else{
+//            self.backButton.isHidden = false
+//        }
     }
  }
 

@@ -1,10 +1,3 @@
-//
-//  ChatViewController.swift
-//  Bazaar Ghar
-//
-//  Created by Developer on 31/10/2023.
-//
-
 import UIKit
 import SocketIO
 import IQKeyboardManagerSwift
@@ -12,7 +5,6 @@ import SwiftyJSON
 import Alamofire
 import MobileCoreServices
 import UniformTypeIdentifiers
-
 
 class ChatViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -75,11 +67,11 @@ class ChatViewController: UIViewController,UIImagePickerControllerDelegate, UINa
 //                json["roomId"] = NCroomId
 //                json["message"] = messageTF.text ?? ""
 //                json["senderId"] = AppDefault.currentUser?.id
-//                
+//
 //                self.messageTF.text  = "Type something here..."
 //                self.messageTF.centerVertically()
 //                socket?.emit("newChatMessage", json)
-//                
+//
 //                self.scrolltobottomTable()
 //            }
 //        }else {
@@ -414,9 +406,7 @@ extension ChatViewController{
              
                 self.view.endEditing(true)
                 self.ChatTblV.reloadData()
-                if(self.latestMessages?.count ?? 0 > 0){
-                    self.ChatTblV.scrollToBottom()
-                }
+                self.ChatTblV.scrollToBottom()
             }
         }
     }
