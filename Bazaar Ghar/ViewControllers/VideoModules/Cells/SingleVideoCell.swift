@@ -56,6 +56,8 @@ class SingleVideoCell: UITableViewCell {
     @IBOutlet weak var storeImgView: UIView!
     @IBOutlet weak var commentBtn: UIButton!
     @IBOutlet weak var storeBtn: UIButton!
+    @IBOutlet weak var commentTFBtn: UIButton!
+    @IBOutlet weak var commentTFBtnView: UIView!
 
 
     let centerTransitioningDelegate = CenterTransitioningDelegate()
@@ -124,7 +126,10 @@ class SingleVideoCell: UITableViewCell {
         super.awakeFromNib()
         hiddenviewheight.constant = 0
         self.setupMoviePlayer()
-        
+        saysomethingfield.attributedPlaceholder = NSAttributedString(
+                  string: "Say something...",
+                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+              )
         NotificationCenter.default.addObserver(self, selector: #selector(hideandshow), name: NSNotification.Name(rawValue: "showviews"), object: nil)
         isHideCollectionView.isHidden = true
         
@@ -266,6 +271,9 @@ class SingleVideoCell: UITableViewCell {
          likelbl.isHidden = false
          storeImgView.isHidden = false
           commentBtn.isHidden = false
+        commentTFBtn.isHidden = false
+        commentTFBtnView.isHidden = false
+
 
     }
 
@@ -301,7 +309,7 @@ class SingleVideoCell: UITableViewCell {
                self?.getvidoebyproductIdsdata = res
                self?.showCollectionView = productIds.first!
                self?.showCaseCollectionView.reloadData()
-               self?.isHideCollectionView.isHidden = false
+//               self?.isHideCollectionView.isHidden = false
                self?.hiddenview.isHidden = true
                self?.hiddenviewheight.constant = 0
                self?.getvidoebyproductIdsdata = res

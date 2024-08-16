@@ -203,6 +203,10 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
              print("You can use here also directly : \(indexPath.row)")
              self.commentBtnTapped(btn: btn, indexPath: indexPath)
         }
+        cell.commentTFBtn.mk_addTapHandler { (btn) in
+             print("You can use here also directly : \(indexPath.row)")
+             self.commentBtnTapped(btn: btn, indexPath: indexPath)
+        }
         cell.storeBtn.mk_addTapHandler { (btn) in
              print("You can use here also directly : \(indexPath.row)")
              self.storeBtnTapped(btn: btn, indexPath: indexPath)
@@ -334,6 +338,8 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         cell.likelbl.isHidden = true
         cell.storeImgView.isHidden = true
         cell.commentBtn.isHidden = true
+        cell.commentTFBtn.isHidden = true
+        cell.commentTFBtnView.isHidden = true
 
         let vc = ReportViewController()
         vc.videoId = data.resultID
@@ -363,7 +369,9 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         cell.likelbl.isHidden = true
         cell.storeImgView.isHidden = true
         cell.commentBtn.isHidden = true
-        
+        cell.commentTFBtn.isHidden = true
+        cell.commentTFBtnView.isHidden = true
+
         
         let vc = VideoCommentViewController.getVC(.videoStoryBoard)
         vc.scheduleId = data.resultID ?? ""

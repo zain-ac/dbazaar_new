@@ -20,7 +20,10 @@ class VideoCommentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        sendTextFeild.attributedPlaceholder = NSAttributedString(
+                  string: "Say something...",
+                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+              )
         self.commentTblV.estimatedRowHeight = 50
           self.commentTblV.rowHeight = UITableView.automaticDimension
     }

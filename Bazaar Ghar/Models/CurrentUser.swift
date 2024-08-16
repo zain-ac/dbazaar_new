@@ -73,7 +73,7 @@ struct Origin: Codable {
 
 // MARK: - Wallet
 struct UserWallet: Codable {
-    let balance: Int?
+    let balance: Float
 }
 
 //struct Userdata: Codable {
