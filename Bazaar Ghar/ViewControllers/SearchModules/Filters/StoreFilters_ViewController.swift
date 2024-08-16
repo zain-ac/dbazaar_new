@@ -7,8 +7,9 @@
 
 import UIKit
 import RangeSeekSlider
+import Typesense
 protocol StoreFilters_ViewControllerDelegate: AnyObject {
-    func StoreFilters_ViewControllerDidFinish(_ controller: StoreFilters_ViewController, withData data: [TypeSenseResult])
+    func StoreFilters_ViewControllerDidFinish(_ controller: StoreFilters_ViewController ,facetby:String,filterby:String)
 }
 
 class StoreFilters_ViewController: UIViewController {
@@ -31,23 +32,23 @@ class StoreFilters_ViewController: UIViewController {
     var colorIndex: Int?
 
     @IBOutlet weak var rating_collect: UICollectionView!
-    var  facetCounts: [TypeSenseFacetCount] = []
+    var  facetCounts: [FacetCounts] = []
 
     var SelectedCat0Model:  TypeSenseCount? = nil
     var SelectedStoreModel:  TypeSenseCount? = nil
     var SelectedsizeeModel:  TypeSenseCount? = nil
     var SelectedColorModel:  TypeSenseCount? = nil
     var SelectedratingModel:  TypeSenseCount? = nil
-    var DisplayCat0Model:  TypeSenseFacetCount? = nil
-    var Cat0Model:  TypeSenseFacetCount? = nil
-    var Cat1Model:  TypeSenseFacetCount? = nil
-    var Cat2Model:  TypeSenseFacetCount? = nil
-    var StoreModel:  TypeSenseFacetCount? = nil
-    var ColorModel:  TypeSenseFacetCount? = nil
-    var priceModel:  TypeSenseFacetCount? = nil
-    var sizeModel:  TypeSenseFacetCount? = nil
-    var RatingmOdel:  TypeSenseFacetCount? = nil
-    var StyleModel:  TypeSenseFacetCount? = nil
+    var DisplayCat0Model:  FacetCounts? = nil
+    var Cat0Model:  FacetCounts? = nil
+    var Cat1Model:  FacetCounts? = nil
+    var Cat2Model:  FacetCounts? = nil
+    var StoreModel:  FacetCounts? = nil
+    var ColorModel:  FacetCounts? = nil
+    var priceModel:  FacetCounts? = nil
+    var sizeModel:  FacetCounts? = nil
+    var RatingmOdel:  FacetCounts? = nil
+    var StyleModel:  FacetCounts? = nil
     var FiltermodelArray:  [TypeSenseCount] = []
     {
         didSet {
@@ -151,9 +152,10 @@ class StoreFilters_ViewController: UIViewController {
    
     @objc func SelectCategorerybtn(_ sender: UIButton) {
         var data = DisplayCat0Model?.counts?[sender.tag]
-        data?.isselected = true
-        data?.isquery = DisplayCat0Model?.fieldName
-        self.SelectedCat0Model = data
+    
+        let obj = TypeSenseCount(count: data?.count, highlighted:data?.highlighted , value: data?.value, isselected: true , isquery: DisplayCat0Model?.fieldName)
+      
+        self.SelectedCat0Model = obj
         
         if(FiltermodelArray.contains(where: { return $0.isquery == DisplayCat0Model?.fieldName}) == true) {
             FiltermodelArray.removeAll(where: { return $0.isquery == DisplayCat0Model?.fieldName})
@@ -161,238 +163,14 @@ class StoreFilters_ViewController: UIViewController {
         }else{
             self.FiltermodelArray.append(self.SelectedCat0Model!)
         }
-        Cat0Model?.counts?[sender.tag]?.isselected = true
+       // Cat0Model?.counts?[sender.tag].isselected = true
         
         self.categoriestbl.reloadData()
         
         
     }
    
-    private func FetchData(val:String, txt: String,facet_by:String,isclick:Bool){
-        allfacetfilter = ""
-     
-        
-        if(self.SelectedCat0Model != nil){
-            if(SelectedCat0Model?.isquery == "lvl0"){
-                if(allfacetfilter == ""){
-                    allfacetfilter  = "lvl0:=[\(self.SelectedCat0Model?.value ?? "")]"
-                }else{
-                    allfacetfilter  += "&&lvl0:=[\(self.SelectedCat0Model?.value ?? "")]"
-                }
-            }
-            if(SelectedCat0Model?.isquery == "lvl1"){
-                if(allfacetfilter == ""){
-                    allfacetfilter  = "lvl1:=[\(self.SelectedCat0Model?.value ?? "")]"
-                }else{
-                    allfacetfilter  += "&&lvl1:=[\(self.SelectedCat0Model?.value ?? "")]"
-                }
-            }
-            if(SelectedCat0Model?.isquery == "lvl2"){
-                if(allfacetfilter == ""){
-                    allfacetfilter  = "lvl2:=[\(self.SelectedCat0Model?.value ?? "")]"
-                }else{
-                    allfacetfilter  += "&&lvl2:=[\(self.SelectedCat0Model?.value ?? "")]"
-                }
-            }
-            
-            
-        }
-        if(self.SelectedratingModel != nil){
-            
-            if(allfacetfilter == ""){
-                allfacetfilter  = "averageRating:=[\(self.SelectedratingModel?.value ?? "")]"
-            }else{
-                allfacetfilter  += "&&averageRating:=[\(self.SelectedratingModel?.value ?? "")]"
-            }
-            
-          
-        }
-        if(SelectedColorModel != nil){
-            
-            if(allfacetfilter == ""){
-                allfacetfilter  =  "color:=[\(self.SelectedColorModel?.value ?? "")]"
-            }else{
-                allfacetfilter  +=  "&&color:=[\(self.SelectedColorModel?.value ?? "")]"
-            }
-          
-        }
-        if(SelectedStoreModel != nil){
-            
-            if(allfacetfilter == ""){
-                allfacetfilter  =  "brandName:=[\(self.SelectedStoreModel?.value ?? "")]"
-            }else{
-                allfacetfilter  +=  "&&brandName:=[\(self.SelectedStoreModel?.value ?? "")]"
-            }
-          
-          
-        }
-        if(SelectedsizeeModel != nil){
-            
-            if(allfacetfilter == ""){
-                allfacetfilter  =   "size:=[\(self.SelectedsizeeModel?.value ?? "")]"
-            }else{
-                allfacetfilter  +=   "&&size:=[\(self.SelectedsizeeModel?.value ?? "")]"
-            }
-            
-         
-        }
-
-        if(rangeSlider.selectedMinValue == priceModel?.stats?.min && rangeSlider.selectedMaxValue == priceModel?.stats?.max){
-            
-        } else {
-        
-            
-//            if(allfacetfilter == ""){
-//                allfacetfilter  =   "price:=[\(Int(rangeSlider.selectedMinValue))..\(Int(rangeSlider.selectedMaxValue))]"
-//            }else{
-//                allfacetfilter  +=   "&&price:=[\(Int(rangeSlider.selectedMinValue))..\(Int(rangeSlider.selectedMaxValue))]"
-//            }
-            
-
-        }
-    
-       // allfacetfilter.append("productType:=[main]")
-         
-      
-        print(allfacetfilter)
-        facetCounts.removeAll()
-        self.Cat0Model = nil
-            self.Cat1Model = nil
-            self.Cat2Model = nil
-            self.ColorModel = nil
-            self.StoreModel = nil
-            self.RatingmOdel = nil
-            self.priceModel = nil
-            self.sizeModel = nil
-            self.StyleModel = nil
-         APIServices.typeSenseApi(val: allfacetfilter, txt : txt ,facet_by:facet_by,completion: {[weak self] data in
-            switch data{
-            case .success(let res):
-                AppDefault.facetFilters = res
-               
-                
-               
-//                for r in res {
-//
-//                    for z in r.facetCounts ?? [] {
-//                        self?.facetCounts.append(z!)
-//                    }
-//                }
-                
-                
-                for item in res.first?.facetCounts ?? []{
-                    if(item?.fieldName == "lvl0"){
-                     
-                        
-                        
-                        self?.Cat0Model = item
-                    }
-                    if(item?.fieldName == "lvl1"){
-                        self?.Cat1Model = item
-                    }
-                    if(item?.fieldName == "lvl2"){
-                        self?.Cat2Model = item
-                    }
-                    if(item?.fieldName == "color"){
-                        self?.ColorModel = item
-                    }
-                    if(item?.fieldName == "brandName"){
-                        self?.StoreModel = item
-                    }
-                    if(item?.fieldName == "averageRating"){
-                        self?.RatingmOdel = item
-                    }
-                    if(item?.fieldName == "price"){
-                        self?.priceModel = item
-                    }
-                     if(item?.fieldName == "size"){
-                        self?.sizeModel = item
-                    }
-                    if(item?.fieldName == "style"){
-                       self?.StyleModel = item
-                   }
-                }
-                
-                
-                if(self?.Cat0Model?.counts?.count == 1 && self?.Cat0Model?.counts?.count != 0 && self?.Cat0Model?.counts?.first??.value == self?.SelectedCat0Model?.value){
-                
-                    self?.DisplayCat0Model = self?.Cat1Model
-                    
-                    
-                    
-                    
-                }else{
-                    self?.DisplayCat0Model = self?.Cat0Model
-                }
-                
-                if(self?.Cat1Model?.counts?.count == 1 && self?.Cat1Model?.counts?.count != 0 && self?.Cat1Model?.counts?.first??.value == self?.SelectedCat0Model?.value){
-                
-                    self?.DisplayCat0Model = self?.Cat2Model
-                    
-                    
-                }else{
-                    if(self?.Cat0Model?.counts?.count == 0){
-                        self?.DisplayCat0Model = self?.Cat1Model
-                    }
-                    
-                }
-                
-                
-                
-                
-                
-                if(self?.DisplayCat0Model?.counts?.count != 0){
-                    self?.heightCategory.constant = 168
-                }else{
-                    self?.heightCategory.constant = 0
-                }
-                if(self?.StoreModel?.counts?.count != 0 ){
-                    self?.heightStore.constant = 65
-                }else{
-                    self?.heightStore.constant = 0
-                }
-                if(self?.ColorModel?.counts?.count != 0){
-                    self?.heightcolor.constant = 170
-                }else{
-                    self?.heightcolor.constant = 0
-                }
-                if(self?.sizeModel?.counts?.count != 0){
-                     self?.heightsize.constant = 65
-                }else{
-                    self?.heightsize.constant = 0
-                }
-                if(self?.RatingmOdel?.counts?.count != 0){
-                    self?.heightrating.constant = 75
-                }else{
-                    self?.heightrating.constant = 0
-                }
-                self?.rangeSlider.minValue =  CGFloat(self?.priceModel?.stats?.min ?? 0.0)
-//                self?.rangeSlider.selectedMinValue =  CGFloat(self?.priceModel?.stats?.min ?? 0.0)
-//                self?.rangeSlider.selectedMaxValue =  CGFloat(self?.priceModel?.stats?.max ?? 0.0)
-                self?.rangeSlider.maxValue =  CGFloat(self?.priceModel?.stats?.max ?? 0.0)
-//
-                
-                self?.colors_tbl.reloadData()
-                self?.categoriestbl.reloadData()
-                self?.store_collect.reloadData()
-                self?.rating_collect.reloadData()
-                self?.size_collect.reloadData()
-                if(isclick){
-                    self?.dismiss(animated: true, completion: {
-                        self?.delegate?.StoreFilters_ViewControllerDidFinish(self!, withData: res)
-                    })
-                }
-               
-             
-               
-                print(res)
-            case .failure(let error):
-                print(error)
-                self?.view.makeToast(error)
-            }
-        })
-    }
-    
+ 
     
     
     
@@ -402,7 +180,11 @@ class StoreFilters_ViewController: UIViewController {
 
         }
         if(SelectedCat0Model?.isquery == "lvl1"){
-            self.FetchData(val: "", txt: "*",facet_by: "lvl1,lvl2,color,brandName,averageRating,price,size,style", isclick: true)
+           self.FetchData(val: "", txt: "*",facet_by: "lvl1,lvl2,color,brandName,averageRating,price,size,style", isclick: true)
+
+        }
+        if(SelectedCat0Model?.isquery == nil){
+           self.FetchData(val: "", txt: "*",facet_by: "color,brandName,averageRating,price,size,style", isclick: true)
 
         }
        
@@ -411,7 +193,7 @@ class StoreFilters_ViewController: UIViewController {
     @IBAction func clearFilter(_ sender: UIButton) {
        
         FiltermodelArray.removeAll()
-        self.FetchData(val: "", txt: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style", isclick: true)
+      self.FetchData(val: "", txt: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style", isclick: true)
       }
     
 }
@@ -484,7 +266,113 @@ extension StoreFilters_ViewController:UITableViewDelegate,UITableViewDataSource{
         }
     }
     
-   
+    private func FetchData(val:String, txt: String,facet_by:String,isclick:Bool){
+            allfacetfilter = ""
+        
+        
+        
+      
+        
+        
+        
+         
+            
+            if(self.SelectedCat0Model != nil){
+                if(SelectedCat0Model?.isquery == "lvl0"){
+                    if(allfacetfilter == ""){
+                        allfacetfilter  = "lvl0:=[\(self.SelectedCat0Model?.value ?? "")]"
+                    }else{
+                        allfacetfilter  += "&&lvl0:=[\(self.SelectedCat0Model?.value ?? "")]"
+                    }
+                }
+                if(SelectedCat0Model?.isquery == "lvl1"){
+                    if(allfacetfilter == ""){
+                        allfacetfilter  = "lvl1:=[\(self.SelectedCat0Model?.value ?? "")]"
+                    }else{
+                        allfacetfilter  += "&&lvl1:=[\(self.SelectedCat0Model?.value ?? "")]"
+                    }
+                }
+                if(SelectedCat0Model?.isquery == "lvl2"){
+                    if(allfacetfilter == ""){
+                        allfacetfilter  = "lvl2:=[\(self.SelectedCat0Model?.value ?? "")]"
+                    }else{
+                        allfacetfilter  += "&&lvl2:=[\(self.SelectedCat0Model?.value ?? "")]"
+                    }
+                }
+                
+                
+            }
+            if(self.SelectedratingModel != nil){
+                
+                if(allfacetfilter == ""){
+                    allfacetfilter  = "averageRating:=[\(self.SelectedratingModel?.value ?? "")]"
+                }else{
+                    allfacetfilter  += "&&averageRating:=[\(self.SelectedratingModel?.value ?? "")]"
+                }
+                
+              
+            }
+            if(SelectedColorModel != nil){
+                
+                if(allfacetfilter == ""){
+                    allfacetfilter  =  "color:=[\(self.SelectedColorModel?.value ?? "")]"
+                }else{
+                    allfacetfilter  +=  "&&color:=[\(self.SelectedColorModel?.value ?? "")]"
+                }
+              
+            }
+            if(SelectedStoreModel != nil){
+                
+                if(allfacetfilter == ""){
+                    allfacetfilter  =  "brandName:=[\(self.SelectedStoreModel?.value ?? "")]"
+                }else{
+                    allfacetfilter  +=  "&&brandName:=[\(self.SelectedStoreModel?.value ?? "")]"
+                }
+              
+              
+            }
+            if(SelectedsizeeModel != nil){
+                
+                if(allfacetfilter == ""){
+                    allfacetfilter  =   "size:=[\(self.SelectedsizeeModel?.value ?? "")]"
+                }else{
+                    allfacetfilter  +=   "&&size:=[\(self.SelectedsizeeModel?.value ?? "")]"
+                }
+                
+             
+            }
+
+            if(rangeSlider.selectedMinValue == priceModel?.stats?.min && rangeSlider.selectedMaxValue == priceModel?.stats?.max){
+                
+            } else {
+            
+                
+    //            if(allfacetfilter == ""){
+    //                allfacetfilter  =   "price:=[\(Int(rangeSlider.selectedMinValue))..\(Int(rangeSlider.selectedMaxValue))]"
+    //            }else{
+    //                allfacetfilter  +=   "&&price:=[\(Int(rangeSlider.selectedMinValue))..\(Int(rangeSlider.selectedMaxValue))]"
+    //            }
+                
+
+            }
+        
+           // allfacetfilter.append("productType:=[main]")
+             
+          
+        
+        
+        
+        if(isclick){
+            self.dismiss(animated: true, completion: {
+                self.delegate?.StoreFilters_ViewControllerDidFinish(self,facetby: self.allfacetfilter, filterby: "")
+            })
+        }
+        
+        
+        
+        
+        
+        }
     
 }
 extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
@@ -524,10 +412,13 @@ extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewD
     }
     @objc func buttonTapped(_ sender: UIButton) {
         var data = StoreModel?.counts?[sender.tag]
-        data?.isselected = true
-        data?.isquery = "brandName"
-        SelectedStoreModel = data
-        StoreModel?.counts?[sender.tag]?.isselected = true
+     
+        let obj = TypeSenseCount(count: data?.count, highlighted:data?.highlighted , value: data?.value, isselected: true , isquery: "brandName")
+      
+        
+        
+        SelectedStoreModel = obj
+       // StoreModel?.counts?[sender.tag]?.isselected = true
         sender.isSelected = !sender.isSelected
         
         
@@ -549,11 +440,12 @@ extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewD
     
     @objc func sizeCollection(_ sender: UIButton) {
         var data = sizeModel?.counts?[sender.tag]
+        let obj = TypeSenseCount(count: data?.count, highlighted:data?.highlighted , value: data?.value, isselected: true , isquery: "size")
+      
         sender.isSelected = !sender.isSelected
-        data?.isquery = "size"
-        data?.isselected = true
-        SelectedsizeeModel = data
-        StoreModel?.counts?[sender.tag]?.isselected = true
+    
+        SelectedsizeeModel = obj
+       // StoreModel?.counts?[sender.tag]?.isselected = true
         sizeIndex = sender.tag
         
         
@@ -572,12 +464,12 @@ extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewD
     }
     @objc func colorButtonTap(_ sender: UIButton) {
         var data = ColorModel?.counts?[sender.tag]
+        let obj = TypeSenseCount(count: data?.count, highlighted:data?.highlighted , value: data?.value, isselected: true , isquery: "color")
       
-        data?.isquery = "color"
-        data?.isselected = true
-        
-        SelectedColorModel = data
-        ColorModel?.counts?[sender.tag]?.isselected = true
+      
+       
+        SelectedColorModel = obj
+       // ColorModel?.counts?[sender.tag]?.isselected = true
         if(FiltermodelArray.contains(where: { return $0.isquery == "color"}) == true) {
             FiltermodelArray.removeAll(where: { return $0.isquery == "color"})
             self.FiltermodelArray.append(self.SelectedColorModel!)
@@ -721,7 +613,7 @@ extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewD
             }
             
             
-                self.FetchData(val: "", txt: "*",facet_by: "lvl0,lvl1,color,brandName,averageRating,price,size,style", isclick: false)
+              //  self.FetchData(val: "", txt: "*",facet_by: "lvl0,lvl1,color,brandName,averageRating,price,size,style", isclick: false)
 
             
         
@@ -748,10 +640,10 @@ extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewD
             ratingndex = indexPath.row
             lastquery =  "averageRating:=\(selectedRating)"
 //            lastquery =   "brandName:=[\(data?.value ?? "")]"
-            data?.isselected = true
-            data?.isquery = "averageRating"
-           
-            self.SelectedratingModel = data
+        
+            let obj = TypeSenseCount(count: data?.count, highlighted:data?.highlighted , value: data?.value, isselected: true , isquery: "averageRating")
+          
+            self.SelectedratingModel = obj
             
             
             if(FiltermodelArray.contains(where: { return $0.isquery == "averageRating"}) == true) {

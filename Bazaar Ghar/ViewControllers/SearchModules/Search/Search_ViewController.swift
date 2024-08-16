@@ -10,7 +10,6 @@ import Combine
 
 class Search_ViewController: UIViewController {
 
-    
     @IBOutlet weak var containerview: UIView!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var search_btn: UIButton!
@@ -20,7 +19,15 @@ class Search_ViewController: UIViewController {
     
     var cancellable = [AnyCancellable]()
     var searchText: String?
+    var facetSearchVc: FacetSearchVc?
         
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if let facetSearchVc = segue.destination as? FacetSearchVc {
+                self.facetSearchVc = facetSearchVc
+            }
+        }
+        
+      
     
     var currentVC: UIViewController? {
         didSet {
@@ -33,11 +40,13 @@ class Search_ViewController: UIViewController {
         }
     }
     
-    private lazy var ProductSearch_VCs: RealTimeSearchViewController = {
+    
+    
+    private lazy var ProductSearch_VCs: FacetSearchVc = {
 //        var vc = ProductSearch_VC.getVC(.main)
 //
 //        return vc
-        var vc = RealTimeSearchViewController.getVC(.searchStoryBoard)
+        var vc = FacetSearchVc.getVC(.searchStoryBoard)
         
         return vc
     }()
@@ -94,7 +103,7 @@ class Search_ViewController: UIViewController {
         crossBtn.isHidden = true
         switch (sender as AnyObject).tag{
         case 0:
-            ProductSearch_VCs.searchText = search_txtfield.text
+            ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "",page: 1, faceby: "")
             showController(0, ProductSearch_VCs)
         case 1:
             StoreSearchVCs.searchText = search_txtfield.text
@@ -109,6 +118,8 @@ class Search_ViewController: UIViewController {
     }
      
   }
+ 
+
     
     @objc func enterPressed(){
         search_txtfield.resignFirstResponder()
@@ -153,7 +164,7 @@ class Search_ViewController: UIViewController {
         switch (sender as AnyObject).tag{
         case 0:
 //            Prood.searchText = search_txtfield.text
-            ProductSearch_VCs.searchText = search_txtfield.text
+            ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "",page: 1, faceby: "")
             showController(0, ProductSearch_VCs)
         case 1:
             StoreSearchVCs.searchText = search_txtfield.text
@@ -247,7 +258,7 @@ class Search_ViewController: UIViewController {
 
         switch sender.selectedSegmentIndex {
         case 0:
-//            ProductSearch_VCs.searchText = search_txtfield.text
+            ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "",page: 1, faceby: "")
             showController(0, ProductSearch_VCs)
         case 1:
             StoreSearchVCs.searchText = search_txtfield.text
@@ -265,3 +276,4 @@ class Search_ViewController: UIViewController {
 
 
 }
+

@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "typesense-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/typesense/typesense-swift",
+      "state" : {
+        "branch" : "master",
+        "revision" : "dad237f75e9db1235941ed8eaacb9be114a4bf23"
+      }
+    }
+  ],
+  "version" : 2
+}

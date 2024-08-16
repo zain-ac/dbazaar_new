@@ -68,14 +68,14 @@ class AppDefault {
                 shared.set(newValue, forKey: "miscid")
             }
         }
-    public static var facetFilters: [TypeSenseResult]? {
-        get{
-          return shared.decode(for: [TypeSenseResult].self, using: "facetFilters")
-        }
-        set{
-          shared.encode(for: newValue, using: "facetFilters")
-        }
-      }
+//    public static var facetFilters: [TypeSenseResult]? {
+//        get{
+//          return shared.decode(for: [TypeSenseResult].self, using: "facetFilters")
+//        }
+//        set{
+//          shared.encode(for: newValue, using: "facetFilters")
+//        }
+//      }
     public static var brandname: String {
         get {
             return shared.string(forKey: "brandname") ?? ""

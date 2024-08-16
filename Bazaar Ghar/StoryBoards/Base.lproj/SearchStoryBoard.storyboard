@@ -401,10 +401,10 @@
             </objects>
             <point key="canvasLocation" x="77.599999999999994" y="-1038.1773399014778"/>
         </scene>
-        <!--RealTimeSearchViewController-->
+        <!--FacetSearchVc-->
         <scene sceneID="mbn-pf-yPN">
             <objects>
-                <viewController storyboardIdentifier="RealTimeSearchViewController" title="RealTimeSearchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LLB-bS-WzA" customClass="RealTimeSearchViewController" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FacetSearchVc" title="FacetSearchVc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LLB-bS-WzA" customClass="FacetSearchVc" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="re1-uC-7c4">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
