@@ -138,7 +138,7 @@ extension OTPViewController: OTPFieldViewDelegate {
         APIServices.GetloginOTp(googleId: googleId, displayName: displayName){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
                 
                 
                 if let cleanedPhoneNumber = Int(appDelegate.phonenowithout.components(separatedBy: CharacterSet.whitespaces).joined(separator: "")) {
@@ -169,7 +169,7 @@ extension OTPViewController: OTPFieldViewDelegate {
         APIServices.loginWithGoogleVerification(googleId: googleId, displayName: displayName){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
                 AppDefault.currentUser = res.user
                 AppDefault.accessToken  = res.tokens?.access?.token ?? ""
                 AppDefault.refreshToken = res.tokens?.refresh?.token ?? ""

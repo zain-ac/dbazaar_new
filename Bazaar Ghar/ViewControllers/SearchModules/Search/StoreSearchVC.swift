@@ -100,7 +100,7 @@ class StoreSearchVC: UIViewController {
                 
                 self?.searchstoredata = res.results ?? []
                 
-              print(res)
+             //
                 self?.storeCollectionView.reloadData()
             case .failure(let error):
                 print(error)

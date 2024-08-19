@@ -511,7 +511,7 @@ var count = 0
         APIServices.shopchinaStreamingVideo(isBackground: false, origin: origin,completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
         
                 self?.LiveStreamingResultsdata = res.results ?? []
        
@@ -724,7 +724,7 @@ var count = 0
                     self?.randomproductapiModel = res
 //                    AppDefault.randonproduct = res
                 }
-                print(res)
+               //
                
                 self?.homeLastProductCollectionView.reloadData()
                 self?.shoesCollectionView.reloadData()
@@ -746,7 +746,7 @@ var count = 0
                 if(res.count > 0){
                     self?.getrandomproductapiModel.append(contentsOf: res)
                 }
-                print(res)
+               //
 //                self?.tableViewHeight.constant = CGFloat(920 * (self?.ProductCategoriesResponsedata.count ?? 0))
 //                
                 let hh = 820

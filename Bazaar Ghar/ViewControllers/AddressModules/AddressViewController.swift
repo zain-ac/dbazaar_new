@@ -53,7 +53,7 @@ class AddressViewController: UIViewController {
         APIServices.getaddress(completion: { [weak self] data in
             switch data {
             case .success(let res):
-          print(res)
+         //
                 self?.getAddressData = res
                 if res.count > 0 {
                     self?.addressTblv.isHidden = false
@@ -76,7 +76,7 @@ class AddressViewController: UIViewController {
         APIServices.addressDelete(addressId: addressId, completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 if(res == "ok"){
                     self?.view.makeToast("Address Deleted Successfully")
                     UIApplication.pTopViewController().tabBarController?.view.makeToast("Successfully Deleted")
@@ -95,7 +95,7 @@ class AddressViewController: UIViewController {
         APIServices.defaultAdrress(addressId: addressId, cartId: cartId, completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 AppDefault.currentUser?.defaultAddress = self?.defaultAdress 
                 if(res == "ok"){
                     self?.view.makeToast("Set Default Address Successfully")

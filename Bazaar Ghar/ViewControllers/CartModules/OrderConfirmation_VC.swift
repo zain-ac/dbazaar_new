@@ -160,7 +160,7 @@ class OrderConfirmation_VC: UIViewController {
         APIServices.palceOrder(cartId: cartId){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
                 let vc = InVoice_ViewController.getVC(.orderJourneyStoryBoard)
 //                vc.orderID = res
                 self?.navigationController?.pushViewController(vc, animated: false)

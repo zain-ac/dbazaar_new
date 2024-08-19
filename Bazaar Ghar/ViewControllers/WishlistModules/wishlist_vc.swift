@@ -63,7 +63,7 @@ class wishlist_vc: UIViewController {
          APIServices.wishlist(isbackground: false){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
                 self?.wishListItems = res.products ?? []
                 self?.wishlistcollection.reloadData()
                 if(self?.wishListItems.count ?? 0 > 0){
@@ -85,7 +85,7 @@ class wishlist_vc: UIViewController {
         APIServices.newwishlist(product:productId,completion: {[weak self] data in
           switch data{
           case .success(let res):
-            print(res)
+           //
     //        if(res == "OK"){
     //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
     //          button.tintColor = .red

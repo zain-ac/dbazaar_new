@@ -147,7 +147,7 @@ class SingleVideoCell: UITableViewCell {
                     self?.isFollow = false
                 }
              
-              print(res)
+             //
             case .failure(let error):
                 print(error)
                 
@@ -182,7 +182,7 @@ class SingleVideoCell: UITableViewCell {
             case .success(let res):
                 self?.followbtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
                 self?.isFollow = true
-              print(res)
+             //
             case .failure(let error):
                 print(error)
                 

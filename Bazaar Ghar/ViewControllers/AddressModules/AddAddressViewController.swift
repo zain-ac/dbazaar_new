@@ -429,7 +429,7 @@ class AddAddressViewController: UIViewController {
         APIServices.defaultAdrress(addressId: addressId, cartId: cartId, completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 AppDefault.currentUser?.defaultAddress = self?.defaultAddress
                 self?.navigationController?.popViewController(animated: true)
                 if(res == "OK"){
@@ -449,7 +449,7 @@ class AddAddressViewController: UIViewController {
         APIServices.getprovince(countryCode: countryCode, language: language, checkCache: checkCache, completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
              
                 self?.province = res
                 

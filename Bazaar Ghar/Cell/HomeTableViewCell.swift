@@ -74,7 +74,7 @@ class HomeTableViewCell: UITableViewCell {
         APIServices.wishlist(isbackground: isbackground){[weak self] data in
           switch data{
           case .success(let res):
-           print(res)
+          //
             AppDefault.wishlistproduct = res.products
    
             self?.Homecollectionview.reloadData()
@@ -88,7 +88,7 @@ class HomeTableViewCell: UITableViewCell {
         APIServices.newwishlist(product:productId,completion: {[weak self] data in
           switch data{
           case .success(let res):
-            print(res)
+           //
     //        if(res == "OK"){
     //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
     //          button.tintColor = .red

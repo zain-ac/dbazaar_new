@@ -120,7 +120,7 @@ struct DataUser: Codable {
 
 // MARK: - Wallet
 struct CartWallet: Codable {
-    let balance: Int?
+    let balance: Double?
 }
 // MARK: - Attribute
 

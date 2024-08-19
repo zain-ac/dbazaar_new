@@ -51,7 +51,7 @@ class InVoice_ViewController: UIViewController {
 //        APIServices.palceOrder(cartId: cartId){[weak self] data in
 //            switch data{
 //            case .success(let res):
-//              print(res)
+//             //
 ////                self?.orderitems = res
 //                let vc = InVoice_ViewController.getVC(.main)
 //                self?.navigationController?.pushViewController(vc, animated: false)

@@ -58,7 +58,7 @@ class ProductSearch_VC: UIViewController {
                 self?.searchproductdata.append(contentsOf: res)
                 self?.categoryPage += 1
                 self?.isLoadingNextPage = false
-              print(res)
+             //
                 self?.productsearchcollection.reloadData()
             case .failure(let error):
                 print(error)

@@ -177,7 +177,7 @@ class CartPopupViewController: UIViewController {
         APIServices.newwishlist(product:productId,completion: {[weak self] data in
           switch data{
           case .success(let res):
-            print(res)
+           //
     //        if(res == "OK"){
     //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
     //          button.tintColor = .red
@@ -210,7 +210,7 @@ class CartPopupViewController: UIViewController {
         APIServices.wishlist(isbackground: false){[weak self] data in
           switch data{
           case .success(let res):
-           print(res)
+          //
             AppDefault.wishlistproduct = res.products
               if let wishlistProducts = AppDefault.wishlistproduct {
                   if wishlistProducts.contains(where: { $0.id == self?.products?.id }) {

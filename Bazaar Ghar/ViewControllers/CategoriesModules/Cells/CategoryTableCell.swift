@@ -34,7 +34,7 @@ class CategoryTableCell: UITableViewCell {
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 if res.results?.count ?? 0 > 0 {
                     self?.emptyLbl.isHidden = true
                 }else {

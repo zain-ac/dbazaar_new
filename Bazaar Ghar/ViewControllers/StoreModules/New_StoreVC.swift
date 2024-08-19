@@ -122,7 +122,7 @@ class New_StoreVC: UIViewController {
         APIServices.getSellerDetail(id:id,completion: {[weak self] data in
             switch data{
             case .success(let res):
-            print(res)
+           //
 
                 self?.gallaryImages = res.images
                 self?.gallaryImages = Array(self?.gallaryImages?.prefix(2) ?? [])
@@ -151,7 +151,7 @@ class New_StoreVC: UIViewController {
                 self?.shopbycat_collectionview.reloadData()
             case .failure(let error):
                 print(error)
-                self?.view.makeToast(error)
+//                self?.view.makeToast(error)
             }
         })
     }
@@ -208,7 +208,7 @@ class New_StoreVC: UIViewController {
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 
                 if res.results?.count ?? 0 > 0 {
                     self?.videoViewHeight.constant = 300
@@ -232,7 +232,7 @@ class New_StoreVC: UIViewController {
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:userId, city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 if res.results?.count ?? 0 > 0 {
                     self?.videoViewHeight.constant = 280
                     self?.LiveStreamingResultsdata = res.results ?? []
@@ -262,7 +262,7 @@ class New_StoreVC: UIViewController {
                     self?.latestProductModel = res
 //                    AppDefault.randonproduct = res
                 }
-                print(res)
+               //
 
             case .failure(let error):
                 print(error)
@@ -280,7 +280,7 @@ class New_StoreVC: UIViewController {
                     self?.isFollow = false
                 }
              
-              print(res)
+             //
             case .failure(let error):
                 print(error)
                 
@@ -315,7 +315,7 @@ class New_StoreVC: UIViewController {
             case .success(let res):
                 self?.followBtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
                 self?.isFollow = true
-              print(res)
+             //
             case .failure(let error):
                 print(error)
                 

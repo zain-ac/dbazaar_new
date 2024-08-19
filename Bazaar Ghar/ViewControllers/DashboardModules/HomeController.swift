@@ -205,7 +205,7 @@ var count = 0
             if(res.count > 0){
                 self.getrandomproductapiModel.append(contentsOf: res)
             }
-            print(res)
+           //
             self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count))
             
             let hh = (300 * 3) + 1440
@@ -420,7 +420,7 @@ var count = 0
         APIServices.wishlist(isbackground: isbackground){[weak self] data in
           switch data{
           case .success(let res):
-           print(res)
+          //
             AppDefault.wishlistproduct = res.products
    
             self?.homeLastProductCollectionView.reloadData()
@@ -435,7 +435,7 @@ var count = 0
         APIServices.newwishlist(product:productId,completion: {[weak self] data in
           switch data{
           case .success(let res):
-            print(res)
+           //
     //        if(res == "OK"){
     //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
     //          button.tintColor = .red
@@ -499,6 +499,7 @@ var count = 0
 //            UITabBar.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
             UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
             NotificationCenter.default.post(name: Notification.Name("RefreshAllTabs"), object: nil)
+            UICollectionView.appearance().semanticContentAttribute = .forceLeftToRight
             appDelegate.GotoDashBoard(ischecklogin: false)
           
         }
@@ -592,7 +593,7 @@ var count = 0
                     self?.randomproductapiModel = res
                     AppDefault.randonproduct = res
                 }
-                print(res)
+               //
                
                 self?.homeLastProductCollectionView.reloadData()
             case .failure(let error):
@@ -612,7 +613,7 @@ var count = 0
                     AppDefault.getrandomproductapiModel = res
                     self?.getrandomproductapiModel.append(contentsOf: res)
                 }
-                print(res)
+               //
                 self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
                 
                 let hh = (300 * 3) + 1440

@@ -145,7 +145,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
     APIServices.palceOrder(cartId: cartId){[weak self] data in
       switch data{
       case .success(let res):
-       print(res)
+      //
         let vc = InVoice_ViewController.getVC(.orderJourneyStoryBoard)
           vc.mainpackageItems = self?.cartItems
           vc.orderitems = self?.orderDetails
@@ -159,7 +159,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
     APIServices.checkoutpayment(token: token, amount: amount, currency: currency, cartId: cartId){[weak self] data in
      switch data{
      case .success(let res):
-      print(res)
+     //
          let vc = InVoice_ViewController.getVC(.orderJourneyStoryBoard)
                   vc.mainpackageItems = self?.cartItems
                     vc.orderitems = self?.orderDetails

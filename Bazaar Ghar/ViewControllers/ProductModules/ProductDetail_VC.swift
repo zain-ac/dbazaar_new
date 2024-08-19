@@ -331,7 +331,7 @@ class ProductDetail_VC: UIViewController {
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
 
                 self?.LiveStreamingResultsdata = res.results ?? []
                 if res.results?.count ?? 0 > 0 {
@@ -439,7 +439,7 @@ class ProductDetail_VC: UIViewController {
         APIServices.addwishlist(proudct:product,completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 self?.Likebtn.isSelected = true
                 self?.view.makeToast("Product added to wishlist successfully")
             case .failure(let error):
@@ -453,7 +453,7 @@ class ProductDetail_VC: UIViewController {
         APIServices.removeWishList(product:product,completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 self?.Likebtn.isSelected = false
                 self?.view.makeToast("Product removed from wishlist successfully")
                
@@ -468,7 +468,7 @@ class ProductDetail_VC: UIViewController {
         APIServices.productcategoriesdetails(slug: slug){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
                 self?.wishlist()
 
                 if res.quantity ?? 0 > 0 {

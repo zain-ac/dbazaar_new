@@ -155,7 +155,7 @@ class ProfileViewController: UIViewController {
         APIServices.getaddress(completion: {[weak self] data in
             switch data{
             case .success(let res):
-          print(res)
+         //
                 self?.adressBook.text = "\(res.count)"
                 
               
@@ -175,7 +175,7 @@ class ProfileViewController: UIViewController {
          APIServices.wishlist(isbackground: false){[weak self] data in
            switch data{
            case .success(let res):
-             print(res)
+            //
                self?.wishList.text = "\(res.products?.count ?? 0)"
                
           
@@ -189,7 +189,7 @@ class ProfileViewController: UIViewController {
         APIServices.myorder(limit:100,sortBy:"createdAt"){[weak self] data in
              switch data{
              case .success(let res):
-               print(res)
+              //
                  self?.orderResponse = res.results ?? []
                  self?.orders.text = "\(res.results?.count ?? 0)"
               
@@ -205,7 +205,7 @@ class ProfileViewController: UIViewController {
         APIServices.deleteAccount(userId:userId, status: status){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
                 AppDefault.islogin = false
                 AppDefault.accessToken = ""
                 DispatchQueue.main.async {

@@ -59,7 +59,7 @@ class VideoCommentViewController: UIViewController {
                     self?.commentTblV.scrollToBottom()
                 }
                 
-                print(res)
+               //
                 
             case .failure(let error):
                 

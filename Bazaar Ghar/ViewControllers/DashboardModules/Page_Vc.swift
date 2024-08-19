@@ -42,7 +42,7 @@ class Page_Vc: UIViewController {
                 self?.scrollHeight.constant = CGFloat((250) + (125 * (res.first?.products?.count ?? 0)))
                 
                 self?.pageCollectionView.reloadData()
-              print(res)
+             //
                
             case .failure(let error):
                 print(error)

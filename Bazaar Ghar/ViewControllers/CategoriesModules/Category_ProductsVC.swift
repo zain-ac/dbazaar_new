@@ -177,7 +177,7 @@ class Category_ProductsVC: UIViewController {
 //        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:userId, city: "",completion: {[weak self] data in
 //            switch data{
 //            case .success(let res):
-//                print(res)
+//               //
 //                self?.LiveStreamingResultsdata = res.results ?? []
 //                
 //                if(self?.LiveStreamingResultsdata.count ?? 0 > 0){
@@ -238,7 +238,7 @@ class Category_ProductsVC: UIViewController {
                     // Update flag after loading
                     self?.isLoadingNextPage = false
                     
-                  print(res)
+                 //
 //                    if self?.getAllProductsByCategoriesData.count == 1 {
 //                        let ll = (self?.getAllProductsByCategoriesData.count ?? 0)  * 240
 //                        let hh = 60 + (self?.stackviewheight.constant ?? 0)
@@ -318,8 +318,8 @@ class Category_ProductsVC: UIViewController {
     private func chinesebell(sellerId:String,brandName:String,description:String){
         APIServices.chinesebell(sellerId: sellerId, brandName: brandName, description: description){[weak self] data in
             switch data{
-            case .success(let res):
-              print(res)
+            case .success(_): break
+             //
             case .failure(let error):
                 print(error)
                 if(error == "Please authenticate" && AppDefault.islogin){
@@ -337,7 +337,7 @@ class Category_ProductsVC: UIViewController {
 //            case .success(let res):
 //                self?.followBtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
 //                self?.isFollow = true
-//              print(res)
+//             //
 //            case .failure(let error):
 //                print(error)
 //                if(error == "Please authenticate" && AppDefault.islogin){
@@ -357,7 +357,7 @@ class Category_ProductsVC: UIViewController {
 //                    self?.isFollow = false
 //                }
 //             
-//              print(res)
+//             //
 //            case .failure(let error):
 //                print(error)
 //                if(error == "Please authenticate" && AppDefault.islogin){
@@ -399,7 +399,7 @@ class Category_ProductsVC: UIViewController {
         APIServices.wishlist(isbackground: isbackground){[weak self] data in
           switch data{
           case .success(let res):
-           print(res)
+          //
             AppDefault.wishlistproduct = res.products
    
             self?.categoryproduct_collectionview.reloadData()
@@ -413,7 +413,7 @@ class Category_ProductsVC: UIViewController {
         APIServices.newwishlist(product:productId,completion: {[weak self] data in
           switch data{
           case .success(let res):
-            print(res)
+           //
     //        if(res == "OK"){
     //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
     //          button.tintColor = .red

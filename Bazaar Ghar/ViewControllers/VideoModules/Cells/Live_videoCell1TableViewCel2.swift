@@ -59,7 +59,7 @@ class Live_videoCell1TableViewCel2: UITableViewCell {
 //        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in
 //            switch data{
 //            case .success(let res):
-//                print(res)
+//               //
 //        
 //                self?.LiveStreamingResultsdata = res.results ?? []
 //       

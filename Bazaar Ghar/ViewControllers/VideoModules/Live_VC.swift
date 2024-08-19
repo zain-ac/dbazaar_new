@@ -70,7 +70,7 @@ class Live_VC: UIViewController {
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
 
                 self?.LiveStreamingResultsdata = res.results ?? []
                 self?.customCateogry = AppDefault.CategoriesResponsedata ?? []
@@ -89,7 +89,7 @@ class Live_VC: UIViewController {
         APIServices.getLiveStream(completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
 
                 self?.LiveVideoData = res
                 

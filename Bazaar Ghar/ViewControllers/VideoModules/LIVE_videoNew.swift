@@ -111,7 +111,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 self?.isLoadingData = false
 
                 self?.LiveStreamingResultsdata += res.results ?? []
@@ -175,7 +175,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
                     self?.novideosview.isHidden = false
 //                    self?.categoryview.isHidden = false
                 }
-              print(res)
+             //
                 self?.videocategorytableview.reloadData()
             case .failure(let error):
                 print(error)
@@ -188,7 +188,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         APIServices.getLiveStream(completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 
                 self?.LiveVideoData = res
                 if(self?.LiveVideoData.count != 0){

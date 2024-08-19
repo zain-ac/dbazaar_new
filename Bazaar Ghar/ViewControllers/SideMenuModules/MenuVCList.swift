@@ -49,8 +49,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
 //        backButton.isHidden = true
         isSelected  = "Home"
         let animation = LottieAnimation.named("new_side_animation")
-        videoAnimationView.animation = animation
-        videoAnimationView.loopMode = .loop
+//        videoAnimationView.animation = animation
+//        videoAnimationView.loopMode = .loop
 
       
         

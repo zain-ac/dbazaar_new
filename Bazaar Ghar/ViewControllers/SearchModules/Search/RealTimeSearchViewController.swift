@@ -178,7 +178,7 @@
 ////                DispatchQueue.main.async {
 ////                    self?.lastRandomProductsCollectionView.reloadData()
 ////                }
-//                print(res)
+//               //
 //            case .failure(let error):
 //                print(error)
 //                self?.view.makeToast(error)
@@ -212,7 +212,7 @@
 //                DispatchQueue.main.async {
 //                    self?.lastRandomProductsCollectionView.reloadData()
 //                }
-//                print(res)
+//               //
 //            case .failure(let error):
 //                print(error)
 //                self?.view.makeToast(error)

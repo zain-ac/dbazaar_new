@@ -40,7 +40,7 @@ class ReportViewController: UIViewController  {
         APIServices.report(comment: comment, videoId: videoId){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
                 self?.dismiss(animated: true)
             case .failure(let error):
                 print(error)

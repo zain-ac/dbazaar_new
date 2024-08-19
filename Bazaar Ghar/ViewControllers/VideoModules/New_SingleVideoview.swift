@@ -287,7 +287,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         APIServices.getvidoebyproductIds(productIds:productIds){[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
                 self?.getvidoebyproductIdsdata = res
                 self?.showCollectionView = productIds.first!
 //                self?.showCaseCollectionView.reloadData()

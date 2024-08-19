@@ -72,7 +72,7 @@ class VediosSearch_VC: UIViewController {
                     self?.notFound.isHidden = false
                 }
                 self?.searchVideodata = res.results
-              print(res)
+             //
                 self?.vediosearchCollection.reloadData()
             case .failure(let error):
                 print(error)

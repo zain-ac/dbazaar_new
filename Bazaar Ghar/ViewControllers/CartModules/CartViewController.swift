@@ -209,7 +209,7 @@ class CartViewController: UIViewController {
             switch data{
             case .success(let res):
 
-              print(res)
+             //
                 self?.popview.isHidden = true
                 self?.Backgroundpopview.isHidden = true
 

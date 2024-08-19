@@ -167,7 +167,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         APIServices.wishlist(isbackground: false){[weak self] data in
           switch data{
           case .success(let res):
-           print(res)
+          //
             AppDefault.wishlistproduct = res.products
               if let wishlistProducts = AppDefault.wishlistproduct {
                   if wishlistProducts.contains(where: { $0.id == self?.productcategoriesdetailsdata?.welcomeID }) {
@@ -189,7 +189,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         APIServices.newwishlist(product:productId,completion: {[weak self] data in
           switch data{
           case .success(let res):
-            print(res)
+           //
             self?.wishList()
           case .failure(let error):
             print(error)
@@ -459,7 +459,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         APIServices.moreFrom(category: category, user: user,completion: {[weak self] data in
             switch data{
             case .success(let res):
-             print(res)
+            //
                 self?.moreFromResponse = res
                 if res.results?.count ?? 0 > 2 {
                     self?.moreFromViewHeight.constant = 620
@@ -569,7 +569,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
             switch data{
             case .success(let res):
-                print(res)
+               //
 
                 self?.LiveStreamingResultsdata = res.results ?? []
                 if res.results?.count ?? 0 > 0 {
@@ -603,7 +603,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         APIServices.productcategoriesdetails(slug: slug){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
 
                 self?.productcategoriesdetailsdata = res
 

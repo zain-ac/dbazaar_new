@@ -178,8 +178,15 @@ class PopupLoginVc: UIViewController {
     private func pushnotificationapi(){
         APIServices.pushnotificationapi{[weak self] data in
             switch data{
-            case .success(let res):
-              print(res)
+            case .success( _): break
+                
+                
+                
+                
+                
+                
+                
+             //
             case .failure(let error):
                 print(error)
             }
@@ -190,7 +197,7 @@ class PopupLoginVc: UIViewController {
         APIServices.getLoginGoogle(googleId: googleId, displayName: displayName){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
                 if(res.user?.status == "active"){
                     AppDefault.currentUser = res.user
                     AppDefault.accessToken  = res.tokens?.access?.token ?? ""
@@ -224,7 +231,7 @@ class PopupLoginVc: UIViewController {
         APIServices.appleLogin(token: token){[weak self] data in
             switch data{
             case .success(let res):
-              print(res)
+             //
                 if(res.result?.user?.status == "active"){
                     AppDefault.currentUser = res.result?.user
                     AppDefault.accessToken  = res.result?.tokens?.access?.token ?? ""

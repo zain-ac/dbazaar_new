@@ -36,7 +36,7 @@ class CartStoreLableCell: UITableViewCell {
             switch data{
             case .success(let res):
                 
-                print(res)
+               //
                 NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil)
             case .failure(let error):
                 print(error)

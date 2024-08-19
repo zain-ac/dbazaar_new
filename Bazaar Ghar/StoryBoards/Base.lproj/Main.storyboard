@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N9Q-my-JxT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="N9Q-my-JxT">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -1538,7 +1538,7 @@
         <scene sceneID="6Ck-9Z-vkG">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="o1b-E1-XS7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Categories" image="discount (1)" selectedImage="catTab" id="usB-r3-fy7"/>
+                    <tabBarItem key="tabBarItem" title="Categories" image="category 1" selectedImage="selectedcategory" id="usB-r3-fy7"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="G6F-gA-6ot">
                         <rect key="frame" x="0.0" y="50" width="375" height="44"/>
@@ -2082,7 +2082,7 @@
                                             <constraint firstItem="WIE-In-vrW" firstAttribute="leading" secondItem="Cjh-h3-MzR" secondAttribute="leading" constant="10" id="yeG-3O-T0n"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KVU-TU-Q8w">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KVU-TU-Q8w">
                                         <rect key="frame" x="0.0" y="100" width="375" height="73"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cdM-zD-CDx">
@@ -2098,7 +2098,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="tintColor"/>
+                                                        <color key="backgroundColor" name="headercolor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="35" id="2qk-xx-ykU"/>
                                                             <constraint firstItem="F0g-aK-4nE" firstAttribute="centerX" secondItem="mjv-Km-6TB" secondAttribute="centerX" id="O1X-bg-PXc"/>
@@ -2147,7 +2147,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="tintColor"/>
+                                                        <color key="backgroundColor" name="headercolor"/>
                                                         <constraints>
                                                             <constraint firstItem="QKV-ft-jVY" firstAttribute="centerX" secondItem="OVe-mj-Ta9" secondAttribute="centerX" id="H60-I3-Pcv"/>
                                                             <constraint firstAttribute="height" constant="35" id="Ohh-AQ-6Wi"/>
@@ -2545,7 +2545,7 @@
                                             <constraint firstAttribute="bottom" secondItem="Gl8-Rm-54i" secondAttribute="bottom" id="zOi-Zd-VPn"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hnj-og-6Vf">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hnj-og-6Vf">
                                         <rect key="frame" x="0.0" y="642" width="375" height="100"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtotal:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0g-tU-9Gd">
@@ -2604,7 +2604,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="td7-H4-tKQ">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="td7-H4-tKQ">
                                         <rect key="frame" x="0.0" y="742" width="375" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rr4-dD-mzh">
@@ -5258,9 +5258,6 @@
             <point key="canvasLocation" x="-7858.3999999999996" y="279.31034482758622"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="94d-mJ-0AP"/>
-    </designables>
     <resources>
         <image name="17" width="225" height="225"/>
         <image name="5" width="720" height="405"/>
@@ -5274,11 +5271,10 @@
         <image name="arrow.right" catalog="system" width="128" height="95"/>
         <image name="cart" catalog="system" width="128" height="102"/>
         <image name="carticon" width="19" height="17.666666030883789"/>
-        <image name="catTab" width="15" height="15"/>
+        <image name="category 1" width="24" height="24"/>
         <image name="chevron.backward.circle.fill" catalog="system" width="128" height="123"/>
         <image name="chevron.down" catalog="system" width="128" height="70"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
-        <image name="discount (1)" width="25.5" height="26.5"/>
         <image name="eye" catalog="system" width="128" height="79"/>
         <image name="group_photo" width="73" height="39"/>
         <image name="hamburger" width="20" height="16"/>
@@ -5291,6 +5287,7 @@
         <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <image name="selectProfile" width="25" height="25"/>
+        <image name="selectedcategory" width="24" height="24"/>
         <image name="trash" catalog="system" width="117" height="128"/>
         <image name="whatsapp 1" width="63" height="63"/>
         <namedColor name="FF8319">
@@ -5334,9 +5331,6 @@
         </systemColor>
         <systemColor name="tertiaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="viewFlipsideBackgroundColor">
             <color red="0.12156862745098039" green="0.12941176470588237" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
