@@ -12,7 +12,7 @@ class New_StorepageVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Utility().setGradientBackground(view: headerview, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
 
         // Do any additional setup after loading the view.
     }

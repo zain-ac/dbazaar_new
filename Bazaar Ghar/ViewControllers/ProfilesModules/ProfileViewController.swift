@@ -192,6 +192,7 @@ class ProfileViewController: UIViewController {
               //
                  self?.orderResponse = res.results ?? []
                  self?.orders.text = "\(res.results?.count ?? 0)"
+//                 self?.walletBalance.text = String(Double(self?.orderResponse?[0].seller?.wallet?.balance ?? 0).rounded())
               
              
              

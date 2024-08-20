@@ -174,7 +174,7 @@ var count = 0
         shopImage.image = UIImage(named: shopImg ?? "")
 
         
-        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
 
         pagerView.dataSource = self
                pagerView.delegate = self
@@ -893,7 +893,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = self.randomproductapiModel.first?.product?[indexPath.row]
             cell.product = data
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
             cell.product = data
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
             if LanguageManager.language == "ar"{
@@ -925,7 +925,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         } else if collectionView == shoesCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = self.randomproductapiModel.first?.product?[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
             cell.product = data
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
             if LanguageManager.language == "ar"{
@@ -985,7 +985,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         }else if collectionView == lastRandomProductsCollectionView{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = getrandomproductapiModel[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
             cell.product = data
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
             if LanguageManager.language == "ar"{

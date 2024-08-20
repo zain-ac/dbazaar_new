@@ -280,7 +280,7 @@
 ////        cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(data?.regularPrice ?? 0))
 //
 //      
-//        Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+//        Utility().setGradientBackground(view: cell.percentBGView, colors: [UIColor.primaryColor, UIColor.primaryColor, UIColor.headerSecondaryColor])
 //       
 //        cell.productimage.pLoadImage(url: data?.mainImage ?? "")
 //        cell.productname.text =  data?.productName

@@ -13,7 +13,7 @@ class NoInternet_ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Utility().setGradientBackground(view: headerview, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
         let button = UIButton(type: .system)
           button.setTitle("Open Settings", for: .normal)
           

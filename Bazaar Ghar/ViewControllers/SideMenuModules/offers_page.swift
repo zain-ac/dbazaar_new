@@ -12,7 +12,7 @@ class offers_page: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
 
         // Do any additional setup after loading the view.
     }

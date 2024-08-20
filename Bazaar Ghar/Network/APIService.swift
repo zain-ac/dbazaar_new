@@ -802,6 +802,24 @@ class APIServices{
         
         
     }
+    class func useWalletApi(wallet:Bool,completion:@escaping(APIResult<CartItemsResponse>)->Void){
+        Provider.services.request(.cartWalletMethod(wallet: wallet)) { result in
+            do{
+                
+                let  cartData: CartItemsResponse =  try result.decoded(keypath: "data")
+                
+                completion(.success(cartData))
+            }catch{
+                print("-----Error------ \n",error)
+                completion(.failure(error.customDescription))
+                
+            }
+        }
+    }
+        
+        
+        
+    
     class func followcheck(storeId:String,completion:@escaping(APIResult<String>)->Void){
         Provider.services.request(.followcheck(storeId: storeId)) { result in
             

@@ -77,7 +77,7 @@ class New_StoreVC: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         
         setupCollectionView()
-        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
         HeaderbrandNameLbl.text = brandName ?? ""
         brandNameLbl.text = brandName ?? ""
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -548,14 +548,14 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             let data = CategoriesResponsedata[indexPath.row]
             cell.shop_img.pLoadImage(url: data.mainImage ?? "")
             cell.lbl.text = data.name
-            Utility().setGradientBackground(view: cell.BGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.BGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
             return cell
         }
         
         else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data =  self.getAllProductsByCategoriesData[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
 
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
             if LanguageManager.language == "ar"{

@@ -80,7 +80,7 @@ extension ProductSearch_VC: UICollectionViewDelegate,UICollectionViewDataSource,
         
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
         let data = searchproductdata[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
         cell.product = data
         cell.productimage.pLoadImage(url: data.mainImage ?? "")
         if LanguageManager.language == "ar"{

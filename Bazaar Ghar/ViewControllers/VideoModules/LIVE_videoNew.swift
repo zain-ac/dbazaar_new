@@ -45,7 +45,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
          videocategorytableview.register(nib2, forCellReuseIdentifier: "Live_videoCell1TableViewCel2")
 //        let nib2 = UINib(nibName: "Live_videoCell2TableViewCell", bundle: nil)
 //               videocategorytableview.register(nib2, forCellReuseIdentifier: "Live_videoCell2TableViewCell")
-        Utility().setGradientBackground(view: headerview, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
 
         // Do any additional setup after loading the view.
         videocategorytableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

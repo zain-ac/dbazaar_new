@@ -143,7 +143,7 @@ var count = 0
 //            .attributedStringWithColoredLastWord(
 //            "".lowercased().capitalized, lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         trendingproductlbl.attributedText = trendingText
-        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
 
         pagerView.dataSource = self
                pagerView.delegate = self
@@ -731,7 +731,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         } else if collectionView == homeLastProductCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = randomproductapiModel.first?.product?[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
             cell.product = data
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
             if LanguageManager.language == "ar"{
@@ -807,7 +807,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
         }else if collectionView == lastRandomProductsCollectionView{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = getrandomproductapiModel[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
             cell.product = data
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
 //            cell.productname.text = data.productName

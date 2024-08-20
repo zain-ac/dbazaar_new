@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -159,7 +159,7 @@
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHK-TT-wWr">
                                         <rect key="frame" x="258" y="12.666666666666671" width="100" height="35"/>
-                                        <color key="backgroundColor" red="0.023529411760000001" green="0.71764705880000002" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="headercolor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="Mj9-UN-z4H"/>
                                             <constraint firstAttribute="height" constant="35" id="eKb-V7-kwe"/>
@@ -684,7 +684,7 @@
                                                                                             <subviews>
                                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabelLabelLabelLabelLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t2X-7l-L1y">
                                                                                                     <rect key="frame" x="5" y="5" width="95" height="16"/>
-                                                                                                    <color key="backgroundColor" red="0.023529411760000001" green="0.71764705880000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                                    <color key="backgroundColor" name="FF8319"/>
                                                                                                     <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="12"/>
                                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                     <nil key="highlightedColor"/>
@@ -695,7 +695,7 @@
                                                                                                     <buttonConfiguration key="configuration" style="plain"/>
                                                                                                 </button>
                                                                                             </subviews>
-                                                                                            <color key="backgroundColor" red="0.023529411760000001" green="0.71764705880000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                            <color key="backgroundColor" name="headercolor"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="trailing" secondItem="t2X-7l-L1y" secondAttribute="trailing" constant="5" id="FDt-FW-T54"/>
                                                                                                 <constraint firstItem="t2X-7l-L1y" firstAttribute="top" secondItem="ttC-Ko-upe" secondAttribute="top" constant="5" id="NW2-bC-wCV"/>
@@ -1299,7 +1299,7 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="69" height="27"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10% OFF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OJs-MH-CP0">
-                                                                                    <rect key="frame" x="11.666666666666664" y="5" width="46" height="17"/>
+                                                                                    <rect key="frame" x="11.666666666666664" y="5" width="46.000000000000007" height="17"/>
                                                                                     <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="12"/>
                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <nil key="highlightedColor"/>
@@ -1489,7 +1489,7 @@
                                         <rect key="frame" x="0.0" y="57.666666666666686" width="393" height="701.33333333333326"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data Found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6tx-Zb-Tlo">
-                                                <rect key="frame" x="122.66666666666667" y="336.66666666666663" width="147.66666666666663" height="28"/>
+                                                <rect key="frame" x="122.66666666666667" y="336.66666666666663" width="147.66666666666657" height="28"/>
                                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -1542,6 +1542,11 @@
             <point key="canvasLocation" x="5124" y="-1854"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="Nyc-Bu-LLi">
+            <size key="intrinsicContentSize" width="-1" height="65"/>
+        </designable>
+    </designables>
     <resources>
         <image name="17" width="225" height="225"/>
         <image name="arrow.backward" catalog="system" width="128" height="95"/>
@@ -1557,8 +1562,11 @@
         <image name="radio-button-svgrepo-com" width="800" height="800"/>
         <image name="star-svgrepo-com" width="9" height="9"/>
         <image name="unslectedChkBox" width="19" height="19"/>
+        <namedColor name="FF8319">
+            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="headercolor">
-            <color red="0.023529411764705882" green="0.61568627450980395" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>

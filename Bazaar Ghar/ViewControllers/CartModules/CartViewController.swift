@@ -57,10 +57,10 @@ class CartViewController: UIViewController {
         }
         NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         
-        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-//        Utility().setGradientBackgroundForBtn(button: checkoutbutton, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-//        Utility().setGradientBackground(view: V1, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-//        Utility().setGradientBackground(view: V2, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
+//        Utility().setGradientBackgroundForBtn(button: checkoutbutton, colors: [primaryColor, primaryColor, headerSecondaryColor])
+//        Utility().setGradientBackground(view: V1, colors: [primaryColor, primaryColor, headerSecondaryColor])
+//        Utility().setGradientBackground(view: V2, colors: [primaryColor, primaryColor, headerSecondaryColor])
 
         cartTableViewCell.dataSource = self
         cartTableViewCell.delegate = self

@@ -7,6 +7,7 @@
 import UIKit
 import Frames
 import Checkout
+import AudioToolbox
 class NewOrderConfirmation_ViewController: UIViewController {
   @IBOutlet weak var mapview: UIView!
   @IBOutlet weak var headerview: UIView!
@@ -27,12 +28,18 @@ class NewOrderConfirmation_ViewController: UIViewController {
   @IBOutlet weak var paymentmethodlbl: UILabel!
   @IBOutlet weak var ordersummarylbl: UILabel!
   @IBOutlet weak var ordersummarycollectview: UICollectionView!
-  @IBOutlet weak var homelbl: UILabel!
+    @IBOutlet weak var walletSwitch: UISwitch!
+
+    @IBOutlet weak var chkButton: UIButton!
+    @IBOutlet weak var homelbl: UILabel!
   @IBOutlet weak var orderSummaryHeight: NSLayoutConstraint!
   @IBOutlet weak var scrollHeight: NSLayoutConstraint!
   @IBOutlet weak var addressLbl: UILabel!
+  @IBOutlet weak var walletBalane: UILabel!
+    var walletBalance: Double?
   var orderDetails: CartItemsResponse?
   var itemCount = 0
+   
   var defaultAdress : DefaultAddress?
   var methodimgArray = ["creditcard"]
   var methodNameArray = ["Credit/Debit Card"]
@@ -50,8 +57,8 @@ class NewOrderConfirmation_ViewController: UIViewController {
       applybtn.backgroundColor = .gray
       
       orderinstructiontxt.delegate = self
-    Utility().setGradientBackground(view: headerview, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-//    Utility().setGradientBackground(view: placeorderbtn, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+    Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
+//    Utility().setGradientBackground(view: placeorderbtn, colors: [primaryColor, primaryColor, headerSecondaryColor])
     orderinstructiontxt.addPlaceholder("Order Instructions".pLocalized(lang: LanguageManager.language))
     let attributedText1 = Utility().attributedStringWithColoredLastWord("Delivery Address", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
     deliveryaddresslbl.attributedText = attributedText1
@@ -87,6 +94,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     tabBarController?.tabBar.isHidden = true
       navigationController?.navigationBar.isHidden = true
+     
     defaultAdress = AppDefault.currentUser?.defaultAddress
       if defaultAdress?.localType == "local" {
           homelbl.text = (defaultAdress?.addressType?.capitalized.uppercased() ?? "") + " - Saudi Arabia".capitalized.uppercased()
@@ -99,6 +107,10 @@ class NewOrderConfirmation_ViewController: UIViewController {
     for i in bannerapidata {
       cartItems += i.packageItems ?? []
     }
+ 
+   
+      walletSwitch.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
+    
     orderSummaryHeight.constant = 320 + CGFloat(cartItems.count * 150)
     scrollHeight.constant = CGFloat(orderSummaryHeight.constant) + 600
     producttotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.retailTotal ?? 0)
@@ -107,7 +119,13 @@ class NewOrderConfirmation_ViewController: UIViewController {
     deliverytxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.shippmentCharges ?? 0)
     totaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.total ?? 0)
     payabletxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.payable ?? 0 + 150)
+     
+      walletBalane.text = "(\(appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.user?.wallet?.balance ?? 0.0)))"
+      walletBalance = orderDetails?.user?.wallet?.balance ?? 0.0
+      
   }
+   
+    
      func addDottedBorder(to button: UIButton) {
        let dottedBorder = CAShapeLayer()
        dottedBorder.strokeColor = UIColor.black.cgColor
@@ -117,6 +135,18 @@ class NewOrderConfirmation_ViewController: UIViewController {
        dottedBorder.path = UIBezierPath(roundedRect: button.bounds, cornerRadius: button.layer.cornerRadius).cgPath
        button.layer.addSublayer(dottedBorder)
      }
+    @IBAction func switchChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            self.useWalltet(wallet:true)
+            
+        }else {
+         
+                self.useWalltet(wallet:false)
+           
+            
+        }
+    }
   @IBAction func editbtn(_ sender: Any) {
     let vc = AddressViewController.getVC(.profileSubVIewStoryBoard)
     self.navigationController?.pushViewController(vc, animated: false)
@@ -130,10 +160,16 @@ class NewOrderConfirmation_ViewController: UIViewController {
               if(defaultAdress?.address == nil){
                   self.view.makeToast("Please Enter Address")
               }else{
-                  let viewController = Factory.getDefaultPaymentViewController { [weak self] result in
-                   self?.handleTokenResponse(with: result)
+                  if(orderDetails?.payable ?? 0.0 <= 0 && walletSwitch.isOn == true){
+                      
+                      self.placeOrder(cartId: orderDetails?.id ?? "")
+                  }else{
+                      let viewController = Factory.getDefaultPaymentViewController { [weak self] result in
+                       self?.handleTokenResponse(with: result)
+                      }
+                      navigationController?.pushViewController(viewController, animated: false)
                   }
-                  navigationController?.pushViewController(viewController, animated: false)
+                 
               }
           
             
@@ -155,6 +191,32 @@ class NewOrderConfirmation_ViewController: UIViewController {
       }
     }
   }
+     func useWalltet(wallet:Bool){
+      APIServices.useWalletApi(wallet: wallet){[weak self] data in
+        switch data{
+        case .success(let res):
+        //
+//             self?.cartItems = res.packages
+            self?.orderDetails = res
+            self?.producttotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.retailTotal ?? 0)
+            self?.discounttxt.text = "(\(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.discount ?? 0)))"
+            self?.subtotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.subTotal ?? 0)
+            self?.deliverytxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.shippmentCharges ?? 0)
+            self?.totaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.total ?? 0)
+            self?.payabletxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.payable ?? 0 + 150)
+            self?.walletBalane.text = "(\(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.user?.wallet?.balance ?? 0.0)))"
+            self?.walletBalance = res.user?.wallet?.balance ?? 0.0
+            
+            self?.ordersummarycollectview.reloadData()
+        case .failure(let error):
+          print(error)
+            self?.walletSwitch.isOn = false
+            self?.view.makeToast(error)
+            
+            
+        }
+      }
+    }
   func paymentApi(token:String,amount:Float,currency:String,cartId:String){
     APIServices.checkoutpayment(token: token, amount: amount, currency: currency, cartId: cartId){[weak self] data in
      switch data{

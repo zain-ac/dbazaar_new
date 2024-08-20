@@ -55,7 +55,7 @@ class Category_ProductsVC: UIViewController {
         self.productEmptyLbl.isHidden = true
 
         scrollView.delegate = self
-        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
 //       getStreamingVideos(userId: prductid, limit: 10, page: 1, categories: [])
 //        followcheck(storeId: self.storeId)
        
@@ -507,7 +507,7 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data =  self.getAllProductsByCategoriesData[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
         cell.product = data
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
             cell.productname.text =  data.productName

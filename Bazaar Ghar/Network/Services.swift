@@ -13,6 +13,7 @@ enum Services {
     //MARK: - AUTHENTICATION
     case banner
     case categories(id:String)
+    case cartWalletMethod(wallet:Bool)
     case productcategories(cat:String,cat2:String,cat3:String,cat4:String,cat5:String)
     case randomproduct
     case productcategoriesdetails(slug: String)
@@ -104,7 +105,10 @@ extension Services: TargetType, AccessTokenAuthorizable {
     var path: String {
         switch self {
         case  .getVideoToken:
-                    return "videoCall/token"
+                    return "videoCall/token" 
+        case  .cartWalletMethod:
+                    return "cart/payment-method"
+    
         case let .cardpaymentApi(_,_,_,_):
                   return "payment/order-detail"
         case  .getComments:
@@ -317,6 +321,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"user": category], encoding: URLEncoding.default)
         case let .loginwithgoogle(googleId,displayName):
             return .requestParameters(parameters: ["googleId": googleId,"displayName": displayName], encoding: JSONEncoding.default)
+        case let .cartWalletMethod(wallet):
+            return .requestParameters(parameters: ["wallet": wallet], encoding: JSONEncoding.default)
         case let .loginwithOtp(googleId, _):
             return .requestParameters(parameters: ["phoneNumber": googleId], encoding: JSONEncoding.default)  
         case let .getComments(scheduleId):

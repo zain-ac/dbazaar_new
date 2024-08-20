@@ -116,7 +116,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
               self.dismiss(animated: true)
             }
         NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
-        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         bannerApi(isbackground: false)
         colorsimgs = ["colosimg","colosimg","colosimg"]
@@ -1194,7 +1194,7 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
         if collectionView == relatedProductCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data =  self.relatedProductResponse[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
             cell.product = data
             cell.productimage.pLoadImage(url: data.mainImage ?? "")
             if LanguageManager.language == "ar"{
@@ -1237,7 +1237,7 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = moreFromResponse?.results?[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
             cell.product = data
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")
             if LanguageManager.language == "ar"{

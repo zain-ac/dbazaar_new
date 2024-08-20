@@ -22,8 +22,8 @@ class InVoice_ViewController: UIViewController {
         super.viewDidLoad()
         invoice_tbl.dataSource = self
         invoice_tbl.delegate = self
-        Utility().setGradientBackground(view: headerview, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
-        Utility().setGradientBackground(view: invoiceview, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
+        Utility().setGradientBackground(view: invoiceview, colors: [primaryColor, primaryColor, headerSecondaryColor])
         invoicelbl.text = orderitems?.id ?? ""
         totalamountlbl.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(orderitems?.subTotal ?? 0))
         setCurrentDate()

@@ -161,7 +161,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
             let data = productapi?[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
             cell.product = data
             self.productvariantsapi = data?.variants!
             cell.productimage.pLoadImage(url: data?.mainImage ?? "")

@@ -37,7 +37,7 @@ class DashboardViewController: UIViewController {
         super.viewDidLoad()
         self.selectedIndexPath = 0
         // Do any additional setup after loading the view.
-        Utility().setGradientBackground(view: headerBackgroudView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
         self.embedviewController(Indexpath: self.selectedIndexPath ?? 0)
         
     }
@@ -97,7 +97,7 @@ extension DashboardViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BottomBarCollectionViewCell", for: indexPath) as! BottomBarCollectionViewCell
-        cell.topline.backgroundColor = UIColor(hex: "#0EB1FB")
+        cell.topline.backgroundColor = UIColor(hex: primaryColor)
 
         cell.lbl.text = namearray[indexPath.row]
      

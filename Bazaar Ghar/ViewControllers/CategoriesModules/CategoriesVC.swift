@@ -40,7 +40,7 @@ class CategoriesVC: UIViewController {
         
         
         
-        Utility().setGradientBackground(view: hederView, colors: ["#0EB1FB", "#0EB1FB", "#544AED"])
+        Utility().setGradientBackground(view: hederView, colors: [primaryColor, primaryColor, headerSecondaryColor])
         
         let left = UISwipeGestureRecognizer(target : self, action : #selector(Swipeleft))
                         left.direction = .left
