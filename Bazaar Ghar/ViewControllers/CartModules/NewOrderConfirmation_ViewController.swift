@@ -100,7 +100,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
       cartItems += i.packageItems ?? []
     }
     orderSummaryHeight.constant = 320 + CGFloat(cartItems.count * 150)
-    scrollHeight.constant = CGFloat(orderSummaryHeight.constant) + 560
+    scrollHeight.constant = CGFloat(orderSummaryHeight.constant) + 600
     producttotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.retailTotal ?? 0)
     discounttxt.text = "(\(appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.discount ?? 0)))"
     subtotaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.subTotal ?? 0)
