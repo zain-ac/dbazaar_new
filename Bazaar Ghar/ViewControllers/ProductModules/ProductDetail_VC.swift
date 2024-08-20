@@ -496,14 +496,14 @@ class ProductDetail_VC: UIViewController {
                     self?.Salesprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.salePrice ?? 0)
                     self?.productPriceLine.isHidden = false
                     self?.Regularprice.textColor = UIColor.red
-                    self?.Salesprice.textColor = UIColor(hexString: "#069DDD")
+                    self?.Salesprice.textColor = UIColor(hexString: primaryColor)
                     self?.productPriceLine.backgroundColor = UIColor.red
 
                 }else {
                     self?.Salesprice.isHidden = true
                     self?.OnSaleimage.isHidden = true
                     self?.productPriceLine.isHidden = true
-                    self?.Regularprice.textColor = UIColor(hexString: "#069DDD")
+                    self?.Regularprice.textColor = UIColor(hexString: primaryColor)
                  }
                 self?.ratingView.rating =    Double(res.ratings?.total ?? 0)
                 

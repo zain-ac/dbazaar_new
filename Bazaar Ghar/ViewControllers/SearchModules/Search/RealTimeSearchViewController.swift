@@ -264,13 +264,13 @@
 ////            cell.discountPrice.text =  appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(data?.salePrice ?? 0))
 ////                cell.productPriceLine.isHidden = false
 ////                cell.productPrice.textColor = UIColor.red
-////                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
+////                cell.discountPrice.textColor = UIColor(hexString: primaryColor)
 ////                cell.productPriceLine.backgroundColor = UIColor.red
 ////                
 ////            } else {
 ////                cell.discountPrice.isHidden = true
 ////                cell.productPriceLine.isHidden = true
-////                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+////                cell.productPrice.textColor = UIColor(hexString: primaryColor)
 ////            }
 //////            
 //////                cell.wishlisticon.tag = indexPath.row
@@ -298,7 +298,7 @@
 //
 //            // Create an attributed string for the sale price with the desired color
 //            let priceAttributes: [NSAttributedString.Key: Any] = [
-//                .foregroundColor: UIColor(hexString: "#069DDD") // Change to your desired color
+//                .foregroundColor: UIColor(hexString: primaryColor) // Change to your desired color
 //            ]
 //            let attributedPrice = NSAttributedString(string: salePrice, attributes: priceAttributes)
 //
@@ -311,13 +311,13 @@
 ////                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
 //            cell.productPriceLine.isHidden = false
 //            cell.productPrice.textColor = UIColor.red
-////                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
+////                cell.discountPrice.textColor = UIColor(hexString: primaryColor)
 //            cell.productPriceLine.backgroundColor = UIColor.red
 //            
 //        }else {
 //            cell.discountPrice.isHidden = true
 //            cell.productPriceLine.isHidden = true
-//            cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+//            cell.productPrice.textColor = UIColor(hexString: primaryColor)
 //
 //         }
 ////        cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)

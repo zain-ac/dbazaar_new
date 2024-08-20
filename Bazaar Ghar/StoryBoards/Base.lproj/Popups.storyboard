@@ -140,7 +140,7 @@
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2J0-B8-03Y">
                                                 <rect key="frame" x="36.666666666666657" y="177" width="320" height="50"/>
-                                                <color key="backgroundColor" red="0.019607843140000001" green="0.61568627450000002" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="FF8319"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="CPC-c8-uqu"/>
                                                 </constraints>
@@ -513,7 +513,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SpO-sk-0h4">
                                         <rect key="frame" x="352" y="276" width="26" height="28"/>
                                         <fontDescription key="fontDescription" name="Poppins-Bold" family="Poppins" pointSize="20"/>
-                                        <color key="textColor" systemColor="systemBlueColor"/>
+                                        <color key="textColor" name="FF8319"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k7t-gL-bqC">
@@ -525,7 +525,7 @@
                                         <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="15"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="RESEND SMS">
-                                            <color key="titleColor" systemColor="linkColor"/>
+                                            <color key="titleColor" name="FF8319"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -768,7 +768,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.023529411760000001" green="0.71764705880000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" name="FF8319"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="350" id="0XQ-Pp-z8D"/>
                                             <constraint firstItem="BdW-NM-8hp" firstAttribute="centerY" secondItem="9pw-qy-Btg" secondAttribute="centerY" id="8Fv-f0-gE6"/>
@@ -963,7 +963,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uY2-Wn-nnc">
                                         <rect key="frame" x="20" y="314" width="348" height="46"/>
-                                        <color key="backgroundColor" red="0.023529411760000001" green="0.71764705880000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" name="FF8319"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="46" id="tS3-dK-NAQ"/>
                                         </constraints>
@@ -1439,7 +1439,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Added to Cart!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVM-10-DB6">
                                         <rect key="frame" x="20" y="161" width="380" height="47.666666666666657"/>
                                         <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
-                                        <color key="textColor" red="0.023529411760000001" green="0.71764705880000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" name="FF8319"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Successfully added Sony PS5 in your cart" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jeF-tO-Vvs">
@@ -1459,7 +1459,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="Continue Shopping">
-                                                            <color key="titleColor" red="0.023529411760000001" green="0.71764705880000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="titleColor" name="FF8319"/>
                                                         </state>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
@@ -1520,7 +1520,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Fn-7h-tWn">
                                                         <rect key="frame" x="5" y="5" width="195" height="40"/>
-                                                        <color key="backgroundColor" red="0.023529411760000001" green="0.71764705880000002" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" name="FF8319"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="Go to Cart">
@@ -1760,41 +1760,38 @@
         <image name="radioBlue" width="512" height="512"/>
         <image name="selectedRadioBlue" width="512" height="512"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
+        <namedColor name="FF8319">
+            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="headercolor">
-            <color red="0.023529411764705882" green="0.61568627450980395" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemGray2Color">
-            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
-            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.18823529410000001" green="0.69019607839999997" blue="0.78039215689999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

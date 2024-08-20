@@ -463,7 +463,7 @@ class Utility {
         // Define the attributes for the amount part ("1200")
         let amountAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.boldSystemFont(ofSize: 14),
-            .foregroundColor: UIColor(hex: "#06B7FD")!
+            .foregroundColor: UIColor(hex: primaryColor)!
         ]
         
         // Apply the attributes to the respective ranges
@@ -496,7 +496,8 @@ class Utility {
         // Define the attributes for the amount part ("1200")
         let amountAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.boldSystemFont(ofSize: 14),
-            .foregroundColor: UIColor(hex: "#06B7FD")!
+            
+            .foregroundColor: UIColor(hex: primaryColor)!
         ]
         
         // Apply the attributes to the respective ranges

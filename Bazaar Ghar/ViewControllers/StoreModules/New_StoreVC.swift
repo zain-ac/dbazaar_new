@@ -86,10 +86,10 @@ class New_StoreVC: UIViewController {
         randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
         followcheck(storeId: self.storeId)
         update(count: 1)
-        let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
                 shopbycategorieslbl.attributedText = attributedText
         
-        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Latest Products", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Latest Products", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
         latestproductlbl.attributedText = attributedText1
         shopbycat_collectionview.dataSource = self
         shopbycat_collectionview.delegate = self

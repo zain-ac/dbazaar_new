@@ -135,13 +135,13 @@ var count = 0
 
         
         scrollView.delegate = self
-        let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: "#101010"), "beyond boundaries", secondTextColor:  UIColor(hexString: "#2E8BF8"))
+        let attributedText11 =  Utility().attributedStringWithColoredStrings("Shop", firstTextColor: UIColor(hexString: blackColor), "beyond boundaries", secondTextColor:  UIColor(hexString: primaryColor))
 //            .attributedStringWithColoredLastWord(
-//            "".lowercased().capitalized, lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+//            "".lowercased().capitalized, lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
         shoplabel.attributedText = attributedText11
-        let trendingText =  Utility().attributedStringWithColoredStrings("Trending", firstTextColor: UIColor(hexString: "#101010"), "Products", secondTextColor:  UIColor(hexString: "#2E8BF8"))
+        let trendingText =  Utility().attributedStringWithColoredStrings("Trending", firstTextColor: UIColor(hexString: blackColor), "Products", secondTextColor:  UIColor(hexString: primaryColor))
 //            .attributedStringWithColoredLastWord(
-//            "".lowercased().capitalized, lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+//            "".lowercased().capitalized, lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
         trendingproductlbl.attributedText = trendingText
         Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
 
@@ -154,10 +154,10 @@ var count = 0
         
 
                 
-        let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
                 shopByCatLbl.attributedText = attributedText
         
-        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Latest Mobiles", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Latest Mobiles", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
         
         recommendationLbl.attributedText = attributedText1
         
@@ -794,12 +794,12 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
                 cell.salePrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.productID?.salePrice ?? 0))
                 cell.productPriceLine.isHidden = false
                 cell.regularPrice.textColor = UIColor.red
-                cell.salePrice.textColor = UIColor(hexString: "#069DDD")
+                cell.salePrice.textColor = UIColor(hexString: primaryColor)
                 cell.productPriceLine.backgroundColor = UIColor.red
             }else {
                 cell.salePrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.regularPrice.textColor = UIColor(hexString: "#069DDD")
+                cell.regularPrice.textColor = UIColor(hexString: primaryColor)
 
              }
            
@@ -1122,7 +1122,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
                 cell.cateogorylbl.text = data.lang?.ar?.name?.lowercased().capitalized
                 cell.img.pLoadImage(url: data.lang?.ar?.wideBannerImage ?? "")
             }else{
-                let attributedText =  Utility().attributedStringWithColoredLastWord(data.name?.lowercased().capitalized ?? "", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+                let attributedText =  Utility().attributedStringWithColoredLastWord(data.name?.lowercased().capitalized ?? "", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
                 cell.cateogorylbl.attributedText = attributedText
                 cell.img.pLoadImage(url: data.wideBannerImage ?? "")
             }

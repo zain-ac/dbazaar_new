@@ -60,13 +60,13 @@ class NewOrderConfirmation_ViewController: UIViewController {
     Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
 //    Utility().setGradientBackground(view: placeorderbtn, colors: [primaryColor, primaryColor, headerSecondaryColor])
     orderinstructiontxt.addPlaceholder("Order Instructions".pLocalized(lang: LanguageManager.language))
-    let attributedText1 = Utility().attributedStringWithColoredLastWord("Delivery Address", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+    let attributedText1 = Utility().attributedStringWithColoredLastWord("Delivery Address", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
     deliveryaddresslbl.attributedText = attributedText1
-    let attributedText2 = Utility().attributedStringWithColoredLastWord("Payment Method", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+    let attributedText2 = Utility().attributedStringWithColoredLastWord("Payment Method", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
     paymentmethodlbl.attributedText = attributedText2
-    let attributedText3 = Utility().attributedStringWithColoredLastWord("Coupon Code", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+    let attributedText3 = Utility().attributedStringWithColoredLastWord("Coupon Code", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
     coupouncodelbl.attributedText = attributedText3
-    let attributedText4 = Utility().attributedStringWithColoredLastWord("Order Summary", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+    let attributedText4 = Utility().attributedStringWithColoredLastWord("Order Summary", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
     ordersummarylbl.attributedText = attributedText4
     // Create the button
        let button = UIButton(type: .system)
@@ -82,7 +82,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
          if let text = textField.text {
              if text.count == 5 {
                  applybtn.isEnabled = true
-                 applybtn.backgroundColor = UIColor(hex: "#06B7FD")
+                 applybtn.backgroundColor = UIColor(hex: primaryColor)
              }else if text.count < 5 {
                  applybtn.isEnabled = false
                  applybtn.backgroundColor = .gray

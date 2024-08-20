@@ -518,14 +518,14 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
 //                cell.discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.productPrice.textColor = UIColor.red
-//                cell.discountPrice.textColor = UIColor(hexString: "#069DDD")
+//                cell.discountPrice.textColor = UIColor(hexString: primaryColor)
                 cell.productPriceLine.backgroundColor = UIColor.red
                 cell.percentBGView.isHidden = false
                 
             }else {
                 cell.discountPrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-//                cell.productPrice.textColor = UIColor(hexString: "#069DDD")
+//                cell.productPrice.textColor = UIColor(hexString: primaryColor)
                 cell.productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
                 cell.percentBGView.isHidden = true
              }

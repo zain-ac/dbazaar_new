@@ -193,7 +193,7 @@ class Search_ViewController: UIViewController {
   
         segmentedControl.segmentStyle = .textOnly
 //        segmentedControl.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 17, weight: .light)], for: .normal)
-        let selectedColor = UIColor(hex: "06B7FD") // This line creates a UIColor instance from the hex value
+        let selectedColor = UIColor(hex: primaryColor) // This line creates a UIColor instance from the hex value
         segmentedControl.setTitleTextAttributes([.foregroundColor: selectedColor ?? ""], for: .selected)
 
         let normalAttributes: [NSAttributedString.Key: Any] = [

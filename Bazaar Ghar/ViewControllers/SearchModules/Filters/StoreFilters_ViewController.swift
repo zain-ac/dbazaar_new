@@ -493,8 +493,8 @@ extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewD
             cell.storeBtn.titleLabel?.font = UIFont(name: "Poppins", size: CGFloat(10))
             
             if indexPath.item == selectedIndex {
-                       cell.storeview.backgroundColor = UIColor(hex: "#06B7FD")
-                       cell.storeBtn.backgroundColor = UIColor(hex: "#06B7FD")
+                       cell.storeview.backgroundColor = UIColor(hex: primaryColor)
+                       cell.storeBtn.backgroundColor = UIColor(hex: primaryColor)
                        cell.storeview.cornerRadius = 4
                        cell.storeBtn.cornerRadius  = 4
                 cell.storeBtn.tintColor = .white
@@ -533,8 +533,8 @@ extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewD
             cell.sizeButton.addTarget(self, action: #selector(sizeCollection(_:)), for: .touchUpInside)
             cell.sizeButton.titleLabel?.font = UIFont(name: "Poppins", size: CGFloat(10))
             if indexPath.item == sizeIndex {
-                       cell.storeview.backgroundColor = UIColor(hex: "#06B7FD")
-                       cell.sizeButton.backgroundColor = UIColor(hex: "#06B7FD")
+                       cell.storeview.backgroundColor = UIColor(hex: primaryColor)
+                       cell.sizeButton.backgroundColor = UIColor(hex: primaryColor)
                        cell.storeview.cornerRadius = 4
                        cell.sizeButton.cornerRadius  = 4
                 cell.sizeButton.tintColor = .white
@@ -554,7 +554,7 @@ extension StoreFilters_ViewController:UICollectionViewDelegate,UICollectionViewD
            
             cell.lbl.text = data?.highlighted ?? ""
             if indexPath.item == ratingndex {
-                       cell.ratingview.backgroundColor = UIColor(hex: "#06B7FD")
+                       cell.ratingview.backgroundColor = UIColor(hex: primaryColor)
                 cell.lbl.textColor = .white
                        cell.ratingview.cornerRadius = 4
                                    

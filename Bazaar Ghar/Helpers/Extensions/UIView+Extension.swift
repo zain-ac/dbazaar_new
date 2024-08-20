@@ -191,7 +191,7 @@ extension UIColor {
     static let unselectedSegment = UIColor(hexString: "#828282");
     static let borderColor = UIColor(hexString: "#49B7ED");
     static let primaryColor = UIColor(hexString: "#FDA625");
-    static let headerSecondaryColor = UIColor(hexString: "#544AED");
+    static let headerSecondaryColor = UIColor(hexString: "#FF7544");
   
     var hexString: String {
         let cgColorInRGB = cgColor.converted(to: CGColorSpace(name: CGColorSpace.sRGB)!, intent: .defaultIntent, options: nil)!

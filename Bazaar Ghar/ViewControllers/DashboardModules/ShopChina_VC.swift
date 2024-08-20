@@ -183,14 +183,14 @@ var count = 0
         
 
                 
-        let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
                 shopByCatLbl.attributedText = attributedText
-        let attributedText5 =  Utility().attributedStringWithColoredLastWord("Trending Products", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText5 =  Utility().attributedStringWithColoredLastWord("Trending Products", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
         
         trendingproductlbl.attributedText = attributedText5
   
         
-        let attributedText2 =  Utility().attributedStringWithColoredLastWord("Shopping Reels", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText2 =  Utility().attributedStringWithColoredLastWord("Shopping Reels", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
         
         shopingReelsLbl.attributedText = attributedText2
         
@@ -372,7 +372,7 @@ var count = 0
         catView.backgroundColor = UIColor(hex: catBGColor ?? "")
         shopLbl.textColor =  UIColor(hex: shoptxtColor ?? "")
         if shop == "Shop China" {
-            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Gamers Sale", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Gamers Sale", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
             recommendationLbl.attributedText = attributedText1
             let imageDataDict:[String: String] = ["img": "china"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
@@ -386,7 +386,7 @@ var count = 0
             getrandomproduct(origin: "china")
 
         }else if shop == "Shop Saudi" {
-            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
             recommendationLbl.attributedText = attributedText1
             let imageDataDict:[String: String] = ["img": "saudi"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
@@ -400,7 +400,7 @@ var count = 0
             getrandomproduct(origin: "ksa")
 
         }else {
-            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
             recommendationLbl.attributedText = attributedText1
             let imageDataDict:[String: String] = ["img": "pakistan-image"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
@@ -972,12 +972,12 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                 cell.salePrice.text =   appDelegate.currencylabel + Utility().formatNumberWithCommas(data.productID?.salePrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.regularPrice.textColor = UIColor.red
-                cell.salePrice.textColor = UIColor(hexString: "#069DDD")
+                cell.salePrice.textColor = UIColor(hexString: primaryColor)
                 cell.productPriceLine.backgroundColor = UIColor.red
             }else {
                 cell.salePrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.regularPrice.textColor = UIColor(hexString: "#069DDD")
+                cell.regularPrice.textColor = UIColor(hexString: primaryColor)
 
              }
            
@@ -1241,7 +1241,7 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
                 cell.cateogorylbl.text = data.lang?.ar?.name?.lowercased().capitalized
                 cell.img.pLoadImage(url: data.lang?.ar?.wideBannerImage ?? "")
             }else{
-                let attributedText =  Utility().attributedStringWithColoredLastWord(data.name?.lowercased().capitalized ?? "", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+                let attributedText =  Utility().attributedStringWithColoredLastWord(data.name?.lowercased().capitalized ?? "", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
                 cell.cateogorylbl.attributedText = attributedText
                 cell.img.pLoadImage(url: data.wideBannerImage ?? "")
             }

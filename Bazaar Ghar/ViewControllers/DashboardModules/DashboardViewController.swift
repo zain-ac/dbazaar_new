@@ -103,7 +103,7 @@ extension DashboardViewController: UICollectionViewDelegate, UICollectionViewDat
      
         
         if selectedIndexPath == indexPath.row {
-            cell.lbl.textColor = UIColor(hex: "#2E8BF8")
+            cell.lbl.textColor = UIColor(hex: primaryColor)
             cell.image.image = Selectedimages[indexPath.row]
             cell.topline.isHidden = false
         }else{

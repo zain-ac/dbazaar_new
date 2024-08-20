@@ -152,10 +152,10 @@ extension CartStoreLableCell : UITableViewDataSource,UITableViewDelegate{
         cell.productQuantity.text =  "\(item?.quantity ?? 0)"
         if cell.productQuantity.text == "1" {
             cell.productMinus.backgroundColor = .white
-            cell.productMinus.setTitleColor(UIColor(hex: "#069DDD"), for: .normal)
+            cell.productMinus.setTitleColor(UIColor(hex: primaryColor), for: .normal)
 
         }else {
-            cell.productMinus.backgroundColor = UIColor(hex: "#069DDD")
+            cell.productMinus.backgroundColor = UIColor(hex: primaryColor)
             cell.productMinus.setTitleColor(UIColor.white, for: .normal)
 
         }

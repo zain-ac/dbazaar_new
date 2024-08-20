@@ -360,12 +360,12 @@ extension ShopChinaViewController: UICollectionViewDelegate, UICollectionViewDat
                 cell.salePrice.text =   appDelegate.currencylabel + Utility().formatNumberWithCommas(data.productID?.salePrice ?? 0)
                 cell.productPriceLine.isHidden = false
                 cell.regularPrice.textColor = UIColor.red
-                cell.salePrice.textColor = UIColor(hexString: "#069DDD")
+                cell.salePrice.textColor = UIColor(hexString: primaryColor)
                 cell.productPriceLine.backgroundColor = UIColor.red
             }else {
                 cell.salePrice.isHidden = true
                 cell.productPriceLine.isHidden = true
-                cell.regularPrice.textColor = UIColor(hexString: "#069DDD")
+                cell.regularPrice.textColor = UIColor(hexString: primaryColor)
 
              }
             return cell

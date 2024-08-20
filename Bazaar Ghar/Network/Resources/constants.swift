@@ -7,6 +7,7 @@
 
 import Foundation
 
-let primaryColor = "#FDA625"
-let headerSecondaryColor = "#F54B07"
+let primaryColor = "#06B7FD"
+let headerSecondaryColor = "#544AED"
+let blackColor = "#101010"
 

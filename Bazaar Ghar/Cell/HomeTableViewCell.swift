@@ -148,7 +148,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             
             
             if selectedIndex == indexPath.row {
-                cell.backgroundVieww.backgroundColor = UIColor(hex: "#06B7FD")
+                cell.backgroundVieww.backgroundColor = UIColor(hex: primaryColor)
                 cell.catName.textColor = .white
                 cell.backgroundVieww.borderWidth = 0
             }else {

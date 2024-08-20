@@ -93,7 +93,7 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
             middleItem.image = nil
         }
         
-        self.tabBar.tintColor = .blue
+        self.tabBar.tintColor = UIColor.headerSecondaryColor
         self.tabBar.unselectedItemTintColor = .gray
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(notification:)), name: Notification.Name("isback"), object: nil)

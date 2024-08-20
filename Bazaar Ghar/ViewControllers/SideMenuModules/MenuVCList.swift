@@ -146,7 +146,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
         self.CreateMenuitemList()
         loadInitialData()
       
-        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Top Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
+        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Top Categories", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
         
         name.attributedText = attributedText1
     }

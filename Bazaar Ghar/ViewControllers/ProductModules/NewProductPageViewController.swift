@@ -175,7 +175,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                       self?.heartBtn.tintColor = .red
                       } else {
                           self?.heartBtn.setImage(UIImage(named: "shareIcon"), for: .normal)
-                          self?.heartBtn.tintColor = UIColor(hex: "#069DDD")
+                          self?.heartBtn.tintColor = UIColor(hex: primaryColor)
                       }
                     }
 
@@ -657,7 +657,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                     self?.Salesprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
                     self?.productPriceLine.isHidden = false
                     self?.Salesprice.textColor = UIColor.red
-                    self?.Regularprice.textColor = UIColor(hexString: "#069DDD")
+                    self?.Regularprice.textColor = UIColor(hexString: primaryColor)
                     self?.productPriceLine.backgroundColor = UIColor.red
 
                 }else {
@@ -665,18 +665,18 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                     self?.Salesprice.isHidden = true
 //                    self?.OnSaleimage.isHidden = true
                     self?.productPriceLine.isHidden = true
-                    self?.Regularprice.textColor = UIColor(hexString: "#069DDD")
+                    self?.Regularprice.textColor = UIColor(hexString: primaryColor)
                  }
 
                 if res.quantity ?? 0 > 0 {
                     self?.cartBtnView.backgroundColor = .white
-                    self?.cartBtnLbl.textColor = UIColor(hex: "#069DDD")
+                    self?.cartBtnLbl.textColor = UIColor(hex: primaryColor)
                     self?.cartBtnView.borderWidth = 1
                     self?.quantityView.isHidden = false
                     self?.outOfStockLbl.isHidden = true
 //                    self?.buyNowBtn.isEnabled = true
                     self?.addToCartBtn.isEnabled = true
-                    self?.buyNowBtn.backgroundColor = UIColor(hex: "#06B7FD")
+                    self?.buyNowBtn.backgroundColor = UIColor(hex: primaryColor)
                     self?.buyNowBtn.isEnabled = true
                     self?.cartBtnImg.setBackgroundImage(UIImage(named: "cartBlue"), for: .normal)
                 }else {
@@ -793,14 +793,14 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
 //                    self?.Salesprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.salePrice ?? 0)
 //                    self?.productPriceLine.isHidden = false
 //                    self?.Regularprice.textColor = UIColor.red
-//                    self?.Salesprice.textColor = UIColor(hexString: "#069DDD")
+//                    self?.Salesprice.textColor = UIColor(hexString: primaryColor)
 //                    self?.productPriceLine.backgroundColor = UIColor.red
 //
 //                }else {
 //                    self?.Salesprice.isHidden = true
 //                    self?.OnSaleimage.isHidden = true
 //                    self?.productPriceLine.isHidden = true
-//                    self?.Regularprice.textColor = UIColor(hexString: "#069DDD")
+//                    self?.Regularprice.textColor = UIColor(hexString: primaryColor)
 //                 }
 //                self?.ratingView.rating =    Double(res.ratings?.total ?? 0)
 //                
@@ -954,10 +954,10 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         }
         if productcount.text == "1" {
            minusview.backgroundColor = .white
-            Minusbtn.setTitleColor(UIColor(hex: "#069DDD"), for: .normal)
+            Minusbtn.setTitleColor(UIColor(hex: primaryColor), for: .normal)
 
         }else {
-            minusview.backgroundColor = UIColor(hex: "#06B7FD")
+            minusview.backgroundColor = UIColor(hex: primaryColor)
             Minusbtn.setTitleColor(UIColor.white, for: .normal)
 
         }
@@ -975,10 +975,10 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         }
         if productcount.text == "1" {
             minusview.backgroundColor = .white
-            Minusbtn.setTitleColor(UIColor(hex: "#069DDD"), for: .normal)
+            Minusbtn.setTitleColor(UIColor(hex: primaryColor), for: .normal)
 
         }else {
-            minusview.backgroundColor = UIColor(hex: "#06B7FD")
+            minusview.backgroundColor = UIColor(hex: primaryColor)
             Minusbtn.setTitleColor(UIColor.white, for: .normal)
 
         }

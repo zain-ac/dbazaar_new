@@ -32,7 +32,7 @@ class CartPopupViewController: UIViewController {
         
         super.viewDidLoad()
         
-//        let attributedText11 =  Utility().attributedStringWithColoredStrings(appDelegate.currencylabel, firstTextColor: UIColor.black, Utility().formatNumberWithCommas(products?.regularPrice ?? 0), secondTextColor:  UIColor(hexString: "#06B7FD"))
+//        let attributedText11 =  Utility().attributedStringWithColoredStrings(appDelegate.currencylabel, firstTextColor: UIColor.black, Utility().formatNumberWithCommas(products?.regularPrice ?? 0), secondTextColor:  UIColor(hexString: primaryColor))
         productNamel.text = products?.productName ?? ""
 //        discountPrice.text =    appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.salePrice ?? 0)
       
@@ -61,7 +61,7 @@ class CartPopupViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         wishList()
         if products?.quantity ?? 0 > 0 {
-            addToCartBtn.backgroundColor = UIColor(hex: "#06B7FD")
+            addToCartBtn.backgroundColor = UIColor(hex: primaryColor)
             addToCartBtn.isEnabled = true
             outOfStockLbl.isHidden = true
         }else {

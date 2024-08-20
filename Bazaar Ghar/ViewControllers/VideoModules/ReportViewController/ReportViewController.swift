@@ -79,7 +79,7 @@ extension ReportViewController: UITableViewDelegate,UITableViewDataSource {
         if indexPath.row == selectedRow {
                     cell.img.image = UIImage(named: "radio-button-svgrepo-com") // Replace with your checked checkbox image
                 } else {
-                    cell.img.tintColor = UIColor(hex: "#069DDD")
+                    cell.img.tintColor = UIColor(hex: primaryColor)
                     cell.img.image = UIImage(systemName: "circle") // Replace with your unchecked checkbox image
                 }
         return cell
