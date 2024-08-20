@@ -44,9 +44,6 @@ class AppDefault {
         print("UserDefault: \(shared.dictionaryRepresentation())")
     }
     
- 
-    
-    
         public static var accessToken: String {
             get {
                 return shared.string(forKey: "token") ?? ""
@@ -55,6 +52,30 @@ class AppDefault {
                 shared.set(newValue, forKey: "token")
             }
         }
+    public static var socketId: String {
+            get {
+                return shared.string(forKey: "socketId") ?? ""
+            }
+            set {
+                shared.set(newValue, forKey: "socketId")
+            }
+        }
+    public static var miscid: String {
+            get {
+                return shared.string(forKey: "miscid") ?? ""
+            }
+            set {
+                shared.set(newValue, forKey: "miscid")
+            }
+        }
+//    public static var facetFilters: [TypeSenseResult]? {
+//        get{
+//          return shared.decode(for: [TypeSenseResult].self, using: "facetFilters")
+//        }
+//        set{
+//          shared.encode(for: newValue, using: "facetFilters")
+//        }
+//      }
     public static var brandname: String {
         get {
             return shared.string(forKey: "brandname") ?? ""
@@ -63,6 +84,24 @@ class AppDefault {
             shared.set(newValue, forKey: "brandname")
         }
     }
+    public static var wishlistproduct: [WishlistProduct]? {
+        get{
+          return shared.decode(for: [WishlistProduct].self, using: "wishlistproduct")
+        }
+        set{
+          shared.encode(for: newValue, using: "wishlistproduct")
+        }
+      }
+    public static var facetFilterArray: [TypeSenseCount]? {
+            get{
+                return shared.decode(for:  [TypeSenseCount].self, using: "facetFilterArray")
+            }
+            set{
+                shared.encode(for: newValue, using: "facetFilterArray")
+            }
+        }
+        
+    
     public static var refreshToken: String {
         get {
             return shared.string(forKey: "refreshToken") ?? ""
@@ -176,6 +215,14 @@ class AppDefault {
             shared.encode(for: newValue, using: "Bannerdata")
         }
     }
+    public static var getrandomproductapiModel: [Product]? {
+        get{
+            return shared.decode(for: [Product].self, using: "Product")
+        }
+        set{
+            shared.encode(for: newValue, using: "Product")
+        }
+    }
     public static var CategoriesResponsedata: [CategoriesResponse]? {
         get{
             return shared.decode(for: [CategoriesResponse].self, using: "CategoriesResponsedata")
@@ -200,9 +247,9 @@ class AppDefault {
             shared.encode(for: newValue, using: "PChat")
         }
     }
-    public static var randonproduct: [latestMobileDataModel]? {
+    public static var randonproduct: [PChat]? {
         get{
-            return shared.decode(for: [latestMobileDataModel].self, using: "RandomnProductResponse")
+            return shared.decode(for: [PChat].self, using: "RandomnProductResponse")
         }
         set{
             shared.encode(for: newValue, using: "RandomnProductResponse")

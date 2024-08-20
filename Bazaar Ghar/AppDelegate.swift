@@ -25,6 +25,8 @@ var slugid = String()
     var videotoken = String()
     var videoid = String()
     var phonenowithout = String()
+    var isbutton = Bool()
+    
 var currencylabel = "SAR "
 var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
@@ -41,6 +43,15 @@ var window: UIWindow?
         IQKeyboardManager.shared.shouldShowToolbarPlaceholder = false
       FirebaseApp.configure()
       registerForPushNotifications()
+        
+        
+        
+        if AppDefault.getAllCategoriesResponsedata?.count ?? 0 > 0{
+            
+        }else{
+            self.onBoardingVc()
+        }
+        
         if AppDefault.languages == "en" {
              LanguageManager.language = AppDefault.languages
 
@@ -97,6 +108,30 @@ var window: UIWindow?
             }
         }
     }
+    func onBoardingVc() {
+        // Load the TabBarViewController from the Main storyboard
+//        guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController") as? TabBarViewController else {
+//            // Failed to instantiate TabBarViewController
+//            return
+//        }
+        guard let tabBarViewController = UIStoryboard(name: "sidemenu", bundle: nil).instantiateViewController(withIdentifier: "Shake_ViewController") as? Shake_ViewController else {
+            // Failed to instantiate TabBarViewController
+            return
+        }
+        
+        // Set the login status
+       
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                // Failed to get AppDelegate
+                return
+            }
+            
+            // Dismiss any presented view controllers before setting the root view controller
+            appDelegate.window?.rootViewController?.dismiss(animated: false, completion: nil)
+            
+            appDelegate.window?.rootViewController = tabBarViewController
+    }
   
     func GotoDashBoard(ischecklogin: Bool) {
         // Load the TabBarViewController from the Main storyboard
@@ -123,7 +158,7 @@ var window: UIWindow?
             appDelegate.window?.rootViewController = tabBarViewController
     }
      func GotoDashBoardnotification(ischecklogin: Bool,misc: String){
-       
+        
         // Load the TabBarViewController from the Main storyboard
         guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RoundTabbarVc") as? RoundTabbarVc else {
             // Failed to instantiate TabBarViewController
@@ -147,7 +182,7 @@ var window: UIWindow?
        
     
     func showCustomerAlertControllerHeight(title:String,heading:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.2), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10
@@ -164,7 +199,7 @@ var window: UIWindow?
         UIApplication.pTopViewController().customPresentViewController(presenter, viewController: vc, animated: true)
       }
     func showCustomerLanguageAlertControllerHeight(title:String,heading:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: LanguagePopupViewController.self)) as? LanguagePopupViewController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: LanguagePopupViewController.self)) as? LanguagePopupViewController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.2), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10
@@ -182,7 +217,7 @@ var window: UIWindow?
       }
     
     func ChineseShowCustomerAlertControllerHeight(title:String,heading:String,note:String,miscid:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping(_ token:String,_ id:String)->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: popupChineseBellViewController.self)) as? popupChineseBellViewController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: popupChineseBellViewController.self)) as? popupChineseBellViewController else {return}
         if miscid == "" {
             var h = 0.0
             if title.count < 45{
@@ -231,7 +266,7 @@ var window: UIWindow?
      
       }
       func showCustomerAlertControllerwithOneButton(title:String,btn2Title:String,btn2Callback:@escaping()->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.2), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10
@@ -250,7 +285,7 @@ var window: UIWindow?
           
       }
       func showCustomerAlertController(title:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
-        guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
+        guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.25), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10
@@ -336,7 +371,7 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 //        print(deviceToken)
 //    }
-//    
+//
 //    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
 //        print(error)
 //    }
@@ -361,18 +396,34 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     print(dateString)
       
       let tittle = alert?["title"] as? String
+     
       
           let misc = userInfo["misc"] as? String
-        print(misc)
-          if(misc != ""){
-              self.GotoDashBoardnotification(ischecklogin: false, misc: misc ?? "")
-          }else {
-              appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Seller \(AppDefault.brandname) is busy." , heading: "Busy", note: "", miscid: "hide", btn1Title: "Cancel", btn1Callback: {
-                  
-              }, btn2Title: "Ok") { token, id in
-                  
-              }
+      
+      
+      if(misc != ""){
+          AppDefault.miscid = misc ?? ""
+      }else{
+          
+      }
+      let body = alert?["body"] as? String ?? ""
+      let lastFourCharacters = String(body.suffix(5))
+      if(lastFourCharacters == "busy."){
+          appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Seller \(AppDefault.brandname) is busy." , heading: "Busy", note: "", miscid: "hide", btn1Title: "Cancel", btn1Callback: {
+              
+          }, btn2Title: "Ok") { token, id in
+              
           }
+      }else{
+          
+          
+          
+          
+          if(AppDefault.miscid != ""){
+              self.GotoDashBoardnotification(ischecklogin: false, misc: AppDefault.miscid )
+              
+          }
+      }
            
         
       
@@ -404,13 +455,44 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
          let misc = userInfo["misc"] as? String
 
-      print(misc)
-     
      if(misc != ""){
-         self.GotoDashBoardnotification(ischecklogin: false, misc: misc ?? "")
-     } else {
-         self.GotoDashBoardnotification(ischecklogin: false, misc: "cancel")
+         AppDefault.miscid = misc ?? ""
+     }else{
+         
      }
+     
+     
+     
+     
+     let body = alert?["body"] as? String ?? ""
+     let lastFourCharacters = String(body.suffix(5))
+     if(lastFourCharacters == "busy."){
+         appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Seller \(AppDefault.brandname) is busy." , heading: "Busy", note: "", miscid: "hide", btn1Title: "Cancel", btn1Callback: {
+             
+         }, btn2Title: "Ok") { token, id in
+             
+         }
+     }else{
+         
+         
+         
+         
+         if(AppDefault.miscid != ""){
+             self.GotoDashBoardnotification(ischecklogin: false, misc: AppDefault.miscid )
+             
+         }else {
+             
+             
+             
+         }
+     }
+     
+     
+     
+     
+     
+     
+    
       
          
      

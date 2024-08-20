@@ -47,6 +47,11 @@ pod 'UBottomSheet'
 pod 'TwilioVideo'
 pod 'Firebase/Messaging'
   pod 'FSPagerView'
+  pod 'RangeSeekSlider'
+ 
+  pod 'SideMenu'
+pod 'lottie-ios'
+pod 'Frames', '4.3.6'
 
 
 

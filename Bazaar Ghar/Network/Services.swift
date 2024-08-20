@@ -12,7 +12,7 @@ import Moya
 enum Services {
     //MARK: - AUTHENTICATION
     case banner
-    case categories
+    case categories(id:String)
     case productcategories(cat:String,cat2:String,cat3:String,cat4:String,cat5:String)
     case randomproduct
     case productcategoriesdetails(slug: String)
@@ -33,6 +33,14 @@ enum Services {
     case getaddress
     case placeOrder(cartId:String)
     case myOrder(limit:Int,sortBy:String)
+    case typeSenseApi(val:String,txt:String,facet_by:String)
+    case getComments(scheduleId:String)
+    case shopChinarandomproduct(origin:String)
+
+
+
+
+
     case addAddress(fullname:String,phone:String,province:String,city:String,city_code:String,address:String,addressType:String,localType:String,zipCode:String,addressLine_2:String,country:String)
     case adressdelete(addressId: String)
     case wishList
@@ -41,7 +49,7 @@ enum Services {
     case updateAddress(addressId:String,fullname:String,phone:String,province:String,city:String,city_code:String,address:String,addressType:String,localType:String,zipCode:String,addressLine_2:String,country:String)
     case personaldetail(fullname:String,email:String,userid:String)
     case wishListRemove(product:String)
-    case getStreamingVideos(limit: Int,page:Int,categories:[String],userId:String)
+    case getStreamingVideos(limit: Int,page:Int,categories:[String],userId:String,city:String)
     case refreshToken(refreshToken:String)
     case getvidoebyproductIds(productIds:[String])
     case groupByDeals(limit:Int,page:Int)
@@ -60,7 +68,12 @@ enum Services {
     case unfollowstore(storeId:String)
     case getLiveStream
     case getAllCategories
-
+    case getSellerDetail(id:String)
+    case moreFrom(category:String,user:String)
+    case cardpaymentApi(token:String,amount:Float,currency:String,cartId:String)
+    case newishlist(product:String)
+    case shopchinaStreamingVideo(origin:String)
+    case getprovince(countryCode:String,language:String,checkCache:Bool)
 }
 
 extension Services: TargetType, AccessTokenAuthorizable {
@@ -69,10 +82,12 @@ extension Services: TargetType, AccessTokenAuthorizable {
         switch self {
         case .searchproduct:
             return AppConstants.API.baseURLSearchProduct
-        case .searchVideo, .getStreamingVideos , .getVideoToken, .report , .savelike, .deletelike, .getLike, .getLiveStream:
+        case .searchVideo, .getStreamingVideos , .getVideoToken, .report , .savelike, .deletelike, .getLike, .getLiveStream ,.getComments,.shopchinaStreamingVideo:
             return AppConstants.API.baseURLVideoStreaming
         case .chinesebell:
             return AppConstants.API.baseURLChatNotification
+        case .typeSenseApi:
+             return AppConstants.API.typeSenseUrl
       
         default:
             return AppConstants.API.baseURL
@@ -83,18 +98,28 @@ extension Services: TargetType, AccessTokenAuthorizable {
     var path: String {
         switch self {
         case  .getVideoToken:
-                    return "videoCall/token" 
+                    return "videoCall/token"
+        case let .cardpaymentApi(_,_,_,_):
+                  return "payment/order-detail"
+        case  .getComments:
+                    return "getbyscheduleId"
         case let .followcheck(storeId):
                     return "follow/\(storeId)"
         case .banner:
             return "banner-set/all/banner"
-        case .categories:
-            return "categories"
+        case let .categories(id):
+            if id == "" {
+                return "categories"
+            }else {
+                return "categories/\(id)"
+            }
         case .getAllCategories:
             return "categories/getAllCategories"
         case .productcategories(_,_,_,_,_) :
             return "products/categories"
         case .randomproduct:
+            return "products/getRandomProducts"
+        case .shopChinarandomproduct:
             return "products/getRandomProducts"
         case let .productcategoriesdetails(slug):
             return "products/getProductBySlug/variants/\(slug)"
@@ -130,8 +155,9 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return "address"
         case let .adressdelete(addressId):
             return "address/\(addressId)"
+            
         case .addwishList:
-            return "wishList"
+            return "wishList/new"
         case .wishListRemove:
             return "wishList/remove"
         case .wishList:
@@ -179,7 +205,16 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return "follow/unfollow/\(storeId)"
         case .getLiveStream:
             return "getslotinuse"
-            
+        case let .getSellerDetail(id):
+            return "sellerDetail/\(id)"
+        case .moreFrom:
+            return "products/getAllProducts"
+        case .newishlist:
+              return "wishList/new"
+        case .shopchinaStreamingVideo:
+            return "getrecordedvideo"
+        case .getprovince:
+            return "shop-china/address"
             //        case let .auctionById(auctionid):
             //            return "main/v1/auctions/\(auctionid)"
         default:
@@ -191,7 +226,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
     
     var method: Moya.Method {
         switch self {
-        case .banner , .categories, .getcartItems, .productcategories, .randomproduct, .productcategoriesdetails, .getAllProductsByCategories, .searchproduct, .searchstore, .searchVideo,.getAllProductsByCategoriesbyid, .getStreamingVideos, .wishList , .myOrder , .cities, .getaddress,.collectionDataApi, .groupByDeals , .followcheck, .getLiveStream, .getAllCategories:
+        case .banner , .categories, .getcartItems, .productcategories, .randomproduct, .productcategoriesdetails, .getAllProductsByCategories, .searchproduct, .searchstore, .searchVideo,.getAllProductsByCategoriesbyid, .getStreamingVideos, .wishList , .myOrder , .cities, .getaddress,.collectionDataApi, .groupByDeals , .followcheck, .getLiveStream, .getAllCategories,.getSellerDetail,.moreFrom,.shopchinaStreamingVideo,.shopChinarandomproduct,.getprovince:
             return .get
      
         case .adressdelete , .deleteCart:
@@ -213,6 +248,9 @@ extension Services: TargetType, AccessTokenAuthorizable {
         switch self {
         case .banner, .categories, .getcartItems, .randomproduct, .getaddress,.getAllCategories:
             return .requestPlain
+        case let .shopChinarandomproduct(origin):
+            return .requestParameters(parameters: ["origin": origin], encoding: URLEncoding.default)
+
         case let .productcategories(cat, cat2, cat3, cat4, cat5):
             if cat == "" {
                 return .requestPlain
@@ -220,13 +258,47 @@ extension Services: TargetType, AccessTokenAuthorizable {
             }else {
                 if cat != "" && cat2 == "" {
                     return .requestParameters(parameters: ["categories[]": cat], encoding: URLEncoding.default)
+                }else if cat != "" && cat2 != "" && cat3 != "" && cat4 == "" {
+                    return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3], encoding: URLEncoding.default)
                 }else {
-                    return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4,"categories[4]":cat5], encoding: URLEncoding.default)
+                    return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4], encoding: URLEncoding.default)
                 }
             }
             
         case let .getAllProductsByCategories(limit,page,sortBy,category, _):
-            return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default)  
+            return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default) 
+        case let .typeSenseApi(val,str,facet_by):
+              let parameters: [String: Any] = [
+                "searches": [
+                  [
+                    "query_by": "productName,ar.productName",
+                    "highlightFullFields" : "productName,ar.productName",
+                    "collection": "db_live_products",
+//                    "collection": "bg_stage_products",
+                    "q": str,
+        //            "facet_by": "lvl0,color,brandName,averageRating,price,size,style",
+                    "facet_by": facet_by,
+                  "filter_by": val,
+                    "max_facet_values": 120,
+                    "page": 1,
+                    "per_page": 20
+                  ]
+                ]
+              ]
+              return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case let .cardpaymentApi(token,amount,currency,cardid):
+               let parameters: [String: Any] = [
+                 "source": [
+                  "type": "token",
+                  "token": token
+                 ],
+                 "amount": amount,
+                 "currency": currency,
+                 "customer": [
+                  "email": AppDefault.currentUser?.email
+                 ]
+                ]
+              return .requestCompositeParameters(bodyParameters: parameters, bodyEncoding: JSONEncoding.default, urlParameters: ["cartId": cardid])
         case let .myOrder(limit,sortBy):
             return .requestParameters(parameters: ["limit": limit,"sortBy":sortBy], encoding: URLEncoding.default)
     
@@ -235,7 +307,9 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case let .loginwithgoogle(googleId,displayName):
             return .requestParameters(parameters: ["googleId": googleId,"displayName": displayName], encoding: JSONEncoding.default)
         case let .loginwithOtp(googleId, _):
-            return .requestParameters(parameters: ["phoneNumber": googleId], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["phoneNumber": googleId], encoding: JSONEncoding.default)  
+        case let .getComments(scheduleId):
+            return .requestParameters(parameters: ["scheduleId": scheduleId], encoding: JSONEncoding.default)
             
         case let .loginWithGoogleVerification(googleId, id):
             return .requestParameters(parameters: ["phoneToken": googleId,"hash": id], encoding: JSONEncoding.default)
@@ -265,9 +339,11 @@ extension Services: TargetType, AccessTokenAuthorizable {
             }else{
                 return .requestParameters(parameters: ["name": name,"value":value,"limit": limit,"page": 1,"categories":catId], encoding: URLEncoding.default)
             }
-        case let .getStreamingVideos(limit,page,categories,userId):
-            if(categories == [] && userId == ""){
+        case let .getStreamingVideos(limit,page,categories,userId,city):
+            if(categories == [] && userId == "" && city == ""){
                 return .requestParameters(parameters: ["limit":limit,"page":page], encoding: URLEncoding.default)
+            }else if categories == [] && userId == "" && city != ""{
+                return .requestParameters(parameters: ["limit":limit,"page":page,"city":city], encoding: URLEncoding.default)
             }else if(userId != ""){
                 return .requestParameters(parameters: ["limit":limit,"page":page,"userId":userId], encoding: URLEncoding.default)
             }else{
@@ -317,7 +393,14 @@ extension Services: TargetType, AccessTokenAuthorizable {
        
         case let .getLike(scheduleId, userId):
             return .requestParameters(parameters: ["scheduleId":scheduleId,"userId":userId], encoding: JSONEncoding.default)
-
+        case let .moreFrom(category, user):
+            return .requestParameters(parameters: ["category":category,"user":user], encoding: URLEncoding.default)
+        case let .newishlist(product):
+              return .requestParameters(parameters: ["product": product], encoding: JSONEncoding.default)
+        case let .shopchinaStreamingVideo(origin):
+            return .requestParameters(parameters: ["origin": origin], encoding: URLEncoding.default)
+        case let .getprovince(countryCode, language, checkCache):
+            return .requestParameters(parameters: ["countryCode": countryCode,"language": language], encoding: URLEncoding.default)
             
             //        case let .login(email,password):
             //            return .requestParameters(parameters: ["email": email,"password": password], encoding: JSONEncoding.default)
@@ -349,13 +432,11 @@ extension Services: TargetType, AccessTokenAuthorizable {
         ]
             
         }
-        
-        
     }
     
     var authorizationType: AuthorizationType {
         switch self{
-        case .banner , .categories, .productcategories, .randomproduct, .productcategoriesdetails,.getAllProductsByCategories, .loginwithgoogle, .searchstore,.searchVideo, .getStreamingVideos, .refreshToken, .getvidoebyproductIds , .loginwithOtp ,.collectionDataApi, .loginWithGoogleVerification, .groupByDeals,.appleLogin, .getLiveStream, .getAllCategories:
+        case .banner , .categories, .productcategories, .randomproduct, .productcategoriesdetails,.getAllProductsByCategories, .loginwithgoogle, .searchstore,.searchVideo, .getStreamingVideos, .refreshToken, .getvidoebyproductIds , .loginwithOtp ,.collectionDataApi, .loginWithGoogleVerification, .groupByDeals,.appleLogin, .getLiveStream, .getAllCategories,.getSellerDetail,.moreFrom,.shopchinaStreamingVideo,.shopChinarandomproduct,.getprovince:
             return .none
     
         default:

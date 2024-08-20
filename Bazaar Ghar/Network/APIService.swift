@@ -41,7 +41,30 @@ class APIServices{
                   completion(.failure(error.customDescription))
               }
           }
+      } 
+    class func getvideoComments(scheduleId:String,completion:@escaping(APIResult<[CommentsData]>)->Void){
+          Provider.services.request(.getComments(scheduleId:scheduleId)) { result in
+              do{
+                  let  commentsData: [CommentsData] =  try result.decoded(keypath: "data")
+                  completion(.success(commentsData))
+              }
+              catch{
+                  print("-----Error------ \n",error)
+                  completion(.failure(error.customDescription))
+              }
+          }
       }
+//    class func TPHitsApi(val: String,txt: String ,facet_by:String,completion:@escaping(APIResult<[TpResult]>)->Void) {
+//        Provider.services.request(.typeSenseApi(val: val, txt: txt,facet_by: facet_by)) { result in
+//          do{
+//            let categories: [TpResult] = try result.decoded(keypath: "results")
+//            completion(.success(categories))
+//          }catch{
+//              print("-----Error------ \n",error)
+//              completion(.failure(error.customDescription))
+//          }
+//        }
+//      }
     class func banner(isbackground:Bool,completion:@escaping(APIResult<[BannerResponse]>)->Void){
         
         
@@ -92,11 +115,11 @@ class APIServices{
         
         
     }
-    class func categories(isbackground:Bool,completion:@escaping(APIResult<CategoriesMainModel>)->Void){
+    class func categories(isbackground:Bool,id:String,completion:@escaping(APIResult<CategoriesMainModel>)->Void){
         
         
         if(isbackground){
-            Provider.backgroundServices.request(.categories){ result in
+            Provider.backgroundServices.request(.categories(id: id)){ result in
                 do{
                     
                     let categories: CategoriesMainModel = try result.decoded(keypath: "data")
@@ -118,7 +141,7 @@ class APIServices{
             }
             
         }else{
-            Provider.services.request(.categories){ result in
+            Provider.services.request(.categories(id: id)){ result in
                 do{
                     
                     let categories: CategoriesMainModel = try result.decoded(keypath: "data")
@@ -141,6 +164,57 @@ class APIServices{
             
         }
     }
+    
+    class func categories2(isbackground:Bool,id:String,completion:@escaping(APIResult<CategoriesResponse>)->Void){
+        
+        
+        if(isbackground){
+            Provider.backgroundServices.request(.categories(id: id)){ result in
+                do{
+                    
+                    let categories: CategoriesResponse = try result.decoded(keypath: "data")
+                    
+                    completion(.success(categories))
+                }catch{
+                    if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                    }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                        DispatchQueue.main.async {
+                            appDelegate.GotoDashBoard(ischecklogin: true)
+                        }
+                    }
+                    else{
+                        print("-----Error------ \n",error)
+                        completion(.failure(error.customDescription))
+                    }
+                }
+            }
+            
+        }else{
+            Provider.services.request(.categories(id: id)){ result in
+                do{
+                    
+                    let categories: CategoriesResponse = try result.decoded(keypath: "data")
+                    
+                    completion(.success(categories))
+                }catch{
+                    if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                    }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                        DispatchQueue.main.async {
+                            appDelegate.GotoDashBoard(ischecklogin: true)
+                        }
+                    }
+                    else{
+                        print("-----Error------ \n",error)
+                        completion(.failure(error.customDescription))
+                    }
+                }
+            }
+            
+        }
+    }
+    
     
     class func getAllCategories(isbackground:Bool,completion:@escaping(APIResult<[getAllCategoryResponse]>)->Void){
         
@@ -241,13 +315,13 @@ class APIServices{
         
     }
     
-    class func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String ,isbackground :Bool,completion:@escaping(APIResult<[latestMobileDataModel]>)->Void){
+    class func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String ,isbackground :Bool,completion:@escaping(APIResult<[Product]>)->Void){
         if(isbackground){
             Provider.backgroundServices.request(.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5)){ result in
                 
                 do{
                     
-                    let categories: [latestMobileDataModel] = try result.decoded(keypath: "data")
+                    let categories: [Product] = try result.decoded(keypath: "data")
                     
                     completion(.success(categories))
                 }catch{
@@ -267,7 +341,7 @@ class APIServices{
                 
                 do{
                     
-                    let categories: [latestMobileDataModel] = try result.decoded(keypath: "data")
+                    let categories: [Product] = try result.decoded(keypath: "data")
                     
                     completion(.success(categories))
                 }catch{
@@ -287,6 +361,92 @@ class APIServices{
         }
         
     }
+    
+    class func getrandomproduct(isbackground :Bool,completion:@escaping(APIResult<[Product]>)->Void){
+        if(isbackground){
+            Provider.backgroundServices.request(.randomproduct){ result in
+                
+                do{
+                    
+                    let categories: [Product] = try result.decoded(keypath: "data")
+                    
+                    completion(.success(categories))
+                }catch{
+                    if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                    }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                        DispatchQueue.main.async {
+                            appDelegate.GotoDashBoard(ischecklogin: true)
+                        }
+                    }
+                    else{
+                        print("-----Error------ \n",error)
+                        completion(.failure(error.customDescription))
+                    }
+                }
+            }
+        
+        }else {
+            Provider.services.request(.randomproduct){ result in
+                
+                do{
+                    
+                    let categories: [Product] = try result.decoded(keypath: "data")
+                    
+                    completion(.success(categories))
+                }catch{
+                    if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                    }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                        DispatchQueue.main.async {
+                            appDelegate.GotoDashBoard(ischecklogin: true)
+                        }
+                    }
+                    else{
+                        print("-----Error------ \n",error)
+                        completion(.failure(error.customDescription))
+                    }
+                }
+            }
+        
+        }
+          
+    }
+    class func getrandomproduct(origin :String,completion:@escaping(APIResult<[Product]>)->Void){
+            Provider.services.request(.shopChinarandomproduct(origin: origin)){ result in
+                
+                do{
+                    
+                    let categories: [Product] = try result.decoded(keypath: "data")
+                    
+                    completion(.success(categories))
+                }catch{
+                    if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                        appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                    }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                        DispatchQueue.main.async {
+                            appDelegate.GotoDashBoard(ischecklogin: true)
+                        }
+                    }
+                    else{
+                        print("-----Error------ \n",error)
+                        completion(.failure(error.customDescription))
+                    }
+                }
+            }
+    }
+    
+//    class func typeSenseApi(val: String,txt: String ,facet_by:String,completion:@escaping(APIResult<[TypeSenseResult]>)->Void) {
+//        Provider.services.request(.typeSenseApi(val: val, txt: txt,facet_by: facet_by)) { result in
+//          do{
+//            let categories: [TypeSenseResult] = try result.decoded(keypath: "results")
+//            completion(.success(categories))
+//          }catch{
+//              print("-----Error------ \n",error)
+//              completion(.failure(error.customDescription))
+//          }
+//        }
+//      }
     
     class func productcategoriesdetails(slug:String,completion:@escaping(APIResult<ProductCategoriesDetailsResponse>)->Void) {
         Provider.services.request(.productcategoriesdetails(slug: slug)) { result in
@@ -377,6 +537,32 @@ class APIServices{
             }
         }
     }
+    
+    class func moreFrom(category:String,user:String,completion:@escaping(APIResult<moreFomDataClass>)->Void){
+        Provider.services.request(.moreFrom(category: category, user: user)) { result in
+            do{
+                
+                let  res : moreFomDataClass =  try result.decoded(keypath: "data")
+                
+                
+                
+                completion(.success(res))
+            }catch{
+                if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                    DispatchQueue.main.async {
+                        appDelegate.GotoDashBoard(ischecklogin: true)
+                    }
+                }
+                else{
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                }
+            }
+        }
+    }
+    
     class func loginWithGoogleVerification(googleId:String,displayName:String,completion:@escaping(APIResult<UserData>)->Void){
         Provider.services.request(.loginWithGoogleVerification(googleId:googleId , displayName: displayName)) { result in
             do{
@@ -426,11 +612,11 @@ class APIServices{
         }
     }
     
-    class func searchproduct(name:String,limit:Int, page:Int,value:String,completion:@escaping(APIResult<[SearchProductResult]>)->Void){
+    class func searchproduct(name:String,limit:Int, page:Int,value:String,completion:@escaping(APIResult<[Product]>)->Void){
         Provider.services.request(.searchproduct(name:name,limit: limit, page: page,value: value)) { result in
             do{
                 
-                let  searchproduct: [SearchProductResult] =  try result.decoded(keypath: "results")
+                let  searchproduct: [Product] =  try result.decoded(keypath: "results")
                 
                 completion(.success(searchproduct))
             }catch{
@@ -454,6 +640,28 @@ class APIServices{
             do{
                 
                 let  searchstore: searchStoreDataClass =  try result.decoded(keypath: "data")
+                
+                completion(.success(searchstore))
+            }catch{
+                if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                    DispatchQueue.main.async {
+                        appDelegate.GotoDashBoard(ischecklogin: true)
+                    }
+                }
+                else{
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                }
+            }
+        }
+    }
+    class func getSellerDetail(id:String,completion:@escaping(APIResult<getSellerDetailDataModel>)->Void){
+        Provider.services.request(.getSellerDetail(id: id)) { result in
+            do{
+                
+                let  searchstore: getSellerDetailDataModel =  try result.decoded(keypath: "data")
                 
                 completion(.success(searchstore))
             }catch{
@@ -809,32 +1017,65 @@ class APIServices{
         }
     }
     
-    class func wishlist(completion:@escaping(APIResult<WishlistResponse>)->Void){
-        Provider.services.request(.wishList) { result in
-            do{
+    class func wishlist(isbackground:Bool ,completion:@escaping(APIResult<WishlistResponse>)->Void){
+        if(isbackground){
+            Provider.backgroundServices.request(.wishList) { result in
+                do{
+                    
+                    let  wishList: WishlistResponse =  try result.decoded(keypath: "data")
+                    
+                    completion(.success(wishList))
+                }catch{
+                    
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                    
+                }
                 
-                let  wishList: WishlistResponse =  try result.decoded(keypath: "data")
                 
-                completion(.success(wishList))
-            }catch{
                 
-                print("-----Error------ \n",error)
-                completion(.failure(error.customDescription))
                 
             }
-            
-            
-            
-            
+        }else{
+            Provider.services.request(.wishList) { result in
+                do{
+                    
+                    let  wishList: WishlistResponse =  try result.decoded(keypath: "data")
+                    
+                    completion(.success(wishList))
+                }catch{
+                    
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                    
+                }
+                
+                
+                
+                
+            }
         }
+        
     }
     
+    class func newwishlist(product:String,completion:@escaping(APIResult<String>)->Void){
+        Provider.services.request(.newishlist(product: product)) { result in
+          do{
+            let data: String = try result.decoded(keypath: "message")
+            completion(.success(data))
+          }catch{
+            print("-----Error------ \n",error)
+            completion(.failure(error.customDescription))
+          }
+        }
+      }
     
-    class func addwishlist(proudct:String,completion:@escaping(APIResult<AddWishlistResponse>)->Void){
+    
+    class func addwishlist(proudct:String,completion:@escaping(APIResult<String>)->Void){
         Provider.services.request(.addwishList(product: proudct)) { result in
             do{
                 
-                let  addwishList: AddWishlistResponse =  try result.decoded(keypath: "data")
+                let  addwishList: String =  try result.decoded(keypath: "message")
                 
                 completion(.success(addwishList))
             }catch{
@@ -852,7 +1093,18 @@ class APIServices{
             }
         }
     }
-    
+    class func checkoutpayment(token: String, amount: Float, currency: String, cartId: String,completion:@escaping(APIResult<OrderResponse>)->Void){
+        Provider.services.request(.cardpaymentApi(token: token, amount: amount, currency: currency, cartId: cartId)) { result in
+           do{
+             let commentsData: OrderResponse = try result.decoded(keypath: "data")
+             completion(.success(commentsData))
+           }
+           catch{
+             print("-----Error------ \n",error)
+             completion(.failure(error.customDescription))
+           }
+         }
+       }
     class func removeWishList(product:String,completion:@escaping(APIResult<RemoveWishListResponse>)->Void){
         Provider.services.request(.wishListRemove(product: product)) { result in
             do{
@@ -945,8 +1197,8 @@ class APIServices{
     }
     
     
-    class func getStreamingVideos(limit:Int,page:Int,categories:[String],userId:String,completion:@escaping(APIResult<LiveStreamingData>)->Void) {
-        Provider.backgroundServices.request(.getStreamingVideos(limit:limit,page:page,categories: categories,userId: userId)) { result in
+    class func getStreamingVideos(limit:Int,page:Int,categories:[String],userId:String,city:String,completion:@escaping(APIResult<LiveStreamingData>)->Void) {
+        Provider.backgroundServices.request(.getStreamingVideos(limit:limit,page:page,categories: categories,userId: userId, city: city)) { result in
             do{
                 
                 let getStreamingVideos: LiveStreamingData = try result.decoded(keypath: "data")
@@ -981,11 +1233,11 @@ class APIServices{
             }
         }
     }
-    class func getvidoebyproductIds(productIds:[String],completion:@escaping(APIResult<[GetVidoeByProductIds]>)->Void) {
+    class func getvidoebyproductIds(productIds:[String],completion:@escaping(APIResult<[Product]>)->Void) {
         Provider.services.request(.getvidoebyproductIds(productIds: productIds)){ result in
             do{
                 
-                let getvidoebyproductIds: [GetVidoeByProductIds] = try result.decoded(keypath: "data")
+                let getvidoebyproductIds: [Product] = try result.decoded(keypath: "data")
                 
                 completion(.success(getvidoebyproductIds))
             }catch{
@@ -1146,10 +1398,10 @@ class APIServices{
     }
     
     
-    class func getLiveStream(completion:@escaping(APIResult<[LiveVideoResponse]>)->Void) {
+    class func getLiveStream(completion:@escaping(APIResult<[LiveStreamingResults]>)->Void) {
         Provider.services.request(.getLiveStream){ result in
             do{
-                let getLiveStream: [LiveVideoResponse] = try result.decoded(keypath: "data")
+                let getLiveStream: [LiveStreamingResults] = try result.decoded(keypath: "data")
                 completion(.success(getLiveStream))
             }catch{
                 print("-----Error------ \n",error)
@@ -1158,6 +1410,43 @@ class APIServices{
             }
         }
     }
+    class func shopchinaStreamingVideo(origin:String,completion:@escaping(APIResult<ShopChinaStreaminVideoDataModel>)->Void) {
+        Provider.services.request(.shopchinaStreamingVideo(origin: origin)){ result in
+            do{
+                let appleLogin: ShopChinaStreaminVideoDataModel = try result.decoded(keypath: "data")
+                completion(.success(appleLogin))
+            }catch{
+                
+                print("-----Error------ \n",error)
+                completion(.failure(error.customDescription))
+                
+            }
+        }
+    }
+    class func getprovince(countryCode:String,language:String,checkCache:Bool,completion:@escaping(APIResult<ProvinceDataModel>)->Void){
+        Provider.services.request(.getprovince(countryCode: countryCode, language: language, checkCache: checkCache)) { result in
+            do{
+                
+                let  personaldetail: ProvinceDataModel =  try result.decoded(keypath: "data")
+                
+                completion(.success(personaldetail))
+            }catch{
+                if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                    DispatchQueue.main.async {
+                        appDelegate.GotoDashBoard(ischecklogin: true)
+                    }}
+                else{
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                }
+            }
+            
+        }
+    }
+    
+    
     
     
 }

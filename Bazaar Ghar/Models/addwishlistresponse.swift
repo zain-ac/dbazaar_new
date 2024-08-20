@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 struct AddWishlistResponse: Codable {
     let products: [AddWishlistProduct]?
     let user, createdAt, updatedAt: String?

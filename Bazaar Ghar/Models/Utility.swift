@@ -386,6 +386,25 @@ class Utility {
         view.layoutIfNeeded()
         gradientLayer.frame = view.bounds
     }
+    
+    func setGradientBackgroundForBtn(button: UIButton, colors: [String]) {
+        let gradientLayer = CAGradientLayer()
+        
+        // Convert hex color strings to UIColor
+        gradientLayer.colors = colors.compactMap { UIColor(hex: $0)?.cgColor }
+        
+        // Optionally set the direction of the gradient
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        
+        // Set the gradient layer frame and add it to the button
+        gradientLayer.frame = button.bounds
+        button.layer.insertSublayer(gradientLayer, at: 0)
+        
+        // Ensure the gradient layer resizes with the button
+        button.layoutIfNeeded()
+        gradientLayer.frame = button.bounds
+    }
 
 //    func setGradientBackground(view: UIView, colors: [String]) {
 //        let gradientLayer = CAGradientLayer()
@@ -398,6 +417,70 @@ class Utility {
 //        
 //        view.layer.insertSublayer(gradientLayer, at: 0)
 //    }
+    
+    func roundUp(_ value: Double) -> Int {
+        return Int(ceil(value))
+    }
+    func roundDown(_ value: Double) -> Int {
+        return Int(floor(value))
+    }
+    func roundDownToNearestFive(_ value: Int) -> Int {
+        return Int(floor(Double(value) / 5.0) * 5)
+    }
+    func combinedRoundDown(_ value: Double) -> Int {
+        let roundedValue = roundDown(value)
+        return roundDownToNearestFive(roundedValue)
+    }
+    func addOrRemoveValue(_ value: String, from array: inout [String]) {
+        if let index = array.firstIndex(of: value) {
+            array.remove(at: index)
+        } else {
+            array.append(value)
+        }
+    }
+    
+    func formattedText(text: String) -> NSAttributedString {
+        // Split the text into components
+        let components = text.split(separator: " ")
+        
+        // Ensure there are exactly two components: "SAR" and the number
+        guard components.count == 2 else {
+            return NSAttributedString(string: text) // Return unformatted text if the format is unexpected
+        }
+        
+        let currency = String(components[0])
+        let amount = String(components[1])
+        
+        // Create an NSMutableAttributedString from the full text
+        let attributedString = NSMutableAttributedString(string: text)
+        
+        // Define the attributes for the currency part ("SAR")
+        let currencyAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 10),
+            .foregroundColor: UIColor.black
+        ]
+        
+        // Define the attributes for the amount part ("1200")
+        let amountAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 14),
+            .foregroundColor: UIColor(hex: "#06B7FD")!
+        ]
+        
+        // Apply the attributes to the respective ranges
+        attributedString.addAttributes(currencyAttributes, range: (text as NSString).range(of: currency))
+        attributedString.addAttributes(amountAttributes, range: (text as NSString).range(of: amount))
+        
+        return attributedString
+    }
+    func applyBottomLeftCornerRadius(to button: UIButton, radius: CGFloat) {
+            let path = UIBezierPath(roundedRect: button.bounds,
+                                    byRoundingCorners: [.bottomLeft],
+                                    cornerRadii: CGSize(width: radius, height: radius))
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+            button.layer.mask = mask
+        }
+    
 }
 
 extension UIColor {
@@ -756,4 +839,11 @@ class CornerRadiusView: UIView {
         super.layoutSubviews()
         updateCornerRadius()
     }
+}
+
+
+struct KSAcat {
+var name:String?
+    var id:String?
+    var img: String?
 }

@@ -163,16 +163,17 @@ struct LiveStreamingResults: Codable {
     let liveViews, totalViews, like: Int?
     let resultID: String?
     let mbrURL: String?
+    let hls: String?
 
     enum CodingKeys: String, CodingKey {
-        case id = "_id"
+        case id = "_=]id"
         case productsID = "productsId"
         case featured, categories, duration, pin, videoType
         case streamingURL = "streamingUrl"
         case userID = "userId"
         case title, slotStatus, slug, brandName
         case brandID = "brandId"
-        case thumbnail, description, liveViews, totalViews, like
+        case thumbnail, description, liveViews, totalViews, like,hls
         case resultID = "id"
         case mbrURL = "mbrUrl"
     }
@@ -325,3 +326,33 @@ struct Hashes: Codable {
 //        case resultID = "id"
 //    }
 //}
+
+
+
+
+struct ShopChinaStreaminVideoDataModel: Codable {
+    let page, totalPages, limit, totalResults: Int?
+    let results, featured: [LiveStreamingResults]?
+}
+
+
+
+
+
+// MARK: - DataClass
+struct ProvinceDataModel: Codable {
+    let countryname: String?
+    let provinces: [Province]?
+}
+
+// MARK: - Province
+struct Province: Codable {
+    let province: String?
+    let cities: [City]?
+}
+
+// MARK: - City
+struct City: Codable {
+    let city: String?
+    let areas: [String]?
+}

@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import UIKit
 
 let BLE_MUSIC_COLOR_NOTIFICATION = "BLE_MUSIC_COLOR_NOTIFICATION"
 let BLE_BRIGHTNESS_NOTIFICATION = "BLE_BRIGHTNESS_NOTIFICATION"
@@ -140,7 +141,13 @@ struct CoreDataConstant {
 }
 
 struct Constants {
-    
+    static let backgroundColor = UIColor(red: 23 / 255, green: 32 / 255, blue: 30 / 255, alpha: 1)
+    static let mainFontColor = UIColor(red: 0 / 255, green: 204 / 255, blue: 45 / 255, alpha: 1)
+    static let secondaryFontColor = UIColor(red: 177 / 255, green: 177 / 255, blue: 177 / 255, alpha: 1)
+    static let errorColor = UIColor.red
+    static let textFieldBackgroundColor = UIColor(red: 36 / 255.0, green: 48 / 255.0, blue: 45 / 255.0, alpha: 1.0)
+    static let borderRadius: CGFloat = 4
+    static let borderWidth: CGFloat = 1
     struct Storyboard {
         
         static let loginVC = "LoginVC"
