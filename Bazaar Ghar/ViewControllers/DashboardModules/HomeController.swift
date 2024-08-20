@@ -123,8 +123,17 @@ var count = 0
         SetupView()
     }
     func SetupView(){
-        SocketConeect()
-
+     
+        if(AppDefault.islogin ){
+            SocketConeect()
+            if AppDefault.wishlistproduct != nil{
+                wishList(isbackground: true)
+            }else{
+                wishList(isbackground: false)
+            }
+            
+            
+            }
         let animation = LottieAnimation.named("videoAnimation")
         videoAnimationView.animation = animation
         videoAnimationView.contentMode = .scaleAspectFit
@@ -348,16 +357,7 @@ var count = 0
 
         self.navigationController?.isNavigationBarHidden = true
 
-        if(AppDefault.islogin ){
-            
-            if AppDefault.wishlistproduct != nil{
-                wishList(isbackground: true)
-            }else{
-                wishList(isbackground: false)
-            }
-            
-            
-            }
+       
 
 //        if(AppDefault.groupbydealdata?.count ?? 0 > 0){
 //            groupByDeals(limit: 20, page: 1, isbackground: true)

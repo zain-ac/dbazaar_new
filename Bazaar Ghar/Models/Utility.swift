@@ -269,13 +269,36 @@ class Utility {
     func formatNumberWithCommas(_ number: Double) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 2 // Allow up to two decimal places
+        numberFormatter.minimumFractionDigits = 0 // Do not force decimal places
+
         if let formattedString = numberFormatter.string(from: NSNumber(value: number)) {
             return formattedString
         } else {
             return "\(number)"
         }
     }
+    
+    func formatPrice(_ price: Double) -> Double {
+        // Round down the price to the nearest whole number if needed
+        return floor(price)
+    }
 
+    func calculateDiscountPercentage(regularPrice: Double, salePrice: Double) -> Int {
+        // Check if regularPrice is greater than zero to avoid division by zero
+        let adjustedRegularPrice = formatPrice(regularPrice)
+        let adjustedSalePrice = formatPrice(salePrice)
+        guard adjustedRegularPrice > 0 else {
+            print("Regular price must be greater than zero")
+            return 0
+        }
+        
+        // Calculate the discount percentage
+        let discount = (adjustedRegularPrice - adjustedSalePrice) / adjustedRegularPrice * 100
+        
+        // Return the discount percentage rounded down to the nearest whole number
+        return Int(floor(discount))
+    }
     
     func formatDateString(_ dateString: String) -> String? {
         let inputFormatter = ISO8601DateFormatter()

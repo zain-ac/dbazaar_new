@@ -153,14 +153,11 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
             wishList()
+        percentView.isHidden = true
             productcategoriesdetails(slug: slugid ?? "")
             if(AppDefault.islogin){
                 self.connectSocket()
             }
-            
-          
-           
-            
            
         }
     func wishList(){
@@ -631,11 +628,15 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                 }
                 
                 self?.pagerView.reloadData()
-                if res.regularPrice == nil || res.salePrice == nil {
+                if self?.productcategoriesdetailsdata?.regularPrice == nil || self?.productcategoriesdetailsdata?.salePrice == nil {
                 
                 }else {
-                    let percentValue = (((res.regularPrice ?? 0) - (res.salePrice ?? 0)) * 100) / (res.regularPrice ?? 0)
-                    self?.percentLbl.text = String(format: "%.0f%% OFF", percentValue)
+//                    var hh = (() - (self?.productcategoriesdetailsdata?.salePrice ?? 0))
+//                    let percentValue = (hh * 100) / (self?.productcategoriesdetailsdata?.regularPrice ?? 0)
+//                    self?.percentLbl.text =  "\(percentValue)% OFF"   //String(format: "%.0f%% OFF", percentValue)
+                    
+                    let discountPercentage = Utility().calculateDiscountPercentage(regularPrice: self?.productcategoriesdetailsdata?.regularPrice ?? 0, salePrice:self?.productcategoriesdetailsdata?.salePrice ?? 0)
+                    self?.percentLbl.text = "\(discountPercentage)% OFF"
                 }
                 
                 if LanguageManager.language == "ar"{

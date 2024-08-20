@@ -19,13 +19,16 @@ class HomeLastProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var heartBtn: UIButton!
     
     
-    var product: Product! {
+    var product: Product? {
         didSet {
-            if product.regularPrice == nil || product.salePrice == nil {
+            if product?.regularPrice == nil || product?.salePrice == nil {
             
             }else {
-                let percentValue = (((product?.regularPrice ?? 0) - (product.salePrice ?? 0)) * 100) / (product.regularPrice ?? 0)
-                self.Offbanner.text = String(format: "%.0f%% OFF", percentValue)
+//                let percentValue = (((product?.regularPrice ?? 0) - (product.salePrice ?? 0)) * 100) / (product.regularPrice ?? 0)
+//                self.Offbanner.text = String(format: "%.0f%% OFF", percentValue)
+                
+                let discountPercentage = Utility().calculateDiscountPercentage(regularPrice: product?.regularPrice ?? 0, salePrice: product?.salePrice ?? 0)
+                self.Offbanner.text = "\(discountPercentage)% OFF"
             }
         }
     }

@@ -173,7 +173,7 @@ class New_StoreVC: UIViewController {
                     self?.isLoadingNextPage = false
                     
                     let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 290
-                    self?.scrollheight.constant = CGFloat( CGFloat(ll) + 900)
+                    self?.scrollheight.constant = CGFloat( CGFloat(ll) + 600) + (self?.videoViewHeight.constant ?? 0)
                     self?.categoryproduct_collectionview.reloadData()
                 }else {
 
