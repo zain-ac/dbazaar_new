@@ -105,9 +105,11 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
         
            let searchParameters = SearchParameters(
                q: query,
+               
                queryBy: "productName",
                filterBy:faceby, facetBy: "averageRating,brandName,color,lvl0,price,size,style",
-               page: page, perPage: 10
+               maxFacetValues: 250, page: page, perPage: 10
+               
            )
            
            Task {

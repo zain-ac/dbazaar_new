@@ -177,7 +177,7 @@ struct AddWishlistMarket: Codable {
 
 // MARK: - Wallet
 struct AddWishlistWallet: Codable {
-    let balance: Int?
+    let balance: Float?
 }
 
 // MARK: - RemoveWishList

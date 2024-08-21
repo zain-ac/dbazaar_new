@@ -468,6 +468,10 @@ class New_StoreVC: UIViewController {
                                                 "storeId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
                                                 "options": ["page": 1, "limit": 200]])
                 
+                
+                
+                
+                
                 self.socket?.on("room-join") { datas, ack in
                     if let rooms = datas[0] as? [String: Any] {
                         let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)

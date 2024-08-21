@@ -156,7 +156,7 @@ struct AddToCartCategorySpecs: Codable {
 
 // MARK: - User
 struct AddToCartUser: Codable {
-    let wallet: AddToCartWallet?
+    let walletlbl: AddToCartWallet?
     let isEmailVarified, isPhoneVarified: Bool?
     let userType, role, email, fullname: String?
     let phone, createdAt, updatedAt, refCode: String?
@@ -165,7 +165,8 @@ struct AddToCartUser: Codable {
     let id, googleID: String?
 
     enum CodingKeys: String, CodingKey {
-        case wallet, isEmailVarified, isPhoneVarified, userType, role, email, fullname, phone, createdAt, updatedAt, refCode
+       case walletlbl = "wallet"
+        case isEmailVarified, isPhoneVarified, userType, role, email, fullname, phone, createdAt, updatedAt, refCode
         case v = "__v"
         case sellerDetail, id
         case googleID = "googleId"
@@ -211,10 +212,11 @@ struct AddToCartMarket: Codable {
 
 // MARK: - Wallet
 struct AddToCartWallet: Codable {
-    let balance: Int?
+    let balance1: Float?
+    enum CodingKeys: String, CodingKey {
+        case balance1 = "balance"
+    }
 }
 
 // MARK: - PaymentTrace
-struct PaymentTrace: Codable {
-    let walletPaid, cardPaid: Int?
-}
+

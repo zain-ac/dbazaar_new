@@ -25,7 +25,7 @@ class InVoice_ViewController: UIViewController {
         Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
         Utility().setGradientBackground(view: invoiceview, colors: [primaryColor, primaryColor, headerSecondaryColor])
         invoicelbl.text = orderitems?.id ?? ""
-        totalamountlbl.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(orderitems?.subTotal ?? 0))
+        totalamountlbl.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(orderitems?.subTotal ?? 0)))
         setCurrentDate()
         self.navigationController?.navigationBar.isHidden = true
                tabBarController?.tabBar.isHidden = true
@@ -77,7 +77,7 @@ extension InVoice_ViewController: UITableViewDelegate,UITableViewDataSource{
         let data = mainpackageItems?[indexPath.row]
         cell.img.pLoadImage(url: data?.product?.mainImage ?? "")
         cell.produtname.text = data?.product?.productName
-        cell.Price.attributedText    = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.product?.price ?? 0))
+        cell.Price.attributedText    = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(data?.product?.price ?? 0)))
         cell.qtylbl.text = "Qty \(data?.quantity ?? 0)"
         
         

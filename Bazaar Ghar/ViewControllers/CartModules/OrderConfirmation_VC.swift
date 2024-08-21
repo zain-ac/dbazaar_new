@@ -90,13 +90,13 @@ class OrderConfirmation_VC: UIViewController {
            }
     }
     func setOrderData(){
-        producttotal.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.retailTotal ?? 0) //Utility().convertAmountInComma("\(orderDetails?.retailTotal ?? 0)")
-        discountonproduct.text =  "(" + appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.discount ?? 0) + ")"
-        subtotal.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.subTotal ?? 0)
-        deliverycharges.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.shippmentCharges ?? 0)
-        total.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.total ?? 0)
-        payable.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.payable ?? 0)
-        grandTotal.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.payable ?? 0)
+        producttotal.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(orderDetails?.retailTotal ?? 0.0)) //Utility().convertAmountInComma("\(orderDetails?.retailTotal ?? 0)")
+        discountonproduct.text =  "(" + appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(orderDetails?.discount ?? 0.0)) + ")"
+        subtotal.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(orderDetails?.subTotal ?? 0.0))
+        deliverycharges.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(orderDetails?.shippmentCharges ?? 0.0))
+        total.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(orderDetails?.total ?? 0.0))
+        payable.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(orderDetails?.payable ?? 0.0))
+        grandTotal.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(orderDetails?.payable ?? 0.0))
     }
     
     func getTotalItems(){

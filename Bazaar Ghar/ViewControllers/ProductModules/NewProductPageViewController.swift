@@ -212,25 +212,39 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     
     
     @IBAction func chatButton(_ sender: Any) {
+        print("tap")
         if(!AppDefault.islogin){
             let vc = PopupLoginVc.getVC(.popups)
           vc.modalPresentationStyle = .overFullScreen
           self.present(vc, animated: true, completion: nil)
         }else{
          
-            if ((messages?.contains(where: {$0.idarray?.sellerId == productcategoriesdetailsdata?.sellerDetail?.seller})) != nil){
+            if ((messages?.contains(where: {$0.idarray?.sellerId ?? ""
+                == productcategoriesdetailsdata?.sellerDetail?.seller ?? ""})) != nil){
                 
                
                 var i:PMsg? = nil
                 i = messages?.first(where: { $0.idarray?.sellerId == productcategoriesdetailsdata?.sellerDetail?.seller })
                 
                 
-                self.socket?.emit("room-join", ["brandName": i?.idarray?.brandName ?? "",
-                                                "customerId": AppDefault.currentUser?.id ?? "",
-                                                "isSeller": false,
-                                                "sellerId": i?.idarray?.sellerId ?? "",
-                                                "storeId": i?.idarray?.storeId ?? "",
-                                                "options": ["page": 1, "limit": 200]])
+                if(i == nil){
+                    self.socket?.emit("room-join", ["brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
+                                                    "customerId": AppDefault.currentUser?.id ?? "",
+                                                    "isSeller": false,
+                                                    "sellerId": productcategoriesdetailsdata?.sellerDetail?.seller ?? "",
+                                                    "storeId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
+                                                    "options": ["page": 1, "limit": 200]])
+                }else{
+                    self.socket?.emit("room-join", ["brandName": i?.idarray?.brandName ?? "",
+                                                    "customerId": AppDefault.currentUser?.id ?? "",
+                                                    "isSeller": false,
+                                                    "sellerId": i?.idarray?.sellerId ?? "",
+                                                    "storeId": i?.idarray?.storeId ?? "",
+                                                    "options": ["page": 1, "limit": 200]])
+                }
+                
+                
+                
                 
                 self.socket?.on("room-join") { datas, ack in
                     if let rooms = datas[0] as? [String: Any] {
@@ -250,13 +264,16 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                     }
                 }
             }else{
+                self.socket?.emit("leaveRoom", ["userId":AppDefault.currentUser?.id ?? ""])
+
+        
+                
                 self.socket?.emit("room-join", ["brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
                                                 "customerId": AppDefault.currentUser?.id ?? "",
                                                 "isSeller": false,
                                                 "sellerId": productcategoriesdetailsdata?.sellerDetail?.seller ?? "",
                                                 "storeId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
                                                 "options": ["page": 1, "limit": 200]])
-                
                 self.socket?.on("room-join") { datas, ack in
                     if let rooms = datas[0] as? [String: Any] {
                         let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
@@ -268,7 +285,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                         vc.messages = nil
                         vc.latestMessages = obj.messages.chat
                         vc.PuserMainArray = obj
-                        vc.newChat = false
+                        vc.newChat = true
                         self.navigationController?.pushViewController(vc, animated: true)
                         
                     }

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "6979EB90-3BFA-4B52-AA1E-BCFC31AE34CF"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "97D0AF14-1193-4CD8-858B-B7953CCEFAF7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/DashboardModules/HomeController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1171"
+            endingLineNumber = "1171"
+            landmarkName = "catBannerBtnTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7320CA01-5626-4BC9-A59A-4965E842F9DD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/DashboardModules/HomeController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1220"
+            endingLineNumber = "1220"
+            landmarkName = "lastRandomProductcartButtonTap(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "00C1D2AE-1B86-4142-8E45-622453B3722C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
+            landmarkName = "chatButton(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "00C1D2AE-1B86-4142-8E45-622453B3722C - 841f912e050ec1f1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Bazaar_Ghar.NewProductPageViewController.chatButton(Any) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/themacstore/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "226"
+                  endingLineNumber = "226">
+               </Location>
+               <Location
+                  uuid = "00C1D2AE-1B86-4142-8E45-622453B3722C - 4f739b50710b837"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (Swift.Array&lt;Any&gt;, SocketIO.SocketAckEmitter) -&gt; () in Bazaar_Ghar.NewProductPageViewController.chatButton(Any) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/themacstore/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "226"
+                  endingLineNumber = "226">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "93AFBA07-6547-4E64-AB2C-9454BB799436"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "chatButton(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "93AFBA07-6547-4E64-AB2C-9454BB799436 - 841f912e050ec2f8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Bazaar_Ghar.NewProductPageViewController.chatButton(Any) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/themacstore/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "249"
+                  endingLineNumber = "249">
+               </Location>
+               <Location
+                  uuid = "93AFBA07-6547-4E64-AB2C-9454BB799436 - 4f739b50710b837"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (Swift.Array&lt;Any&gt;, SocketIO.SocketAckEmitter) -&gt; () in Bazaar_Ghar.NewProductPageViewController.chatButton(Any) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/themacstore/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "226"
+                  endingLineNumber = "226">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "618B28C5-7D00-4132-BE84-2E1FB0BA51AB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/StoreModules/New_StoreVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "464"
+            endingLineNumber = "464"
+            landmarkName = "chatButtonTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B72CF5C6-C9A6-411C-B84E-A6EB529E099E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/StoreModules/New_StoreVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
+            landmarkName = "chatButtonTapped(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B72CF5C6-C9A6-411C-B84E-A6EB529E099E - 4b7f3ab13de9e47c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Bazaar_Ghar.New_StoreVC.chatButtonTapped(Any) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/themacstore/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/StoreModules/New_StoreVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "436"
+                  endingLineNumber = "436">
+               </Location>
+               <Location
+                  uuid = "B72CF5C6-C9A6-411C-B84E-A6EB529E099E - 3e89e8e3bb8d4c69"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Bazaar_Ghar.PMsg) -&gt; Swift.Bool in Bazaar_Ghar.New_StoreVC.chatButtonTapped(Any) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/themacstore/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/StoreModules/New_StoreVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "436"
+                  endingLineNumber = "436">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D81ACD2D-E0E7-4C4B-B87D-D4249FDFC834"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/StoreModules/New_StoreVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
+            landmarkName = "chatButtonTapped(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D81ACD2D-E0E7-4C4B-B87D-D4249FDFC834 - 4b7f3ab13de9e7f8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Bazaar_Ghar.New_StoreVC.chatButtonTapped(Any) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/themacstore/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/StoreModules/New_StoreVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "432"
+                  endingLineNumber = "432">
+               </Location>
+               <Location
+                  uuid = "D81ACD2D-E0E7-4C4B-B87D-D4249FDFC834 - 6348498e5c699de2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Bazaar_Ghar.PMsg) -&gt; Swift.Bool in Bazaar_Ghar.New_StoreVC.chatButtonTapped(Any) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/themacstore/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/StoreModules/New_StoreVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "432"
+                  endingLineNumber = "432">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9CA1776B-D280-429D-BE44-31ADB6AC677D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/StoreModules/New_StoreVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "426"
+            endingLineNumber = "426"
+            landmarkName = "chatButtonTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

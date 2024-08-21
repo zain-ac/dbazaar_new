@@ -1185,7 +1185,7 @@ class APIServices{
             }
         }
     }
-    class func checkoutpayment(token: String, amount: Float, currency: String, cartId: String,completion:@escaping(APIResult<OrderResponse>)->Void){
+    class func checkoutpayment(token: String, amount: Int, currency: String, cartId: String,completion:@escaping(APIResult<OrderResponse>)->Void){
         Provider.services.request(.cardpaymentApi(token: token, amount: amount, currency: currency, cartId: cartId)) { result in
            do{
              let commentsData: OrderResponse = try result.decoded(keypath: "data")

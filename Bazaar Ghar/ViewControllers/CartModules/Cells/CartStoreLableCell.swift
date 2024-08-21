@@ -160,10 +160,10 @@ extension CartStoreLableCell : UITableViewDataSource,UITableViewDelegate{
 
         }
         if(item?.product?.onSale == true){
-            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(item?.product?.salePrice ?? 0)) //Utility().convertAmountInComma("\(item?.product?.salePrice ?? 0)")
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(item?.product?.salePrice ?? 0))) //Utility().convertAmountInComma("\(item?.product?.salePrice ?? 0)")
         }else{
 //            cell.productprice.text =
-            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(item?.product?.regularPrice ?? 0))
+            cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(item?.product?.regularPrice ?? 0)))
         }
         
         // Utility().convertAmountInComma("\(item?.product?.regularPrice ?? 0)")

@@ -469,7 +469,7 @@ struct CategorySubMarket: Codable {
 
 // MARK: - Wallet
 struct Wallet: Codable {
-    let balance: Int?
+    let balance: Float?
 }
 
 
@@ -640,13 +640,13 @@ struct searchVideoResult: Codable {
 // MARK: - order response
 struct OrderResponse: Codable {
     let orderAddress: OrderAddress?
-    let paymentTrace: OrderPaymentTrace?
+  
     let orders: [Order]?
     let status: String?
     let isAdmin: Bool?
     let adminUser: String?
     let paymentMethod: String?
-    let paymentMethodTotal: Double?
+  
     let groupBuy: Bool?
     let adminDiscount: Double?
     let customer: OrderCustomer?
@@ -657,7 +657,7 @@ struct OrderResponse: Codable {
     let id: String?
 
     enum CodingKeys: String, CodingKey {
-        case orderAddress, paymentTrace, orders, status, isAdmin, adminUser, paymentMethod, paymentMethodTotal, groupBuy, adminDiscount, customer, orderNote, payment, createdAt, updatedAt
+        case orderAddress, orders, status, isAdmin, adminUser, paymentMethod, groupBuy, adminDiscount, customer, orderNote, payment, createdAt, updatedAt
         case orderDetailID = "OrderDetailId"
         case subTotal, total, retailTotal, shippmentCharges, payableShippment, payable, discount
 
@@ -685,7 +685,7 @@ struct OrderCustomer: Codable {
 
 // MARK: - Wallet
 struct OrderWallet: Codable {
-    let balance: Int?
+    let balance: Float?
 }
 
 // MARK: - OrderAddress
@@ -698,7 +698,7 @@ struct Order: Codable {
     let orderItems: [OrderItem]?
     let paymentMethod: String?
     let wallet: Bool?
-    let paymentMethodTotal: Double?
+  
     let groupBuy: Bool?
     let groupBuyQuantity: Int?
     let customer, seller, orderDetail: String?
@@ -716,7 +716,7 @@ struct Order: Codable {
     let createdAt, updatedAt, id: String?
 
     enum CodingKeys: String, CodingKey {
-        case orderItems, paymentMethod, wallet, paymentMethodTotal, groupBuy, groupBuyQuantity, customer, seller, orderDetail, shippmentCharges, orderNote, subTotal, retailTotal, discount, subWeight
+        case orderItems, paymentMethod, wallet, groupBuy, groupBuyQuantity, customer, seller, orderDetail, shippmentCharges, orderNote, subTotal, retailTotal, discount, subWeight
         case orderID = "orderId"
         case statusUpdatedAt, adminDiscount, vendor, store, payableShippment, payable, orderStatus
         case v = "__v"
@@ -905,7 +905,7 @@ struct GetVidoeByProductMarket: Codable {
 
 // MARK: - Wallet
 struct GetVidoeByProductWallet: Codable {
-    let balance: Int?
+    let balance: Float?
 }
 
 // MARK: - Variant
@@ -1488,13 +1488,11 @@ struct CommentsData: Codable {
 
 struct CheckOutModel: Codable {
   let orderAddress: CheckOutOrderAddress?
-  let paymentTrace: CheckOutPaymentTrace?
   let orders: [CheckOutOrder]?
   let status: String?
   let isAdmin: Bool?
   let adminUser: String?
   let paymentMethod: String?
-  let paymentMethodTotal: Int?
   let groupBuy: Bool?
   let adminDiscount: Int?
   let customer: CheckOutCustomer?
@@ -1504,7 +1502,7 @@ struct CheckOutModel: Codable {
   let payableShippment, payable, discount, v: Int?
   let id: String?
   enum CodingKeys: String, CodingKey {
-    case orderAddress, paymentTrace, orders, status, isAdmin, adminUser, paymentMethod, paymentMethodTotal, groupBuy, adminDiscount, customer, orderNote, payment, createdAt, updatedAt
+    case orderAddress, orders, status, isAdmin, adminUser, paymentMethod, groupBuy, adminDiscount, customer, orderNote, payment, createdAt, updatedAt
     case orderDetailID = "OrderDetailId"
     case subTotal, total, retailTotal, shippmentCharges, payableShippment, payable, discount
     case v = "__v"
@@ -1549,7 +1547,7 @@ struct CheckOutOrigin: Codable {
 }
 // MARK: - Wallet
 struct CheckOutWallet: Codable {
-  let balance: Int?
+  let balance: Float?
 }
 // MARK: - OrderAddress
 struct CheckOutOrderAddress: Codable {
@@ -1562,7 +1560,7 @@ struct CheckOutOrder: Codable {
   let orderItems: [CheckOutOrderItem]?
   let paymentMethod: String?
   let wallet: Bool?
-  let paymentMethodTotal: Int?
+
   let groupBuy: Bool?
   let groupBuyQuantity: Int?
   let customer, seller, orderDetail: String?
@@ -1580,7 +1578,7 @@ struct CheckOutOrder: Codable {
   let v: Int?
   let createdAt, updatedAt, id: String?
   enum CodingKeys: String, CodingKey {
-    case orderItems, paymentMethod, wallet, paymentMethodTotal, groupBuy, groupBuyQuantity, customer, seller, orderDetail, shippmentCharges, address, orderNote, orderAddress, subTotal, retailTotal, discount, subWeight
+    case orderItems, paymentMethod, wallet, groupBuy, groupBuyQuantity, customer, seller, orderDetail, shippmentCharges, address, orderNote, orderAddress, subTotal, retailTotal, discount, subWeight
     case orderID = "orderId"
     case statusUpdatedAt, adminDiscount, vendor, store, payableShippment, payable, orderStatus
     case v = "__v"
@@ -1665,6 +1663,4 @@ struct CheckOutVendor: Codable {
   }
 }
 // MARK: - PaymentTrace
-struct CheckOutPaymentTrace: Codable {
-  let walletPaid, cardPaid: Int?
-}
+

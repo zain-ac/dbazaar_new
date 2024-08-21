@@ -4,9 +4,9 @@ import Foundation
 // MARK: - DataClass
 struct CartItemsResponse: Codable {
     let packages: [Package]?
-    let total, subTotal, shippmentCharges: Double?
+    let total, subTotal, shippmentCharges: Float?
     let wallet: Bool?
-    let paymentMethodTotal, payable, retailTotal, discount: Double?
+    let  payable, retailTotal, discount: Float?
     let user: DataUser?
     let id: String?
 }
@@ -21,21 +21,21 @@ struct Package: Codable {
     let inCart: Bool?
     let seller: CartSeller?
     let cart: String?
-    let subTotal, retailTotal: Double?
-    let packageWeight: Double?
-    let discount: Double?
+    let subTotal, retailTotal: Float?
+    let packageWeight: Float?
+    let discount: Float?
     let id: String?
 }
 
 // MARK: - PackageItem
 struct CartPackageItem: Codable {
-    let discount: Double?
+    let discount: Float?
     let _package: String?
     let product: CartProduct?
     let quantity : Int?
-    let total: Double?
-    let weight: Double?
-    let retailTotal: Double?
+    let total: Float?
+    let weight: Float?
+    let retailTotal: Float?
     let id: String?
 }
 
@@ -45,15 +45,15 @@ struct CartProduct: Codable {
     let selectedAttributes: [SelectObjItems]?
     let  attributes: [Attributeobj]?
     let productType, productName, description: String?
-    let weight: Double?
-    let salePrice: Double?
-    let regularPrice: Double?
+    let weight: Float?
+    let salePrice: Float?
+    let regularPrice: Float?
     let quantity: Int?
     let mainImage: String?
     let user: ProductUser?
     let slug: String?
     let active: Bool?
-    let price: Double?
+    let price: Float?
     let id: String?
     let groupBuy: [ProductGroupBuy]?
 }
@@ -120,7 +120,7 @@ struct DataUser: Codable {
 
 // MARK: - Wallet
 struct CartWallet: Codable {
-    let balance: Double?
+    let balance: Float?
 }
 // MARK: - Attribute
 
