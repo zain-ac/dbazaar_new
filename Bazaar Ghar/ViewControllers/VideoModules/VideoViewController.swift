@@ -95,7 +95,10 @@ class VideoViewController: UIViewController {
         self.view.addGestureRecognizer(tap)
 
       connectToARoom()
-        SocketConnect()
+        if(AppDefault.islogin){
+            SocketConnect()
+        }
+      
         
         
     }

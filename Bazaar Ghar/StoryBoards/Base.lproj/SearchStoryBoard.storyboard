@@ -1196,18 +1196,18 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dP4-8V-ZcT">
-                                        <rect key="frame" x="20" y="19.999999999999996" width="313" height="37.666666666666657"/>
+                                        <rect key="frame" x="20" y="20" width="313" height="15"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 item" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qBw-Ib-pof">
-                                                <rect key="frame" x="134.33333333333334" y="9.0000000000000018" width="44.333333333333343" height="19.666666666666671"/>
-                                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
+                                                <rect key="frame" x="129.66666666666666" y="-4.3333333333333286" width="54" height="24"/>
+                                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="17"/>
                                                 <color key="textColor" systemColor="systemGray2Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="37.5" id="Emw-Jp-dTq"/>
+                                            <constraint firstAttribute="height" constant="15" id="Emw-Jp-dTq"/>
                                             <constraint firstItem="qBw-Ib-pof" firstAttribute="centerX" secondItem="dP4-8V-ZcT" secondAttribute="centerX" id="MTh-7m-AYl"/>
                                             <constraint firstItem="qBw-Ib-pof" firstAttribute="centerY" secondItem="dP4-8V-ZcT" secondAttribute="centerY" id="Mnc-ac-oU6"/>
                                         </constraints>
@@ -1218,10 +1218,10 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hg-NZ-4pq">
-                                        <rect key="frame" x="0.0" y="70" width="393" height="689"/>
+                                        <rect key="frame" x="0.0" y="47.333333333333314" width="393" height="711.66666666666674"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lEH-2U-Ojg">
-                                                <rect key="frame" x="10" y="0.0" width="373" height="681"/>
+                                                <rect key="frame" x="10" y="0.0" width="373" height="703.66666666666663"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="5" id="lHu-m3-WXu">
                                                     <size key="itemSize" width="151" height="154"/>
@@ -1299,7 +1299,7 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="69" height="27"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10% OFF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OJs-MH-CP0">
-                                                                                    <rect key="frame" x="11.666666666666664" y="5" width="46.000000000000007" height="17"/>
+                                                                                    <rect key="frame" x="11.666666666666664" y="5" width="46" height="17"/>
                                                                                     <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="12"/>
                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <nil key="highlightedColor"/>
@@ -1473,23 +1473,23 @@
                                             <constraint firstAttribute="trailing" secondItem="lEH-2U-Ojg" secondAttribute="trailing" constant="10" id="zOM-N1-Jen"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHL-FM-5f0">
-                                        <rect key="frame" x="353" y="23.666666666666671" width="30" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHL-FM-5f0">
+                                        <rect key="frame" x="353" y="17.666666666666671" width="20" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="30" id="CD3-Wf-7Ki"/>
-                                            <constraint firstAttribute="height" constant="30" id="ZEA-zH-dj2"/>
+                                            <constraint firstAttribute="width" constant="20" id="CD3-Wf-7Ki"/>
+                                            <constraint firstAttribute="height" constant="20" id="ZEA-zH-dj2"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" backgroundImage="filter"/>
+                                        <state key="normal" image="x`"/>
                                         <connections>
                                             <action selector="filterButtonTap:" destination="25i-R0-xeH" eventType="touchUpInside" id="5nV-Bf-1aR"/>
                                         </connections>
                                     </button>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="36v-PY-4eZ">
-                                        <rect key="frame" x="0.0" y="57.666666666666686" width="393" height="701.33333333333326"/>
+                                        <rect key="frame" x="0.0" y="35" width="393" height="724"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data Found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6tx-Zb-Tlo">
-                                                <rect key="frame" x="122.66666666666667" y="336.66666666666663" width="147.66666666666657" height="28"/>
+                                                <rect key="frame" x="122.66666666666667" y="348" width="147.66666666666663" height="28"/>
                                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -1554,7 +1554,6 @@
         <image name="close" width="24" height="24"/>
         <image name="cross" width="50" height="50"/>
         <image name="delete.left.fill" catalog="system" width="128" height="102"/>
-        <image name="filter" width="512" height="512"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="multiply.circle" catalog="system" width="128" height="123"/>
@@ -1562,11 +1561,12 @@
         <image name="radio-button-svgrepo-com" width="800" height="800"/>
         <image name="star-svgrepo-com" width="9" height="9"/>
         <image name="unslectedChkBox" width="19" height="19"/>
+        <image name="x`" width="128" height="128"/>
         <namedColor name="FF8319">
-            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="headercolor">
-            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>

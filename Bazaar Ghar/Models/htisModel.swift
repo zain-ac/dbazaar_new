@@ -7,6 +7,7 @@ public struct Recipe: Codable {
   var link: String?
   var recipe_id: Int?
   var title: String?
+  var _id: String?
     var active: Bool?
 
     var featured, onSale, isVariable: Bool?

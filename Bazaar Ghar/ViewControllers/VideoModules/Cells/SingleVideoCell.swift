@@ -133,7 +133,10 @@ class SingleVideoCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(hideandshow), name: NSNotification.Name(rawValue: "showviews"), object: nil)
         isHideCollectionView.isHidden = true
         
-        SocketConnect(socketId: AppDefault.socketId)
+        if(AppDefault.islogin){
+            SocketConnect(socketId: AppDefault.socketId)
+        }
+        
         
 
        }

@@ -42,7 +42,7 @@ class Live_VC: UIViewController {
         
         scrollViewHeight.constant = CGFloat(((AppDefault.CategoriesResponsedata?.count ?? 0) + 1) * 400)
         
-        self.headerlbl.text = "Bazaarghar Trending"
+        self.headerlbl.text = "MY Souq Trending"
         
     
 

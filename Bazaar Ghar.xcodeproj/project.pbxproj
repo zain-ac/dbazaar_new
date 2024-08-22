@@ -2436,7 +2436,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Bazaar Ghar/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Bazaarghar;
+				INFOPLIST_KEY_CFBundleDisplayName = MYSouq;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Bazaarghar uses your camera to capture photo and video.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Bazaarghar needs access to your location to provide location-based services.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Bazaarghar uses your microphone to capture audio.";
@@ -2480,7 +2480,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Bazaar Ghar/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Bazaarghar;
+				INFOPLIST_KEY_CFBundleDisplayName = MYSouq;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Bazaarghar uses your camera to capture photo and video.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Bazaarghar needs access to your location to provide location-based services.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Bazaarghar uses your microphone to capture audio.";
