@@ -639,7 +639,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                 if res.regularPrice == nil || res.salePrice == nil {
                 
                 }else {
-                    let percentValue = (((res.regularPrice ?? 0) - (res.salePrice ?? 0)) * 100) / (res.regularPrice ?? 0)
+                    let percentValue = (((res.regularPrice ?? 0) - (res.price ?? 0)) * 100) / (res.regularPrice ?? 0)
                     self?.percentLbl.text = String(format: "%.0f%% OFF", percentValue)
                 }
                 
@@ -658,7 +658,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                 if res.onSale == true {
                     self?.Salesprice.isHidden = false
 //                    self?.OnSaleimage.isHidden = false
-                    self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.salePrice ?? 0)
+                    self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.price ?? 0)
                     self?.Salesprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
                     self?.productPriceLine.isHidden = false
                     self?.Salesprice.textColor = UIColor.red
