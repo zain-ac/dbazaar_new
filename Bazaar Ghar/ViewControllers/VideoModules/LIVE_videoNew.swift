@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var searchFeild: UITextField!
@@ -106,6 +107,13 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
 //
 //        return true
 //    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
     
     private func getStreamingVideos(limit:Int,page:Int,categories: [String],city:String){
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in

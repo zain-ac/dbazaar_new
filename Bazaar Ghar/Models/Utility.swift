@@ -244,6 +244,23 @@ class Utility {
         }
     }
     
+    func applyStrikethrough(to label: UILabel, priceString: String, currencyLabel: String) {
+        // Combine the currency label with the price string
+        let fullPriceString = currencyLabel + priceString
+        
+        // Create an attributed string with a strikethrough
+        let attributedString = NSMutableAttributedString(string: fullPriceString)
+        
+        // Set strikethrough style and color
+        attributedString.addAttributes([
+            .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+            .strikethroughColor: UIColor.red
+        ], range: NSMakeRange(0, attributedString.length))
+        
+        // Assign the attributed string to the UILabel
+        label.attributedText = attributedString
+    }
+    
      func randomNonceString(length: Int = 32) -> String {
       precondition(length > 0)
       var randomBytes = [UInt8](repeating: 0, count: length)
@@ -269,6 +286,7 @@ class Utility {
     func formatNumberWithCommas(_ number: Double) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
+        numberFormatter.locale = Locale(identifier: "en_US") // Set locale to en_US
         if let formattedString = numberFormatter.string(from: NSNumber(value: number)) {
             return formattedString
         } else {

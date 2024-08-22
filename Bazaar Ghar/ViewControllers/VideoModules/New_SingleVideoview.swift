@@ -215,6 +215,10 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
              print("You can use here also directly : \(indexPath.row)")
              self.followBtnTapped(btn: btn, indexPath: indexPath)
         }
+        cell.buybtn.mk_addTapHandler { (btn) in
+             print("You can use here also directly : \(indexPath.row)")
+             self.buyBtnTapped(btn: btn, indexPath: indexPath)
+        }
         
         let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
         swipeUpGesture.direction = .up
@@ -225,7 +229,8 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         swipeDownGesture.direction = .down
         cell.videoView.addGestureRecognizer(swipeDownGesture)
         
-        
+        cell.hiddenview.isHidden = true
+
        
         return cell
     }
@@ -397,6 +402,25 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
             cell?.unfollowStore(storeId: data.userID ?? "")
         }else{
             cell?.followStore(storeId: data.userID ?? "", web: true)
+        }
+    }
+    func buyBtnTapped(btn:UIButton, indexPath:IndexPath) {
+        let cell = singlevideotable.cellForRow(at: indexPath) as? SingleVideoCell
+        cell?.buybtn.setTitle("Buy", for: .normal)
+
+        if cell?.getvidoebyproductIdsdata.count == 0 {
+            UIApplication.pTopViewController().view.makeToast("Showcase product data not found")
+        }else {
+            if cell?.hiddenview.isHidden == false {
+                cell?.hiddenview.isHidden = true
+                cell?.hiddenviewheight.constant = 0
+                cell?.buybtn.setTitle("Buy", for: .normal)
+            }else{
+                cell?.hiddenview.isHidden = false
+                cell?.hiddenviewheight.constant = 150
+                cell?.buybtn.setTitle("Close", for: .normal)
+
+            }
         }
     }
     

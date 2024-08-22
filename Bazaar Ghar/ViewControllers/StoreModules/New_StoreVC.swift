@@ -568,8 +568,9 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
                 cell.discountPrice.isHidden = false
                 cell.productPrice.isHidden = false
                 cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
-                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
-                cell.productPriceLine.isHidden = false
+//                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+                Utility().applyStrikethrough(to: cell.productPrice, priceString:Utility().formatNumberWithCommas(data.regularPrice ?? 0), currencyLabel: appDelegate.currencylabel)
+                cell.productPriceLine.isHidden = true
                 cell.productPrice.textColor = UIColor.red
                 cell.productPriceLine.backgroundColor = UIColor.red
                 cell.percentBGView.isHidden = false

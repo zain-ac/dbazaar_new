@@ -47,7 +47,7 @@ class CartStoreLableCell: UITableViewCell {
     }
     @objc func deleteBtnTapped(sender: UIButton){
         
-        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Are you sure you want to delete this product?", heading: "Delete", note: "", miscid: "self.miscid", btn1Title: "Cancel", btn1Callback: {
+        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Are you sure you want to delete this product?", heading: "Delete Item", note: "", miscid: "self.miscid", btn1Title: "Cancel", btn1Callback: {
             
         }, btn2Title: "Delete") { token, id in
             let item = self.bannerapidata?[sender.tag]

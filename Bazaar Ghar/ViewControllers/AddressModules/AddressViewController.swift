@@ -77,9 +77,9 @@ class AddressViewController: UIViewController {
             switch data{
             case .success(let res):
                //
-                if(res == "ok"){
+                if(res == "OK"){
                     self?.view.makeToast("Address Deleted Successfully")
-                    UIApplication.pTopViewController().tabBarController?.view.makeToast("Successfully Deleted")
+//                    UIApplication.pTopViewController().tabBarController?.view.makeToast("Successfully Deleted")
                 }else{
                     self?.view.makeToast(res)
                 }
@@ -161,7 +161,7 @@ extension AddressViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
         if(data.id ?? "" == AppDefault.currentUser?.defaultAddress?.id ?? ""){
-            cell.addressView.borderColor = UIColor(hexString: "#FF8319")
+            cell.addressView.borderColor = UIColor.oceanBlue
             cell.addressView.borderWidth = 1
         }
         else {
@@ -175,19 +175,19 @@ extension AddressViewController: UITableViewDelegate, UITableViewDataSource {
     
     @objc func deleteBtnTapped(_ sender: UIButton) {
         
-        appDelegate.showCustomerAlertControllerHeight(title: "Are you sure you want to Delete Address?", heading: "Delete", btn1Title: "Cancel", btn1Callback: {
-             
-        }, btn2Title: "Delete") { [self] in
-              
-                
-                  let id = getAddressData[sender.tag]
-                  
-                  deleteAdrress(addressId: id.id ?? "")
-               
-
-
-              }
+//        appDelegate.showCustomerAlertControllerHeight(title: "Are you sure you want to Delete Address?", heading: "Delete", btn1Title: "Cancel", btn1Callback: {
+//             
+//        }, btn2Title: "Delete") { [self] in
+//                  let id = getAddressData[sender.tag]
+//                  deleteAdrress(addressId: id.id ?? "")
+//              }
         
+        appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Are you sure you want to Delete Address?", heading: "Delete", note: "", miscid: "self.miscid", btn1Title: "Cancel", btn1Callback: {
+            
+        }, btn2Title: "Delete") { token, id in
+            let id = self.getAddressData[sender.tag]
+            self.deleteAdrress(addressId: id.id ?? "")
+        }
        
     }
     @objc func changeBtnTapped(_ sender: UIButton) {

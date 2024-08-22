@@ -177,16 +177,16 @@
                         <constraints>
                             <constraint firstItem="s8r-sI-vcs" firstAttribute="centerY" secondItem="UrX-MX-iuu" secondAttribute="centerY" id="1Tf-jy-2cG"/>
                             <constraint firstAttribute="trailing" secondItem="gwA-kf-v6x" secondAttribute="trailing" constant="6" id="2Zl-aA-MGe"/>
-                            <constraint firstItem="s8r-sI-vcs" firstAttribute="trailing" secondItem="UrX-MX-iuu" secondAttribute="trailing" id="B1n-W5-mtO"/>
                             <constraint firstAttribute="bottom" secondItem="gwA-kf-v6x" secondAttribute="bottom" constant="11" id="GRe-ya-cUU"/>
+                            <constraint firstItem="s8r-sI-vcs" firstAttribute="centerX" secondItem="UrX-MX-iuu" secondAttribute="centerX" id="IUm-uX-DVR"/>
                             <constraint firstItem="hnq-42-Hfh" firstAttribute="bottom" secondItem="kGZ-hI-tgI" secondAttribute="bottom" constant="-10" id="Jvj-Yj-Ncb"/>
                             <constraint firstItem="VRg-cs-t8J" firstAttribute="centerX" secondItem="UrX-MX-iuu" secondAttribute="centerX" id="Kas-4h-Iw8"/>
                             <constraint firstItem="hnq-42-Hfh" firstAttribute="trailing" secondItem="kGZ-hI-tgI" secondAttribute="trailing" constant="-6" id="LZC-uc-Hjc"/>
                             <constraint firstItem="deW-C1-HY1" firstAttribute="width" secondItem="11a-6U-cj5" secondAttribute="width" multiplier="0.95" id="MwK-sD-46I"/>
+                            <constraint firstItem="s8r-sI-vcs" firstAttribute="width" secondItem="UrX-MX-iuu" secondAttribute="width" id="P6T-ti-lhC"/>
                             <constraint firstItem="VRg-cs-t8J" firstAttribute="leading" secondItem="UrX-MX-iuu" secondAttribute="leading" id="R2K-4A-xGZ"/>
                             <constraint firstItem="VRg-cs-t8J" firstAttribute="top" secondItem="UrX-MX-iuu" secondAttribute="bottom" constant="5" id="RZb-kg-Zru"/>
                             <constraint firstAttribute="trailing" secondItem="wz4-sX-zTr" secondAttribute="trailing" constant="5" id="VVG-yt-LeZ"/>
-                            <constraint firstItem="s8r-sI-vcs" firstAttribute="leading" secondItem="UrX-MX-iuu" secondAttribute="leading" id="WUN-pJ-9tY"/>
                             <constraint firstItem="deW-C1-HY1" firstAttribute="centerX" secondItem="11a-6U-cj5" secondAttribute="centerX" id="Yz2-Md-sG2"/>
                             <constraint firstItem="wz4-sX-zTr" firstAttribute="top" secondItem="11a-6U-cj5" secondAttribute="top" constant="5" id="bmb-sA-9Hz"/>
                             <constraint firstItem="v6b-Rh-dWX" firstAttribute="leading" secondItem="11a-6U-cj5" secondAttribute="leading" id="dfx-uS-q7j"/>
@@ -270,19 +270,19 @@
         <image name="online-shopping" width="19" height="18"/>
         <image name="star-svgrepo-com" width="9" height="9"/>
         <namedColor name="FF8319">
-            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemFillColor">
-            <color red="0.46274509800000002" green="0.46274509800000002" blue="0.50196078430000002" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

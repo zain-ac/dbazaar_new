@@ -295,8 +295,8 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCI-xO-ewp">
                                                     <rect key="frame" x="0.0" y="0.0" width="378" height="773"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1 " translatesAutoresizingMaskIntoConstraints="NO" id="7nX-5Z-v9I">
-                                                            <rect key="frame" x="0.0" y="20" width="378" height="717"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="3" translatesAutoresizingMaskIntoConstraints="NO" id="7nX-5Z-v9I">
+                                                            <rect key="frame" x="0.0" y="0.0" width="378" height="773"/>
                                                         </imageView>
                                                         <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PTm-qZ-uO6">
                                                             <rect key="frame" x="291" y="50" width="62" height="27"/>
@@ -339,9 +339,10 @@
                                                     <color key="backgroundColor" name="headercolor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="PTm-qZ-uO6" secondAttribute="trailing" constant="25" id="5jx-d7-Kmj"/>
+                                                        <constraint firstAttribute="bottom" secondItem="7nX-5Z-v9I" secondAttribute="bottom" id="F9G-PS-xMV"/>
                                                         <constraint firstAttribute="trailing" secondItem="7nX-5Z-v9I" secondAttribute="trailing" id="I3f-vZ-y04"/>
                                                         <constraint firstItem="7nX-5Z-v9I" firstAttribute="leading" secondItem="TCI-xO-ewp" secondAttribute="leading" id="Rfl-Cp-RYa"/>
-                                                        <constraint firstItem="7nX-5Z-v9I" firstAttribute="top" secondItem="TCI-xO-ewp" secondAttribute="top" constant="20" id="dTI-Ph-rQl"/>
+                                                        <constraint firstItem="7nX-5Z-v9I" firstAttribute="top" secondItem="TCI-xO-ewp" secondAttribute="top" id="WcS-JL-YBj"/>
                                                         <constraint firstItem="PTm-qZ-uO6" firstAttribute="top" secondItem="TCI-xO-ewp" secondAttribute="top" constant="50" id="jli-E3-PLM"/>
                                                     </constraints>
                                                 </view>
@@ -472,24 +473,24 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AZ1-B2-c5D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="587" y="-2538"/>
+            <point key="canvasLocation" x="585.49618320610682" y="-2538.0281690140846"/>
         </scene>
     </scenes>
     <resources>
-        <image name="1 " width="428" height="717"/>
+        <image name="3" width="856" height="1434"/>
         <image name="arrow" width="5.3909997940063477" height="9.0819997787475586"/>
         <image name="arrow.backward.circle.fill" catalog="system" width="128" height="123"/>
         <image name="arrow.forward" catalog="system" width="128" height="95"/>
         <image name="bg" width="80.333335876464844" height="32"/>
         <image name="facebook_5968764" width="512" height="512"/>
         <namedColor name="FF8319">
-            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="headercolor">
-            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -163,6 +163,11 @@ class CartViewController: UIViewController {
                     let vc = PopupLoginVc.getVC(.popups)
                   vc.modalPresentationStyle = .overFullScreen
                   self?.present(vc, animated: true, completion: nil)
+                 }else if(error == "Please authenticate" && !AppDefault.islogin){
+                     //                     appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                        let vc = PopupLoginVc.getVC(.popups)
+                        vc.modalPresentationStyle = .overFullScreen
+                        self?.present(vc, animated: true, completion: nil)
                  }else{
                      self?.view.makeToast(error)
                  }

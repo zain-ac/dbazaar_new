@@ -128,8 +128,8 @@ var count = 0
          kk += 150
             if subCatData.count > 0 {
                 self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count)) + CGFloat(kk)
-                let hh =  820
-                let ll = ((self.getrandomproductapiModel.count) / 2) * 280
+                let hh =  1100
+                let ll = ((self.getrandomproductapiModel.count) / 2) * 285
                 let final = hh + ll
                 self.scrollHeight.constant = CGFloat(final) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)    
             }
@@ -507,6 +507,52 @@ var count = 0
 //              }
         
     }
+    func wishList(isbackground:Bool){
+        APIServices.wishlist(isbackground: isbackground){[weak self] data in
+          switch data{
+          case .success(let res):
+          //
+            AppDefault.wishlistproduct = res.products
+   
+            self?.homeLastProductCollectionView.reloadData()
+              self?.lastRandomProductsCollectionView.reloadData()
+          case .failure(let error):
+            print(error)
+          }
+        }
+      }
+    private func wishListApi(productId:String) {
+        APIServices.newwishlist(product:productId,completion: {[weak self] data in
+          switch data{
+          case .success(let res):
+           //
+    //        if(res == "OK"){
+    //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+    //          button.tintColor = .red
+    //
+    //        }else{
+    //          button.setImage(UIImage(systemName: "heart"), for: .normal)
+    //          button.tintColor = .gray
+    //
+    //        }
+              self?.wishList(isbackground: false)
+          case .failure(let error):
+            print(error)
+              if error == "Please authenticate" {
+                  if AppDefault.islogin{
+                      
+                  }else{
+//                       DispatchQueue.main.async {
+//                          self.selectedIndex = 0
+//                       }
+                        let vc = PopupLoginVc.getVC(.popups)
+                      vc.modalPresentationStyle = .overFullScreen
+                      self?.present(vc, animated: true, completion: nil)
+                  }
+              }
+          }
+        })
+      }
     private func getStreamingVideos(origin:String){
         APIServices.shopchinaStreamingVideo(isBackground: false, origin: origin,completion: {[weak self] data in
             switch data{
@@ -700,8 +746,8 @@ var count = 0
                     self?.ProductCategoriesResponsedata = res
                    
                     self?.tableViewHeight.constant = CGFloat(920 * (self?.ProductCategoriesResponsedata.count ?? 0))
-                    let hh =  820
-                    let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
+                    let hh =  1100
+                    let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 285
                     let final = hh + ll
                     self?.scrollHeight.constant = CGFloat(final) + (self?.hotDealViewHeight.constant ?? 0) + (self?.tableViewHeight.constant ?? 0)
                 }
@@ -749,8 +795,8 @@ var count = 0
                //
 //                self?.tableViewHeight.constant = CGFloat(920 * (self?.ProductCategoriesResponsedata.count ?? 0))
 //                
-                let hh = 820
-                let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
+                let hh = 1100
+                let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 285
                 let final = hh + ll
 
                 self?.scrollHeight.constant = CGFloat(final) + (self?.hotDealViewHeight.constant ?? 0) + (self?.tableViewHeight.constant ?? 0)
@@ -917,7 +963,21 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                 cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
                 cell.percentBGView.isHidden = true
              }
-            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.tag = indexPath.row
+            cell.cartButton.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(gamessalescartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.addTarget(self, action: #selector(gamesalesHeartBtnTapped(_:)), for: .touchUpInside)
+
+            if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == data?.id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+                  }
             
             
             
@@ -949,7 +1009,9 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                 cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
                 cell.percentBGView.isHidden = true
              }
-            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.tag = indexPath.row
+            cell.cartButton.tag = indexPath.row
+           
             
             
             
@@ -1009,7 +1071,22 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                 cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
                 cell.percentBGView.isHidden = true
              }
-            
+            cell.heartBtn.tag = indexPath.row
+            cell.cartButton.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(randomcartBtnTapped(_:)), for: .touchUpInside)
+
+            cell.heartBtn.addTarget(self, action: #selector(randomHeartBtnTapped(_:)), for: .touchUpInside)
+
+            if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == data._id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+                  }
 
             return cell
         } else if collectionView == videoCollection{
@@ -1036,6 +1113,71 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             
             return cell
         }
+    }
+    @objc func gamessalescartButtonTap(_ sender: UIButton) {
+        let data = self.randomproductapiModel.first?.product?[sender.tag]
+        
+        if (data?.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.popups)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.productStoryBoard)
+            vc.slugid = data?.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
+    } 
+    @objc func gamesalesHeartBtnTapped(_ sender: UIButton) {
+
+        if(AppDefault.islogin){
+              let index = sender.tag
+              let item = self.randomproductapiModel.first?.product?[index]
+            if item?.id == nil {
+                self.wishListApi(productId: (item?._id ?? ""))
+            }else {
+                self.wishListApi(productId: (item?.id ?? ""))
+            }
+            }else{
+                let vc = PopupLoginVc.getVC(.popups)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
+    }
+    @objc func randomcartBtnTapped(_ sender: UIButton) {
+        let data = getrandomproductapiModel[sender.tag]
+        
+        if (data.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.popups)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.productStoryBoard)
+            vc.slugid = data.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
+    }
+    @objc func randomHeartBtnTapped(_ sender: UIButton) {
+        if(AppDefault.islogin){
+              let index = sender.tag
+              let item = getrandomproductapiModel[index]
+            if item.id == nil {
+                self.wishListApi(productId: (item._id ?? ""))
+            }else {
+                self.wishListApi(productId: (item.id ?? ""))
+            }
+            }else{
+                let vc = PopupLoginVc.getVC(.popups)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
     }
     
     func applyGradientBackground(to view: UIView, topColor: UIColor, bottomColor: UIColor) {

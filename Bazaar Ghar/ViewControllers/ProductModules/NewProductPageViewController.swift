@@ -58,6 +58,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var heartBtn: UIButton!
     @IBOutlet weak var percentView: UIView!
     @IBOutlet weak var showMoreBtn: UIButton!
+    @IBOutlet weak var pageControl: FSPageControl!
 
     var productCount = 1
     var incrementproductCount = 1
@@ -89,7 +90,11 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
 
         }
     }
-    var slugid: String?
+    var slugid: String? {
+        didSet {
+            productcategoriesdetails(slug: slugid ?? "")
+        }
+    }
     var gallaryImages: [String]?
     var mainImage: String?
     var orderDetails: CartItemsResponse?
@@ -107,6 +112,8 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         showMoreBtn.setTitle("Show More", for: .normal)
         showMoreBtn.addTarget(self, action: #selector(toggleDescription), for: .touchUpInside)
+        buyNowBtn.alpha = 1.0 // Set the alpha to 1.0 to avoid the grayed-out appearance
+        buyNowBtn.setTitleColor(.white, for: .disabled)
         if((self.tabBarController?.tabBar.isHidden) != nil){
             appDelegate.isbutton = true
         }else{
@@ -152,17 +159,11 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            wishList()
-            productcategoriesdetails(slug: slugid ?? "")
-            if(AppDefault.islogin){
-                self.connectSocket()
-            }
-            
-          
-           
-            
-           
+        wishList()
+        if(AppDefault.islogin){
+            self.connectSocket()
         }
+    }
     func wishList(){
         APIServices.wishlist(isbackground: false){[weak self] data in
           switch data{
@@ -178,7 +179,8 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                           self?.heartBtn.tintColor = UIColor(hex: primaryColor)
                       }
                     }
-
+              self?.relatedProductCollectionView.reloadData()
+              self?.moreFrom.reloadData()
           case .failure(let error):
             print(error)
           }
@@ -311,7 +313,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     }
     func showShareSheet(id:String) {
         print(id)
-        guard let url = URL(string: "https://stage.bazaarghar.com/product/\(id)") else { return }
+        guard let url = URL(string: "https://d.bazaarghar.com/product/\(id)") else { return }
 
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
 
@@ -628,6 +630,9 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                     
                 }else{
                     self?.gallaryImages  = res.gallery
+                    self?.pageControl.numberOfPages = res.gallery?.count ?? 0
+                    self?.pageControl.currentPage = 0
+                    
                 }
                 
                 self?.pagerView.reloadData()
@@ -647,9 +652,9 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                 if res.sellerDetail?.logo == nil {
                     self?.storeimg.image = UIImage(named: "homebazarimg")
                 } else {
-                    self?.storeimg.pLoadImage(url: res.sellerDetail?.logo ?? "")
+                    self?.storeimg.pLoadImage(url: res.sellerDetail?.logo ?? "")
                 }
-                self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
+             self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
                 if res.onSale == true {
                     self?.Salesprice.isHidden = false
 //                    self?.OnSaleimage.isHidden = false
@@ -762,20 +767,6 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                 
                 self?.scrollHeight.constant =  (self?.scrollHeight.constant ?? 0) + (self?.DescriptionProduct.bounds.height ?? 0)
                 self?.varientsTblV.reloadData()
-                
-           
-
-                
-                if let wishlistProducts = AppDefault.wishlistproduct {
-                    if wishlistProducts.contains(where: { $0.id == self?.productcategoriesdetailsdata?.welcomeID }) {
-                        self?.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                        self?.heartBtn.tintColor = .red
-                        } else {
-                            self?.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-                            self?.heartBtn.tintColor = .white
-                        }
-                      }
-                
                 
                 
 //                if LanguageManager.language == "ar"{
@@ -991,7 +982,7 @@ extension NewProductPageViewController: FSPagerViewDataSource, FSPagerViewDelega
         if ((gallaryImages?.isEmpty) != nil){
             return  gallaryImages?.count ?? 0
         }else {
-            return 2
+            return 1
         }
     }
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
@@ -1011,14 +1002,8 @@ extension NewProductPageViewController: FSPagerViewDataSource, FSPagerViewDelega
         
     }
     func pagerViewDidScroll(_ pagerView: FSPagerView) {
-        //        if pagerView == self.pagerView {
-        //            let currentIndex = pagerView.currentIndex
-        //            pageControl.currentPage = currentIndex
-        //        }else {
-        //            let currentIndex = pagerView.currentIndex
-        //            pageControl.currentPage = currentIndex
-        //        }
-        
+        let currentIndex = pagerView.currentIndex
+        pageControl.currentPage = currentIndex
     }
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         guard let cell = pagerView.cellForItem(at: index) else {
@@ -1221,9 +1206,18 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
             cell.heartBtn.tag = indexPath.row
             cell.cartButton.tag = indexPath.row
             cell.cartButton.addTarget(self, action: #selector(relatedProductcartButtonTap(_:)), for: .touchUpInside)
-            cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.addTarget(self, action: #selector(relatedProductHeartButtonTap(_:)), for: .touchUpInside)
 
-            
+            if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == data.id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+                  }
             return cell
 
         }else if collectionView == videoCollection {
@@ -1264,9 +1258,18 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
             cell.heartBtn.tag = indexPath.row
             cell.cartButton.tag = indexPath.row
             cell.cartButton.addTarget(self, action: #selector(moreFromCartButtonTap(_:)), for: .touchUpInside)
-            cell.heartBtn.addTarget(self, action: #selector(heartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.addTarget(self, action: #selector(moreFromHeartButtonTap(_:)), for: .touchUpInside)
 
-            
+            if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == data?.id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+                  }
             return cell
         }
         
@@ -1296,9 +1299,35 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
         self.present(vc, animated: true, completion: nil)
 
     }
-    @objc func heartButtonTap(_ sender: UIButton) {
-        let data = moreFromResponse?.results?[sender.tag]
-  
+    @objc func moreFromHeartButtonTap(_ sender: UIButton) {
+        if(AppDefault.islogin){
+            let index = sender.tag
+            let item = moreFromResponse?.results?[index]
+            if item?.id == nil {
+                self.wishListApi(productId: (item?._id ?? ""))
+            }else {
+                self.wishListApi(productId: (item?.id ?? ""))
+            }
+        }else{
+                let vc = PopupLoginVc.getVC(.popups)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+        }
+    }
+    @objc func relatedProductHeartButtonTap(_ sender: UIButton) {
+        if(AppDefault.islogin){
+            let index = sender.tag
+            let item = self.relatedProductResponse[index]
+            if item.id == nil {
+                self.wishListApi(productId: (item._id ?? ""))
+            }else {
+                self.wishListApi(productId: (item.id ?? ""))
+            }
+        }else{
+                let vc = PopupLoginVc.getVC(.popups)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == relatedProductCollectionView {

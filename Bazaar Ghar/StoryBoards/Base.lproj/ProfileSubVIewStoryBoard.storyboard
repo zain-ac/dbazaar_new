@@ -394,11 +394,11 @@
                                 <rect key="frame" x="0.0" y="129" width="393" height="689"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I5M-rQ-OzF">
-                                        <rect key="frame" x="220" y="5" width="173" height="30"/>
+                                        <rect key="frame" x="233" y="5" width="160" height="30"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="y4G-51-opr">
                                                 <rect key="frame" x="0.0" y="9.9999999999999893" width="15" height="10.666666666666668"/>
-                                                <color key="tintColor" red="1" green="0.51372549020000002" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="tintColor" name="FF8319"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="15" id="C8g-Pc-9yK"/>
                                                     <constraint firstAttribute="width" constant="15" id="t2I-H6-EOG"/>
@@ -407,11 +407,11 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add A New Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jmg-hf-upc">
                                                 <rect key="frame" x="20.000000000000007" y="6.6666666666666572" width="117.66666666666669" height="17"/>
                                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="12"/>
-                                                <color key="textColor" name="FF8319"/>
+                                                <color key="textColor" red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zWT-4B-uET">
-                                                <rect key="frame" x="0.0" y="0.0" width="173" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="160" height="30"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
                                                 <connections>
@@ -427,6 +427,7 @@
                                             <constraint firstItem="jmg-hf-upc" firstAttribute="centerY" secondItem="y4G-51-opr" secondAttribute="centerY" id="JxX-TF-wdo"/>
                                             <constraint firstItem="zWT-4B-uET" firstAttribute="centerY" secondItem="I5M-rQ-OzF" secondAttribute="centerY" id="LyD-xo-5sV"/>
                                             <constraint firstItem="jmg-hf-upc" firstAttribute="leading" secondItem="y4G-51-opr" secondAttribute="trailing" constant="5" id="S52-k6-k8Z"/>
+                                            <constraint firstAttribute="width" constant="160" id="VJa-Yk-e2g"/>
                                             <constraint firstAttribute="height" constant="30" id="eKE-x3-4yW"/>
                                             <constraint firstItem="y4G-51-opr" firstAttribute="centerY" secondItem="I5M-rQ-OzF" secondAttribute="centerY" id="tfL-F7-I6L"/>
                                             <constraint firstItem="zWT-4B-uET" firstAttribute="centerX" secondItem="I5M-rQ-OzF" secondAttribute="centerX" id="uEv-Au-6gU"/>
@@ -617,7 +618,6 @@
                                     <constraint firstItem="M8O-l6-amP" firstAttribute="top" secondItem="I5M-rQ-OzF" secondAttribute="bottom" constant="30" id="4kx-HO-SFr"/>
                                     <constraint firstAttribute="trailing" secondItem="I5M-rQ-OzF" secondAttribute="trailing" id="5zw-zh-PIK"/>
                                     <constraint firstItem="I5M-rQ-OzF" firstAttribute="top" secondItem="pay-t2-yJc" secondAttribute="top" constant="5" id="KQx-EW-AV4"/>
-                                    <constraint firstItem="I5M-rQ-OzF" firstAttribute="leading" secondItem="pay-t2-yJc" secondAttribute="leading" constant="220" id="MCC-zD-9w3"/>
                                     <constraint firstItem="rPA-2I-71R" firstAttribute="centerX" secondItem="pay-t2-yJc" secondAttribute="centerX" id="Mxw-9b-Ok6"/>
                                     <constraint firstItem="M8O-l6-amP" firstAttribute="leading" secondItem="pay-t2-yJc" secondAttribute="leading" constant="15" id="NGD-ev-DqJ"/>
                                     <constraint firstItem="rPA-2I-71R" firstAttribute="top" secondItem="pay-t2-yJc" secondAttribute="top" constant="60" id="cmR-Ry-qcO"/>
@@ -1963,10 +1963,10 @@
         <image name="trash.circle.fill" catalog="system" width="128" height="123"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="FF8319">
-            <color red="0.023529411764705882" green="0.61568627450980395" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="headercolor">
-            <color red="0.023529411764705882" green="0.61568627450980395" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="pickcolor">
             <color red="0.96862745098039216" green="0.93725490196078431" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

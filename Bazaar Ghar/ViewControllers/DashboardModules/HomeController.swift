@@ -123,7 +123,9 @@ var count = 0
         SetupView()
     }
     func SetupView(){
-        SocketConeect()
+        if AppDefault.islogin{
+            SocketConeect()
+        }
 
         let animation = LottieAnimation.named("videoAnimation")
         videoAnimationView.animation = animation

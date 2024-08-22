@@ -43,8 +43,9 @@ class AddtocartPopup: UIViewController {
     private func chinesebell(sellerId:String,brandName:String,description:String){
         APIServices.chinesebell(sellerId: sellerId, brandName: brandName, description: description){[weak self] data in
             switch data{
-            case .success(_): break
-             //
+            case .success(_):
+                  self?.dismiss(animated: true)
+                UIApplication.topViewController()?.view.makeToast("Call request sent successfully")
             case .failure(let error):
                 print(error)
                 if(error == "Please authenticate" && AppDefault.islogin){

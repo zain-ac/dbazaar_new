@@ -84,6 +84,8 @@ class SingleVideoCell: UITableViewCell {
             
             self.headerlbl.text = LiveStreamingResultsdataArray?.title
             self.storename.text = LiveStreamingResultsdataArray?.brandName
+            buybtn.setTitle("Buy", for: .normal)
+            hiddenview.isHidden = true
         }
     }
     var videoPlayerItem: AVPlayerItem? = nil {
@@ -278,29 +280,29 @@ class SingleVideoCell: UITableViewCell {
     }
 
     
-       func setupMoviePlayer(){
-          
-           self.avPlayer = AVPlayer.init(playerItem: self.videoPlayerItem)
-           avPlayerLayer = AVPlayerLayer(player: avPlayer)
-           avPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
-           avPlayer?.volume = 3
-           avPlayer?.actionAtItemEnd = .none
+    func setupMoviePlayer() {
+        // Initialize the player with the player item
+        self.avPlayer = AVPlayer.init(playerItem: self.videoPlayerItem)
+                  avPlayerLayer = AVPlayerLayer(player: avPlayer)
+                  avPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
+                  avPlayer?.volume = 3
+                  avPlayer?.actionAtItemEnd = .none
 
-           //        You need to have different variations
-           //        according to the device so as the avplayer fits well
-       
-               avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: self.videoView.frame.width, height: self.videoView.frame.height)
-          
-           self.backgroundColor = .clear
-           self.videoView.layer.insertSublayer(avPlayerLayer!, at: 0)
+                  //        You need to have different variations
+                  //        according to the device so as the avplayer fits well
+              
+                      avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: self.videoView.frame.width, height: self.videoView.frame.height)
+                 
+                  self.backgroundColor = .clear
+                  self.videoView.layer.insertSublayer(avPlayerLayer!, at: 0)
 
-           // This notification is fired when the video ends, you can handle it in the method.
-           NotificationCenter.default.addObserver(self,
-                                                  selector: #selector(self.playerItemDidReachEnd(notification:)),
-                                                  name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                                  object: avPlayer?.currentItem)
-           //avPlayer?.addObserver(self, forKeyPath: timespec(), options: [.old, .new], context: nil)
-       }
+        // Add observer to handle video end
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.playerItemDidReachEnd(notification:)),
+                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                               object: avPlayer?.currentItem)
+    }
+
     
     func getvidoebyproductIds(productIds:[String]){
        APIServices.getvidoebyproductIds(productIds:productIds){[weak self] data in
@@ -391,22 +393,22 @@ class SingleVideoCell: UITableViewCell {
     }
 
     @IBAction func buybtnTapped(_ sender: UIButton) {
-        buybtn.setTitle("Buy", for: .normal)
-
-        if getvidoebyproductIdsdata.count == 0 {
-            UIApplication.pTopViewController().view.makeToast("Showcase product data not found")
-        }else {
-            if hiddenview.isHidden == false {
-                hiddenview.isHidden = true
-                hiddenviewheight.constant = 0
-                buybtn.setTitle("Buy", for: .normal)
-            }else{
-                hiddenview.isHidden = false
-                hiddenviewheight.constant = 150
-                buybtn.setTitle("Close", for: .normal)
-
-            }
-        }
+//        buybtn.setTitle("Buy", for: .normal)
+//
+//        if getvidoebyproductIdsdata.count == 0 {
+//            UIApplication.pTopViewController().view.makeToast("Showcase product data not found")
+//        }else {
+//            if hiddenview.isHidden == false {
+//                hiddenview.isHidden = true
+//                hiddenviewheight.constant = 0
+//                buybtn.setTitle("Buy", for: .normal)
+//            }else{
+//                hiddenview.isHidden = false
+//                hiddenviewheight.constant = 150
+//                buybtn.setTitle("Close", for: .normal)
+//
+//            }
+//        }
     }
     @IBAction func volumebtnTapped(_ sender: UIButton) {
         toggleMute()

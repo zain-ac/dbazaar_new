@@ -265,7 +265,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == subCatCollectionView {
             let data = subCatData[indexPath.row]
-            if data.productsCount == 0 {
+            if data.categorySpecs?.productsCount == 0 {
                 return CGSize(width: 0, height: 0)
             }else {
                 return CGSize(width: subCatCollectionView.frame.width/1.7, height: subCatCollectionView.frame.height)

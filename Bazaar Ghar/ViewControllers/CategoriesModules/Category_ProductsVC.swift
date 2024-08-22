@@ -36,7 +36,7 @@ class Category_ProductsVC: UIViewController {
 
     var prductid = String()
     var catNameTitle = String()
-     var sort = "-price"
+     var sort = ""
     var sellerDescription = String()
     var storeId = String()
     

@@ -281,7 +281,11 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"origin":origin], encoding: URLEncoding.default)
             
         case let .getAllProductsByCategories(limit,page,sortBy,category, _):
-            return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default) 
+            if sortBy == "" {
+                return .requestParameters(parameters: ["limit": limit,"page": page,"categorySlug": category], encoding: URLEncoding.default)
+            }else {
+                return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default)
+            }
         case let .typeSenseApi(val,str,facet_by):
               let parameters: [String: Any] = [
                 "searches": [

@@ -208,19 +208,29 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cn3-58-ogV" customClass="FSPageControl" customModule="FSPagerView">
+                                                        <rect key="frame" x="0.0" y="240" width="390" height="40"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="VL7-e7-wio"/>
+                                                        </constraints>
+                                                    </view>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="280" id="0xU-nJ-Azj"/>
                                                     <constraint firstAttribute="trailing" secondItem="kVX-wK-QZw" secondAttribute="trailing" constant="20" id="4tq-rg-Tfd"/>
                                                     <constraint firstItem="Zmn-GD-np2" firstAttribute="top" secondItem="Jkl-kT-aQZ" secondAttribute="top" constant="20" id="80a-Xl-yed"/>
+                                                    <constraint firstAttribute="trailing" secondItem="cn3-58-ogV" secondAttribute="trailing" id="IE8-Cg-4Dk"/>
                                                     <constraint firstItem="Ajy-SV-YqX" firstAttribute="trailing" secondItem="kVX-wK-QZw" secondAttribute="trailing" id="N0I-9j-IUa"/>
                                                     <constraint firstItem="kVX-wK-QZw" firstAttribute="top" secondItem="Jkl-kT-aQZ" secondAttribute="top" constant="20" id="QAd-ru-OXH"/>
                                                     <constraint firstItem="Ajy-SV-YqX" firstAttribute="top" secondItem="kVX-wK-QZw" secondAttribute="bottom" constant="10" id="QtS-2N-Bhl"/>
+                                                    <constraint firstItem="cn3-58-ogV" firstAttribute="leading" secondItem="Jkl-kT-aQZ" secondAttribute="leading" id="Rse-nC-Lyd"/>
                                                     <constraint firstItem="Hhh-Eu-vO2" firstAttribute="top" secondItem="Jkl-kT-aQZ" secondAttribute="top" id="i8E-Gy-Xd5"/>
                                                     <constraint firstAttribute="bottom" secondItem="Hhh-Eu-vO2" secondAttribute="bottom" id="ljz-V5-KEk"/>
                                                     <constraint firstItem="Zmn-GD-np2" firstAttribute="leading" secondItem="Jkl-kT-aQZ" secondAttribute="leading" constant="20" id="oIS-hb-DIJ"/>
                                                     <constraint firstAttribute="trailing" secondItem="Hhh-Eu-vO2" secondAttribute="trailing" id="ogp-mw-E0r"/>
+                                                    <constraint firstAttribute="bottom" secondItem="cn3-58-ogV" secondAttribute="bottom" id="pWe-cB-VHr"/>
                                                     <constraint firstItem="Hhh-Eu-vO2" firstAttribute="leading" secondItem="Jkl-kT-aQZ" secondAttribute="leading" id="uEU-Zk-bT4"/>
                                                 </constraints>
                                             </view>
@@ -1571,13 +1581,13 @@
                                                                                     <nil key="highlightedColor"/>
                                                                                     <size key="shadowOffset" width="0.0" height="0.0"/>
                                                                                 </label>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ClI-H5-Mxj">
+                                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ClI-H5-Mxj">
                                                                                     <rect key="frame" x="4.9999999999999982" y="234.33333333333334" width="31.333333333333329" height="15.666666666666657"/>
                                                                                     <fontDescription key="fontDescription" name="Poppins-Bold" family="Poppins" pointSize="11"/>
                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSS-T4-JgL">
+                                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSS-T4-JgL">
                                                                                     <rect key="frame" x="5.0000000000000018" y="254.99999999999997" width="23.666666666666671" height="12.666666666666657"/>
                                                                                     <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="9"/>
                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1952,9 +1962,10 @@
                         <outlet property="moreFromLbl" destination="9yI-aa-0Ad" id="1IU-sk-sfI"/>
                         <outlet property="moreFromViewHeight" destination="aHO-S8-VuZ" id="BJ8-lU-XJc"/>
                         <outlet property="outOfStockLbl" destination="aAN-lg-Bic" id="vXl-hD-Psb"/>
+                        <outlet property="pageControl" destination="cn3-58-ogV" id="5Au-aY-09l"/>
                         <outlet property="pagerView" destination="Hhh-Eu-vO2" id="jAr-wV-CE6"/>
                         <outlet property="percentLbl" destination="0tg-DU-I2S" id="hGo-Ms-dYr"/>
-                        <outlet property="percentView" destination="Zmn-GD-np2" id="a3G-uh-uZH"/>
+                        <outlet property="percentView" destination="Zmn-GD-np2" id="sxe-Uk-nFz"/>
                         <outlet property="plusbtn" destination="Zey-hg-Kgb" id="Y6v-U5-njs"/>
                         <outlet property="productPriceLine" destination="Lmy-83-8xK" id="ScI-MF-2tI"/>
                         <outlet property="productcount" destination="gwq-KJ-d5W" id="puv-Fo-Cq2"/>
@@ -1987,7 +1998,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C8c-0o-m5P">
-                                <rect key="frame" x="0.0" y="0.0" width="202.66666666666666" height="111.33333333333333"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="111.33333333333333"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qgV-nw-nhH">
                                         <rect key="frame" x="20" y="63.333333333333343" width="35" height="35"/>
@@ -2010,13 +2021,13 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sony" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDt-Gf-TAE">
-                                        <rect key="frame" x="65" y="66.666666666666671" width="49.666666666666657" height="28"/>
+                                        <rect key="frame" x="65" y="66.666666666666671" width="240" height="28"/>
                                         <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fwm-2i-gkr">
-                                        <rect key="frame" x="160.66666666666666" y="69.666666666666671" width="22" height="22"/>
+                                        <rect key="frame" x="351" y="69.666666666666671" width="22" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="22" id="D8O-U7-5ua"/>
                                             <constraint firstAttribute="height" constant="22" id="P7g-BY-E79"/>
@@ -2032,7 +2043,7 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOZ-nM-z38">
-                                        <rect key="frame" x="124.66666666666669" y="69.666666666666671" width="22" height="22"/>
+                                        <rect key="frame" x="315" y="69.666666666666671" width="22" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="22" id="OU3-kh-tyo"/>
                                             <constraint firstAttribute="height" constant="22" id="kZ8-C1-RT3"/>
@@ -2057,7 +2068,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UgM-Uq-KBG">
-                                <rect key="frame" x="0.0" y="111.33333333333331" width="202.66666666666666" height="740.66666666666674"/>
+                                <rect key="frame" x="0.0" y="111.33333333333331" width="393" height="740.66666666666674"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PWa-lR-qcc">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
@@ -2916,7 +2927,7 @@
         </designable>
     </designables>
     <resources>
-        <image name="Icon feather-arrow-right" width="24" height="24"/>
+        <image name="Icon feather-arrow-right" width="19.643999099731445" height="15.27400016784668"/>
         <image name="Layer 2" width="39.012001037597656" height="39.012001037597656"/>
         <image name="arrow 1" width="37.861000061035156" height="37.861000061035156"/>
         <image name="arrow.left" catalog="system" width="128" height="95"/>
@@ -2945,10 +2956,10 @@
         <image name="truck" width="129" height="126"/>
         <image name="whatsapp 1" width="63" height="63"/>
         <namedColor name="FF8319">
-            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="headercolor">
-            <color red="0.99215686274509807" green="0.65098039215686276" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.023529411764705882" green="0.71764705882352942" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
