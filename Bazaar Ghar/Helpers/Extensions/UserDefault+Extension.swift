@@ -84,6 +84,14 @@ class AppDefault {
             shared.set(newValue, forKey: "brandname")
         }
     }
+    public static var mainAttribute: [Attributeobj]? {
+        get{
+          return shared.decode(for: [Attributeobj].self, using: "Attributeobj")
+        }
+        set{
+          shared.encode(for: newValue, using: "Attributeobj")
+        }
+      }
     public static var wishlistproduct: [Product]? {
         get{
           return shared.decode(for: [Product].self, using: "wishlistproduct")

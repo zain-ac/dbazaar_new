@@ -92,7 +92,8 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     }
     var slugid: String? {
         didSet {
-            productcategoriesdetails(slug: slugid ?? "")
+            AppDefault.mainAttribute = []
+            productcategoriesdetails(slug: slugid ?? "", isselsected: false)
         }
     }
     var gallaryImages: [String]?
@@ -110,6 +111,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         showMoreBtn.setTitle("Show More", for: .normal)
         showMoreBtn.addTarget(self, action: #selector(toggleDescription), for: .touchUpInside)
         buyNowBtn.alpha = 1.0 // Set the alpha to 1.0 to avoid the grayed-out appearance
@@ -153,7 +155,8 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     
     @objc func methodOfReceivedNotificationFromCartCell(notification: Notification) {
     if let slug = notification.userInfo?["variantSlug"] as? String {
-            productcategoriesdetails(slug: slug)
+        
+        productcategoriesdetails(slug: slug, isselsected: true)
                 varientSlug = slug
             }
     }
@@ -599,19 +602,38 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         })
     }
 
-    private func productcategoriesdetails(slug:String){
+    private func productcategoriesdetails(slug:String,isselsected:Bool){
         APIServices.productcategoriesdetails(slug: slug){[weak self] data in
             switch data{
             case .success(let res):
              //
 
                 self?.productcategoriesdetailsdata = res
-
+                if isselsected{
+                    
+                    
+                }else{
+                   
+                        AppDefault.mainAttribute = res.attributes
                 
-                if res.attributes?.count == 0 {
+                    AppDefault.mainAttribute! += res.mainAttributes ?? []
+                    
+                   
+                }
+               
+                
+                if res.attributes?.count == 0 && AppDefault.mainAttribute?.count == 0{
                         self?.varientViewHeight.constant = 0
                     }else {
-                        self?.varientViewHeight.constant = CGFloat((res.attributes?.count ?? 0) * 90)
+                        if(res.attributes?.count == 0){
+                            self?.varientViewHeight.constant = CGFloat((AppDefault.mainAttribute?.count ?? 0) * 90)
+                        }else{
+                            self?.varientViewHeight.constant = CGFloat((res.attributes?.count ?? 0) * 90)
+                        }
+                        
+                        
+                        
+                       
                     }
                 
                 self?.scrollHeight.constant = 2200 +  (self?.varientViewHeight.constant ?? 0)
@@ -1105,10 +1127,10 @@ extension NewProductPageViewController: FSPagerViewDataSource, FSPagerViewDelega
 extension NewProductPageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == varientsTblV {
-            if productcategoriesdetailsdata?.mainAttributes != nil {
-                return  productcategoriesdetailsdata?.mainAttributes?.count ?? 0
+            if AppDefault.mainAttribute != nil {
+                return  AppDefault.mainAttribute?.count ?? 0
             }else {
-                return  productcategoriesdetailsdata?.attributes?.count ?? 0
+                return  0
             }
         }else {
             return items.count
@@ -1119,9 +1141,10 @@ extension NewProductPageViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == varientsTblV {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetailVarientTableViewCell", for: indexPath) as! ProductDetailVarientTableViewCell
-            if productcategoriesdetailsdata?.mainAttributes != nil {
-                let data = productcategoriesdetailsdata?.mainAttributes
+            if AppDefault.mainAttribute != nil {
+                let data = AppDefault.mainAttribute
                 let variantdata = productcategoriesdetailsdata?.variants
+                cell.productModel = productcategoriesdetailsdata
                 cell.attributesLbl.text = (data?[indexPath.row].name ?? "") + " (\(data?[indexPath.row].values?.count ?? 0))"
                 cell.index = indexPath.row
                 cell.productcategoriesdetailsdata = data
@@ -1129,6 +1152,7 @@ extension NewProductPageViewController: UITableViewDelegate, UITableViewDataSour
             }else {
                 let data = productcategoriesdetailsdata?.attributes
                 let variantdata = productcategoriesdetailsdata?.variants
+                cell.productModel = productcategoriesdetailsdata
                 cell.attributesLbl.text = (data?[indexPath.row].name ?? "") + " (\(data?[indexPath.row].values?.count ?? 0))"
                 cell.index = indexPath.row
                 cell.productcategoriesdetailsdata = data

@@ -12,7 +12,7 @@ class ProductDetailVarientTableViewCell: UITableViewCell {
     @IBOutlet weak var attributesLbl: UILabel!
     
     @IBOutlet weak var attributesCollectionV: UICollectionView!
-
+    var productModel : ProductCategoriesDetailsResponse?
     var productcategoriesdetailsdata : [Attributeobj]?{
         didSet{
             attributesCollectionV.reloadData()
@@ -56,6 +56,23 @@ extension ProductDetailVarientTableViewCell: UICollectionViewDelegate, UICollect
         
          cell.subcollectionlabel.text = data
 //        cell.subcollectionlabel.text = data?[index].value
+        
+        
+        
+        
+//        if(productModel?.selectedAttributes?.contains(where: {$0.value == data}){
+//            cell.subcollectionVie.backgroundColor =  Utilities.hexStringToUIColor(hex: "#fd4f0d")
+//            cell.subcollectionlabel.textColor = .white
+//            cell.subcollectionVie.borderWidth = 0
+//
+//        }else{
+//            cell.subcollectionVie.backgroundColor? = .white
+//            cell.subcollectionlabel.textColor = .gray
+//            cell.subcollectionVie.borderWidth = 1
+//            cell.subcollectionVie.borderColor = UIColor.gray
+//        }
+//        
+        
             if(self.SubCategorycollectionviewIndex == indexPath.row){
                 cell.subcollectionVie.backgroundColor =  Utilities.hexStringToUIColor(hex: "#fd4f0d")
                 cell.subcollectionlabel.textColor = .white
@@ -94,7 +111,7 @@ extension ProductDetailVarientTableViewCell: UICollectionViewDelegate, UICollect
             for i in self.productcategoriesdetailsvariantdata ?? [] {
                 if  AppDefault.attribute1 ?? "" == i.selectedAttributes?[0].value ?? "" {
                     print(i.slug ?? "")
-                    let imageDataDict:[String: String] = ["variantSlug": i.slug ?? "","SubCategorycollectionviewIndex": "\(indexPath.row)"]
+                    let imageDataDict:[String: String] = ["variantSlug": i.slug ?? "","iselectd": "true","SubCategorycollectionviewIndex": "\(indexPath.row)"]
                     NotificationCenter.default.post(name: Notification.Name("variantSlug"), object: nil,userInfo: imageDataDict)
                 }
             }
@@ -102,7 +119,7 @@ extension ProductDetailVarientTableViewCell: UICollectionViewDelegate, UICollect
             for i in self.productcategoriesdetailsvariantdata ?? [] {
                 if AppDefault.attribute1 ?? "" == i.selectedAttributes?[0].value ?? ""  && AppDefault.attribute2 ?? "" ==  i.selectedAttributes?[1].value ?? "" {
                     print(i.slug ?? "")
-                    let imageDataDict:[String: String] = ["variantSlug": i.slug ?? "","SubCategorycollectionviewIndex": "\(indexPath.row)"]
+                    let imageDataDict:[String: String] = ["variantSlug": i.slug ?? "","iselectd": "true","SubCategorycollectionviewIndex": "\(indexPath.row)"]
                     NotificationCenter.default.post(name: Notification.Name("variantSlug"), object: nil,userInfo: imageDataDict)
                 }
             }
@@ -110,7 +127,7 @@ extension ProductDetailVarientTableViewCell: UICollectionViewDelegate, UICollect
             for i in self.productcategoriesdetailsvariantdata ?? [] {
                 if AppDefault.attribute1 ?? "" == i.selectedAttributes?[0].value ?? ""  && AppDefault.attribute2 ?? "" ==  i.selectedAttributes?[1].value ?? ""  && AppDefault.attribute3 ?? "" == i.selectedAttributes?[2].value ?? ""{
                     print(i.slug ?? "")
-                    let imageDataDict:[String: String] = ["variantSlug": i.slug ?? "","SubCategorycollectionviewIndex": "\(indexPath.row)"]
+                    let imageDataDict:[String: String] = ["variantSlug": i.slug ?? "","iselectd": "true","SubCategorycollectionviewIndex": "\(indexPath.row)"]
                     NotificationCenter.default.post(name: Notification.Name("variantSlug"), object: nil,userInfo: imageDataDict)
                 }
             }

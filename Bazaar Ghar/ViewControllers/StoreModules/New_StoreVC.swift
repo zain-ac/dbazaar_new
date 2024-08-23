@@ -109,6 +109,11 @@ class New_StoreVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         if(AppDefault.islogin){
             self.connectSocket()
+            if AppDefault.wishlistproduct != nil{
+                wishList(isbackground: true)
+            }else{
+                wishList(isbackground: false)
+            }
         }
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -125,7 +130,7 @@ class New_StoreVC: UIViewController {
            //
                 self?.productcategoriesdetailsdata = res
                 self?.gallaryImages = res.images
-                self?.gallaryImages = Array(self?.gallaryImages?.prefix(2) ?? [])
+               
                 self?.pageControl.numberOfPages = self?.gallaryImages?.count ?? 0
                 self?.pageControl.currentPage = 0
                 
@@ -381,6 +386,53 @@ class New_StoreVC: UIViewController {
             }
         }
     }
+    
+    func wishList(isbackground:Bool){
+        APIServices.wishlist(isbackground: isbackground){[weak self] data in
+          switch data{
+          case .success(let res):
+          //
+            AppDefault.wishlistproduct = res.products
+   
+            self?.categoryproduct_collectionview.reloadData()
+          case .failure(let error):
+            print(error)
+          }
+        }
+      }
+    
+    private func wishListApi(productId:String) {
+        APIServices.newwishlist(product:productId,completion: {[weak self] data in
+          switch data{
+          case .success(let res):
+           //
+    //        if(res == "OK"){
+    //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+    //          button.tintColor = .red
+    //
+    //        }else{
+    //          button.setImage(UIImage(systemName: "heart"), for: .normal)
+    //          button.tintColor = .gray
+    //
+    //        }
+              self?.wishList(isbackground: false)
+          case .failure(let error):
+            print(error)
+              if error == "Please authenticate" {
+                  if AppDefault.islogin{
+                      
+                  }else{
+//                       DispatchQueue.main.async {
+//                          self.selectedIndex = 0
+//                       }
+                        let vc = PopupLoginVc.getVC(.popups)
+                      vc.modalPresentationStyle = .overFullScreen
+                      self?.present(vc, animated: true, completion: nil)
+                  }
+              }
+          }
+        })
+      }
 
 
     @IBAction func followBtnTapped(_ sender: Any) {
@@ -580,13 +632,41 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
              }
             
             cell.cartButton.tag = indexPath.row
-                
+            cell.heartBtn.tag = indexPath.row
+
             cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+            cell.heartBtn.addTarget(self, action: #selector(HeartBtnTapped(_:)), for: .touchUpInside)
             
+            if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == data.id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+                  }
             
             
             return cell
         }
+    }
+    
+    @objc func HeartBtnTapped(_ sender: UIButton) {
+        if(AppDefault.islogin){
+              let index = sender.tag
+              let item = self.getAllProductsByCategoriesData[index]
+            if item.id == nil {
+                self.wishListApi(productId: (item._id ?? ""))
+            }else {
+                self.wishListApi(productId: (item.id ?? ""))
+            }
+            }else{
+                let vc = PopupLoginVc.getVC(.popups)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
     }
     
     @objc func cartButtonTap(_ sender: UIButton) {
