@@ -117,7 +117,8 @@ class ProfileViewController: UIViewController {
         if(AppDefault.currentUser != nil){
             self.userName.text  = AppDefault.currentUser?.fullname
             self.userEmail.text = AppDefault.currentUser?.email
-            self.walletBalance.text = appDelegate.currencylabel + "\(AppDefault.currentUser?.wallet?.balance ?? 0)"
+           
+          
         }
         wish()
         myOrders()
@@ -288,10 +289,13 @@ class ProfileViewController: UIViewController {
 
     }
     @IBAction func termConditionBtn(_ sender: Any) {
-        AppDefault.iscomefaqs = false
-        let vc = TermConditions.getVC(.faqsBoard)
-        self.navigationController?.pushViewController(vc, animated: false)
-
+//        AppDefault.iscomefaqs = false
+//        let vc = TermConditions.getVC(.faqsBoard)
+//        self.navigationController?.pushViewController(vc, animated: false)
+        if let url = URL(string: "https://stage.mysouq.com/terms") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+        
     }
   
     @IBAction func contactUsBtn(_ sender: Any) {
@@ -303,10 +307,11 @@ class ProfileViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
    
-    
+
     @IBAction func privacypolicyBtn(_ sender: Any) {
-        let vc = Privacypolicy_VC.getVC(.faqsBoard)
-        self.navigationController?.pushViewController(vc, animated: false)
+        if let url = URL(string: "https://stage.mysouq.com/privacy") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     @IBAction func inviteFreindBtn(_ sender: Any) {
         let vc = inviteFriends_Vc.getVC(.faqsBoard)
@@ -314,14 +319,14 @@ class ProfileViewController: UIViewController {
     }
  
      @IBAction func faqsBtn(_ sender: Any) {
-         AppDefault.iscomefaqs = true
-         let vc = TermConditions.getVC(.faqsBoard)
-         self.navigationController?.pushViewController(vc, animated: false)
+         if let url = URL(string: "https://stage.mysouq.com/customerfaqs/") {
+             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+         }
      }
     
         @IBAction func walletBtn(_ sender: Any) {
             let vc = MyWallet_VC.getVC(.profileSubVIewStoryBoard)
-            vc.walletPrice = walletBalance.text ?? ""
+         vc.walletPrice = appDelegate.currencylabel + "\(AppDefault.currentUser?.wallet?.balance ?? 0)"
             self.navigationController?.pushViewController(vc, animated: false)
         }
     

@@ -15,7 +15,7 @@ struct MyOrderResponse: Codable {
 struct MyOrderResult: Codable {
     let id, paymentMethod: String?
     let wallet: Bool? 
-    let paymentMethodTotal: Double?
+ 
     let groupBuy: Bool?
     let groupBuyQuantity: Int?
     let customer: MyOrderCustomer?
@@ -36,7 +36,7 @@ struct MyOrderResult: Codable {
 
     enum CodingKeys: String, CodingKey {
         case id = "_id"
-        case paymentMethod, wallet, paymentMethodTotal, groupBuy, groupBuyQuantity, customer, seller, orderDetail, shippmentCharges, orderNote, subTotal, retailTotal, discount, subWeight
+        case paymentMethod, wallet, groupBuy, groupBuyQuantity, customer, seller, orderDetail, shippmentCharges, orderNote, subTotal, retailTotal, discount, subWeight
         case orderID = "orderId"
         case statusUpdatedAt, adminDiscount, vendor, store, payableShippment, payable
         case v = "__v"
@@ -64,8 +64,7 @@ struct MyOrderCustomer: Codable {
 
 // MARK: - Wallet
 struct MyOrderWallet: Codable {
-    let balance: Int?
-}
+    let balance: Float?}
 
 // MARK: - OrderItem
 struct NewOrderItem: Codable {

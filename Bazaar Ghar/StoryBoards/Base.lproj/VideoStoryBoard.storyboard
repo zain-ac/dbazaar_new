@@ -2690,11 +2690,6 @@
             <point key="canvasLocation" x="3558" y="-1482"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="U0P-hs-p4S">
-            <size key="intrinsicContentSize" width="120" height="20"/>
-        </designable>
-    </designables>
     <resources>
         <image name="arrow" width="5.3909997940063477" height="9.0819997787475586"/>
         <image name="arrow.left" catalog="system" width="128" height="95"/>

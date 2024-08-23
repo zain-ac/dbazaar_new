@@ -72,7 +72,9 @@ class SingleVideoCell: UITableViewCell {
         didSet{
             if LiveStreamingResultsdataArray?.hls == nil {
                 let fileUrl = URL(string: LiveStreamingResultsdataArray?.streamingURL ?? "")
-                self.videoPlayerItem = AVPlayerItem.init(url:fileUrl!)
+                if let url = fileUrl {
+                    self.videoPlayerItem = AVPlayerItem.init(url:url)
+                }
                 
             }
             else {
@@ -139,6 +141,7 @@ class SingleVideoCell: UITableViewCell {
         
 
        }
+
     
      func unfollowStore(storeId:String){
         APIServices.unfollowstore(storeId: storeId){[weak self] data in
@@ -281,20 +284,37 @@ class SingleVideoCell: UITableViewCell {
 
     
     func setupMoviePlayer() {
-        // Initialize the player with the player item
         self.avPlayer = AVPlayer.init(playerItem: self.videoPlayerItem)
-                  avPlayerLayer = AVPlayerLayer(player: avPlayer)
-                  avPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
-                  avPlayer?.volume = 3
-                  avPlayer?.actionAtItemEnd = .none
+                   avPlayerLayer = AVPlayerLayer(player: avPlayer)
+                   avPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
+                   avPlayer?.volume = 3
+                   avPlayer?.actionAtItemEnd = .none
 
-                  //        You need to have different variations
-                  //        according to the device so as the avplayer fits well
-              
-                      avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: self.videoView.frame.width, height: self.videoView.frame.height)
-                 
-                  self.backgroundColor = .clear
-                  self.videoView.layer.insertSublayer(avPlayerLayer!, at: 0)
+                   //        You need to have different variations
+                   //        according to the device so as the avplayer fits well
+               
+                   avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                  
+         
+                   avPlayerLayer?.videoGravity = .resizeAspectFill
+                   
+                   
+                   self.backgroundColor = .clear
+                   self.videoView.layer.insertSublayer(avPlayerLayer!, at: 0)
+        // Initialize the player with the player item
+//        self.avPlayer = AVPlayer.init(playerItem: self.videoPlayerItem)
+//                  avPlayerLayer = AVPlayerLayer(player: avPlayer)
+//                  avPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
+//                  avPlayer?.volume = 3
+//                  avPlayer?.actionAtItemEnd = .none
+//
+//                  //        You need to have different variations
+//                  //        according to the device so as the avplayer fits well
+//              
+//                      avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: self.videoView.frame.width, height: self.videoView.frame.height)
+//                 
+//                  self.backgroundColor = .clear
+//                  self.videoView.layer.insertSublayer(avPlayerLayer!, at: 0)
 
         // Add observer to handle video end
         NotificationCenter.default.addObserver(self,

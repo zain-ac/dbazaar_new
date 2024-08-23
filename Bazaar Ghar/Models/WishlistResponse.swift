@@ -499,8 +499,7 @@ struct WishlistMarket: Codable {
 
 // MARK: - Wallet
 struct WishlistWallet: Codable {
-    let balance: Int?
-}
+    let balance: Float?}
 
 // MARK: - Variant
 struct WishlistVariant: Codable {

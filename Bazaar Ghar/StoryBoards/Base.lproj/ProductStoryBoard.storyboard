@@ -2932,12 +2932,12 @@
         <image name="arrow 1" width="37.861000061035156" height="37.861000061035156"/>
         <image name="arrow.left" catalog="system" width="128" height="95"/>
         <image name="arrow.right" catalog="system" width="128" height="95"/>
-        <image name="bg" width="80.333335876464844" height="32"/>
+        <image name="bg" width="600" height="117"/>
         <image name="cargo-truck" width="26.333333969116211" height="16.666666030883789"/>
         <image name="carticon" width="19" height="17.666666030883789"/>
         <image name="chevron.backward.circle.fill" catalog="system" width="128" height="123"/>
         <image name="eye" catalog="system" width="128" height="79"/>
-        <image name="homebazarimg" width="76" height="31"/>
+        <image name="homebazarimg" width="600" height="117"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="messeage" width="20.666666030883789" height="20.666666030883789"/>
         <image name="messenger" width="21" height="21"/>

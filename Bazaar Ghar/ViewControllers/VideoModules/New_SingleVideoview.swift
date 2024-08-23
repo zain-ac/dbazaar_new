@@ -384,6 +384,8 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
     }
     
     func storeBtnTapped(btn:UIButton, indexPath:IndexPath) {
+        let cell = singlevideotable.cellForRow(at: indexPath) as? SingleVideoCell
+        cell?.stopPlayback()
         let data =  LiveStreamingResultsdata[indexPath.row]
         let vc = New_StoreVC.getVC(.productStoryBoard)
         vc.prductid = data.userID     //productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
@@ -391,6 +393,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
 //        vc.gallaryImages = data.        //productcategoriesdetailsdata?.gallery
         vc.storeId = data.userID ?? ""    //productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
         vc.sellerID = data.userID ?? ""
+        
         self.navigationController?.pushViewController(vc, animated: false)
 
     }

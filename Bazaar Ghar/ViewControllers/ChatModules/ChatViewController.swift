@@ -40,11 +40,11 @@ class ChatViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         
         ChatTblV.estimatedRowHeight = 60
         ChatTblV.rowHeight = UITableView.automaticDimension
-//        if newChat == true {
-//            namestore.text = sellerDetail?.brandName ?? ""
-//        }else {
+        if newChat == true {
+            namestore.text = sellerDetail?.brandName ?? ""
+        }else {
             namestore.text = messages?.idarray?.brandName ?? ""
-//        }
+        }
         messageTF.text = "Type something here..."
         if(latestMessages?.count ?? 0 > 0){
             self.ChatTblV.scrollToBottom()

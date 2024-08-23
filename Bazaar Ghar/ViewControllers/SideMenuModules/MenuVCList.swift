@@ -49,8 +49,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
 //        backButton.isHidden = true
         isSelected  = "Home"
         let animation = LottieAnimation.named("new_side_animation")
-//        videoAnimationView.animation = animation
-//        videoAnimationView.loopMode = .loop
+        videoAnimationView.animation = animation
+        videoAnimationView.loopMode = .loop
 
       
         
@@ -129,7 +129,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     }
     
     @IBAction func offerstap(_ sender: Any) {
-        let vc = offers_page.getVC(.sidemenu)
+        let vc = CategoriesVC.getVC(.main)
         self.navigationController?.pushViewController(vc, animated: false)
     }
     @IBAction func livetap(_ sender: Any) {
@@ -146,7 +146,7 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
         self.CreateMenuitemList()
         loadInitialData()
       
-        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Top Categories", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
+        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Top Categories", lastWordColor: UIColor(hexString: "#2E8BF8"), otherWordsColor: UIColor(hexString: "#101010"))
         
         name.attributedText = attributedText1
     }

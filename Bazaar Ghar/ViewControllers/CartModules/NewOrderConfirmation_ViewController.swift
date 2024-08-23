@@ -36,7 +36,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
   @IBOutlet weak var scrollHeight: NSLayoutConstraint!
   @IBOutlet weak var addressLbl: UILabel!
   @IBOutlet weak var walletBalane: UILabel!
-    var walletBalance: Double?
+    var walletBalance: Float?
   var orderDetails: CartItemsResponse?
   var itemCount = 0
    
@@ -120,8 +120,9 @@ class NewOrderConfirmation_ViewController: UIViewController {
     totaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.total ?? 0)
     payabletxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.payable ?? 0 + 150)
      
-      walletBalane.text = "(\(appDelegate.currencylabel + Utility().formatNumberWithCommas(orderDetails?.user?.wallet?.balance ?? 0.0)))"
-      walletBalance = orderDetails?.user?.wallet?.balance ?? 0.0
+      walletBalane.text = "(\(appDelegate.currencylabel + String(orderDetails?.user?.wallet?.balance ?? 0.0)))"
+      //      walletBalane.text = "(\(appDelegate.currencylabel) + (orderDetails?.user?.wallet?.balance ?? 0.0) ?? 0.0))"
+            walletBalance = Float(orderDetails?.user?.wallet?.balance ?? 0.0)
       
   }
    
@@ -204,8 +205,8 @@ class NewOrderConfirmation_ViewController: UIViewController {
             self?.deliverytxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.shippmentCharges ?? 0)
             self?.totaltxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.total ?? 0)
             self?.payabletxt.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.payable ?? 0 + 150)
-            self?.walletBalane.text = "(\(appDelegate.currencylabel + Utility().formatNumberWithCommas(res.user?.wallet?.balance ?? 0.0)))"
-            self?.walletBalance = res.user?.wallet?.balance ?? 0.0
+            self?.walletBalane.text = "(\(appDelegate.currencylabel + Utility().formatNumberWithCommas(Double(res.user?.wallet?.balance ?? 0.0))))"
+                  self?.walletBalance = res.user?.wallet?.balance ?? 0.0
             
             self?.ordersummarycollectview.reloadData()
         case .failure(let error):
@@ -217,7 +218,7 @@ class NewOrderConfirmation_ViewController: UIViewController {
         }
       }
     }
-  func paymentApi(token:String,amount:Float,currency:String,cartId:String){
+  func paymentApi(token:String,amount:Int,currency:String,cartId:String){
     APIServices.checkoutpayment(token: token, amount: amount, currency: currency, cartId: cartId){[weak self] data in
      switch data{
      case .success(let res):
@@ -295,7 +296,7 @@ extension NewOrderConfirmation_ViewController:UITableViewDelegate,UITableViewDat
         showAlert(with: "You need to make sure an API key is present", title: "Missing API Key")
       }
     case .success(let tokenDetails):
-      paymentApi(token: tokenDetails.token, amount: Float(orderDetails?.payable ?? 0 + 150), currency: "SAR", cartId: AppDefault.cartId ?? "")
+      paymentApi(token: tokenDetails.token, amount: Int(orderDetails?.payable ?? 0 + 150), currency: "SAR", cartId: AppDefault.cartId ?? "")
     }
   }
   private func showAlert(with message: String, title: String = "Payment") {

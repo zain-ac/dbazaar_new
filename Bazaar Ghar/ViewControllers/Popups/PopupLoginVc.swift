@@ -215,7 +215,7 @@ class PopupLoginVc: UIViewController {
                     }
                 
                 }else{
-                    let alert = UIAlertController(title: "Alert", message: "Please contact us on our support.\r\nCall us 24/7 +92 301 1166 - 879.\r\nEmail: hello@bazaarghar.com ", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Alert", message: "Please contact us on our support.\r\nCall us 24/7 +92 301 1166 - 879.\r\nEmail: hello@mysouq.com ", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                         UIApplication.stopActivityIndicator()
                     }))
@@ -248,7 +248,7 @@ class PopupLoginVc: UIViewController {
                     }
                 
                 }else{
-                    let alert = UIAlertController(title: "Alert", message: "Please contact us on our support.\r\nCall us 24/7 +92 301 1166 - 879.\r\nEmail: hello@bazaarghar.com ", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Alert", message: "Please contact us on our support.\r\nCall us 24/7 +92 301 1166 - 879.\r\nEmail: hello@mysouq.com ", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                         UIApplication.stopActivityIndicator()
                     }))

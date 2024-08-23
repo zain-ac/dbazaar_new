@@ -13,6 +13,7 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
     @IBOutlet weak var productCounts: UILabel!
     @IBOutlet weak var lastRandomProductsCollectionView: UICollectionView!
     @IBOutlet weak var filterButton: UIButton!
+    let centerTransitioningDelegate = CenterTransitioningDelegate()
        @IBOutlet weak var noDataView: UIView!
     var hits: [SearchResultHit<Recipe>]
     var facetCounts: [FacetCounts]?
@@ -56,14 +57,14 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
                     noDataView.isHidden = false
                 }
 //                if(AppDefault.islogin ){
-//        
+//
 //                    if AppDefault.wishlistproduct != nil{
 //                        wishList(isbackground: true)
 //                    }else{
 //                        wishList(isbackground: false)
 //                    }
-//        
-//        
+//
+//
 //                    }
     }
     @IBAction func filterButtonTap(_ sender: Any) {
@@ -96,25 +97,81 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
            }
         performSearch(with: text,page:1, faceby: "")
        }
+    func wishList(isbackground:Bool){
+        APIServices.wishlist(isbackground: isbackground){[weak self] data in
+          switch data{
+          case .success(let res):
+          //
+            AppDefault.wishlistproduct = res.products
+   
+            
+              self?.lastRandomProductsCollectionView.reloadData()
+          case .failure(let error):
+            print(error)
+          }
+        }
+      }
+    private func wishListApi(productId:String) {
+        APIServices.newwishlist(product:productId,completion: {[weak self] data in
+          switch data{
+          case .success(let res):
+           //
+    //        if(res == "OK"){
+    //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+    //          button.tintColor = .red
+    //
+    //        }else{
+    //          button.setImage(UIImage(systemName: "heart"), for: .normal)
+    //          button.tintColor = .gray
+    //
+    //        }
+              self?.wishList(isbackground: false)
+          case .failure(let error):
+            print(error)
+              if error == "Please authenticate" {
+                  if AppDefault.islogin{
+                      
+                  }else{
+//                       DispatchQueue.main.async {
+//                          self.selectedIndex = 0
+//                       }
+                        let vc = PopupLoginVc.getVC(.popups)
+                      vc.modalPresentationStyle = .overFullScreen
+                      self?.present(vc, animated: true, completion: nil)
+                  }
+              }
+          }
+        })
+      }
+
        
     func performSearch(with query: String,page:Int,faceby:String) {
         
         
         
         
-        
            let searchParameters = SearchParameters(
                q: query,
+               
                queryBy: "productName",
                filterBy:faceby, facetBy: "averageRating,brandName,color,lvl0,price,size,style",
-               page: page, perPage: 10
+               maxFacetValues: 250, page: page, perPage: 10
+               
            )
            
            Task {
             do {
                 let (searchResult, _) = try await client.collection(name: "db_live_products").documents().search(searchParameters, for: Recipe.self)
                 self.facetCounts = searchResult?.facetCounts
-            self.hits +=  searchResult?.hits ?? []
+                if(query != "" ){
+                   
+                    self.hits = []
+                    self.hits =  searchResult?.hits ?? []
+                }
+               
+                    self.hits +=  searchResult?.hits ?? []
+           
+          
                 
                 
                 
@@ -173,13 +230,9 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
                 
                                 }
                 
+                productCounts.text =  Utility().formatNumberWithCommas(Double(searchResult?.found ?? 0))
                 
-                                
-   
-    
-               
-                
-                productCounts.text = String(searchResult?.found ?? 0)
+              
                 lastRandomProductsCollectionView.reloadData()
                 // Handle the search result
             } catch {
@@ -197,7 +250,7 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
         }
     
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
         let data = hits[indexPath.row].document
         Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
@@ -225,73 +278,74 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
             cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
             cell.percentBGView.isHidden = true
          }
-//        if(data?.variants?.count != 0 && data?.quantity != 0){
-//            cell.cartButton.tag = indexPath.row
-//            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
-//        }else if(data?.variants?.count != 0 && data?.quantity == 0){
-//            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }else if(data?.variants?.count == 0 && data?.quantity != 0){
-//            cell.cartButton.tag = indexPath.row
-//            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
-//        }else{
-//            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
-//        cell.heartBtn.tag = indexPath.row
-//        cell.cartButton.tag = indexPath.row
-//        cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
-//        cell.heartBtn.addTarget(self, action: #selector(homeLatestMobileheartButtonTap(_:)), for: .touchUpInside)
-//        
-//        if let wishlistProducts = AppDefault.wishlistproduct {
-//            if wishlistProducts.contains(where: { $0.id == data?._id }) {
-//                  cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-//                  cell.heartBtn.tintColor = .red
-//                } else {
-//                  cell.backgroundColor = .white
-//                  cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-//                  cell.heartBtn.tintColor = .white
-//                }
-//              }
+        if(data?.quantity != 0){
+            cell.cartButton.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+        }else if(data?.quantity == 0){
+            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else if(data?.quantity != 0){
+            cell.cartButton.tag = indexPath.row
+            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+        }else{
+            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        cell.heartBtn.tag = indexPath.row
+        cell.cartButton.tag = indexPath.row
+        cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+        cell.heartBtn.addTarget(self, action: #selector(homeLatestMobileheartButtonTap(_:)), for: .touchUpInside)
+        
+        if let wishlistProducts = AppDefault.wishlistproduct {
+            if wishlistProducts.contains(where: { $0.id == data?._id }) {
+                  cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                  cell.heartBtn.tintColor = .red
+                } else {
+                  cell.backgroundColor = .white
+                  cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                  cell.heartBtn.tintColor = .white
+                }
+              }
         
             return cell
         }
 
     
-//    @objc func cartButtonTap(_ sender: UIButton) {
-//        let data = hits?[sender.tag].document
-//        
-//        
-//        
+    @objc func cartButtonTap(_ sender: UIButton) {
+        let data = hits[sender.tag].document
+        
+        
+        
 //        if (data?.variants?.first?.id == nil) {
-//            let vc = CartPopupViewController.getVC(.popups)
-//           
-//            vc.modalPresentationStyle = .custom
-//            vc.transitioningDelegate = centerTransitioningDelegate
-//            vc.products = data
-//            vc.nav = self.navigationController
-//            self.present(vc, animated: true, completion: nil)
+            let vc = CartPopupViewController.getVC(.popups)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+        let newproduct = Product(featured: data?.featured, onSale: data?.onSale, isVariable: data?.isVariable, productName: data?.productName, slug: data?.slug, mainImage: data?.mainImage, regularPrice: data?.regularPrice, quantity: data?.quantity, price: data?.price, lang: nil, id: data?.id, salePrice: data?.salePrice, variants: nil, description: data?.description, _id: data?._id, selectedAttributes: [])
+            vc.products = newproduct
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
 //        }else {
 //            let vc = NewProductPageViewController.getVC(.productStoryBoard)
 //            vc.slugid = data?.slug
 //            navigationController?.pushViewController(vc, animated: false)
 //        }
-//
-//    }
-//    @objc func homeLatestMobileheartButtonTap(_ sender: UIButton) {
-//        if(AppDefault.islogin){
-//              let index = sender.tag
-//            let item = hits?[index].document
-//            if item?.id == nil {
-//                self.wishListApi(productId: (item?._id ?? ""))
-//            }else {
-//                self.wishListApi(productId: (item?.id ?? ""))
-//            }            }else{
-//                let vc = PopupLoginVc.getVC(.popups)
-//              vc.modalPresentationStyle = .overFullScreen
-//              self.present(vc, animated: true, completion: nil)
-//            }
-//    }
+
+    }
+    @objc func homeLatestMobileheartButtonTap(_ sender: UIButton) {
+        if(AppDefault.islogin){
+              let index = sender.tag
+            let item = hits[index].document
+            if item?.id == nil {
+                self.wishListApi(productId: (item?._id ?? ""))
+            }else {
+                self.wishListApi(productId: (item?.id ?? ""))
+            }            }else{
+                let vc = PopupLoginVc.getVC(.popups)
+              vc.modalPresentationStyle = .overFullScreen
+              self.present(vc, animated: true, completion: nil)
+            }
+    }
     func applyGradientBackground(to view: UIView, topColor: UIColor, bottomColor: UIColor) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
@@ -335,11 +389,12 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let data = foundData?[indexPath.row].document
-//        let vc = NewProductPageViewController.getVC(.productStoryBoard)
-////                vc.isGroupBuy = false
-//                   vc.slugid = data?.slug
-//        self.navigationController?.pushViewController(vc, animated: false)
+
+        let data = hits[indexPath.row].document
+        let vc = NewProductPageViewController.getVC(.productStoryBoard)
+//                vc.isGroupBuy = false
+                   vc.slugid = data?.slug
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

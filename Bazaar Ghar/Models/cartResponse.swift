@@ -120,8 +120,7 @@ struct DataUser: Codable {
 
 // MARK: - Wallet
 struct CartWallet: Codable {
-    let balance: Double?
-}
+    let balance: Float?}
 // MARK: - Attribute
 
 struct CitiesResponse: Codable {

@@ -214,72 +214,71 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     
     
     @IBAction func chatButton(_ sender: Any) {
-        if(!AppDefault.islogin){
-            let vc = PopupLoginVc.getVC(.popups)
-          vc.modalPresentationStyle = .overFullScreen
-          self.present(vc, animated: true, completion: nil)
-        }else{
-         
-            if ((messages?.contains(where: {$0.idarray?.sellerId == productcategoriesdetailsdata?.sellerDetail?.seller})) != nil){
-                
-               
-                var i:PMsg? = nil
-                i = messages?.first(where: { $0.idarray?.sellerId == productcategoriesdetailsdata?.sellerDetail?.seller })
-                
-                
-                self.socket?.emit("room-join", ["brandName": i?.idarray?.brandName ?? "",
-                                                "customerId": AppDefault.currentUser?.id ?? "",
-                                                "isSeller": false,
-                                                "sellerId": i?.idarray?.sellerId ?? "",
-                                                "storeId": i?.idarray?.storeId ?? "",
-                                                "options": ["page": 1, "limit": 200]])
-                
-                self.socket?.on("room-join") { datas, ack in
-                    if let rooms = datas[0] as? [String: Any] {
-                        let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
-                        print(obj)
-                        
-                        let vc = ChatViewController.getVC(.chatBoard)
-                        vc.socket = self.socket
-                        vc.manager = self.manager
-                        vc.messages = i
-                        vc.latestMessages = obj.messages.chat
-                        vc.PuserMainArray = obj
-                        vc.newChat = false
-                        self.navigationController?.pushViewController(vc, animated: true)
-                        
-                        
-                    }
-                }
-            }else{
-                self.socket?.emit("room-join", ["brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
-                                                "customerId": AppDefault.currentUser?.id ?? "",
-                                                "isSeller": false,
-                                                "sellerId": productcategoriesdetailsdata?.sellerDetail?.seller ?? "",
-                                                "storeId": productcategoriesdetailsdata?.sellerDetail?.id ?? "",
-                                                "options": ["page": 1, "limit": 200]])
-                
-                self.socket?.on("room-join") { datas, ack in
-                    if let rooms = datas[0] as? [String: Any] {
-                        let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
-                        print(obj)
-                        
-                        let vc = ChatViewController.getVC(.chatBoard)
-                        vc.socket = self.socket
-                        vc.manager = self.manager
-                        vc.messages = nil
-                        vc.latestMessages = obj.messages.chat
-                        vc.PuserMainArray = obj
-                        vc.newChat = false
-                        self.navigationController?.pushViewController(vc, animated: true)
-                        
-                    }
-                   
-                }
-            }
-  
-        }
+        print("tap")
+                if !AppDefault.islogin {
+                        let vc = PopupLoginVc.getVC(.popups)
+                        vc.modalPresentationStyle = .overFullScreen
+                        self.present(vc, animated: true, completion: nil)
+                    } else {
+                        guard let sellerId = productcategoriesdetailsdata?.sellerDetail?.seller else {
+                            print("Seller ID not found")
+                            return
+                        }
 
+                        // Check if there's an existing chat with this seller
+                        if let existingMessage = messages?.first(where: { $0.idarray?.sellerId == sellerId }) {
+                            // Existing chat found, join the room
+                            self.socket?.emit("room-join", [
+                                "brandName": existingMessage.idarray?.brandName ?? "",
+                                "customerId": AppDefault.currentUser?.id ?? "",
+                                "isSeller": false,
+                                "sellerId": sellerId,
+                                "storeId": existingMessage.idarray?.storeId ?? "",
+                                "options": ["page": 1, "limit": 200]
+                            ])
+
+                            self.socket?.on("room-join") { datas, ack in
+                                if let rooms = datas[0] as? [String: Any] {
+                                    let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+                                    print(obj)
+
+                                    let vc = ChatViewController.getVC(.chatBoard)
+                                    vc.socket = self.socket
+                                    vc.manager = self.manager
+                                    vc.messages = existingMessage
+                                    vc.latestMessages = obj.messages.chat
+                                    vc.PuserMainArray = obj
+                                    vc.newChat = false
+                                    self.navigationController?.pushViewController(vc, animated: true)
+                                }
+                            }
+                        } else {
+                            // No existing chat, create a new chat
+                            self.socket?.emit("room-join", [
+                                "brandName": productcategoriesdetailsdata?.sellerDetail?.brandName ?? "",
+                                "customerId": AppDefault.currentUser?.id ?? "",
+                                "isSeller": false,
+                                "sellerId": sellerId,
+                                "storeId": productcategoriesdetailsdata?.sellerDetail?.id ?? ""
+                            ])
+
+                            self.socket?.on("room-join") { datas, ack in
+                                if let rooms = datas[0] as? [String: Any] {
+                                    let obj = PuserMainModel(jsonData: JSON(rawValue: rooms)!)
+                                    print(obj)
+
+                                    let vc = ChatViewController.getVC(.chatBoard)
+                                    vc.socket = self.socket
+                                    vc.manager = self.manager
+                                    vc.messages = nil
+                                    vc.latestMessages = nil
+                                    vc.PuserMainArray = obj
+                                    vc.newChat = true
+                                    self.navigationController?.pushViewController(vc, animated: true)
+                                }
+                            }
+                        }
+                    }
        
     }
     @IBAction func heartBtnTapped(_ sender: Any) {
@@ -305,7 +304,6 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         vc.brandName = productcategoriesdetailsdata?.sellerDetail?.brandName ?? ""
         vc.storeId = productcategoriesdetailsdata?.sellerDetail?.seller ?? ""
         vc.sellerID = productcategoriesdetailsdata?.sellerDetail?.seller
-        vc.productcategoriesdetailsdata = productcategoriesdetailsdata
         self.navigationController?.pushViewController(vc, animated: false)
     }
     @IBAction func sharebtn(_ sender: Any) {
@@ -991,10 +989,13 @@ extension NewProductPageViewController: FSPagerViewDataSource, FSPagerViewDelega
         if ((gallaryImages?.isEmpty) != nil){
             let data = gallaryImages?[index]
             cell.imageView?.pLoadImage(url: data ?? "")
-            cell.imageView?.contentMode = .scaleAspectFill
+            cell.imageView?.contentMode = .scaleAspectFit
+            cell.imageView?.translatesAutoresizingMaskIntoConstraints = false
         }else {
             cell.imageView?.pLoadImage(url:self.mainImage ?? "")
-            cell.imageView?.contentMode = .scaleAspectFill
+            cell.imageView?.contentMode = .scaleAspectFit
+            cell.imageView?.translatesAutoresizingMaskIntoConstraints = false
+
         }
  
         return cell

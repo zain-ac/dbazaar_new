@@ -211,8 +211,7 @@ struct AddToCartMarket: Codable {
 
 // MARK: - Wallet
 struct AddToCartWallet: Codable {
-    let balance: Int?
-}
+    let balance: Float?}
 
 // MARK: - PaymentTrace
 struct PaymentTrace: Codable {
