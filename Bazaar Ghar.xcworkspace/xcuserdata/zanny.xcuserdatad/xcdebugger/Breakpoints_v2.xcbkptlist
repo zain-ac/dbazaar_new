@@ -105,6 +105,21 @@
                   endingLineNumber = "503"
                   offsetFromSymbolStart = "8492">
                </Location>
+               <Location
+                  uuid = "979AA557-3483-4063-95D8-F560F6BC235E - e8f7a3a0d6ca2249"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Bazaar_Ghar.NewProductPageViewController.getCartProducts() -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "503"
+                  endingLineNumber = "503"
+                  offsetFromSymbolStart = "32">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

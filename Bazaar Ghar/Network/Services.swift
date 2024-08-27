@@ -34,7 +34,7 @@ enum Services {
     case getaddress
     case placeOrder(cartId:String)
     case myOrder(limit:Int,sortBy:String)
-    case typeSenseApi(val:String,txt:String,facet_by:String)
+//    case typeSenseApi(val:String,txt:String,facet_by:String)
     case getComments(scheduleId:String)
     case shopChinarandomproduct(origin:String)
 
@@ -93,8 +93,8 @@ extension Services: TargetType, AccessTokenAuthorizable {
             return AppConstants.API.baseURLVideoStreamingV1
         case .chinesebell:
             return AppConstants.API.baseURLChatNotification
-        case .typeSenseApi:
-             return AppConstants.API.typeSenseUrl
+//        case .typeSenseApi:
+//             return AppConstants.API.typeSenseUrl
       
         default:
             return AppConstants.API.baseURL
@@ -286,25 +286,25 @@ extension Services: TargetType, AccessTokenAuthorizable {
             }else {
                 return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"categorySlug": category], encoding: URLEncoding.default)
             }
-        case let .typeSenseApi(val,str,facet_by):
-              let parameters: [String: Any] = [
-                "searches": [
-                  [
-                    "query_by": "productName",
-                    "highlight_full_fields": "productName",
-        //            "collection": "db_live_products",
-                    "collection": "bg_stage_products",
-                    "q": str,
-        //            "facet_by": "lvl0,color,brandName,averageRating,price,size,style",
-                    "facet_by": facet_by,
-                  "filter_by": val,
-                    "max_facet_values": 250,
-                    "page": 1,
-                    "per_page": 20
-                  ]
-                ]
-              ]
-              return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+//        case let .typeSenseApi(val,str,facet_by):
+//              let parameters: [String: Any] = [
+//                "searches": [
+//                  [
+//                    "query_by": "productName",
+//                    "highlight_full_fields": "productName",
+//        //            "collection": "db_live_products",
+//                    "collection": "bg_stage_products",
+//                    "q": str,
+//        //            "facet_by": "lvl0,color,brandName,averageRating,price,size,style",
+//                    "facet_by": facet_by,
+//                  "filter_by": val,
+//                    "max_facet_values": 250,
+//                    "page": 1,
+//                    "per_page": 20
+//                  ]
+//                ]
+//              ]
+//              return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case let .cardpaymentApi(token,amount,currency,cardid):
                let parameters: [String: Any] = [
                  "source": [

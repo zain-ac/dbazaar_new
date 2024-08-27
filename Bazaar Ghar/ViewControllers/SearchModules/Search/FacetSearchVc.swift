@@ -35,7 +35,8 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
     let client: Client
     
     required init?(coder aDecoder: NSCoder) {
-        let config = Configuration(nodes: [Node(host: "search.bazaarghar.com", port: "443", nodeProtocol: "https")], apiKey: "LCbCEFm08YKiZ47ldPc4OuVcvnhOF9tV")
+//        let config = Configuration(nodes: [Node(ho/*st: "search.bazaarghar.com", port: "443", nodeProtocol: "https")], apiKey: "LCbCEFm08YKiZ47ldPc4OuVcvnhOF9tV")old */
+        let config = Configuration(nodes: [Node(host: "search.mysouq.com", port: "443", nodeProtocol: "https")], apiKey: "FgiVm2w2yULWlcvRJW66RH0cKR9cQGgb")
         self.client = Client(config: config)
         self.hits = []
         super.init(coder: aDecoder)

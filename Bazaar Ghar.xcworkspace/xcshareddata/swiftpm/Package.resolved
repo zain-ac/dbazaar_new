@@ -1,5 +1,4 @@
 {
-  "originHash" : "b96b55522d66efa3a8e157f64c45d62241b56fdd418b935baf33e1fcfb7467c7",
   "pins" : [
     {
       "identity" : "typesense-swift",
@@ -11,5 +10,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
