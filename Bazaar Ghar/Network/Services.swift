@@ -25,7 +25,7 @@ enum Services {
     case getVideoToken(room:String,token:String)
     case searchproduct(name:String,limit:Int,page:Int,value:String)
     case searchstore(market:String,name:String,limit:Int,page:Int,value:String,city:String)
-    case searchVideo(name:String,value:String,limit:Int,catId:[String])
+    case searchVideo(name:String,value:String,limit:Int,catId:[String],page:Int)
     case getcartItems
     case addItemtoCart(product:String,quantity:Int)
     case deletePackage(productId:String,_package:String)
@@ -354,11 +354,11 @@ extension Services: TargetType, AccessTokenAuthorizable {
             
         case let .searchstore(market,name,limit,page,value,city):
             return .requestParameters(parameters: ["market":market,"name": name,"limit": limit,"page": page,"value":value,"city": city], encoding: URLEncoding.default)
-        case let .searchVideo(name,value,limit,catId):
+        case let .searchVideo(name,value,limit,catId,page):
             if(value == ""){
-                return .requestParameters(parameters: ["name": name,"limit": limit,"page": 1,"categories":catId], encoding: URLEncoding.default)
+                return .requestParameters(parameters: ["name": name,"limit": limit,"page": page,"categories":catId], encoding: URLEncoding.default)
             }else{
-                return .requestParameters(parameters: ["name": name,"value":value,"limit": limit,"page": 1,"categories":catId], encoding: URLEncoding.default)
+                return .requestParameters(parameters: ["name": name,"value":value,"limit": limit,"page": page,"categories":catId], encoding: URLEncoding.default)
             }
         case let .getStreamingVideos(limit,page,categories,userId,city):
             if(categories == [] && userId == "" && city == ""){

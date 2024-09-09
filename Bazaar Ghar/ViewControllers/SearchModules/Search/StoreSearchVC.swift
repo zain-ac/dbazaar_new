@@ -36,6 +36,8 @@ class StoreSearchVC: UIViewController {
     var marketID: String?
     var isMarket: Bool?
     var isNavBar : Bool?
+    var isLoadingMore = false
+    var count = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,12 +53,6 @@ class StoreSearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         notFound.isHidden = true
         crossbtn.isHidden = true
-
-        if isMarket == true {
-            searchstore(market: marketID ?? "",name: "brandName" , limit: 36, page: 1, value: searchText ?? "",city: "")
-        }else {
-            searchstore(market: "",name: "brandName" , limit: 36, page: 1, value: searchText ?? "",city: "")
-        }
         getcities()
         hiddenview.isHidden = true
         
@@ -92,16 +88,19 @@ class StoreSearchVC: UIViewController {
         APIServices.searchstore(market:market,name:name,limit:limit,page:page,value:value,city: city){[weak self] data in
             switch data{
             case .success(let res):
+                if page < 2 {
+                    self?.searchstoredata.removeAll()
+                }
                 if res.results?.count ?? 0 > 0 {
                     self?.notFound.isHidden = true
+                    self?.searchstoredata += res.results ?? []
+                    self?.storeCollectionView.reloadData()
+                    self?.isLoadingMore = false
                 }else {
-                    self?.notFound.isHidden = false
+                    if page < 2 {
+                        self?.notFound.isHidden = false
+                    }
                 }
-                
-                self?.searchstoredata = res.results ?? []
-                
-             //
-                self?.storeCollectionView.reloadData()
             case .failure(let error):
                 print(error)
             }
@@ -163,7 +162,7 @@ extension StoreSearchVC: UITableViewDelegate,UITableViewDataSource
     
 }
 
-extension StoreSearchVC: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+extension StoreSearchVC: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return searchstoredata.count
     }
@@ -185,24 +184,6 @@ extension StoreSearchVC: UICollectionViewDelegate,UICollectionViewDataSource,UIC
         vc.storeId = data.seller ?? ""
         vc.sellerID = data.seller
         self.navigationController?.pushViewController(vc, animated: false)
-        
-        
-//        let vc = Category_ProductsVC.getVC(.productStoryBoard)
-//        vc.prductid = data.seller ?? ""
-//        vc.video_section = true
-//        vc.storeFlag = true
-//        vc.storeId = data.seller ?? ""
-//
-//        if LanguageManager.language == "ar"{
-//            vc.catNameTitle = data.lang?.ar?.brandName ?? ""
-//        }else{
-//            vc.catNameTitle = data.brandName ?? ""
-//        }
-//
-//
-//
-////        vc.catNameTitle = data.brandName ?? ""
-//        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -214,5 +195,23 @@ extension StoreSearchVC: UICollectionViewDelegate,UICollectionViewDataSource,UIC
         UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+          let offsetY = scrollView.contentOffset.y
+          let contentHeight = scrollView.contentSize.height
+          let height = scrollView.frame.size.height
+
+          if offsetY > contentHeight - height {
+              if !isLoadingMore {
+                  print("Load more")
+                  isLoadingMore = true
+                  count += 1
+                  if isMarket == true {
+                      searchstore(market: marketID ?? "",name: "brandName" , limit: 36, page: count, value: searchText ?? "",city: "")
+                  }else {
+                      searchstore(market: "",name: "brandName" , limit: 36, page: count, value: searchText ?? "",city: "")
+                  }
+              }
+          }
+      }
     
 }

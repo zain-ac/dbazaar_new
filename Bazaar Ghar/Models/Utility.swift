@@ -533,6 +533,14 @@ class Utility {
             button.layer.mask = mask
         }
     
+    func makeOddNumberEven(_ number: Int) -> Int {
+        if number % 2 != 0 {
+            return number + 1
+        } else {
+            return number
+        }
+    }
+    
 }
 
 extension UIColor {

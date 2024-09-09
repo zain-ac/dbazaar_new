@@ -164,7 +164,7 @@ struct LiveStreamingResults: Codable {
     let resultID: String?
     let mbrURL: String?
     let hls: String?
-
+    let brandLogo: String?
     enum CodingKeys: String, CodingKey {
         case id = "_=]id"
         case productsID = "productsId"
@@ -173,7 +173,7 @@ struct LiveStreamingResults: Codable {
         case userID = "userId"
         case title, slotStatus, slug, brandName
         case brandID = "brandId"
-        case thumbnail, description, liveViews, totalViews, like,hls
+        case thumbnail, description, liveViews, totalViews, like,hls,brandLogo
         case resultID = "id"
         case mbrURL = "mbrUrl"
     }

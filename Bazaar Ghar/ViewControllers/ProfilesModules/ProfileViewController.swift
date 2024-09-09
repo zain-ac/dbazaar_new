@@ -192,7 +192,7 @@ class ProfileViewController: UIViewController {
              case .success(let res):
               //
                  self?.orderResponse = res.results ?? []
-                 self?.orders.text = "\(res.results?.count ?? 0)"
+                 self?.orders.text = "\(res.totalResults ?? 0)"
 //                 self?.walletBalance.text = String(Double(self?.orderResponse?[0].seller?.wallet?.balance ?? 0).rounded())
               
              
@@ -244,9 +244,10 @@ class ProfileViewController: UIViewController {
         }, btn2Title: "Logout") { token, id in
             AppDefault.islogin = false
             AppDefault.accessToken = ""
+            AppDefault.wishlistproduct?.removeAll()
           
-//            DashboardManager.shared.goToDashboard(ischecklogin: false)
-            self.tabBarController?.selectedIndex = 0
+            appDelegate.GotoDashBoard(ischecklogin: false)
+//            self.tabBarController?.selectedIndex = 0
             UIApplication.pTopViewController().tabBarController?.view.makeToast("Successfully Logout")
         }
 //        appDelegate.showCustomerAlertControllerHeight(title: "Are you sure you want to logout?", heading: "Logout", btn1Title: "Cancel", btn1Callback: {

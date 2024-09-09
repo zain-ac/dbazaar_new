@@ -31,6 +31,7 @@ class MyOrdersDetailsViewController: UIViewController {
     @IBOutlet weak var total: UILabel!
     @IBOutlet weak var subtotal: UILabel!
     
+    @IBOutlet weak var scrollHeight: NSLayoutConstraint!
     @IBOutlet weak var backBtn: UIButton!
     var orderID = String()
     var price = Double()
@@ -100,7 +101,7 @@ extension MyOrdersDetailsViewController : UITableViewDataSource,UITableViewDeleg
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
        let count = 120 * (orderResponse?.count ?? 0)
-        return CGFloat(count)
+        return 120
        
     }
   

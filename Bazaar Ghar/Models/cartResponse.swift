@@ -9,6 +9,7 @@ struct CartItemsResponse: Codable {
     let paymentMethodTotal, payable, retailTotal, discount: Double?
     let user: DataUser?
     let id: String?
+    let OrderDetailId:String?
 }
 
 

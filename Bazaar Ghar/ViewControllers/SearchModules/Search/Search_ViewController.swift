@@ -49,12 +49,21 @@ class Search_ViewController: UIViewController {
   var index = 0
   override func viewDidLoad() {
     super.viewDidLoad()
+      if searchText?.count ?? 0 > 0 {
+        crossBtn.isHidden = false
+       }else {
+         crossBtn.isHidden = true
+       }
+
     search_txtfield.text = searchText
     self.setupSegments(self.segmentedControl)
     search_txtfield.addTarget(self, action: #selector(enterPressed), for: .editingDidEndOnExit)
     search_txtfield.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     crossBtn.addTarget(self, action: #selector(crossBtnTapped(_:)), for: .touchUpInside)
     applyCombineSearch()
+      search_txtfield.returnKeyType = .search
+      search_txtfield.translatesAutoresizingMaskIntoConstraints = false
+      search_txtfield.delegate = self
   }
   override func viewWillAppear(_ animated: Bool) {
     if((self.tabBarController?.tabBar.isHidden) != nil){
@@ -129,7 +138,7 @@ class Search_ViewController: UIViewController {
     switch (sender as AnyObject).tag{
     case 0:
 //      Prood.searchText = search_txtfield.text
-      ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "",page: 1, faceby: "")
+      ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "*",page: 1, faceby: "")
       showController(0, ProductSearch_VCs)
     case 1:
       StoreSearchVCs.searchText = search_txtfield.text
@@ -216,4 +225,15 @@ class Search_ViewController: UIViewController {
       currentVC = ProductSearch_VCs
     }
   }
+}
+
+extension Search_ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Dismiss the keyboard
+        textField.resignFirstResponder()
+        
+        self.searchBtnTapped((self.search_btn))
+        
+        return true
+    }
 }

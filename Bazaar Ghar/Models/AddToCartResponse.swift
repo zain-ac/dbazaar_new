@@ -35,7 +35,7 @@ struct AddToCartPackage: Codable {
     let inCart: Bool?
     let seller: AddToCartUser?
     let cart, createdAt, updatedAt: String?
-    let subTotal, retailTotal: Int?
+    let subTotal, retailTotal: Double?
     let packageWeight: Double?
     let discount, v: Int?
     let id: String?
@@ -59,9 +59,9 @@ struct PackageItem: Codable {
     let discount: Int?
     let package: String?
     let product: AddToCartProduct?
-    let quantity, total: Int?
+    let quantity, total: Double?
     let weight: Double?
-    let retailTotal: Int?
+    let retailTotal: Double?
     let createdAt, updatedAt: String?
     let v: Int?
     let id: String?

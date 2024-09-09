@@ -40,8 +40,10 @@ class ReportViewController: UIViewController  {
         APIServices.report(comment: comment, videoId: videoId){[weak self] data in
             switch data{
             case .success(let res):
-             //
-                self?.dismiss(animated: true)
+                UIApplication.pTopViewController().view.makeToast("Report successfully submit")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self?.dismiss(animated: true)
+                }
             case .failure(let error):
                 print(error)
                 self?.view.makeToast(error)

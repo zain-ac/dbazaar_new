@@ -121,6 +121,9 @@ var count = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         SetupView()
+        searchFeild.returnKeyType = .search
+        searchFeild.translatesAutoresizingMaskIntoConstraints = false
+        searchFeild.delegate = self
     }
     func SetupView(){
         if AppDefault.islogin{
@@ -153,20 +156,7 @@ var count = 0
         pagerView.automaticSlidingInterval = 2.0
         shopbeyound_tblview.dataSource = self
         shopbeyound_tblview.delegate = self
-        
-
-                
-        let attributedText =  Utility().attributedStringWithColoredLastWord("Shop By Categories", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
-                shopByCatLbl.attributedText = attributedText
-        
-        let attributedText1 =  Utility().attributedStringWithColoredLastWord("Latest Mobiles", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
-        
-        recommendationLbl.attributedText = attributedText1
-        
-        
         shopchinaflag = ["flag_china","flag_pakistan","flag_saudi"]
-
-
         shopchinaimg = ["Image 120","Image 121","saudi_product_image"]
         nameshopchina = ["Shop China","Shop Pakistan","Shop Saudi"]
         self.becomeFirstResponder()
@@ -211,7 +201,7 @@ var count = 0
             self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count))
             
             let hh = (300 * 3) + 1440
-            let ll = ((self.getrandomproductapiModel.count) / 2) * 280
+            let ll = ((self.getrandomproductapiModel.count) / 2) * 288
             let final = hh + ll
 
             self.scrollHeight.constant = CGFloat(final) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)
@@ -230,7 +220,7 @@ var count = 0
             self.ProductCategoriesResponsedata = AppDefault.productcategoriesApi ?? []
 
             self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count ))
-            let hh = (300 * 3) + 1440 + ((getrandomproductapiModel.count) / 2) * 280
+            let hh = (300 * 3) + 1440 + ((getrandomproductapiModel.count) / 2) * 288
 
             self.scrollHeight.constant = CGFloat(hh) + (self.hotDealViewHeight.constant) + (self.tableViewHeight.constant)
 
@@ -399,10 +389,9 @@ var count = 0
         livelbl.text = "live".pLocalized(lang: LanguageManager.language)
         hotdealslbl.text = "hotdeals".pLocalized(lang: LanguageManager.language)
         viewalllbl.setTitle("viewall".pLocalized(lang: LanguageManager.language), for: .normal)
-        recommendationLbl.text = "latestmobiles".pLocalized(lang: LanguageManager.language)
- 
-
-        shopByCatLbl.text = "shopbycategories".pLocalized(lang: LanguageManager.language)
+        recommendationLbl.attributedText = Utility().attributedStringWithColoredLastWord("latestmobiles".pLocalized(lang: LanguageManager.language), lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
+        shopByCatLbl.attributedText = Utility().attributedStringWithColoredLastWord("shopbycategories".pLocalized(lang: LanguageManager.language), lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
+        
 //        shoplabel.text = "shopbeyoundboundaries".pLocalized(lang: LanguageManager.language)
 //        trendingproductlbl.text = "Trendingproducts".pLocalized(lang: LanguageManager.language)
         topcategorieslbl.text = "topcategories".pLocalized(lang: LanguageManager.language)
@@ -571,7 +560,7 @@ var count = 0
                     self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
                     
                     let hh = (300 * 3) + 1440
-                    let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
+                    let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 288
                     let final = hh + ll
 
                     self?.scrollHeight.constant = CGFloat(final) + (self?.hotDealViewHeight.constant ?? 0) + (self?.tableViewHeight.constant ?? 0)
@@ -619,7 +608,7 @@ var count = 0
                 self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
                 
                 let hh = (300 * 3) + 1440
-                let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 280
+                let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 288
                 let final = hh + ll
 
                 self?.scrollHeight.constant = CGFloat(final) + (self?.hotDealViewHeight.constant ?? 0) + (self?.tableViewHeight.constant ?? 0)
@@ -693,8 +682,9 @@ var count = 0
     }
 
     @IBAction func shopByCatArrowBtnTapped(_ sender: Any) {
-        let vc = CategoriesVC.getVC(.main)
-        self.navigationController?.pushViewController(vc, animated: false)
+//        let vc = CategoriesVC.getVC(.main)
+        tabBarController?.selectedIndex = 1
+//        self.navigationController?.pushViewController(vc, animated: false)
     }
     @IBAction func latestMobileArrowBtnTapped(_ sender: Any) {
         let vc = Category_ProductsVC.getVC(.productStoryBoard)
@@ -1400,5 +1390,24 @@ class CenterTransitioningDelegate: NSObject, UIViewControllerTransitioningDelega
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return CenterPresentationController(presentedViewController: presented, presenting: presenting)
+    }
+}
+
+extension HomeController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Dismiss the keyboard
+        textField.resignFirstResponder()
+        
+        let vc = Search_ViewController.getVC(.searchStoryBoard)
+        if(textField.text?.count == 0){
+            self.navigationController?.pushViewController(vc, animated: false)
+           
+        }else{
+        
+            vc.searchText = textField.text
+            self.navigationController?.pushViewController(vc, animated: false)
+        }
+        
+        return true
     }
 }

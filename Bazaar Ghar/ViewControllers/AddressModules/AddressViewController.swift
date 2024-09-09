@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import FirebaseAnalytics
 class AddressViewController: UIViewController {
 
     @IBOutlet weak var addressTblv: UITableView!
@@ -98,6 +98,11 @@ class AddressViewController: UIViewController {
                //
                 AppDefault.currentUser?.defaultAddress = self?.defaultAdress 
                 if(res == "ok"){
+                    Analytics.logEvent("add-shipment-info", parameters: [
+                                "action": "add-shipment-info",
+                                "category": "Ecommerce",
+                                "label": "Ecommerce",
+                              ])
                     self?.view.makeToast("Set Default Address Successfully")
                 }else{
 //                    self?.view.makeToast(res)

@@ -101,7 +101,7 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification2(notification:)), name: Notification.Name("googleauth"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.ishidden(notification:)), name: Notification.Name("ishideens"), object: nil)
     }
-    
+        
   
 
     override func viewDidLayoutSubviews() {
@@ -173,9 +173,6 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
         tabBar.items?[3].title = "profile".pLocalized(lang: LanguageManager.language)
         tabBar.items?[4].title = "Menu".pLocalized(lang: LanguageManager.language)
         tabBar.items?[4].isEnabled = false
-
-             // Disable a specific tab bar item
-       
       
         UIView.appearance().semanticContentAttribute = LanguageManager.language == "ar" ? .forceRightToLeft : .forceLeftToRight
         UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
@@ -235,92 +232,123 @@ class RoundTabbarVc: UITabBarController,UITabBarControllerDelegate {
 
 
 class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircularFloatingActionMenuDelegate {
-    func floatingActionMenu(menu: WCCircularFloatingActionMenu, buttonForItem item: Int) -> UIButton {
-        return sampleButtons[item]
-    }
-    
-    func numberOfItemsForFloatingActionMenu(menu: WCCircularFloatingActionMenu) -> Int {
-        return sampleButtons.count
-    }
-    
-    func floatingActionMenu(menu: WCCircularFloatingActionMenu, didSelectItem item: Int) {
-        print("Selected item index \(item)")
-        let buttonImages = ["china", "saudi", "pakistan-image"]
-        let data = buttonImages[item]
+    var sampleButtons = [UIButton]()
+      var buttonImages = ["china", "saudi", "pakistan-image"]
 
+      var middleButton = WCCircularFloatingActionMenu()
+      let menuButton = UIButton(type: .system)
+      var selectedIndex = Int()
 
-        let image = UIImage(named: data)?.withRenderingMode(.alwaysOriginal)
-        middleButton.setImage(image, for: .normal)
-        if item == 0 {
-            let vc = ShopChina_VC.getVC(.main)
-            vc.shop = "Shop China"
-            vc.color = "#FFCDC9"
-            vc.shopImg = "shop_china"
-            vc.shoptxtColor = "#DC2A1B"
-            vc.catBGColor = "#FFE5E2"
-            UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
-        }else if item == 1 {
-            let vc = ShopChina_VC.getVC(.main)
-            vc.shop = "Shop Saudi"
-            vc.color = "#DEFFF1"
-            vc.shopImg = "shop_saudi"
-            vc.shoptxtColor = "#028E53"
-            vc.catBGColor = "#EDFFF8"
-            UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
-        } else {
-            let vc = ShopChina_VC.getVC(.main)
-            vc.shop = "Shop Pakistan"
-            vc.color = "#F7FFF2"
-            vc.shopImg = "shop_pak"
-            vc.catBGColor = "#F3FDE7"
-            vc.shoptxtColor = "#028E53"
-            UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
-        }
-        
-    }
-    
-    
-    let sampleButtons:[UIButton] = {
-          var sampleButtons = [UIButton]()
-        let buttonImages = ["china", "saudi", "pakistan-image"]
+      override init(frame: CGRect) {
+          super.init(frame: frame)
+          setupMiddleButton()
+          setupMenuButton()
+          setupSampleButtons()
+          NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationGlobe(notification:)), name: Notification.Name("globe"), object: nil)
+      }
 
-          let sampleSize:CGFloat = 50
+      required init?(coder: NSCoder) {
+          super.init(coder: coder)
+          setupMiddleButton()
+          setupMenuButton()
+          setupSampleButtons()
+          NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationGlobe(notification:)), name: Notification.Name("globe"), object: nil)
+      }
+
+      private func setupSampleButtons() {
+          let sampleSize: CGFloat = 50
           let sampleCount = 3
+
           for i in 0..<sampleCount {
-              let frame = CGRectMake(0, 0, sampleSize, sampleSize)
+              let frame = CGRect(x: 0, y: 0, width: sampleSize, height: sampleSize)
               let button = UIButton(frame: frame)
               if i < buttonImages.count {
-                             let image = UIImage(named: buttonImages[i])
-                             button.setImage(image, for: .normal)
-                         }
-              button.cornerRadius = 25
-//              button.setTitle("FloatButton", for: .normal)
+                  let image = UIImage(named: buttonImages[i])
+                  button.setImage(image, for: .normal)
+              }
+              button.layer.cornerRadius = 25
               button.backgroundColor = UIColor.white
-              
-//              button.setImage(UIImage(named: "pakistan-image"), for: .normal)
               sampleButtons.append(button)
           }
-          return sampleButtons
-      }()
-     var middleButton = WCCircularFloatingActionMenu()
-    let menuButton = UIButton(type: .system)
-    var selectedIndex = Int()
+      }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupMiddleButton()
-        setupMenuButton()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationGlobe(notification:)), name: Notification.Name("globe"), object: nil)
-    }
+      // DataSource methods
+      func floatingActionMenu(menu: WCCircularFloatingActionMenu, buttonForItem item: Int) -> UIButton {
+          return sampleButtons[item]
+      }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupMiddleButton()
-        setupMenuButton()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationGlobe(notification:)), name: Notification.Name("globe"), object: nil)
-        
-        
-    }
+      func numberOfItemsForFloatingActionMenu(menu: WCCircularFloatingActionMenu) -> Int {
+          return sampleButtons.count
+      }
+
+      // Delegate method to handle item selection
+      func floatingActionMenu(menu: WCCircularFloatingActionMenu, didSelectItem item: Int) {
+          print("Selected item index \(item)")
+          // Update button images
+          if buttonImages[item] == "world" {
+              DispatchQueue.main.async {
+                  appDelegate.GotoDashBoard(ischecklogin: false)
+              }
+          }else {
+              if item == 0 {
+                  buttonImages = ["world", "saudi", "pakistan-image"]
+              }else if item == 1 {
+                  buttonImages = ["china", "world", "pakistan-image"]
+              }else {
+                  buttonImages = ["china", "saudi", "world"]
+              }
+              
+              // Manually update button images
+              updateMenuButtons()
+
+              // Push view controllers based on item
+              pushViewControllerForItem(item)
+          }
+      }
+
+      private func updateMenuButtons() {
+          for (index, button) in sampleButtons.enumerated() {
+              if index < buttonImages.count {
+                  let image = UIImage(named: buttonImages[index])
+                  button.setImage(image, for: .normal)
+              }
+          }
+      }
+
+      private func pushViewControllerForItem(_ item: Int) {
+          if item == 0 {
+             
+                  let vc = ShopChina_VC.getVC(.main)
+                  vc.shop = "Shop China"
+                  vc.color = "#FFCDC9"
+                  vc.shopImg = "shop_china"
+                  vc.shoptxtColor = "#DC2A1B"
+                  vc.catBGColor = "#FFE5E2"
+                  UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
+              
+          } else if item == 1 {
+              
+                  let vc = ShopChina_VC.getVC(.main)
+                  vc.shop = "Shop Saudi"
+                  vc.color = "#DEFFF1"
+                  vc.shopImg = "shop_saudi"
+                  vc.shoptxtColor = "#028E53"
+                  vc.catBGColor = "#EDFFF8"
+                  UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
+              
+
+          } else {
+              
+                  let vc = ShopChina_VC.getVC(.main)
+                  vc.shop = "Shop Pakistan"
+                  vc.color = "#F7FFF2"
+                  vc.shopImg = "shop_pak"
+                  vc.catBGColor = "#F3FDE7"
+                  vc.shoptxtColor = "#028E53"
+                  UIApplication.pTopViewController().navigationController?.pushViewController(vc, animated: false)
+
+          }
+      }
     private func setupMenuButton() {
             menuButton.setTitle("", for: .normal)
             menuButton.setTitleColor(.clear, for: .normal)

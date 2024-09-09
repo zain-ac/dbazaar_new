@@ -88,6 +88,7 @@ class SingleVideoCell: UITableViewCell {
             self.storename.text = LiveStreamingResultsdataArray?.brandName
             buybtn.setTitle("Buy", for: .normal)
             hiddenview.isHidden = true
+            likelbl.text = "\(LiveStreamingResultsdataArray?.like ?? 0)"
         }
     }
     var videoPlayerItem: AVPlayerItem? = nil {
@@ -97,7 +98,8 @@ class SingleVideoCell: UITableViewCell {
 //                                  videoPlayerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = true
 //                                  videoPlayerItem.preferredPeakBitRate = 500
 //                  s for smoother playback
-                  
+                  self.videoPlayerItem?.preferredForwardBufferDuration = 1
+                  self.videoPlayerItem?.preferredPeakBitRate = 80000
                   avPlayer?.replaceCurrentItem(with: videoPlayerItem)
               }
           }
@@ -119,7 +121,15 @@ class SingleVideoCell: UITableViewCell {
         }
     }
     var likeId = ""
-    var isFollow : Bool?
+    var isFollow : Bool? {
+        didSet {
+            if isFollow == true {
+                self.followbtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
+            }else {
+                self.followbtn.setTitle("follow".pLocalized(lang: LanguageManager.language), for: .normal)
+            }
+        }
+    }
     var storeId:String?{
         didSet {
             followcheck(storeId: storeId ?? "")
@@ -220,15 +230,14 @@ class SingleVideoCell: UITableViewCell {
             switch data{
             case .success(let res):
                 if(res == "OK"){
-                    self?.followbtn.setTitle("followed".pLocalized(lang: LanguageManager.language), for: .normal)
                     self?.isFollow = true
                 }else{
-                    self?.followbtn.setTitle("follow".pLocalized(lang: LanguageManager.language), for: .normal)
                     self?.isFollow = false
                 }
             case .failure(let error):
                 print(error)
-                
+                self?.isFollow = false
+
                 if(error == "Please authenticate" && AppDefault.islogin){
                     DispatchQueue.main.async {
                         appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)

@@ -96,7 +96,7 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
            guard let text = searchController.searchBar.text else {
                return
            }
-        performSearch(with: text,page:1, faceby: "")
+        performSearch(with: searchController.searchBar.text ?? "*",page:1, faceby: "")
        }
     func wishList(isbackground:Bool){
         APIServices.wishlist(isbackground: isbackground){[weak self] data in
@@ -168,9 +168,12 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
                    
                     self.hits = []
                     self.hits =  searchResult?.hits ?? []
+                }else {
+//                    self.hits = []
+                    self.hits +=  searchResult?.hits ?? []
+
                 }
                
-                    self.hits +=  searchResult?.hits ?? []
            
           
                 
@@ -322,7 +325,7 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
            
             vc.modalPresentationStyle = .custom
             vc.transitioningDelegate = centerTransitioningDelegate
-        let newproduct = Product(featured: data?.featured, onSale: data?.onSale, isVariable: data?.isVariable, productName: data?.productName, slug: data?.slug, mainImage: data?.mainImage, regularPrice: data?.regularPrice, quantity: data?.quantity, price: data?.price, lang: nil, id: data?.id, salePrice: data?.salePrice, variants: nil, description: data?.description, _id: data?._id, selectedAttributes: [])
+        let newproduct = Product(featured: data?.featured, onSale: data?.onSale, isVariable: data?.isVariable, productName: data?.productName, slug: data?.slug, mainImage: data?.mainImage, regularPrice: data?.regularPrice, quantity: data?.quantity, price: data?.price, lang: nil, id: data?.id, salePrice: data?.salePrice, variants: nil, description: data?.description, _id: data?._id, selectedAttributes: [], brandLogo: "")
             vc.products = newproduct
             vc.nav = self.navigationController
             self.present(vc, animated: true, completion: nil)

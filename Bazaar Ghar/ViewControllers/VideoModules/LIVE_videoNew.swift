@@ -8,7 +8,7 @@
 import UIKit
 import AudioToolbox
 
-class LIVE_videoNew: UIViewController, UITextFieldDelegate {
+class LIVE_videoNew: UIViewController {
     @IBOutlet weak var searchFeild: UITextField!
     @IBOutlet weak var headerlbl: UILabel!
     @IBOutlet weak var nearByBtn: UIButton!
@@ -44,6 +44,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
          videocategorytableview.register(nib, forCellReuseIdentifier: "Live_videoCell1TableViewCell")
         let nib2 = UINib(nibName: "Live_videoCell1TableViewCel2", bundle: nil)
          videocategorytableview.register(nib2, forCellReuseIdentifier: "Live_videoCell1TableViewCel2")
+        
 //        let nib2 = UINib(nibName: "Live_videoCell2TableViewCell", bundle: nil)
 //               videocategorytableview.register(nib2, forCellReuseIdentifier: "Live_videoCell2TableViewCell")
         Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
@@ -54,15 +55,19 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.method(notification:)), name: Notification.Name("idpass"), object: nil)
         searchFeild.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        
+        searchFeild.returnKeyType = .search
+        searchFeild.translatesAutoresizingMaskIntoConstraints = false
+        searchFeild.delegate = self
 
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
            let currentText = textField.text ?? ""
         if currentText == "" {
-            searchVideo(name: "title", value:  "", limit: 100, catId: [])
+            searchVideo(name: "title", value:  "", limit: 100, catId: [], page: 1)
         }else {
-            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 100, catId: [])
+            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 100, catId: [], page: 1)
         }
         
        }
@@ -153,10 +158,10 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
                 
                 DispatchQueue.main.async {
                     if self.cat == "cat" {
-                        self.getStreamingVideos(limit:100,page:self.count,categories: [self.id ?? ""], city: "")
+                        self.getStreamingVideos(limit:30,page:self.count,categories: [self.id ?? ""], city: "")
 
                     }else {
-                        self.getStreamingVideos(limit:100,page:self.count,categories: [], city: "")
+                        self.getStreamingVideos(limit:30,page:self.count,categories: [], city: "")
                     }
                     self.isLoadingData = false
                 }
@@ -165,8 +170,8 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     
     
     
-    private func searchVideo(name:String,value:String,limit:Int,catId:[String]){
-        APIServices.searchVideo(name:name,value:value,limit:limit,catId: catId){[weak self] data in
+    private func searchVideo(name:String,value:String,limit:Int,catId:[String],page:Int){
+        APIServices.searchVideo(name:name,value:value,limit:limit,catId: catId, page: page){[weak self] data in
             switch data{
             case .success(let res):
 //                if res.results.count > 0 {
@@ -215,10 +220,10 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     
     @IBAction func seachTap(_ sender: Any) {
         if(searchFeild.text == ""){
-            searchVideo(name: "title", value:  "", limit: 100, catId: [])
+            searchVideo(name: "title", value:  "", limit: 30, catId: [], page: 1)
         }
         else{
-            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 100, catId: [])
+            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 30, catId: [], page: 1)
         }
     }
     
@@ -410,3 +415,17 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
     }
 }
 
+extension LIVE_videoNew: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Dismiss the keyboard
+        textField.resignFirstResponder()
+        
+        if searchFeild.text == "" {
+            searchVideo(name: "title", value:  "", limit: 100, catId: [], page: 1)
+        }else {
+            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 100, catId: [], page: 1)
+        }
+        
+        return true
+    }
+}

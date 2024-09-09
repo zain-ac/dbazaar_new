@@ -14,6 +14,7 @@ class inviteFriends_Vc: UIViewController {
     @IBOutlet weak var inviteShareRefferalMsgLbl: UILabel!
     @IBOutlet weak var copyBtn: UIButton!
     @IBOutlet weak var inviteFriendsBtn: UIButton!
+    @IBOutlet weak var refCodeLbl: UILabel!
 
 
     override func viewDidLoad() {
@@ -28,6 +29,7 @@ class inviteFriends_Vc: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        refCodeLbl.text = AppDefault.currentUser?.refCode
         self.LanguageRender()
     }
     
@@ -51,6 +53,16 @@ class inviteFriends_Vc: UIViewController {
         appDelegate.isbutton = false
     NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func inviteBtnTapped(_ sender: Any) {
+        UIPasteboard.general.string = "Hello there this is my Referral code:\(refCodeLbl.text ?? "")\n \nPlease use this referral code on checkout at MySouq, You will get Rs.200 discount and I will get a commission on it The link is given below\n \nhttps://d.bazaarghar.com/"
+        self.view.makeToast("Refferal code copied")
+    }
+    @IBAction func copyBtnTapped(_ sender: Any) {
+        UIPasteboard.general.string = "Hello there this is my Referral code:\(refCodeLbl.text ?? "")\n \nPlease use this referral code on checkout at MySouq, You will get Rs.200 discount and I will get a commission on it The link is given below\n \nhttps://d.bazaarghar.com/"
+        self.view.makeToast("Refferal code copied")
+
     }
 
 }

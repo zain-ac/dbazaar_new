@@ -59,6 +59,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var percentView: UIView!
     @IBOutlet weak var showMoreBtn: UIButton!
     @IBOutlet weak var pageControl: FSPageControl!
+    @IBOutlet weak var tamaraLbl: UILabel!
 
     var productCount = 1
     var incrementproductCount = 1
@@ -77,8 +78,8 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     var tabbar = false
     var iscome = Bool()
     var items: [Item] = [
-            Item(image: UIImage(named: "truck")!, title: "Receive by 29 Jun - 6 Jul",subtitle: "Get the order in 3 - 5 days"),
-            Item(image: UIImage(named: "d 1")!, title: "Cash On Delivery",subtitle: "Cash on Delivery available"),
+            Item(image: UIImage(named: "truck")!, title: "Standard Delivery",subtitle: "Get your order in 3-5 days"),
+            Item(image: UIImage(named: "d 1")!, title: "Credit/Debit Card",subtitle: "Pay via card"),
             Item(image: UIImage(named: "d 2")!, title: "Seven Days Return",subtitle: "Return your order in seven days"),
             Item(image: UIImage(named: "d 3")!, title: "Warranty Available",subtitle: "Get warranty on our products"),
             // Add more items as needed
@@ -96,7 +97,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
             productcategoriesdetails(slug: slugid ?? "", isselsected: false)
         }
     }
-    var gallaryImages: [String]?
+    var gallaryImages = [String]()
     var mainImage: String?
     var orderDetails: CartItemsResponse?
     var varientSlug : String?
@@ -607,8 +608,9 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
             switch data{
             case .success(let res):
              //
-
+                self?.gallaryImages.removeAll()
                 self?.productcategoriesdetailsdata = res
+              
                 if isselsected{
                     
                     
@@ -639,18 +641,20 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                 self?.scrollHeight.constant = 2200 +  (self?.varientViewHeight.constant ?? 0)
                 
                 self?.headerLbl.text = res.sellerDetail?.brandName
-                if res.salePrice == nil || res.salePrice == 0 {
+                if res.onSale == false {
                     self?.percentView.isHidden = true
                 }else {
                     self?.percentView.isHidden = false
                 }
                 self?.mainImage = res.mainImage
                 if(res.gallery?.count == 0){
-                    self!.gallaryImages?.append(res.mainImage ?? "")
+                    self?.gallaryImages.append(res.mainImage ?? "")
                     
                 }else{
-                    self?.gallaryImages  = res.gallery
-                    self?.pageControl.numberOfPages = res.gallery?.count ?? 0
+                    self?.gallaryImages.append(res.mainImage ?? "")
+
+                    self?.gallaryImages += res.gallery ?? []
+                    self?.pageControl.numberOfPages = self?.gallaryImages.count ?? 0
                     self?.pageControl.currentPage = 0
                     
                 }
@@ -684,6 +688,8 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                     self?.Salesprice.textColor = UIColor.red
                     self?.Regularprice.textColor = UIColor(hexString: primaryColor)
                     self?.productPriceLine.backgroundColor = UIColor.red
+                    var tamaraPrice = (res.price ?? 0) / 4
+                    self?.tamaraLbl.text = "Split in 4 payments of AED \(round(tamaraPrice * 100) / 100) No interest. No late fees."
 
                 }else {
 //                    self?.Regularprice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(res.regularPrice ?? 0)
@@ -691,7 +697,11 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
 //                    self?.OnSaleimage.isHidden = true
                     self?.productPriceLine.isHidden = true
                     self?.Regularprice.textColor = UIColor(hexString: primaryColor)
+                    var tamaraPrice = (res.regularPrice ?? 0) / 4
+                    self?.tamaraLbl.text = "Split in 4 payments of AED \(round(tamaraPrice * 100) / 100) No interest. No late fees."
+
                  }
+                
 
                 if res.quantity ?? 0 > 0 {
                     self?.cartBtnView.backgroundColor = .white
@@ -717,30 +727,20 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
 //                    self?.buyNowBtn.isEnabled = false
                 }
                 
-                if LanguageManager.language == "ar"{
-                    if res.lang?.ar?.description?.isStringOrHTML() == "HTML"{
-                        self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
-                    //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
-                              }else{
-                                  self?.DescriptionProduct.text = res.lang?.ar?.description
-                              }
-                }else{
-                    if res.description?.isStringOrHTML() == "HTML"{
-                        self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
-                    //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
-                              }else{
-                                  self?.DescriptionProduct.text = res.description
-                              }
-                    
-                }
+//                if LanguageManager.language == "ar"{
+//                    if res.lang?.ar?.description?.isStringOrHTML() == "HTML"{
+//                        self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
+//                    }else{
+//                        self?.DescriptionProduct.text = res.lang?.ar?.description
+//                    }
+//                }else{
+//                    if res.description?.isStringOrHTML() == "HTML"{
+//                        self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
+//                    }else{
+//                        self?.DescriptionProduct.text = res.description
+//                    }
+//                }
 
-                
-//                if res.description?.isStringOrHTML() == "HTML"{
-//                    self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
-//                //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
-//                          }else{
-//                              self?.DescriptionProduct.text = res.description
-//                          }
                 
                 self?.producttitle.sizeToFit()
                 let label = UILabel(frame: CGRect.zero)
@@ -749,33 +749,22 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                 if LanguageManager.language == "ar"{
                     label.text =  res.lang?.ar?.description ?? ""
                     if res.description?.isStringOrHTML() == "HTML"{
-//                        self?.DescriptionProduct.text =  res.lang?.ar?.description     //res.lang?.ar?.description?.htmlToString().withoutHtml
                         let htmlString = res.lang?.ar?.description
                         let plainText = Utility().htmlToString(text: htmlString ?? "")
                         self?.DescriptionProduct.text = Utility().htmlToString(text: plainText)
-                    //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
                               }else{
                                   self?.DescriptionProduct.text = res.lang?.ar?.description
                               }
                 }else{
                     label.text =  res.description ?? ""
                     if res.description?.isStringOrHTML() == "HTML"{
-                        self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
-                    //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
-                              }else{
-                                  self?.DescriptionProduct.text = res.description
-                              }
+                        self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml.trimmingCharacters(in: .whitespacesAndNewlines)
+                    }else{
+                        self?.DescriptionProduct.text = res.description
+                    }
                 }
                 
-                
-                
-//                label.text =  res.description ?? ""
-//                if res.description?.isStringOrHTML() == "HTML"{
-//                    self?.DescriptionProduct.text = res.description?.htmlToString().withoutHtml
-//                //            cell.subTitle.attributedText = product?.itemDescription?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Montserrat-Regular", size: cell.subTitle.font.pointSize), csscolor: "2C3D73", lineheight: 0, csstextalign: "left")
-//                          }else{
-//                              self?.DescriptionProduct.text = res.description
-//                          }
+    
                 guard let labelText = label.text else { return }
                 let height = self?.estimatedHeightOfLabel(text: labelText)
                
@@ -999,8 +988,8 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
 
 extension NewProductPageViewController: FSPagerViewDataSource, FSPagerViewDelegate {
     func numberOfItems(in pagerView: FSPagerView) -> Int {
-        if ((gallaryImages?.isEmpty) != nil){
-            return  gallaryImages?.count ?? 0
+        if (!gallaryImages.isEmpty){
+            return  gallaryImages.count
         }else {
             return 1
         }
@@ -1008,9 +997,9 @@ extension NewProductPageViewController: FSPagerViewDataSource, FSPagerViewDelega
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         
         let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
-        if ((gallaryImages?.isEmpty) != nil){
-            let data = gallaryImages?[index]
-            cell.imageView?.pLoadImage(url: data ?? "")
+        if (!gallaryImages.isEmpty) {
+            let data = gallaryImages[index]
+            cell.imageView?.pLoadImage(url: data)
             cell.imageView?.contentMode = .scaleAspectFit
             cell.imageView?.translatesAutoresizingMaskIntoConstraints = false
         }else {

@@ -1,14 +1,24 @@
 {
+  "originHash" : "b96b55522d66efa3a8e157f64c45d62241b56fdd418b935baf33e1fcfb7467c7",
   "pins" : [
+    {
+      "identity" : "anycodable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Flight-School/AnyCodable",
+      "state" : {
+        "revision" : "862808b2070cd908cb04f9aafe7de83d35f81b05",
+        "version" : "0.6.7"
+      }
+    },
     {
       "identity" : "typesense-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/typesense/typesense-swift",
       "state" : {
         "branch" : "master",
-        "revision" : "dad237f75e9db1235941ed8eaacb9be114a4bf23"
+        "revision" : "67cc20aaf283a3d2894db973aa93e7d47042a27e"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

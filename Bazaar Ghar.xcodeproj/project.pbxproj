@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2A15FD692C6FABE100E7F62B /* FacetSearchVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A15FD682C6FABE100E7F62B /* FacetSearchVc.swift */; };
 		2A53B1012C74B5880034E97B /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A53B1002C74B5880034E97B /* constants.swift */; };
-		2A551F202C78FD54003653C1 /* Typesense in Frameworks */ = {isa = PBXBuildFile; productRef = 2A551F1F2C78FD54003653C1 /* Typesense */; };
 		2A8C6AE82B57DDF6005A72A7 /* NotificationBellPoppu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C6AE72B57DDF6005A72A7 /* NotificationBellPoppu.swift */; };
 		2A9C81A82C37D522002DE75F /* AddtocartPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9C81A72C37D522002DE75F /* AddtocartPopup.swift */; };
 		2AA19DAE2C3ABD67001E0CCD /* New_StoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA19DAD2C3ABD66001E0CCD /* New_StoreVC.swift */; };
@@ -98,6 +97,7 @@
 		8B2955EF2A8F8965008D6BD8 /* Bazaar_GharUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2955EE2A8F8965008D6BD8 /* Bazaar_GharUITestsLaunchTests.swift */; };
 		8B2B6E512C5B82C100D8FBAF /* VideoCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B6E502C5B82C000D8FBAF /* VideoCommentViewController.swift */; };
 		8B2B6E532C5B899100D8FBAF /* VideoCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B6E522C5B899100D8FBAF /* VideoCommentTableViewCell.swift */; };
+		8B34345A2C8996DA005A7956 /* Typesense in Frameworks */ = {isa = PBXBuildFile; productRef = 8B3434592C8996DA005A7956 /* Typesense */; };
 		8B3AE3062C2AA1CF00064687 /* HomeLastProductCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B3AE3042C2AA1CE00064687 /* HomeLastProductCollectionViewCell.xib */; };
 		8B3AE3082C2AD4CC00064687 /* CartPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3AE3072C2AD4CC00064687 /* CartPopupViewController.swift */; };
 		8B50F0A02AFA09CF002A5CB6 /* Page_Vc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B50F09F2AFA09CF002A5CB6 /* Page_Vc.swift */; };
@@ -641,7 +641,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3187946402C7EBB24E1EE5B5 /* Pods_Bazaar_Ghar.framework in Frameworks */,
-				2A551F202C78FD54003653C1 /* Typesense in Frameworks */,
+				8B34345A2C8996DA005A7956 /* Typesense in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -965,7 +965,6 @@
 				8B9231CB2C1C92280086D60E /* LIVE_videoNew.swift */,
 				8B2B6E502C5B82C000D8FBAF /* VideoCommentViewController.swift */,
 				8BA9AA922ABB03350085D36E /* VideoPlayerViewController.swift */,
-				8BF432D62AA89EEE00CD13D0 /* VediosSearch_VC.swift */,
 			);
 			path = VideoModules;
 			sourceTree = "<group>";
@@ -1255,6 +1254,7 @@
 				8BF432D32AA8984F00CD13D0 /* Search_ViewController.swift */,
 				8BA719B32AA8A3D100641B29 /* StoreSearchVC.swift */,
 				8BF432D52AA89EED00CD13D0 /* ProductSearch_VC.swift */,
+				8BF432D62AA89EEE00CD13D0 /* VediosSearch_VC.swift */,
 				8BCEF9522C5A08DA00152BFB /* RealTimeSearchViewController.swift */,
 			);
 			path = Search;
@@ -1496,7 +1496,7 @@
 			);
 			name = "Bazaar Ghar";
 			packageProductDependencies = (
-				2A551F1F2C78FD54003653C1 /* Typesense */,
+				8B3434592C8996DA005A7956 /* Typesense */,
 			);
 			productName = "Bazaar Ghar";
 			productReference = 8B2955C82A8F8963008D6BD8 /* Bazaar Ghar.app */;
@@ -1582,7 +1582,7 @@
 			);
 			mainGroup = 8B2955BF2A8F8963008D6BD8;
 			packageReferences = (
-				2A551F1E2C78FD54003653C1 /* XCRemoteSwiftPackageReference "typesense-swift" */,
+				8B3434582C8996DA005A7956 /* XCRemoteSwiftPackageReference "typesense-swift" */,
 			);
 			productRefGroup = 8B2955C92A8F8963008D6BD8 /* Products */;
 			projectDirPath = "";
@@ -2651,7 +2651,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2A551F1E2C78FD54003653C1 /* XCRemoteSwiftPackageReference "typesense-swift" */ = {
+		8B3434582C8996DA005A7956 /* XCRemoteSwiftPackageReference "typesense-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/typesense/typesense-swift";
 			requirement = {
@@ -2662,9 +2662,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2A551F1F2C78FD54003653C1 /* Typesense */ = {
+		8B3434592C8996DA005A7956 /* Typesense */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2A551F1E2C78FD54003653C1 /* XCRemoteSwiftPackageReference "typesense-swift" */;
+			package = 8B3434582C8996DA005A7956 /* XCRemoteSwiftPackageReference "typesense-swift" */;
 			productName = Typesense;
 		};
 /* End XCSwiftPackageProductDependency section */

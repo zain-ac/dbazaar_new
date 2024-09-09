@@ -65,6 +65,7 @@ class wishlist_vc: UIViewController {
             case .success(let res):
              //
                 self?.wishListItems = res.products ?? []
+                self?.wishListItems.reverse()
                 self?.wishlistcollection.reloadData()
                 if(self?.wishListItems.count ?? 0 > 0){
                     self?.emptyview.isHidden = true

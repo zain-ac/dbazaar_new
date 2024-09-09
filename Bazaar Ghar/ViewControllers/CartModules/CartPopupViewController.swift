@@ -105,7 +105,7 @@ class CartPopupViewController: UIViewController {
     //
     //        })
     //        if(navigation){
-    //          self?.getCartProducts()
+    //          self?.getCartProducts() 
     //         }
             self?.view.makeToast("Item Added to cart")
           case .failure(let error):
@@ -147,7 +147,6 @@ class CartPopupViewController: UIViewController {
 //        if (products?.variants?.first?.id == nil) {
         if self.products?.id == nil {
             self.addToCartApi(product:self.products?._id ?? "",quantity:1,navigation: false)
-
         }else {
             self.addToCartApi(product:self.products?.id ?? "",quantity:1,navigation: false)
 
@@ -210,17 +209,27 @@ class CartPopupViewController: UIViewController {
         APIServices.wishlist(isbackground: false){[weak self] data in
           switch data{
           case .success(let res):
-          //
+          
             AppDefault.wishlistproduct = res.products
               if let wishlistProducts = AppDefault.wishlistproduct {
-                  if wishlistProducts.contains(where: { $0.id == self?.products?.id }) {
-                      self?.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                      self?.heartBtn.tintColor = .red
-                      } else {
-                          self?.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-                          self?.heartBtn.tintColor = .white
-                      }
-                    }
+                if self?.products?.id == nil {
+                    if wishlistProducts.contains(where: { $0.id == self?.products?._id }) {
+                        self?.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                        self?.heartBtn.tintColor = .red
+                        } else {
+                            self?.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                            self?.heartBtn.tintColor = .white
+                        }
+                  }else {
+                      if wishlistProducts.contains(where: { $0.id == self?.products?.id }) {
+                          self?.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                          self?.heartBtn.tintColor = .red
+                          } else {
+                              self?.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                              self?.heartBtn.tintColor = .white
+                          }
+                  }
+                }
 
           case .failure(let error):
             print(error)

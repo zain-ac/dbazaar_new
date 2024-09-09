@@ -89,8 +89,8 @@ class MenuVCList: UIViewController ,UITableViewDataSource , UITableViewDelegate 
     }()
     @IBAction func brandstap(_ sender: Any) {
         let vc = Search_ViewController.getVC(.searchStoryBoard)
-//<<<<<<< Updated upstream
-        
+        vc.index = 1
+
         self.navigationController?.pushViewController(vc, animated: false)
     }
 //    @IBAction func storetap(_ sender: Any) {

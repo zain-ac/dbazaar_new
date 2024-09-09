@@ -340,9 +340,9 @@ class AddAddressViewController: UIViewController {
         }else {
             zipCodeValidationImg.isHidden = true
         }
-        if zipCodeTF.text?.count ?? 0 <= 5{
+        if zipCodeTF.text?.count ?? 0 <= 4{
 //            zipCodeValidationImg.isHidden = false
-            view.makeToast("zip code/ postal code must be greater then five character")
+            view.makeToast("zip code/ postal code must be five character")
             return false
         }else {
             zipCodeValidationImg.isHidden = true

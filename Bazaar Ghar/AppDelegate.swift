@@ -15,6 +15,9 @@ import FirebaseMessaging
 import UserNotifications
 import AuthenticationServices
 import Firebase
+import FirebaseAnalytics
+import FBSDKCoreKit
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,6 +29,7 @@ var slugid = String()
     var videoid = String()
     var phonenowithout = String()
     var isbutton = Bool()
+    let settings = FBSDKCoreKit.Settings.shared
     
 var currencylabel = "SAR "
 var window: UIWindow?
@@ -41,6 +45,7 @@ var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         IQKeyboardManager.shared.shouldShowToolbarPlaceholder = false
+        
       FirebaseApp.configure()
       registerForPushNotifications()
         
@@ -71,12 +76,17 @@ var window: UIWindow?
                completionHandler: { _, _ in }
               )
               application.registerForRemoteNotifications()
-      
+        settings.isAdvertiserTrackingEnabled = true
         IQKeyboardManager.shared.enable = true
         
         return true
     }
-    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+         // Handle Facebook URL
+         let facebookHandled = ApplicationDelegate.shared.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+         // You can add custom URL handling here
+         return facebookHandled
+       }
      func refreshToken(refreshToken:String){
         APIServices.refreshToken(refreshToken:refreshToken){[weak self] data in
             switch data{

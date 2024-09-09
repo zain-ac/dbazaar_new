@@ -153,18 +153,15 @@ var count = 0
         KSAcat(name: "Smart Electronics",id: "65e82aa5067e0d3f4c5f774c",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714109268854smart-electronics.png"),
         KSAcat(name: "Night Lights",id: "65e82aa5067e0d3f4c5f7746",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110169088night-light.png"),
         KSAcat(name: "Home Decor",id: "65e82aa5067e0d3f4c5f76c8",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110548828home-decor.png")
-    
-
-        ] 
-        Pak = [
-               
-            KSAcat(name: "Jigsaw Puzzles",id:"623d86d0fc2213045876887f" ,img: "https://cdn.bazaarghar.com/1670845648582jigsaw-puzzles.png"),
-            KSAcat(name: "Boys T-Shirts",id:"60d1e12badf1df13d41b555a" ,img: "https://cdn.bazaarghar.com/1640696285456boys-t-shirts.png"),
-            KSAcat(name: "Bags",id:"6151a0a13d796e00329b5f4e" ,img:"https://cdn.bazaarghar.com/1640607310826ladies-handbags.png"),
-            KSAcat(name: "Unstitched",id:"6049fd8d05ec9502c9f8d1f4" ,img:"https://cdn.bazaarghar.com/1640677156894women-un-stitched.png"),
-    
-
         ]
+        
+        Pak = [
+            KSAcat(name: "Men Unstitched",id:"60532f0411747985fdce553a" ,img: "https://cdn.bazaarghar.com/1724830822838men-unstitched.png"),
+            KSAcat(name: "Women Unstitched",id:"6049fd8d05ec9502c9f8d1f4" ,img:"https://cdn.bazaarghar.com/1724830629937women-unstitched.png"),
+            KSAcat(name: "Boys T-Shirts ",id:"60d1e12badf1df13d41b555a" ,img:"https://cdn.bazaarghar.com/1724830959537boys-t-shirts.png"),
+            KSAcat(name: "Bags",id:"6151a0a13d796e00329b5f4e" ,img:"https://cdn.bazaarghar.com/1640607310826ladies-handbags.png"),
+            KSAcat(name: " Joggers & Sneakers",id:"6049d17c05ec9502c9f8cfb2" ,img:"https://cdn.bazaarghar.com/1724831211715joggers-sneakers.png"),
+         ]
         
 
         scrollView.delegate = self
@@ -219,6 +216,50 @@ var count = 0
         
 //        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotificationSubCatUpadate(notification:)), name: Notification.Name("subcatupdate"), object: nil)
 //        homeswitchbtn.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
+        
+        if shop == "Shop China" {
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Gamers Sale", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
+            recommendationLbl.attributedText = attributedText1
+            let imageDataDict:[String: String] = ["img": "china"]
+            NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+            CategoriesResponsedata.removeAll()
+            for i in China {
+                categoriesApi(isbackground: true, id: i.id ?? "")
+            }
+            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f76c2", cat2: "65e82aa5067e0d3f4c5f773c", cat3: "5fe1cbaac05d6b3eb844f6ed", cat4: "", cat5: "", origin: "china",isbackground: true)
+            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
+            getStreamingVideos(origin: "china")
+            getrandomproduct(origin: "china")
+
+        }else if shop == "Shop Saudi" {
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
+            recommendationLbl.attributedText = attributedText1
+            let imageDataDict:[String: String] = ["img": "saudi"]
+            NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+            CategoriesResponsedata.removeAll()
+            for i in KSA {
+                categoriesApi(isbackground: false, id: i.id ?? "")
+            }
+            self.productcategoriesApi(cat: "604f48f648fcad02d8aaceeb", cat2: "60c9dce26f0fe647a547713c", cat3: "61c0665ec59a3763f321635a", cat4: "", cat5: "", origin: "ksa",isbackground: false)
+            randomproduct(cat: "60d30fafadf1df13d41b56d5", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+            getStreamingVideos(origin: "ksa")
+            getrandomproduct(origin: "ksa")
+
+        }else {
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
+            recommendationLbl.attributedText = attributedText1
+            let imageDataDict:[String: String] = ["img": "pakistan-image"]
+            NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
+            CategoriesResponsedata.removeAll()
+            for i in Pak {
+                categoriesApi(isbackground: false, id: i.id ?? "")
+            }
+            self.productcategoriesApi(cat: "6038dd317e4d2a1f859d8255", cat2: "6051de7711747985fdce2faa", cat3: "6048c62a05ec9502c9f8cde3", cat4: "", cat5: "", origin: "pak",isbackground: false)
+
+            randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+            getStreamingVideos(origin: "pak")
+            getrandomproduct(origin: "pak")
+        }
         
     }
     
@@ -371,49 +412,7 @@ var count = 0
 
         catView.backgroundColor = UIColor(hex: catBGColor ?? "")
         shopLbl.textColor =  UIColor(hex: shoptxtColor ?? "")
-        if shop == "Shop China" {
-            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Gamers Sale", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
-            recommendationLbl.attributedText = attributedText1
-            let imageDataDict:[String: String] = ["img": "china"]
-            NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
-            CategoriesResponsedata.removeAll()
-            for i in China {
-                categoriesApi(isbackground: true, id: i.id ?? "")
-            }
-            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f76c2", cat2: "65e82aa5067e0d3f4c5f773c", cat3: "5fe1cbaac05d6b3eb844f6ed", cat4: "", cat5: "", origin: "china",isbackground: true)
-            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
-            getStreamingVideos(origin: "china")
-            getrandomproduct(origin: "china")
-
-        }else if shop == "Shop Saudi" {
-            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
-            recommendationLbl.attributedText = attributedText1
-            let imageDataDict:[String: String] = ["img": "saudi"]
-            NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
-            CategoriesResponsedata.removeAll()
-            for i in KSA {
-                categoriesApi(isbackground: false, id: i.id ?? "")
-            }
-            self.productcategoriesApi(cat: "604f48f648fcad02d8aaceeb", cat2: "60c9dce26f0fe647a547713c", cat3: "61c0665ec59a3763f321635a", cat4: "", cat5: "", origin: "ksa",isbackground: false)
-            randomproduct(cat: "60d30fafadf1df13d41b56d5", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
-            getStreamingVideos(origin: "ksa")
-            getrandomproduct(origin: "ksa")
-
-        }else {
-            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
-            recommendationLbl.attributedText = attributedText1
-            let imageDataDict:[String: String] = ["img": "pakistan-image"]
-            NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
-            CategoriesResponsedata.removeAll()
-            for i in Pak {
-                categoriesApi(isbackground: false, id: i.id ?? "")
-            }
-            self.productcategoriesApi(cat: "6038dd317e4d2a1f859d8255", cat2: "6051de7711747985fdce2faa", cat3: "6048c62a05ec9502c9f8cde3", cat4: "", cat5: "", origin: "pak",isbackground: false)
-
-            randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
-            getStreamingVideos(origin: "pak")
-            getrandomproduct(origin: "pak")
-        }
+        
    
         
         self.tabBarController?.tabBar.isHidden = false
@@ -609,10 +608,18 @@ var count = 0
     
     @IBAction func gamerSaleArrowBtnTapped(_ sender: Any) {
         let vc = Category_ProductsVC.getVC(.productStoryBoard)
+        if shop == "Shop China" {
             vc.prductid = "65e82aa5067e0d3f4c5f774e"
+            vc.catNameTitle = "Gamer Sale"
+        }else if shop == "Shop Saudi" {
+            vc.prductid = "60d30fafadf1df13d41b56d5"
+            vc.catNameTitle = "Best Saler"
+        }else {
+            vc.prductid = "6038dd317e4d2a1f859d8255"
+            vc.catNameTitle = "Best Saler"
+        }
            vc.video_section = false
            vc.storeFlag = false
-           vc.catNameTitle = "Gamer Sale"
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
@@ -792,9 +799,9 @@ var count = 0
                 if(res.count > 0){
                     self?.getrandomproductapiModel.append(contentsOf: res)
                 }
-               //
+               
 //                self?.tableViewHeight.constant = CGFloat(920 * (self?.ProductCategoriesResponsedata.count ?? 0))
-//                
+               
                 let hh = 1100
                 let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 285
                 let final = hh + ll
@@ -1150,7 +1157,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
     @objc func randomcartBtnTapped(_ sender: UIButton) {
         let data = getrandomproductapiModel[sender.tag]
         
-        if (data.variants?.first?.id == nil) {
+        if (data.attributes?.first?.name == nil) {
             let vc = CartPopupViewController.getVC(.popups)
            
             vc.modalPresentationStyle = .custom

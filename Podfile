@@ -52,7 +52,8 @@ pod 'Firebase/Messaging'
   pod 'SideMenu'
 pod 'lottie-ios'
 pod 'Frames', '4.3.6'
-
+pod 'FBSDKCoreKit'
+pod 'FirebaseAnalytics'
 
 
 

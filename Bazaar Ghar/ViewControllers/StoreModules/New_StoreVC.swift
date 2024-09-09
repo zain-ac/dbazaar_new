@@ -177,7 +177,7 @@ class New_StoreVC: UIViewController {
                     // Update flag after loading
                     self?.isLoadingNextPage = false
                     
-                    let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 290
+                    let ll = (Utility().makeOddNumberEven(self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 290
                     self?.scrollheight.constant = CGFloat( CGFloat(ll) + 900)
                     self?.categoryproduct_collectionview.reloadData()
                 }else {
@@ -475,7 +475,6 @@ class New_StoreVC: UIViewController {
         showShareSheet(id:"")
     }
     @IBAction func chatButtonTapped(_ sender: Any) {
-        print("tap")
                 if !AppDefault.islogin {
                         let vc = PopupLoginVc.getVC(.popups)
                         vc.modalPresentationStyle = .overFullScreen

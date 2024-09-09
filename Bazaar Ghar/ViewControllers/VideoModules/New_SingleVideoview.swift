@@ -165,9 +165,11 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         cell.storename.text = data.brandName
         
         cell.updateMuteButtonImage()
-        cell.storeimg.pLoadImage(url: data.thumbnail ?? "")
-        cell.storename.text = data.brandName
-        
+        if data.brandLogo == nil {
+            cell.storeimg.pLoadImage(url: data.thumbnail ?? "")
+        }else {
+            cell.storeimg.pLoadImage(url: data.brandLogo ?? "")
+        }
 //        cell.getvidoebyproductIdsdata = self.getvidoebyproductIdsdata
         cell.productIds = data.productsID ?? []
         cell.hiddenview.isHidden = true

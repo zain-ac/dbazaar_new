@@ -12,6 +12,7 @@ import GooglePlaces
 import AVFAudio
 import UIKit
 import SwiftyJSON
+import FirebaseAnalytics
 class APIServices{
     static let placeClient = GMSPlacesClient()
     
@@ -753,8 +754,8 @@ class APIServices{
             }
         }
     }
-    class func searchVideo(name:String,value:String,limit:Int,catId:[String],completion:@escaping(APIResult<LiveStreamingResponse>)->Void){
-        Provider.services.request(.searchVideo(name:name,value: value,limit: limit, catId: catId)) { result in
+    class func searchVideo(name:String,value:String,limit:Int,catId:[String],page:Int,completion:@escaping(APIResult<LiveStreamingResponse>)->Void){
+        Provider.services.request(.searchVideo(name:name,value: value,limit: limit, catId: catId,page: page)) { result in
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 do{
@@ -821,7 +822,7 @@ class APIServices{
         
     
     class func followcheck(storeId:String,completion:@escaping(APIResult<String>)->Void){
-        Provider.services.request(.followcheck(storeId: storeId)) { result in
+        Provider.backgroundServices.request(.followcheck(storeId: storeId)) { result in
             
             
             do{
@@ -848,7 +849,11 @@ class APIServices{
             do{
                 
                 let  searchVideo: AddToCartResponse =  try result.decoded(keypath: "data")
-                
+                Analytics.logEvent("add_to_cart", parameters: [
+                          "action": "add_to_cart",
+                          "category": "Ecommerce",
+                          "label": "Ecommerce",
+                        ])
                 completion(.success(searchVideo))
             }catch{
                 
@@ -949,7 +954,7 @@ class APIServices{
         }
     }
     class func followStore(storeId:String,web:Bool,completion:@escaping(APIResult<FollowedResponse>)->Void){
-        Provider.services.request(.followStore(storeId: storeId, web: web)) { result in
+        Provider.backgroundServices.request(.followStore(storeId: storeId, web: web)) { result in
             do{
                 
                 let  getaddress: FollowedResponse =  try result.decoded(keypath: "data")
@@ -964,7 +969,7 @@ class APIServices{
         }
     }
     class func unfollowstore(storeId:String,completion:@escaping(APIResult<String>)->Void){
-        Provider.services.request(.unfollowstore(storeId: storeId)) { result in
+        Provider.backgroundServices.request(.unfollowstore(storeId: storeId)) { result in
             do{
                 
                 let  getaddress: String =  try result.decoded(keypath: "message")
@@ -1115,7 +1120,11 @@ class APIServices{
                 do{
                     
                     let  wishList: WishlistResponse =  try result.decoded(keypath: "data")
-                    
+                    Analytics.logEvent("add_to_wishlist", parameters: [
+                                "action": "add_to_wishlist",
+                                "category": "Ecommerce",
+                                "label": "Ecommerce",
+                              ])
                     completion(.success(wishList))
                 }catch{
                     
@@ -1326,7 +1335,7 @@ class APIServices{
         }
     }
     class func getvidoebyproductIds(productIds:[String],completion:@escaping(APIResult<[Product]>)->Void) {
-        Provider.services.request(.getvidoebyproductIds(productIds: productIds)){ result in
+        Provider.backgroundServices.request(.getvidoebyproductIds(productIds: productIds)){ result in
             do{
                 
                 let getvidoebyproductIds: [Product] = try result.decoded(keypath: "data")

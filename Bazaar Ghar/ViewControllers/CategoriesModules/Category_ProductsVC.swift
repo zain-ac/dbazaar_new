@@ -36,7 +36,7 @@ class Category_ProductsVC: UIViewController {
 
     var prductid = String()
     var catNameTitle = String()
-     var sort = ""
+     var sort = "-createdAt"
     var sellerDescription = String()
     var storeId = String()
     
@@ -78,7 +78,11 @@ class Category_ProductsVC: UIViewController {
      
         NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
         
-        
+        let Default = {(action: UIAction) in
+            self.sort = "-createdAt"
+            self.getAllProductsByCategoriesData.removeAll()
+            self.update(count: 1)
+        }
         let ASC = {(action: UIAction) in
             self.sort = "price"
             self.getAllProductsByCategoriesData.removeAll()
@@ -89,12 +93,17 @@ class Category_ProductsVC: UIViewController {
             self.getAllProductsByCategoriesData.removeAll()
             self.update(count: 1)
         }
-        
+        if let downArrow = UIImage(systemName: "chevron.down") {
+            let scaledImage = downArrow.withConfiguration(UIImage.SymbolConfiguration(pointSize: 10, weight: .medium))
+            filterPullDownButtom.setImage(scaledImage, for: .normal)
+            filterPullDownButtom.semanticContentAttribute = .forceRightToLeft
+            filterPullDownButtom.configuration?.imagePadding = 8
+        }
+
         filterPullDownButtom.menu = UIMenu(children: [
-            UIAction(title: "pricelowtohigh".pLocalized(lang: LanguageManager.language), handler:
-                        ASC),
-            UIAction(title: "pricehightolow".pLocalized(lang: LanguageManager.language), state: .on, handler: DSC),
-            
+            UIAction(title: "Default".pLocalized(lang: LanguageManager.language),state: .on, handler: Default),
+            UIAction(title: "pricelowtohigh".pLocalized(lang: LanguageManager.language), handler: ASC),
+            UIAction(title: "pricehightolow".pLocalized(lang: LanguageManager.language), handler: DSC)
         ])
         
         filterPullDownButtom.showsMenuAsPrimaryAction = true

@@ -17,15 +17,15 @@ class InVoice_ViewController: UIViewController {
     var orderID : String?
     var orderitems:CartItemsResponse?
     var mainpackageItems: [CartPackageItem]?
-
+    var invoiceNumber : String?
     override func viewDidLoad() {
         super.viewDidLoad()
         invoice_tbl.dataSource = self
         invoice_tbl.delegate = self
+        invoicelbl.text = invoiceNumber
         Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
         Utility().setGradientBackground(view: invoiceview, colors: [primaryColor, primaryColor, headerSecondaryColor])
-        invoicelbl.text = orderitems?.id ?? ""
-        totalamountlbl.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(orderitems?.subTotal ?? 0))
+        totalamountlbl.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(orderitems?.payable ?? 0))
         setCurrentDate()
         self.navigationController?.navigationBar.isHidden = true
                tabBarController?.tabBar.isHidden = true

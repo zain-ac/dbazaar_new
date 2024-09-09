@@ -575,7 +575,7 @@
         <!--Invite Friends Vc-->
         <scene sceneID="4dc-f0-gyn">
             <objects>
-                <viewController storyboardIdentifier="inviteFriends_Vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6AI-sl-d3Z" customClass="inviteFriends_Vc" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="inviteFriends_Vc" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6AI-sl-d3Z" customClass="inviteFriends_Vc" customModule="Bazaar_Ghar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="S8e-Tx-U7Z">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -637,6 +637,9 @@
                                                 <rect key="frame" x="259" y="5" width="34" height="30"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="copy"/>
+                                                <connections>
+                                                    <action selector="copyBtnTapped:" destination="6AI-sl-d3Z" eventType="touchUpInside" id="u42-dg-FLW"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -682,6 +685,9 @@
                                 <state key="normal" title="Invite Friends">
                                     <color key="titleColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                                 </state>
+                                <connections>
+                                    <action selector="inviteBtnTapped:" destination="6AI-sl-d3Z" eventType="touchUpInside" id="Y2F-ZR-1Uc"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tbi-Hn-R0h"/>
@@ -704,6 +710,7 @@
                         <outlet property="inviteFriendsBtn" destination="kyP-Xy-vYX" id="WJa-4s-sq1"/>
                         <outlet property="inviteFriendsLbl" destination="HcB-Fd-jDA" id="GNz-gf-lJF"/>
                         <outlet property="inviteShareRefferalMsgLbl" destination="sj5-ac-7Ku" id="A2o-ap-huX"/>
+                        <outlet property="refCodeLbl" destination="l9F-1A-89c" id="022-9D-rvI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="er6-wW-wXg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1084,13 +1091,13 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

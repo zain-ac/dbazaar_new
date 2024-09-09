@@ -44,8 +44,9 @@ class AddtocartPopup: UIViewController {
         APIServices.chinesebell(sellerId: sellerId, brandName: brandName, description: description){[weak self] data in
             switch data{
             case .success(_):
-                  self?.dismiss(animated: true)
-                UIApplication.topViewController()?.view.makeToast("Call request sent successfully")
+                UIApplication.pTopViewController().view.makeToast("Call request sent successfully")
+                self?.dismiss(animated: true)
+
             case .failure(let error):
                 print(error)
                 if(error == "Please authenticate" && AppDefault.islogin){
@@ -54,6 +55,8 @@ class AddtocartPopup: UIViewController {
                     let vc = PopupLoginVc.getVC(.popups)
                   vc.modalPresentationStyle = .overFullScreen
                   self?.present(vc, animated: true, completion: nil)
+                }else if error == "Error: You have already ping this seller. Please wait for seller response." {
+                    self?.view.makeToast("You have already ping this seller. Please wait for seller response.")
                 }else{
                     self?.view.makeToast(error)
                 }
