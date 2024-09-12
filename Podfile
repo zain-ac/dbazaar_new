@@ -39,6 +39,7 @@ pod 'WCCircularFloatingActionMenu'
     pod 'SwiftSignalRClient', '0.9.0'
     pod 'Charts', '4.1.0'
 pod 'Alamofire'
+pod 'FirebaseAnalytics'
 pod 'AZTabBar'
 pod 'Kingfisher', '~> 7.0'
 pod 'OTPFieldView'
@@ -52,7 +53,7 @@ pod 'Firebase/Messaging'
   pod 'SideMenu'
 pod 'lottie-ios'
 pod 'Frames', '4.3.6'
-
+pod 'FBSDKCoreKit'
 
 
 

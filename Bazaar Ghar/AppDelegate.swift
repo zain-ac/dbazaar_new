@@ -15,10 +15,11 @@ import FirebaseMessaging
 import UserNotifications
 import AuthenticationServices
 import Firebase
-
+import FirebaseAnalytics
+import FBSDKCoreKit // Import Facebook SDK
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-var slugid = String()
+    var slugid = String()
     var isback = false
     var verifyid = String()
     var phoneno = String()
@@ -27,10 +28,11 @@ var slugid = String()
     var phonenowithout = String()
     var isbutton = Bool()
     
-var currencylabel = "SAR "
-var window: UIWindow?
+    var currencylabel = "SAR "
+    var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
-      var fcmtoken = String()
+    var fcmtoken = String()
+    let settings = FBSDKCoreKit.Settings.shared
     var shouldUseCustomFont : Bool? {
         didSet {
             if let rootView = window?.rootViewController?.view {
@@ -40,9 +42,12 @@ var window: UIWindow?
     }
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
         IQKeyboardManager.shared.shouldShowToolbarPlaceholder = false
-      FirebaseApp.configure()
-      registerForPushNotifications()
+        FirebaseApp.configure()
+        Analytics.setAnalyticsCollectionEnabled(true)
+        
+        registerForPushNotifications()
         
         
         
@@ -53,31 +58,41 @@ var window: UIWindow?
         }
         
         if AppDefault.languages == "en" {
-             LanguageManager.language = AppDefault.languages
-
+            LanguageManager.language = AppDefault.languages
+            
         }else {
             LanguageManager.language = AppDefault.languages
         }
         
         Messaging.messaging().delegate = self
-              // [END set_messaging_delegate]
-              // Register for remote notifications. This shows a permission dialog on first run, to
-              // show the dialog at a more appropriate time move this registration accordingly.
-              // [START register_for_notifications]
-              UNUserNotificationCenter.current().delegate = self
-              let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-              UNUserNotificationCenter.current().requestAuthorization(
-               options: authOptions,
-               completionHandler: { _, _ in }
-              )
-              application.registerForRemoteNotifications()
-      
+        // [END set_messaging_delegate]
+        // Register for remote notifications. This shows a permission dialog on first run, to
+        // show the dialog at a more appropriate time move this registration accordingly.
+        // [START register_for_notifications]
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+        )
+        application.registerForRemoteNotifications()
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+       settings.isAdvertiserTrackingEnabled = true
+
         IQKeyboardManager.shared.enable = true
         
         return true
     }
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+          // Handle Facebook URL
+          let facebookHandled = ApplicationDelegate.shared.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+          
+          // You can add custom URL handling here
+          
+          return facebookHandled
+      }
     
-     func refreshToken(refreshToken:String){
+    func refreshToken(refreshToken:String){
         APIServices.refreshToken(refreshToken:refreshToken){[weak self] data in
             switch data{
             case .success(let res):
@@ -95,7 +110,7 @@ var window: UIWindow?
             }
         }
     }
-
+    
     private func registerForPushNotifications() {
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
@@ -110,35 +125,35 @@ var window: UIWindow?
     }
     func onBoardingVc() {
         // Load the TabBarViewController from the Main storyboard
-//        guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController") as? TabBarViewController else {
-//            // Failed to instantiate TabBarViewController
-//            return
-//        }
+        //        guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController") as? TabBarViewController else {
+        //            // Failed to instantiate TabBarViewController
+        //            return
+        //        }
         guard let tabBarViewController = UIStoryboard(name: "sidemenu", bundle: nil).instantiateViewController(withIdentifier: "Shake_ViewController") as? Shake_ViewController else {
             // Failed to instantiate TabBarViewController
             return
         }
         
         // Set the login status
-       
+        
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                // Failed to get AppDelegate
-                return
-            }
-            
-            // Dismiss any presented view controllers before setting the root view controller
-            appDelegate.window?.rootViewController?.dismiss(animated: false, completion: nil)
-            
-            appDelegate.window?.rootViewController = tabBarViewController
+            // Failed to get AppDelegate
+            return
+        }
+        
+        // Dismiss any presented view controllers before setting the root view controller
+        appDelegate.window?.rootViewController?.dismiss(animated: false, completion: nil)
+        
+        appDelegate.window?.rootViewController = tabBarViewController
     }
-  
+    
     func GotoDashBoard(ischecklogin: Bool) {
         // Load the TabBarViewController from the Main storyboard
-//        guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController") as? TabBarViewController else {
-//            // Failed to instantiate TabBarViewController
-//            return
-//        }
+        //        guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController") as? TabBarViewController else {
+        //            // Failed to instantiate TabBarViewController
+        //            return
+        //        }
         guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RoundTabbarVc") as? RoundTabbarVc else {
             // Failed to instantiate TabBarViewController
             return
@@ -148,16 +163,16 @@ var window: UIWindow?
         tabBarViewController.ischecklogin = ischecklogin
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                // Failed to get AppDelegate
-                return
-            }
-            
-            // Dismiss any presented view controllers before setting the root view controller
-            appDelegate.window?.rootViewController?.dismiss(animated: false, completion: nil)
-            
-            appDelegate.window?.rootViewController = tabBarViewController
+            // Failed to get AppDelegate
+            return
+        }
+        
+        // Dismiss any presented view controllers before setting the root view controller
+        appDelegate.window?.rootViewController?.dismiss(animated: false, completion: nil)
+        
+        appDelegate.window?.rootViewController = tabBarViewController
     }
-     func GotoDashBoardnotification(ischecklogin: Bool,misc: String){
+    func GotoDashBoardnotification(ischecklogin: Bool,misc: String){
         
         // Load the TabBarViewController from the Main storyboard
         guard let tabBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RoundTabbarVc") as? RoundTabbarVc else {
@@ -169,17 +184,17 @@ var window: UIWindow?
         tabBarViewController.ischecklogin = ischecklogin
         tabBarViewController.miscid = misc
         
-         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                 // Failed to get AppDelegate
-                 return
-             }
-             
-             // Dismiss any presented view controllers before setting the root view controller
-             appDelegate.window?.rootViewController?.dismiss(animated: false, completion: nil)
-             
-             appDelegate.window?.rootViewController = tabBarViewController
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            // Failed to get AppDelegate
+            return
+        }
+        
+        // Dismiss any presented view controllers before setting the root view controller
+        appDelegate.window?.rootViewController?.dismiss(animated: false, completion: nil)
+        
+        appDelegate.window?.rootViewController = tabBarViewController
     }
-       
+    
     
     func showCustomerAlertControllerHeight(title:String,heading:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
         guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
@@ -188,16 +203,16 @@ var window: UIWindow?
         presenter.cornerRadius = 10
         vc.btn1Title = btn1Title
         vc.btn1Callback = {
-          btn1Callback()
+            btn1Callback()
         }
         vc.btn2Title = btn2Title
         vc.btn2Callback = {
-          btn2Callback()
+            btn2Callback()
         }
         vc.titleText = title
         vc.headingText = heading
         UIApplication.pTopViewController().customPresentViewController(presenter, viewController: vc, animated: true)
-      }
+    }
     func showCustomerLanguageAlertControllerHeight(title:String,heading:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
         guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: LanguagePopupViewController.self)) as? LanguagePopupViewController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.2), center: .center))
@@ -205,16 +220,16 @@ var window: UIWindow?
         presenter.cornerRadius = 10
         vc.btn1Title = btn1Title
         vc.btn1Callback = {
-          btn1Callback()
+            btn1Callback()
         }
         vc.btn2Title = btn2Title
         vc.btn2Callback = {
-          btn2Callback()
+            btn2Callback()
         }
         vc.titleText = title
         vc.headingText = heading
         UIApplication.pTopViewController().customPresentViewController(presenter, viewController: vc, animated: true)
-      }
+    }
     
     func ChineseShowCustomerAlertControllerHeight(title:String,heading:String,note:String,miscid:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping(_ token:String,_ id:String)->Void){
         guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: popupChineseBellViewController.self)) as? popupChineseBellViewController else {return}
@@ -231,7 +246,7 @@ var window: UIWindow?
             vc.btn1Title = btn1Title
             vc.miscid = miscid
             vc.btn1Callback = {
-              btn1Callback()
+                btn1Callback()
             }
             vc.btn2Title = btn2Title
             vc.btn2Callback = { (token, videoId) in
@@ -251,7 +266,7 @@ var window: UIWindow?
             vc.btn1Title = btn1Title
             vc.miscid = miscid
             vc.btn1Callback = {
-              btn1Callback()
+                btn1Callback()
             }
             vc.btn2Title = btn2Title
             vc.btn2Callback = { (token, videoId) in
@@ -260,52 +275,52 @@ var window: UIWindow?
             vc.titleText = title
             vc.titleLblText = heading
             vc.noteText = note
-
+            
             UIApplication.pTopViewController().customPresentViewController(presenter, viewController: vc, animated: true)
         }
-     
-      }
-      func showCustomerAlertControllerwithOneButton(title:String,btn2Title:String,btn2Callback:@escaping()->Void){
+        
+    }
+    func showCustomerAlertControllerwithOneButton(title:String,btn2Title:String,btn2Callback:@escaping()->Void){
         guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.2), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10
         vc.isOneButton = true
         //vc.btn1.isHidden = true
-    //    vc.btn1Title = btn1Title
-    //    vc.btn1Callback = {
-    //      btn1Callback()
-    //    }
+        //    vc.btn1Title = btn1Title
+        //    vc.btn1Callback = {
+        //      btn1Callback()
+        //    }
         vc.btn2Title = btn2Title
         vc.btn2Callback = {
-          btn2Callback()
+            btn2Callback()
         }
         vc.titleText = title
         UIApplication.pTopViewController().customPresentViewController(presenter, viewController: vc, animated: true)
-          
-      }
-      func showCustomerAlertController(title:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
+        
+    }
+    func showCustomerAlertController(title:String,btn1Title:String,btn1Callback:@escaping()->Void,btn2Title:String,btn2Callback:@escaping()->Void){
         guard let vc = UIStoryboard(name: "Popups", bundle: nil).instantiateViewController(withIdentifier: String(describing: PCustomAlertController.self)) as? PCustomAlertController else {return}
         let presenter = Presentr(presentationType: .custom(width: .fluid(percentage: 0.9), height: .fluid(percentage: 0.25), center: .center))
         presenter.roundCorners = true
         presenter.cornerRadius = 10
         vc.btn1Title = btn1Title
         vc.btn1Callback = {
-          btn1Callback()
+            btn1Callback()
         }
         vc.btn2Title = btn2Title
         vc.btn2Callback = {
-          btn2Callback()
+            btn2Callback()
         }
         vc.titleText = title
         UIApplication.pTopViewController().customPresentViewController(presenter, viewController: vc, animated: true)
-      }
+    }
     
     
     
     
     func application(_ application: UIApplication,
-                didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
@@ -314,15 +329,15 @@ var window: UIWindow?
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-         print("Message ID: \(messageID)")
+            print("Message ID: \(messageID)")
         }
         // Print full message.
         print(userInfo)
-       }
-       // [START receive_message]
-       func application(_ application: UIApplication,
-                didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async
-        -> UIBackgroundFetchResult {
+    }
+    // [START receive_message]
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async
+    -> UIBackgroundFetchResult {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
@@ -330,40 +345,36 @@ var window: UIWindow?
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-         print("Message ID: \(messageID)")
+            print("Message ID: \(messageID)")
         }
         // Print full message.
         print(userInfo)
         return UIBackgroundFetchResult.newData
-       }
-       // [END receive_message]
-       func application(_ application: UIApplication,
-                didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    }
+    // [END receive_message]
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Unable to register for remote notifications: \(error.localizedDescription)")
-       }
-       // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
-       // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
-       // the FCM registration token.
-      func application(application: UIApplication,
-               didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    }
+    // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
+    // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
+    // the FCM registration token.
+    func application(application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
         let firebaseAuth = Auth.auth()
         firebaseAuth.setAPNSToken(deviceToken, type: AuthAPNSTokenType.prod)
         Messaging.messaging().token { (token, error) in
-          if let error = error {
-            print("Error fetching remote instance ID: \(error.localizedDescription)")
-          } else if let token = token {
-            self.fcmtoken = token
-            UserDefaults.standard.set(token , forKey: "Token2")
-            print("Token is firebase \(token)")
-          }
+            if let error = error {
+                print("Error fetching remote instance ID: \(error.localizedDescription)")
+            } else if let token = token {
+                self.fcmtoken = token
+                UserDefaults.standard.set(token , forKey: "Token2")
+                print("Token is firebase \(token)")
+            }
         }
-      }
-    
-    
-    
-
-}
+    }
+    }
 
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 

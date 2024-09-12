@@ -1602,7 +1602,7 @@ struct CheckOutOrderItem: Codable {
 // MARK: - AdminDiscount
 struct CheckOutAdminDiscount: Codable {
   let discountType: String?
-  let amount: Int
+  let amount: Double?
 }
 // MARK: - Product
 struct CheckOutProduct: Codable {

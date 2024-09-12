@@ -116,7 +116,7 @@ class Utilities {
     // Checking the UserDefaults is saved or not
     static func didSave(preferences: UserDefaults){
         let didSave = preferences.synchronize()
-        if !didSave{
+        if !didSave {
             // Couldn't Save
             print("Preferences could not be saved!")
         }

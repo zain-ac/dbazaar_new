@@ -16,6 +16,16 @@ class New_SingleVideoview: UIViewController {
 
 
     @IBOutlet weak var singlevideotable: UITableView!
+    var page : Int? {
+        didSet {
+            print(page)
+        }
+    }
+    var catId : String? {
+        didSet {
+            print(catId)
+        }
+    }
     var showCollectionView = ""
 
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
@@ -35,6 +45,7 @@ class New_SingleVideoview: UIViewController {
     var isLiked = false
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         singlevideotable.dataSource = self
         singlevideotable.delegate = self
@@ -47,6 +58,9 @@ class New_SingleVideoview: UIViewController {
         
         }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        catId = ""
+    }
     func showShareSheet(id:String) {
         print(id)
         guard let url = URL(string: id) else { return }
@@ -90,6 +104,36 @@ class New_SingleVideoview: UIViewController {
            }
        }
    }
+    
+     func getStreamingVideos(limit:Int,page:Int,categories: [String],city:String){
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+               
+
+                self?.LiveStreamingResultsdata += res.results ?? []
+                if(res.results?.count == 0){
+                    self?.page = 1
+                    self?.LiveStreamingResultsdata += res.featured ?? []
+                }
+                self?.singlevideotable.reloadData()
+//                self?.videocategorytableview.reloadData()
+//                self?.count += 1
+//                if res.results?.count ?? 0 > 5 {
+//                    self?.novideosview.isHidden = true
+//                    
+//                }else {
+//                    self?.novideosview.isHidden = false
+////                    self?.categoryview.isHidden = false
+//                }
+                self?.page! += 1
+
+            case .failure(let error):
+                print(error)
+//                self?.view.makeToast(error)
+            }
+        })
+    }
     
     func deletelike(token:String,scheduleId:String,userId:String,likeId:String,indexPath:IndexPath,id:String){
        APIServices.deletelike(token: token, scheduleId: scheduleId, userId: userId, likeId: likeId){[weak self] data in
@@ -263,9 +307,16 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
             // Handle swipe up
             print("Swiped up!")
             
+            
             if currentIndex == LiveStreamingResultsdata.count - 1{
-
-            }else {
+                if(catId != nil){
+                    getStreamingVideos(limit:30,page:page ?? 1,categories: [catId ?? ""], city: "")
+                }else{
+                    getStreamingVideos(limit:30,page:page ?? 1,categories: [], city: "")
+                }
+               
+            }
+            else {
                 currentIndex += 1
             }
 

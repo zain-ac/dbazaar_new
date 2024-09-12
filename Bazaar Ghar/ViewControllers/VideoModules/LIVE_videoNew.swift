@@ -34,6 +34,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     var indexPath : IndexPath?
     var cat:String?
     var id:String?
+    var categoryId:String?
     var isLoadingData = false
     var count = 1
     
@@ -62,7 +63,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         if currentText == "" {
             searchVideo(name: "title", value:  "", limit: 100, catId: [])
         }else {
-            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 100, catId: [])
+            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 30, catId: [])
         }
         
        }
@@ -71,16 +72,20 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         if let id = notification.userInfo?["id"] as? String {
             print(id)
             self.id = id
+            self.categoryId = id
             LiveStreamingResultsdata.removeAll()
             searchVideodata.removeAll()
             catbtnview.backgroundColor = .oceanBlue
             nearByView.backgroundColor = UIColor(hex: "#5ED0FD")
-            getStreamingVideos(limit:100,page:1,categories: [self.id ?? ""], city: "")
+            getStreamingVideos(limit:30,page:1,categories: [self.id ?? ""], city: "")
 
         }
         if let cat = notification.userInfo?["cat"] as? String {
             print(cat)
             self.cat = cat
+            
+            
+            
         }
         if let catname = notification.userInfo?["catname"] as? String {
             headerlbl.text = catname
@@ -90,9 +95,10 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     
     
     override func viewWillAppear(_ animated: Bool) {
+        count = 1
         headerlbl.text = "Live Video"
         self.CategoriesResponsedata = AppDefault.CategoriesResponsedata ?? []
-        getStreamingVideos(limit:100,page:1,categories: [], city: "")
+        getStreamingVideos(limit:30,page:1,categories: [], city: "")
         getLiveStream()
     }
     
@@ -122,15 +128,19 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
                //
                 self?.isLoadingData = false
 
+                self?.LiveStreamingResultsdata += res.featured ?? []
                 self?.LiveStreamingResultsdata += res.results ?? []
                 self?.videocategorytableview.reloadData()
                 self?.count += 1
                 if res.results?.count ?? 0 > 5 {
-                    self?.novideosview.isHidden = true
+                    if page < 2 {
+                        self?.novideosview.isHidden = true
+                    }
                     
                 }else {
-                    self?.novideosview.isHidden = false
-//                    self?.categoryview.isHidden = false
+                    if page < 2 {
+                        self?.novideosview.isHidden = false
+                    }//                    self?.categoryview.isHidden = false
                 }
             case .failure(let error):
                 print(error)
@@ -153,10 +163,10 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
                 
                 DispatchQueue.main.async {
                     if self.cat == "cat" {
-                        self.getStreamingVideos(limit:100,page:self.count,categories: [self.id ?? ""], city: "")
+                        self.getStreamingVideos(limit:30,page:self.count,categories: [self.id ?? ""], city: "")
 
                     }else {
-                        self.getStreamingVideos(limit:100,page:self.count,categories: [], city: "")
+                        self.getStreamingVideos(limit:30,page:self.count,categories: [], city: "")
                     }
                     self.isLoadingData = false
                 }
@@ -215,10 +225,10 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
     
     @IBAction func seachTap(_ sender: Any) {
         if(searchFeild.text == ""){
-            searchVideo(name: "title", value:  "", limit: 100, catId: [])
+            searchVideo(name: "title", value:  "", limit: 30, catId: [])
         }
         else{
-            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 100, catId: [])
+            searchVideo(name: "title", value: searchFeild.text ?? "", limit: 30, catId: [])
         }
     }
     
@@ -241,7 +251,7 @@ class LIVE_videoNew: UIViewController, UITextFieldDelegate {
         nearByView.backgroundColor = .oceanBlue
         catbtnview.backgroundColor = UIColor(hex: "#5ED0FD")
         self.id = nil
-        self.getStreamingVideos(limit:100,page:self.count,categories: [], city: "islamabad")
+        self.getStreamingVideos(limit:30,page:self.count,categories: [], city: "islamabad")
     }
 }
 extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
@@ -269,6 +279,8 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 LiveStreamingResultsdatafilter.removeAll()
 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCell", for: indexPath) as! Live_videoCell1TableViewCell
+                cell.page = count
+                cell.catId = categoryId
 //                if cat == "cat" {
 //                    cell.id = self.id.
 //                }else {
@@ -304,6 +316,8 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 LiveStreamingResultsdatafilter.removeAll()
 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCel2", for: indexPath) as! Live_videoCell1TableViewCel2
+                cell.page = count
+                cell.catId = categoryId
                 let answer = (indexPath.row + 1) * 5
                 let checkval = LiveStreamingResultsdata.count - answer
                 
@@ -333,6 +347,8 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 searchVideodatafilter.removeAll()
 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCell", for: indexPath) as! Live_videoCell1TableViewCell
+                cell.page = self.count
+                cell.catId = categoryId
 //                if cat == "cat" {
 //                    cell.id = self.id.
 //                }else {
@@ -368,6 +384,9 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 searchVideodatafilter.removeAll()
 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCel2", for: indexPath) as! Live_videoCell1TableViewCel2
+                cell.page = self.count
+                cell.catId = categoryId
+
                 let answer = (indexPath.row + 1) * 5
                 let checkval = searchVideodata.count - answer
                 

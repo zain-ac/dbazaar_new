@@ -55,58 +55,28 @@
             filePath = "Bazaar Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
+            startingLineNumber = "508"
+            endingLineNumber = "508"
             landmarkName = "getCartProducts()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "979AA557-3483-4063-95D8-F560F6BC235E - a9996f4b86d0fbb4"
+                  uuid = "979AA557-3483-4063-95D8-F560F6BC235E - 8722edc76c9b5b6b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Bazaar_Ghar.APIResult&lt;Bazaar_Ghar.CartItemsResponse&gt;) -&gt; () in Bazaar_Ghar.NewProductPageViewController.getCartProducts() -&gt; ()"
+                  symbolName = "closure #1 (Bazaar_Ghar.APIResult&lt;Bazaar_Ghar.moreFomDataClass&gt;) -&gt; () in Bazaar_Ghar.NewProductPageViewController.moreFrom(category: Swift.String, user: Swift.String) -&gt; ()"
                   moduleName = "Bazaar Ghar"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "503"
-                  endingLineNumber = "503"
-                  offsetFromSymbolStart = "244">
+                  startingLineNumber = "508"
+                  endingLineNumber = "508"
+                  offsetFromSymbolStart = "4940">
                </Location>
                <Location
-                  uuid = "979AA557-3483-4063-95D8-F560F6BC235E - a9996f4b86d0fbb4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Bazaar_Ghar.APIResult&lt;Bazaar_Ghar.CartItemsResponse&gt;) -&gt; () in Bazaar_Ghar.NewProductPageViewController.getCartProducts() -&gt; ()"
-                  moduleName = "Bazaar Ghar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "503"
-                  endingLineNumber = "503"
-                  offsetFromSymbolStart = "268">
-               </Location>
-               <Location
-                  uuid = "979AA557-3483-4063-95D8-F560F6BC235E - a9996f4b86d0fbb4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Bazaar_Ghar.APIResult&lt;Bazaar_Ghar.CartItemsResponse&gt;) -&gt; () in Bazaar_Ghar.NewProductPageViewController.getCartProducts() -&gt; ()"
-                  moduleName = "Bazaar Ghar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "503"
-                  endingLineNumber = "503"
-                  offsetFromSymbolStart = "8492">
-               </Location>
-               <Location
-                  uuid = "979AA557-3483-4063-95D8-F560F6BC235E - e8f7a3a0d6ca2249"
+                  uuid = "979AA557-3483-4063-95D8-F560F6BC235E - e8f7a3a0d6ca25e4"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -116,9 +86,166 @@
                   urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "503"
-                  endingLineNumber = "503"
+                  startingLineNumber = "506"
+                  endingLineNumber = "506"
                   offsetFromSymbolStart = "32">
+               </Location>
+               <Location
+                  uuid = "979AA557-3483-4063-95D8-F560F6BC235E - e8f7a3a0d6ca25a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Bazaar_Ghar.NewProductPageViewController.getCartProducts() -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/ProductModules/NewProductPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "508"
+                  endingLineNumber = "508"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B7D6A75A-1495-4A52-818F-7CAEEEDC31D0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/VideoModules/SingleVideoView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "handleSwipe(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5D712175-F1B7-49AC-A9CA-1B5D59CD4332"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/VideoModules/New_SingleVideoview.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
+            landmarkName = "deletelike(token:scheduleId:userId:likeId:indexPath:id:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5D712175-F1B7-49AC-A9CA-1B5D59CD4332 - 9e47141923538321"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Bazaar_Ghar.APIResult&lt;Bazaar_Ghar.Savelikedata&gt;) -&gt; () in Bazaar_Ghar.New_SingleVideoview.deletelike(token: Swift.String, scheduleId: Swift.String, userId: Swift.String, likeId: Swift.String, indexPath: Foundation.IndexPath, id: Swift.String) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/VideoModules/New_SingleVideoview.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "968">
+               </Location>
+               <Location
+                  uuid = "5D712175-F1B7-49AC-A9CA-1B5D59CD4332 - 9e471419235383c0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Bazaar_Ghar.APIResult&lt;Bazaar_Ghar.Savelikedata&gt;) -&gt; () in Bazaar_Ghar.New_SingleVideoview.deletelike(token: Swift.String, scheduleId: Swift.String, userId: Swift.String, likeId: Swift.String, indexPath: Foundation.IndexPath, id: Swift.String) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/VideoModules/New_SingleVideoview.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
+                  offsetFromSymbolStart = "276">
+               </Location>
+               <Location
+                  uuid = "5D712175-F1B7-49AC-A9CA-1B5D59CD4332 - 9e471419235383c0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Bazaar_Ghar.APIResult&lt;Bazaar_Ghar.Savelikedata&gt;) -&gt; () in Bazaar_Ghar.New_SingleVideoview.deletelike(token: Swift.String, scheduleId: Swift.String, userId: Swift.String, likeId: Swift.String, indexPath: Foundation.IndexPath, id: Swift.String) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/VideoModules/New_SingleVideoview.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
+                  offsetFromSymbolStart = "312">
+               </Location>
+               <Location
+                  uuid = "5D712175-F1B7-49AC-A9CA-1B5D59CD4332 - 9e471419235383c0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Bazaar_Ghar.APIResult&lt;Bazaar_Ghar.Savelikedata&gt;) -&gt; () in Bazaar_Ghar.New_SingleVideoview.deletelike(token: Swift.String, scheduleId: Swift.String, userId: Swift.String, likeId: Swift.String, indexPath: Foundation.IndexPath, id: Swift.String) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/VideoModules/New_SingleVideoview.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
+                  offsetFromSymbolStart = "1020">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "407C2229-6A05-47AC-85A5-C30DE6F85AD7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bazaar Ghar/ViewControllers/VideoModules/New_SingleVideoview.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "handleSwipe(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "407C2229-6A05-47AC-85A5-C30DE6F85AD7 - 3142aaf3ccca530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Bazaar_Ghar.New_SingleVideoview.handleSwipe(__C.UISwipeGestureRecognizer) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/VideoModules/New_SingleVideoview.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "313"
+                  endingLineNumber = "313"
+                  offsetFromSymbolStart = "1164">
+               </Location>
+               <Location
+                  uuid = "407C2229-6A05-47AC-85A5-C30DE6F85AD7 - 3142aaf3ccca530"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Bazaar_Ghar.New_SingleVideoview.handleSwipe(__C.UISwipeGestureRecognizer) -&gt; ()"
+                  moduleName = "Bazaar Ghar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zanny/Documents/GitHub/dbazaar_new/Bazaar%20Ghar/ViewControllers/VideoModules/New_SingleVideoview.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "313"
+                  endingLineNumber = "313"
+                  offsetFromSymbolStart = "708">
                </Location>
             </Locations>
          </BreakpointContent>

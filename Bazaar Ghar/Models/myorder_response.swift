@@ -64,7 +64,8 @@ struct MyOrderCustomer: Codable {
 
 // MARK: - Wallet
 struct MyOrderWallet: Codable {
-    let balance: Float?}
+    let balance: Float?
+}
 
 // MARK: - OrderItem
 struct NewOrderItem: Codable {

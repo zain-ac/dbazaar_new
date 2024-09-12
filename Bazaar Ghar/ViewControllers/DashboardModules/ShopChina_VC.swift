@@ -111,7 +111,6 @@ var count = 0
 
     let centerTransitioningDelegate = CenterTransitioningDelegate()
     var load:Bool?
-    
     var shop:String?
     var color:String?
     var shopImg: String?
@@ -1349,6 +1348,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         } else if collectionView == videoCollection {
             let data = LiveStreamingResultsdata[indexPath.row]
             let vc = New_SingleVideoview.getVC(.videoStoryBoard)
+            vc.page = 2
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)

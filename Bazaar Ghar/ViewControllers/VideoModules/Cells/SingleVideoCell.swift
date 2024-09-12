@@ -24,8 +24,6 @@ class SingleVideoCell: UITableViewCell {
     @IBOutlet weak var volumeview: UIView!
     var showCollectionView = ""
     @IBOutlet weak var expandview: UIView!
-    
-    
     var manager:SocketManager?
     var socket: SocketIOClient?
     @IBOutlet weak var headerlbl: UILabel!
@@ -93,6 +91,10 @@ class SingleVideoCell: UITableViewCell {
     var videoPlayerItem: AVPlayerItem? = nil {
           didSet {
               if let videoPlayerItem = videoPlayerItem {
+                  self.videoPlayerItem?.preferredForwardBufferDuration = 1 // Buffer 10 seconds ahead
+
+                  self.videoPlayerItem?.preferredPeakBitRate = 800000 // 1 Mbps
+
 //                  videoPlayerItem.preferredForwardBufferDuration = 4  // Buffer 10 seconds ahead for faster start
 //                                  videoPlayerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = true
 //                                  videoPlayerItem.preferredPeakBitRate = 500

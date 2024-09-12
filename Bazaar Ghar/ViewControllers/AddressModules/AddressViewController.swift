@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 class AddressViewController: UIViewController {
 
@@ -97,8 +98,17 @@ class AddressViewController: UIViewController {
             case .success(let res):
                //
                 AppDefault.currentUser?.defaultAddress = self?.defaultAdress 
+                
                 if(res == "ok"){
+                   
+                    Analytics.logEvent("add-shipment-info", parameters: [
+                        "action": "add-shipment-info",
+                        "category": "Ecommerce",
+                        "label": "Ecommerce",
+                      
+                    ])
                     self?.view.makeToast("Set Default Address Successfully")
+                    
                 }else{
 //                    self?.view.makeToast(res)
                 }

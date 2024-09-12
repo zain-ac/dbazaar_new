@@ -214,7 +214,9 @@ extension Live_VC:UITableViewDataSource,UITableViewDelegate {
             if collectionView == videoCollection {
                 let data = LiveStreamingResultsdata[indexPath.row]
                 let vc = New_SingleVideoview.getVC(.videoStoryBoard)
+                vc.page = 2
                 vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
+                
                 vc.indexValue = indexPath.row
                 self.navigationController?.pushViewController(vc, animated: false)
             }else if collectionView == liveVideoCiollectionView {

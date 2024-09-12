@@ -8,6 +8,7 @@ import UIKit
 import Frames
 import Checkout
 import AudioToolbox
+import FirebaseAnalytics
 class NewOrderConfirmation_ViewController: UIViewController {
   @IBOutlet weak var mapview: UIView!
   @IBOutlet weak var headerview: UIView!
@@ -168,6 +169,13 @@ class NewOrderConfirmation_ViewController: UIViewController {
                       let viewController = Factory.getDefaultPaymentViewController { [weak self] result in
                        self?.handleTokenResponse(with: result)
                       }
+                      Analytics.logEvent("InitiateCheckout", parameters: [
+                          "action": "InitiateCheckout",
+                          "category": "Ecommerce",
+                          "label": "Ecommerce",
+                        
+                      ])
+                      
                       navigationController?.pushViewController(viewController, animated: false)
                   }
                  
@@ -222,7 +230,12 @@ class NewOrderConfirmation_ViewController: UIViewController {
     APIServices.checkoutpayment(token: token, amount: amount, currency: currency, cartId: cartId){[weak self] data in
      switch data{
      case .success(let res):
-     //
+    
+         Analytics.logEvent("purchase", parameters: [
+             "action": "purchase",
+             "category": "Ecommerce",
+             "label": "Ecommerce",
+         ])
          let vc = InVoice_ViewController.getVC(.orderJourneyStoryBoard)
                   vc.mainpackageItems = self?.cartItems
                     vc.orderitems = self?.orderDetails

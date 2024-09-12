@@ -9,7 +9,8 @@ import UIKit
 
 
 class Live_videoCell1TableViewCel2: UITableViewCell {
-
+    var page = 1
+    var catId : String?
     @IBOutlet weak var imageofcell: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var subttitle: UILabel!
@@ -52,6 +53,8 @@ class Live_videoCell1TableViewCel2: UITableViewCell {
         let vc = New_SingleVideoview.getVC(.videoStoryBoard)
         vc.LiveStreamingResultsdata = self.LiveStreamingResultsAlldata
         vc.indexValue = sender.tag
+        vc.page = self.page
+        vc.catId = catId
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
@@ -96,6 +99,8 @@ extension Live_videoCell1TableViewCel2: UICollectionViewDelegate, UICollectionVi
        
         let data = buttontap.tag + 1 + indexPath.row
         let vc = New_SingleVideoview.getVC(.videoStoryBoard)
+        vc.page = self.page
+        vc.catId = self.catId
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsAlldata
             vc.indexValue = data
             self.navigationController?.pushViewController(vc, animated: false)

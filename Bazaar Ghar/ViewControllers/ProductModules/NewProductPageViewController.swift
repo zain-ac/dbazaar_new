@@ -9,6 +9,8 @@ import UIKit
 import FSPagerView
 import SocketIO
 import SwiftyJSON
+import FirebaseAnalytics
+
 
 class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     
@@ -137,6 +139,8 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     
     @objc func toggleDescription() {
          isTextExpanded.toggle()
+      
+        
          
          // Toggle number of lines and button title
          DescriptionProduct.numberOfLines = isTextExpanded ? 0 : 2
@@ -406,6 +410,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         APIServices.additemtocart(product:product,quantity:quantity,completion: {[weak self] data in
             switch data{
             case .success(let res):
+               
                 if(navigation) {
                     let vc = CartViewController.getVC(.main)
                     vc.iccomeformProduct = true
@@ -1363,6 +1368,7 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
             self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == videoCollection {
             let vc = New_SingleVideoview.getVC(.videoStoryBoard)
+            vc.page = 2
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)

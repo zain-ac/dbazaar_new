@@ -149,6 +149,7 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
         }else {
             let vc = New_SingleVideoview.getVC(.videoStoryBoard)
             vc.LiveStreamingResultsdata = self.searchVideodata
+            vc.page = 2
             vc.indexValue = indexPath.row
             self.navigationController?.pushViewController(vc, animated: false)
         }
