@@ -80,7 +80,7 @@ class LIVE_videoNew: UIViewController {
             searchVideodata.removeAll()
             catbtnview.backgroundColor = .oceanBlue
             nearByView.backgroundColor = UIColor(hex: "#5ED0FD")
-            getStreamingVideos(limit:100,page:1,categories: [self.id ?? ""], city: "")
+            getStreamingVideos(limit:30,page:1,categories: [self.id ?? ""], city: "")
 
         }
         if let cat = notification.userInfo?["cat"] as? String {
@@ -97,7 +97,7 @@ class LIVE_videoNew: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         headerlbl.text = "Live Video"
         self.CategoriesResponsedata = AppDefault.CategoriesResponsedata ?? []
-        getStreamingVideos(limit:100,page:1,categories: [], city: "")
+        getStreamingVideos(limit:30,page:1,categories: [], city: "")
         getLiveStream()
     }
     
@@ -180,7 +180,7 @@ class LIVE_videoNew: UIViewController {
 //                    self?.notFound.isHidden = false
 //                }
                 self?.searchVideodata = res.results
-                
+                self?.count += 1
                 if res.results.count > 5 {
                     self?.novideosview.isHidden = true
                     
@@ -246,7 +246,7 @@ class LIVE_videoNew: UIViewController {
         nearByView.backgroundColor = .oceanBlue
         catbtnview.backgroundColor = UIColor(hex: "#5ED0FD")
         self.id = nil
-        self.getStreamingVideos(limit:100,page:self.count,categories: [], city: "islamabad")
+        self.getStreamingVideos(limit:30,page:self.count,categories: [], city: "islamabad")
     }
 }
 extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
@@ -279,7 +279,8 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
 //                }else {
 //                    cell.id = data.id
 //                }
-                
+                cell.page = count
+                cell.catId = self.id
                 let answer = (indexPath.row + 1) * 5
                 let checkval = LiveStreamingResultsdata.count - answer
                 
@@ -309,6 +310,8 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 LiveStreamingResultsdatafilter.removeAll()
 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCel2", for: indexPath) as! Live_videoCell1TableViewCel2
+                cell.page = count
+                cell.catId = self.id
                 let answer = (indexPath.row + 1) * 5
                 let checkval = LiveStreamingResultsdata.count - answer
                 
@@ -343,7 +346,8 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
 //                }else {
 //                    cell.id = data.id
 //                }
-                
+                cell.page = count
+                cell.catId = self.id
                 let answer = (indexPath.row + 1) * 5
                 let checkval = searchVideodata.count - answer
                 
@@ -373,6 +377,8 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 searchVideodatafilter.removeAll()
 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Live_videoCell1TableViewCel2", for: indexPath) as! Live_videoCell1TableViewCel2
+                cell.page = count
+                cell.catId = self.id
                 let answer = (indexPath.row + 1) * 5
                 let checkval = searchVideodata.count - answer
                 

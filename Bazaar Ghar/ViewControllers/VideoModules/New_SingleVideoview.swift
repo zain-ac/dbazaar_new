@@ -33,7 +33,16 @@ class New_SingleVideoview: UIViewController {
     var indexPath = IndexPath()
     
     var isLiked = false
-
+    var page : Int? {
+        didSet {
+            print(page)
+        }
+    }
+    var catId : String? {
+        didSet {
+            print(catId)
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         singlevideotable.dataSource = self
@@ -140,6 +149,36 @@ class New_SingleVideoview: UIViewController {
                }
            }
        }
+   }
+    
+    func getStreamingVideos(limit:Int,page:Int,categories: [String],city:String){
+       APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in
+           switch data{
+           case .success(let res):
+              
+
+               self?.LiveStreamingResultsdata += res.results ?? []
+               if(res.results?.count == 0){
+                   self?.page = 1
+                   self?.LiveStreamingResultsdata += res.featured ?? []
+               }
+               self?.singlevideotable.reloadData()
+//                self?.videocategorytableview.reloadData()
+//                self?.count += 1
+//                if res.results?.count ?? 0 > 5 {
+//                    self?.novideosview.isHidden = true
+//
+//                }else {
+//                    self?.novideosview.isHidden = false
+////                    self?.categoryview.isHidden = false
+//                }
+               self?.page! += 1
+
+           case .failure(let error):
+               print(error)
+//                self?.view.makeToast(error)
+           }
+       })
    }
     
     
@@ -266,7 +305,11 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
             print("Swiped up!")
             
             if currentIndex == LiveStreamingResultsdata.count - 1{
-
+                if(catId != nil){
+                    getStreamingVideos(limit:30,page:page ?? 1,categories: [catId ?? ""], city: "")
+                }else{
+                    getStreamingVideos(limit:30,page:page ?? 1,categories: [], city: "")
+                }
             }else {
                 currentIndex += 1
             }
@@ -284,6 +327,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
 
         }
     }
+    
     
     func scrollToRow(at index: Int) {
          let indexPath = IndexPath(row: index, section: 0)

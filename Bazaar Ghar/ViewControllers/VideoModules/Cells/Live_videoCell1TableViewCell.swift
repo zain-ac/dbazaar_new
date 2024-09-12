@@ -42,6 +42,8 @@ class Live_videoCell1TableViewCell: UITableViewCell {
             self.videocategoryCollectionView.reloadData()
         }
     }
+    var page = 1
+    var catId : String?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -65,6 +67,8 @@ class Live_videoCell1TableViewCell: UITableViewCell {
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsAlldata
         }
         vc.indexValue = sender.tag
+        vc.page = self.page
+        vc.catId = self.catId
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
@@ -116,6 +120,8 @@ extension Live_videoCell1TableViewCell: UICollectionViewDelegate, UICollectionVi
         let vc = New_SingleVideoview.getVC(.videoStoryBoard)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsAlldata
             vc.indexValue = data
+        vc.page = self.page
+        vc.catId = self.catId
             self.navigationController?.pushViewController(vc, animated: false)
        
 //                let data = LiveStreamingResultsdata[indexPath.row]

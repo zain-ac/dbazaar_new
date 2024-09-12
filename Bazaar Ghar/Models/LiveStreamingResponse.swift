@@ -81,7 +81,7 @@ struct Yt: Codable {
 struct LiveStreamingData: Codable {
     let page, totalPages, limit, totalResults: Int?
     let results: [LiveStreamingResults]?
-    let featured: [Featured]?
+    let featured: [LiveStreamingResults]?
 }
 
 // MARK: - Featured

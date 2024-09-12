@@ -772,7 +772,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                 self?.moreFromLbl.text = "More From \(res.sellerDetail?.brandName ?? "")"
                 self?.moreFrom(category: res.category ?? "", user: res.sellerDetail?.seller ?? "")
                 self?.relatedProductApi(limit: 20, page: 1, sortBy:"ACS", category:res.category ?? "", active: false)
-                self?.getStreamingVideos(limit:20,page:1,categories: [res.category ?? ""])
+                self?.getStreamingVideos(limit:30,page:1,categories: [res.category ?? ""])
                 
                 self?.scrollHeight.constant =  (self?.scrollHeight.constant ?? 0) + (self?.DescriptionProduct.bounds.height ?? 0)
                 self?.varientsTblV.reloadData()
@@ -1354,6 +1354,7 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
             let vc = New_SingleVideoview.getVC(.videoStoryBoard)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
+            vc.page = 2
             self.navigationController?.pushViewController(vc, animated: false)
         }else {
             let data =  self.moreFromResponse?.results?[indexPath.row]

@@ -82,7 +82,7 @@ class New_StoreVC: UIViewController {
         brandNameLbl.text = brandName ?? ""
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         pagerView.automaticSlidingInterval = 2.0
-        getStreamingVideos(userId: prductid ?? "", limit: 10, page: 1, categories: [])
+        getStreamingVideos(userId: prductid ?? "", limit: 30, page: 1, categories: [])
         randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
         followcheck(storeId: self.storeId)
         update(count: 1)
@@ -695,6 +695,7 @@ extension New_StoreVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             let vc = New_SingleVideoview.getVC(.videoStoryBoard)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
+            vc.page = 2
             self.navigationController?.pushViewController(vc, animated: false)
         }else if collectionView == shopbycat_collectionview{
             let data = CategoriesResponsedata[indexPath.row]

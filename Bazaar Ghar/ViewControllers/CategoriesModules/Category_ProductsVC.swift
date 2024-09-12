@@ -500,6 +500,7 @@ class Category_ProductsVC: UIViewController {
         let vc = New_SingleVideoview.getVC(.videoStoryBoard)
         vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
         vc.indexValue = 0
+        vc.page = 2
         self.navigationController?.pushViewController(vc, animated: false)
 
     }
@@ -611,6 +612,7 @@ extension Category_ProductsVC:UICollectionViewDelegate,UICollectionViewDataSourc
             let vc = New_SingleVideoview.getVC(.videoStoryBoard)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
+            vc.page = 2
             self.navigationController?.pushViewController(vc, animated: false)
         }
     }

@@ -612,7 +612,7 @@ class ProductDetail_VC: UIViewController {
                   
 
                 self?.getAllProductsByCategories(limit: 20, page: 1, sortBy:"ACS", category:res.category ?? "", active: false)
-                self?.getStreamingVideos(limit:20,page:1,categories: [res.category ?? ""])
+                self?.getStreamingVideos(limit:30,page:1,categories: [res.category ?? ""])
 
 
                 self?.setupPageControl()
@@ -1005,6 +1005,7 @@ extension ProductDetail_VC: UICollectionViewDelegate,UICollectionViewDataSource,
             let vc = New_SingleVideoview.getVC(.videoStoryBoard)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
+            vc.page = 2
             self.navigationController?.pushViewController(vc, animated: false)
             
         } else{

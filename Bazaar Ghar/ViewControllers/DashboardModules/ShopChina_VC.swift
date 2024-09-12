@@ -1358,6 +1358,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             let vc = New_SingleVideoview.getVC(.videoStoryBoard)
             vc.LiveStreamingResultsdata = self.LiveStreamingResultsdata
             vc.indexValue = indexPath.row
+            vc.page = 2
             self.navigationController?.pushViewController(vc, animated: false)
         } else {
               let data = CategoriesResponsedata[indexPath.row]
