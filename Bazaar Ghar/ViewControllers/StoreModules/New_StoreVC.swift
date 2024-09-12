@@ -239,7 +239,7 @@ class New_StoreVC: UIViewController {
             case .success(let res):
                //
                 if res.results?.count ?? 0 > 0 {
-                    self?.videoViewHeight.constant = 280
+                    self?.videoViewHeight.constant = 300
                     self?.LiveStreamingResultsdata = res.results ?? []
            
                     self?.videoCollection.reloadData()
@@ -470,6 +470,7 @@ class New_StoreVC: UIViewController {
   
         
         }
+    
     
     @IBAction func shareBtn(_ sender: Any) {
         showShareSheet(id:"")

@@ -541,6 +541,26 @@ class Utility {
         }
     }
     
+    
+    func getImageWidth(from urlString: String, completion: @escaping (CGFloat?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, let image = UIImage(data: data), error == nil else {
+                completion(nil)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(image.size.width)
+            }
+        }
+        task.resume()
+    }
+    
 }
 
 extension UIColor {

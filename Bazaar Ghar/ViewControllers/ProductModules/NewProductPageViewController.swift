@@ -1387,8 +1387,7 @@ extension NewProductPageViewController{
     
     func connectSocket() {
         
-        
-        
+        socket?.disconnect()
         
         manager = SocketManager(socketURL: AppConstants.API.baseURLChat, config: [.log(true),
                                                                                   .compress,

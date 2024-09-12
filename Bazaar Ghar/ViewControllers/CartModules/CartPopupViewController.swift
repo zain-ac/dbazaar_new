@@ -22,22 +22,27 @@ class CartPopupViewController: UIViewController {
     @IBOutlet weak var addToCartBtn: UIButton!
     @IBOutlet weak var outOfStockLbl: UILabel!
     @IBOutlet weak var heartBtn: UIButton!
-
+    @IBOutlet weak var imageHeight: NSLayoutConstraint!
+    
     let centerTransitioningDelegate = CenterTransitioningDelegate()
     var products: Product?
     var nav:UINavigationController?
 
     override func viewDidLoad() {
- 
-        
-        super.viewDidLoad()
+         super.viewDidLoad()
         
 //        let attributedText11 =  Utility().attributedStringWithColoredStrings(appDelegate.currencylabel, firstTextColor: UIColor.black, Utility().formatNumberWithCommas(products?.regularPrice ?? 0), secondTextColor:  UIColor(hexString: primaryColor))
         productNamel.text = products?.productName ?? ""
 //        discountPrice.text =    appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.salePrice ?? 0)
       
 //        productPrice.attributedText =   attributedText11
-      
+//        Utility().getImageWidth(from:  products?.mainImage ?? "") { width in
+//            if let width = width {
+//                self.imageHeight.constant = width
+//            } else {
+//                print("Failed to get image width.")
+//            }
+//        }
         productImage.pLoadImage(url: products?.mainImage ?? "")
         crossBtn.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
@@ -53,13 +58,12 @@ class CartPopupViewController: UIViewController {
             productPriceline.isHidden = true
             discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.regularPrice ?? 0))
          }
-        
-
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        wishList()
+        if AppDefault.islogin == true {
+            wishList()
+        }
         if products?.quantity ?? 0 > 0 {
             addToCartBtn.backgroundColor = UIColor(hex: primaryColor)
             addToCartBtn.isEnabled = true
@@ -70,6 +74,7 @@ class CartPopupViewController: UIViewController {
             outOfStockLbl.isHidden = false
         }
     }
+    
     private func addToCartApi(product: String, quantity: Int,navigation:Bool){
         APIServices.additemtocart(product:product,quantity:quantity,completion: {[weak self] data in
           guard let strongSelf = self else { return }
@@ -176,7 +181,6 @@ class CartPopupViewController: UIViewController {
         APIServices.newwishlist(product:productId,completion: {[weak self] data in
           switch data{
           case .success(let res):
-           //
     //        if(res == "OK"){
     //          button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
     //          button.tintColor = .red

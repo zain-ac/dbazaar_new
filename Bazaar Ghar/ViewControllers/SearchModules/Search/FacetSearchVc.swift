@@ -17,7 +17,7 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
        @IBOutlet weak var noDataView: UIView!
     var hits: [SearchResultHit<Recipe>]
     var facetCounts: [FacetCounts]?
-    var page : Int?
+    var page = 1
     var Cat0Model:  FacetCounts? = nil
     
     var Cat1Model:  FacetCounts? = nil
@@ -41,6 +41,13 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
         self.hits = []
         super.init(coder: aDecoder)
     }
+    var searchText: String? {
+        didSet {
+            self.hits = []
+            performSearch(with: searchText ?? "",page: 1, faceby: "")
+        }
+    }
+    var isLoadingData = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +75,7 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
 //
 //                    }
     }
+    
     @IBAction func filterButtonTap(_ sender: Any) {
            let vc = StoreFilters_ViewController.getVC(.searchStoryBoard)
         
@@ -88,8 +96,6 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
            vc.modalPresentationStyle = .overFullScreen
            self.present(vc, animated: true, completion: nil)
    //        self.navigationController?.pushViewController(vc, animated: false)
-   
-   
        }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -150,13 +156,12 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
         
         
         
-        
            let searchParameters = SearchParameters(
                q: query,
                
                queryBy: "productName",
                filterBy:faceby, facetBy: "averageRating,brandName,color,lvl0,price,size,style",
-               maxFacetValues: 250, page: page, perPage: 10
+               maxFacetValues: 250, page: page, perPage: 20
                
            )
            
@@ -166,19 +171,13 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
                 self.facetCounts = searchResult?.facetCounts
                 if(query != "" ){
                    
-                    self.hits = []
-                    self.hits =  searchResult?.hits ?? []
+//                    self.hits = []
+                    self.hits +=  searchResult?.hits ?? []
                 }else {
 //                    self.hits = []
                     self.hits +=  searchResult?.hits ?? []
 
                 }
-               
-           
-          
-                
-                
-                
                 
                 for item in searchResult?.facetCounts ?? []{
                     if(item.fieldName == "lvl0"){
@@ -238,6 +237,8 @@ class FacetSearchVc: UIViewController, UISearchResultsUpdating {
                 
               
                 lastRandomProductsCollectionView.reloadData()
+                isLoadingData = false
+
                 // Handle the search result
             } catch {
                 print(error.localizedDescription)
@@ -249,7 +250,7 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return hits.count ?? 0
+        return hits.count
         
         }
     
@@ -258,7 +259,13 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
         let data = hits[indexPath.row].document
         Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
+        if data?.regularPrice == nil || data?.salePrice == nil {
         
+        }else {
+            let percentValue = (((data?.regularPrice ?? 0) - (data?.salePrice ?? 0)) * 100)
+            let kk = percentValue / (data?.regularPrice ?? 0)
+            cell.Offbanner.text = String(format: "%.0f%% OFF", kk)
+        }
         cell.productimage.pLoadImage(url: data?.mainImage ?? "")
         cell.productname.text = data?.productName
         if LanguageManager.language == "ar"{
@@ -282,19 +289,19 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
             cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
             cell.percentBGView.isHidden = true
          }
-        if(data?.quantity != 0){
-            cell.cartButton.tag = indexPath.row
-            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
-        }else if(data?.quantity == 0){
-            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }else if(data?.quantity != 0){
-            cell.cartButton.tag = indexPath.row
-            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
-        }else{
-            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+//        if(data?.quantity != 0){
+//            cell.cartButton.tag = indexPath.row
+//            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+//        }else if(data?.quantity == 0){
+//            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }else if(data?.quantity != 0){
+//            cell.cartButton.tag = indexPath.row
+//            cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
+//        }else{
+//            let vc  = NewProductPageViewController.getVC(.productStoryBoard)
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
         cell.heartBtn.tag = indexPath.row
         cell.cartButton.tag = indexPath.row
         cell.cartButton.addTarget(self, action: #selector(cartButtonTap(_:)), for: .touchUpInside)
@@ -361,18 +368,23 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
   
    
 
-       // This method is called when the user lifts their finger and scrolling might continue
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.size.height
         
         // Check if the scroll view has reached the bottom
-        if offsetY > contentHeight - frameHeight {
+        if offsetY > contentHeight - frameHeight && !isLoadingData {
+            // Set the flag to prevent multiple calls
+            isLoadingData = true
+            
+            // Increment the page number
+            page += 1
+            
             // Call your API
-            page = (page ?? 0) + 1
-            performSearch(with: searchController.searchBar.text ?? "*", page: page ?? 1, faceby: "")
+            performSearch(with: searchText ?? "", page: page, faceby: "")
         }
+        
     }
 
     
@@ -388,7 +400,7 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: lastRandomProductsCollectionView.frame.width/2.2-5, height:300)
+        return CGSize(width: lastRandomProductsCollectionView.frame.width/2-5, height:280)
 
     
     }
@@ -403,7 +415,7 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        return UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
     }
 }

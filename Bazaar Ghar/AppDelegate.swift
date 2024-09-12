@@ -422,16 +422,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
           appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Seller \(AppDefault.brandname) is busy." , heading: "Busy", note: "", miscid: "hide", btn1Title: "Cancel", btn1Callback: {
               
           }, btn2Title: "Ok") { token, id in
-              
-          }
+        }
       }else{
-          
-          
-          
-          
           if(AppDefault.miscid != ""){
               self.GotoDashBoardnotification(ischecklogin: false, misc: AppDefault.miscid )
-              
           }
       }
            
@@ -480,20 +474,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
          appDelegate.ChineseShowCustomerAlertControllerHeight(title: "Seller \(AppDefault.brandname) is busy." , heading: "Busy", note: "", miscid: "hide", btn1Title: "Cancel", btn1Callback: {
              
          }, btn2Title: "Ok") { token, id in
-             
-         }
+        }
      }else{
-         
-         
-         
-         
          if(AppDefault.miscid != ""){
              self.GotoDashBoardnotification(ischecklogin: false, misc: AppDefault.miscid )
              
          }else {
-             
-             
-             
          }
      }
      

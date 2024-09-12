@@ -29,6 +29,7 @@ class HomeLastProductCollectionViewCell: UICollectionViewCell {
             }
         }
     }
+    
     var idarray : [Product]?{
         didSet{
             if((idarray?.first?.id ?? "") == (product?.id ?? "")){

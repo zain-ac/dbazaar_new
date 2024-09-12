@@ -86,6 +86,12 @@ class popupChineseBellViewController: UIViewController {
                     callback("test", "1")
                 }
             }
+        }else if (self.miscid == "hide"){
+            if let callback = self.btn2Callback{
+                self.dismiss(animated: true) {
+                    callback("test", "1")
+                }
+            }
         }else{
             self.getVideoToken(room: miscid, token: AppDefault.accessToken, notificationId: "")
         }

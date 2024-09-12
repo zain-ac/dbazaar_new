@@ -32,7 +32,8 @@ class VediosSearch_VC: UIViewController {
     @IBOutlet weak var viewheight: NSLayoutConstraint!
     var isLoadingMore = false
     var count = 1
-    
+    var CategoriesResponsedata: [CategoriesResponse] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         vediocategoryCollection.dataSource = self
@@ -40,7 +41,7 @@ class VediosSearch_VC: UIViewController {
         vediosearchCollection.dataSource = self
         vediosearchCollection.delegate = self
         self.viewheight.constant = 0
-        // Do any additional setup after loading the view.
+        self.categoriesApi(isbackground: false, id: "")
     }
     @IBAction func DropDownTapped(_ sender: Any) {
         self.dropdownbtn.isSelected = !self.dropdownbtn.isSelected
@@ -87,13 +88,28 @@ class VediosSearch_VC: UIViewController {
         }
     }
     
+    private func categoriesApi(isbackground:Bool,id:String) {
+        APIServices.categories(isbackground:isbackground, id: id,completion: {[weak self] data in
+            switch data {
+            case .success(let res):
+                
+                self?.CategoriesResponsedata = res.Categoriesdata ?? []
+                
+                self?.vediocategoryCollection.reloadData()
+            case .failure(let error):
+                print(error)
+                self?.view.makeToast(error)
+            }
+        })
+    }
+    
 
 }
 extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == vediocategoryCollection
         {
-            return AppDefault.CategoriesResponsedata?.count ?? 0
+            return CategoriesResponsedata.count
             
         }else {
             return searchVideodata.count
@@ -102,9 +118,9 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             if (collectionView == vediocategoryCollection){
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "vediocategory_Cell", for: indexPath) as! vediocategory_Cell
-                let data = AppDefault.CategoriesResponsedata?[indexPath.row]
-                cell.imageView.pLoadImage(url: data?.mainImage ?? "")
-                cell.vedioCatLbl.text = data?.name ?? ""
+                let data = CategoriesResponsedata[indexPath.row]
+                cell.imageView.pLoadImage(url: data.mainImage ?? "")
+                cell.vedioCatLbl.text = data.name ?? ""
                 if selectedindex   == indexPath.row {
                     cell.imageView.borderWidth = 1
                 }else {
@@ -116,7 +132,13 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "vediosearchcollection_Cell", for: indexPath) as! vediosearchcollection_Cell
                 let data = searchVideodata[indexPath.row]
                 cell.mainimageView.pLoadImage(url: data.thumbnail ?? "")
-                cell.productimageView.pLoadImage(url: data.thumbnail ?? "")
+                if data.brandLogo == nil {
+                    cell.productimageView.image = UIImage(named: "Logo-main")
+                    cell.productimageView.contentMode = .scaleAspectFit
+                }else {
+                    cell.productimageView.pLoadImage(url: data.brandLogo ?? "")
+                    cell.productimageView.contentMode = .scaleToFill
+                }
                 cell.productname.text = data.title
                 cell.storename.text = data.brandName
                 cell.viewslbl.text = "\(data.totalViews ?? 0)"
@@ -125,7 +147,7 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
         }
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             if collectionView == vediocategoryCollection {
-                if AppDefault.CategoriesResponsedata?[indexPath.row].categorySpecs?.productsCount ?? 0 > 0 {
+                if CategoriesResponsedata[indexPath.row].categorySpecs?.productsCount ?? 0 > 0 {
                     return CGSize(width: collectionView.frame.size.width/5-10, height: collectionView.frame.size.height)
                 }else {
                     return CGSize(width: 0, height: 0)
@@ -150,10 +172,10 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == vediocategoryCollection
         {
-            let data = AppDefault.CategoriesResponsedata?[indexPath.row]
+            let data = CategoriesResponsedata[indexPath.row]
             self.selectedindex = indexPath.row
             self.array.removeAll()
-            self.array.append(data?.id ?? "")
+            self.array.append(data.id ?? "")
             self.searchVideo(name: "title", value: searchText ?? "", limit: limit ?? 20, catId: self.array, page: 1)
          
             

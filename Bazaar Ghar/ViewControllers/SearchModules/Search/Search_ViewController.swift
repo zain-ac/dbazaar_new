@@ -87,7 +87,10 @@ class Search_ViewController: UIViewController {
     crossBtn.isHidden = true
     switch (sender as AnyObject).tag{
     case 0:
-      ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "",page: 1, faceby: "")
+        ProductSearch_VCs.searchText = search_txtfield.text
+        ProductSearch_VCs.page = 1
+
+//      ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "",page: 1, faceby: "")
       showController(0, ProductSearch_VCs)
     case 1:
       StoreSearchVCs.searchText = search_txtfield.text
@@ -138,7 +141,10 @@ class Search_ViewController: UIViewController {
     switch (sender as AnyObject).tag{
     case 0:
 //      Prood.searchText = search_txtfield.text
-      ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "*",page: 1, faceby: "")
+        ProductSearch_VCs.searchText = search_txtfield.text
+        ProductSearch_VCs.page = 1
+
+//      ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "*",page: 1, faceby: "")
       showController(0, ProductSearch_VCs)
     case 1:
       StoreSearchVCs.searchText = search_txtfield.text
@@ -211,7 +217,9 @@ class Search_ViewController: UIViewController {
     crossBtn.tag = sender.selectedSegmentIndex
     switch sender.selectedSegmentIndex {
     case 0:
-      ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "",page: 1, faceby: "")
+        ProductSearch_VCs.searchText = search_txtfield.text ?? ""
+        ProductSearch_VCs.page = 1
+//      ProductSearch_VCs.performSearch(with: search_txtfield.text ?? "",page: 1, faceby: "")
       showController(0, ProductSearch_VCs)
     case 1:
       StoreSearchVCs.searchText = search_txtfield.text
