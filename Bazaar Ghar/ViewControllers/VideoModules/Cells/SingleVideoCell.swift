@@ -135,6 +135,7 @@ class SingleVideoCell: UITableViewCell {
             followcheck(storeId: storeId ?? "")
         }
     }
+    var progressView: UIProgressView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -148,10 +149,49 @@ class SingleVideoCell: UITableViewCell {
         isHideCollectionView.isHidden = true
         
         SocketConnect(socketId: AppDefault.socketId)
-        
+        // Add Slider
+        progressView = UIProgressView(progressViewStyle: .bar)
+               progressView.frame = CGRect(x: 10, y: self.videoView.bounds.height - 5, width: self.videoView.bounds.width - 40, height: 15)
+               progressView.trackTintColor = UIColor.lightGray
+               progressView.progressTintColor = UIColor.white
+               self.videoView.addSubview(progressView)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(progressViewTapped(_:)))
+            progressView.addGestureRecognizer(tapGestureRecognizer)
+               // Add periodic time observer to update slider
+        setupProgressTimer()
 
        }
+    @objc private func progressViewTapped(_ sender: UITapGestureRecognizer) {
+        let touchPoint = sender.location(in: progressView)
+        let percentage = touchPoint.x / progressView.bounds.width
+        guard let duration = avPlayer?.currentItem?.duration.seconds else { return }
+        
+        // Calculate the new time based on touch percentage
+        let newTime = Double(percentage) * duration
+        let seekTime = CMTime(seconds: newTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        
+        avPlayer?.seek(to: seekTime, completionHandler: { [weak self] finished in
+            if finished {
+                // Optionally update progress after seeking
+                self?.updateProgress()
+            }
+        })
+    }
+    private func setupProgressTimer() {
+         Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true, block: { [weak self] (completion) in
+            guard let self = self else { return }
+            self.updateProgress()
+        })
+    }
 
+    //update progression of video, based on it's own data
+
+    private func updateProgress() {
+        guard let duration = avPlayer?.currentItem?.duration.seconds,
+            let currentMoment = avPlayer?.currentItem?.currentTime().seconds else { return }
+
+        progressView.progress = Float(currentMoment / duration)
+    }
     
      func unfollowStore(storeId:String){
         APIServices.unfollowstore(storeId: storeId){[weak self] data in
@@ -305,7 +345,7 @@ class SingleVideoCell: UITableViewCell {
                    avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                   
          
-                   avPlayerLayer?.videoGravity = .resizeAspectFill
+                   avPlayerLayer?.videoGravity = .resizeAspect
                    
                    
                    self.backgroundColor = .clear
@@ -506,7 +546,7 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoProductCollectionViewCell", for: indexPath) as! videoProductCollectionViewCell
             let data = getvidoebyproductIdsdata[indexPath.row]
             
-            cell.img.pLoadImage(url: data.mainImage ?? "")
+            cell.img.pLoadImage(url: data.brandLogo ?? "")
             cell.price.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.price ?? 0)
             cell.productname.text = data.productName
 
@@ -598,7 +638,7 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
         if(collectionView == showCaseCollectionView){
            return CGSize(width: self.showCaseCollectionView.frame.width, height: self.showCaseCollectionView.frame.height)
         }else{
-            return CGSize(width: self.videoProductCollectionV.frame.width/1.2, height: self.videoProductCollectionV.frame.height)
+            return CGSize(width: self.videoProductCollectionV.frame.width/1.4, height: self.videoProductCollectionV.frame.height)
         }
      
     }

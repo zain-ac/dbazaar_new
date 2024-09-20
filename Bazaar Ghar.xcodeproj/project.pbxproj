@@ -64,7 +64,6 @@
 		8B14380D2A8F9417008A2705 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1437E42A8F9417008A2705 /* Roboto-Medium.ttf */; };
 		8B14380E2A8F9417008A2705 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1437E52A8F9417008A2705 /* Roboto-Light.ttf */; };
 		8B14380F2A8F9417008A2705 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1437E62A8F9417008A2705 /* Poppins-Light.ttf */; };
-		8B1438102A8F9417008A2705 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1437E72A8F9417008A2705 /* Poppins-Medium.ttf */; };
 		8B1438112A8F9417008A2705 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1437E82A8F9417008A2705 /* Roboto-Regular.ttf */; };
 		8B1438122A8F9417008A2705 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8B1437E92A8F9417008A2705 /* OFL.txt */; };
 		8B1438132A8F9417008A2705 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1437EA2A8F9417008A2705 /* Poppins-Regular.ttf */; };
@@ -100,6 +99,7 @@
 		8B34345A2C8996DA005A7956 /* Typesense in Frameworks */ = {isa = PBXBuildFile; productRef = 8B3434592C8996DA005A7956 /* Typesense */; };
 		8B3AE3062C2AA1CF00064687 /* HomeLastProductCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B3AE3042C2AA1CE00064687 /* HomeLastProductCollectionViewCell.xib */; };
 		8B3AE3082C2AD4CC00064687 /* CartPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3AE3072C2AD4CC00064687 /* CartPopupViewController.swift */; };
+		8B428E0F2C9C0AFB00F5048B /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B428E0E2C9C0AFB00F5048B /* Poppins-Medium.ttf */; };
 		8B50F0A02AFA09CF002A5CB6 /* Page_Vc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B50F09F2AFA09CF002A5CB6 /* Page_Vc.swift */; };
 		8B5B14492ABB2C6C002410F8 /* AddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5B14482ABB2C6C002410F8 /* AddressViewController.swift */; };
 		8B672C6B2C512FCE0048AC7A /* videoAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B672C6A2C512FCE0048AC7A /* videoAnimation.json */; };
@@ -379,7 +379,6 @@
 		8B1437E42A8F9417008A2705 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		8B1437E52A8F9417008A2705 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		8B1437E62A8F9417008A2705 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
-		8B1437E72A8F9417008A2705 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		8B1437E82A8F9417008A2705 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		8B1437E92A8F9417008A2705 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		8B1437EA2A8F9417008A2705 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
@@ -421,6 +420,8 @@
 		8B2B6E522C5B899100D8FBAF /* VideoCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCommentTableViewCell.swift; sourceTree = "<group>"; };
 		8B3AE3042C2AA1CE00064687 /* HomeLastProductCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeLastProductCollectionViewCell.xib; sourceTree = "<group>"; };
 		8B3AE3072C2AD4CC00064687 /* CartPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPopupViewController.swift; sourceTree = "<group>"; };
+		8B428E082C9C0AB000F5048B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductStoryBoard.strings; sourceTree = "<group>"; };
+		8B428E0E2C9C0AFB00F5048B /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		8B50F09F2AFA09CF002A5CB6 /* Page_Vc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page_Vc.swift; sourceTree = "<group>"; };
 		8B5B14482ABB2C6C002410F8 /* AddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewController.swift; sourceTree = "<group>"; };
 		8B672C6A2C512FCE0048AC7A /* videoAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = videoAnimation.json; sourceTree = "<group>"; };
@@ -777,10 +778,10 @@
 		8B1437E32A8F9417008A2705 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				8B428E0E2C9C0AFB00F5048B /* Poppins-Medium.ttf */,
 				8B1437E42A8F9417008A2705 /* Roboto-Medium.ttf */,
 				8B1437E52A8F9417008A2705 /* Roboto-Light.ttf */,
 				8B1437E62A8F9417008A2705 /* Poppins-Light.ttf */,
-				8B1437E72A8F9417008A2705 /* Poppins-Medium.ttf */,
 				8B1437E82A8F9417008A2705 /* Roboto-Regular.ttf */,
 				8B1437E92A8F9417008A2705 /* OFL.txt */,
 				8B1437EA2A8F9417008A2705 /* Poppins-Regular.ttf */,
@@ -1655,7 +1656,6 @@
 				8BCEF9E02C5A35D900152BFB /* SF-Mono-Light.otf in Resources */,
 				DAE61B3F2B29D9810087E776 /* receiverImageCell.xib in Resources */,
 				8BCEF9E72C5A35D900152BFB /* SF-Mono-SemiboldItalic.otf in Resources */,
-				8B1438102A8F9417008A2705 /* Poppins-Medium.ttf in Resources */,
 				8BA089B92AA20C5B00A78E75 /* GoogleService-Info.plist in Resources */,
 				8B672C6B2C512FCE0048AC7A /* videoAnimation.json in Resources */,
 				8BCEF9C82C5A35D900152BFB /* GraphikLCG-RegularItalic.otf in Resources */,
@@ -1670,6 +1670,7 @@
 				8BCEF9DF2C5A35D900152BFB /* SF-Mono-HeavyItalic.otf in Resources */,
 				8BCEF9C52C5A35D900152BFB /* GraphikLCG-Medium.otf in Resources */,
 				8BCEF9F92C5A35DA00152BFB /* Main.strings in Resources */,
+				8B428E0F2C9C0AFB00F5048B /* Poppins-Medium.ttf in Resources */,
 				8BCEF9C22C5A35D900152BFB /* GraphikLCG-ExtralightItalic.otf in Resources */,
 				8BB03D832A9F103100DB737F /* PRoductCategory_cell.xib in Resources */,
 				8BB5CF672C64F15800FE5413 /* SearchStoryBoard.storyboard in Resources */,
@@ -2149,6 +2150,7 @@
 			children = (
 				8BB5CF762C64F4A500FE5413 /* Base */,
 				8BB5CF7B2C64F4AA00FE5413 /* ar */,
+				8B428E082C9C0AB000F5048B /* en */,
 			);
 			name = ProductStoryBoard.storyboard;
 			sourceTree = "<group>";
@@ -2472,7 +2474,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.bazaargharios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.mysouqclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2516,7 +2518,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.bazaargharios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.mysouqclient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

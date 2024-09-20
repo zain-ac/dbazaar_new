@@ -364,7 +364,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
             if(categories == [] && userId == "" && city == ""){
                 return .requestParameters(parameters: ["limit":limit,"page":page], encoding: URLEncoding.default)
             }else if categories == [] && userId == "" && city != ""{
-                return .requestParameters(parameters: ["limit":limit,"page":page,"city":city], encoding: URLEncoding.default)
+                return .requestParameters(parameters: ["limit":limit,"page":page,"ip":city], encoding: URLEncoding.default)
             }else if(userId != ""){
                 return .requestParameters(parameters: ["limit":limit,"page":page,"userId":userId], encoding: URLEncoding.default)
             }else{
@@ -419,7 +419,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case let .newishlist(product):
               return .requestParameters(parameters: ["product": product], encoding: JSONEncoding.default)
         case let .shopchinaStreamingVideo(origin):
-            return .requestParameters(parameters: ["origin": origin], encoding: URLEncoding.default)
+            return .requestParameters(parameters: ["origin": origin , "limit":20], encoding: URLEncoding.default)
         case let .getprovince(countryCode, language, checkCache):
             return .requestParameters(parameters: ["countryCode": countryCode,"language": language], encoding: URLEncoding.default)
             

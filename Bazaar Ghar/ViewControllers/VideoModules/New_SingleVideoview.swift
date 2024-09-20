@@ -466,7 +466,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
                 cell?.buybtn.setTitle("Buy", for: .normal)
             }else{
                 cell?.hiddenview.isHidden = false
-                cell?.hiddenviewheight.constant = 150
+                cell?.hiddenviewheight.constant = 170
                 cell?.buybtn.setTitle("Close", for: .normal)
 
             }

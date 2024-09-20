@@ -297,7 +297,7 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
               }else {
                   buttonImages = ["china", "saudi", "world"]
               }
-              
+              menu.rotationStartAngleDegrees = 0.0
               // Manually update button images
               updateMenuButtons()
 
@@ -417,6 +417,10 @@ class CustomTabBar: UITabBar, WCCircularFloatingActionMenuDataSource, WCCircular
         if let img = notification.userInfo?["img"] as? String {
             let image = UIImage(named: img)?.withRenderingMode(.alwaysOriginal)
             middleButton.setImage(image, for: .normal)
+            if img == "World_Button" {
+                buttonImages = ["china", "saudi", "pakistan-image"]
+                updateMenuButtons()
+            }
         }
   
     }

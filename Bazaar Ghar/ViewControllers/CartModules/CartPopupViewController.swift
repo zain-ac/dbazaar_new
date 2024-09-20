@@ -50,13 +50,13 @@ class CartPopupViewController: UIViewController {
             discountPrice.isHidden = false
             productPrice.isHidden = false
             discountPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.regularPrice ?? 0)
-            productPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.salePrice ?? 0))
+            productPrice.attributedText = Utility().formattedText2(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.salePrice ?? 0))
             productPriceline.isHidden = false
             discountPrice.textColor = UIColor.red
             productPriceline.backgroundColor = UIColor.red
         }else {
             productPriceline.isHidden = true
-            discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.regularPrice ?? 0))
+            discountPrice.attributedText = Utility().formattedText2(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(products?.regularPrice ?? 0))
          }
     }
     

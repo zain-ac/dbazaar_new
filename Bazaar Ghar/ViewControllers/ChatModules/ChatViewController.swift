@@ -7,7 +7,7 @@ import MobileCoreServices
 import UniformTypeIdentifiers
 
 class ChatViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    @IBOutlet weak var headerBackgroudView: UIView!
     @IBOutlet weak var ChatTblV: UITableView!
     @IBOutlet weak var messageTF: UITextView!
     @IBOutlet weak var attachmentBtn: UIButton!
@@ -30,6 +30,8 @@ class ChatViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Utility().setGradientBackground(view: headerBackgroudView, colors: [primaryColor, primaryColor, headerSecondaryColor])
+
         self.navigationController?.navigationBar.isHidden = true
        
         ChatTblV.register(UINib(nibName: "sendCell", bundle: nil), forCellReuseIdentifier: "sendCell")
@@ -45,7 +47,8 @@ class ChatViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         }else {
             namestore.text = messages?.idarray?.brandName ?? ""
         }
-        messageTF.text = "Type something here..."
+        messageTF.text = ""
+        messageTF.addPlaceholder("Write Something...")
         if(latestMessages?.count ?? 0 > 0){
             self.ChatTblV.scrollToBottom()
         }
@@ -413,7 +416,14 @@ extension ChatViewController{
 }
 extension ChatViewController:UITextViewDelegate{
     func textViewDidChange(_ textView: UITextView) {
-         
+        if  textView.text == ""
+           {
+            textView.showPlaceholder()
+           }
+           else
+           {
+               textView.hidePlaceholder()
+           }
          
         }
      
@@ -424,15 +434,15 @@ extension ChatViewController:UITextViewDelegate{
          return true
      }
      
-     func textViewDidBeginEditing(_ textView: UITextView) {
-         if textView.text == "Type something here..." {
-             textView.text = ""
-         }
-     }
+//     func textViewDidBeginEditing(_ textView: UITextView) {
+//         if textView.text == "Type something here..." {
+//             textView.text = ""
+//         }
+//     }
     
     private func textFieldDidEndEditing(_ textField: UITextField) {
       if textField.text == "" {
-          textField.text = "Type something here..."
+//          textField.text = "Type something here..."
           sendBtn.isHidden = true
         }else {
             sendBtn.isHidden = false
@@ -525,3 +535,4 @@ extension UITextView {
         contentOffset.y = -positiveTopOffset
     }
 }
+

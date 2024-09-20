@@ -82,7 +82,6 @@ class New_StoreVC: UIViewController {
         brandNameLbl.text = brandName ?? ""
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         pagerView.automaticSlidingInterval = 2.0
-        getStreamingVideos(userId: prductid ?? "", limit: 30, page: 1, categories: [])
         randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
         followcheck(storeId: self.storeId)
         update(count: 1)
@@ -178,7 +177,7 @@ class New_StoreVC: UIViewController {
                     self?.isLoadingNextPage = false
                     
                     let ll = (Utility().makeOddNumberEven(self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 290
-                    self?.scrollheight.constant = CGFloat( CGFloat(ll) + 900)
+                    self?.scrollheight.constant = CGFloat( CGFloat(ll) + 550)
                     self?.categoryproduct_collectionview.reloadData()
                 }else {
 
@@ -190,6 +189,7 @@ class New_StoreVC: UIViewController {
 
                 }
 
+                self?.getStreamingVideos(userId: self?.prductid ?? "", limit: 30, page: 1, categories: [])
 
                 
             case .failure(let error):
@@ -209,29 +209,31 @@ class New_StoreVC: UIViewController {
         }
     }
     
-    private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
-        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
-            switch data{
-            case .success(let res):
-               //
-                
-                if res.results?.count ?? 0 > 0 {
-                    self?.videoViewHeight.constant = 300
-                    self?.videoView.isHidden = false
-                }else {
-                    self?.videoViewHeight.constant = 0
-                    self?.videoView.isHidden = true
-                }
-        
-                self?.LiveStreamingResultsdata = res.results ?? []
-       
-                self?.videoCollection.reloadData()
-            case .failure(let error):
-                print(error)
-//                self?.view.makeToast(error)
-            }
-        })
-    }
+//    private func getStreamingVideos(limit:Int,page:Int,categories: [String]){
+//        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: "",completion: {[weak self] data in
+//            switch data{
+//            case .success(let res):
+//               //
+//                
+//                if res.results?.count ?? 0 > 0 {
+//                    self?.videoViewHeight.constant = 300
+//                    self?.videoView.isHidden = false
+//                }else {
+//                    self?.videoViewHeight.constant = 0
+//                    self?.videoView.isHidden = true
+//                }
+//        
+//                self?.scrollheight.constant = self?.scrollheight.constant ?? 0 + (self?.videoViewHeight.constant ?? 0)
+//
+//                self?.LiveStreamingResultsdata = res.results ?? []
+//       
+//                self?.videoCollection.reloadData()
+//            case .failure(let error):
+//                print(error)
+////                self?.view.makeToast(error)
+//            }
+//        })
+//    }
     
     private func getStreamingVideos(userId:String,limit:Int,page:Int,categories: [String]){
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:userId, city: "",completion: {[weak self] data in
@@ -241,13 +243,14 @@ class New_StoreVC: UIViewController {
                 if res.results?.count ?? 0 > 0 {
                     self?.videoViewHeight.constant = 300
                     self?.LiveStreamingResultsdata = res.results ?? []
-           
+                    let ll = (Utility().makeOddNumberEven(self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 290
+                    self?.scrollheight.constant = CGFloat( CGFloat(ll) + 850)
                     self?.videoCollection.reloadData()
                 } else {
                     self?.videoViewHeight.constant = 0
 //                    self?.getStreamingVideos(limit: 30, page: 1, categories: [])
                 }
-        
+
 
 
             case .failure(let error):

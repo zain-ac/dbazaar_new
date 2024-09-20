@@ -56,11 +56,11 @@ class inviteFriends_Vc: UIViewController {
     }
     
     @IBAction func inviteBtnTapped(_ sender: Any) {
-        UIPasteboard.general.string = "Hello there this is my Referral code:\(refCodeLbl.text ?? "")\n \nPlease use this referral code on checkout at MySouq, You will get Rs.200 discount and I will get a commission on it The link is given below\n \nhttps://d.bazaarghar.com/"
+        UIPasteboard.general.string = "Hello there this is my Referral code:\(refCodeLbl.text ?? "")\n \nPlease use this referral code on checkout at MySouq, You will get SAR 200 discount and I will get a commission on it The link is given below\n \nhttps://stage.mysouq.com/"
         self.view.makeToast("Refferal code copied")
     }
     @IBAction func copyBtnTapped(_ sender: Any) {
-        UIPasteboard.general.string = "Hello there this is my Referral code:\(refCodeLbl.text ?? "")\n \nPlease use this referral code on checkout at MySouq, You will get Rs.200 discount and I will get a commission on it The link is given below\n \nhttps://d.bazaarghar.com/"
+        UIPasteboard.general.string = "Hello there this is my Referral code:\(refCodeLbl.text ?? "")\n \nPlease use this referral code on checkout at MySouq, You will get SAR 200 discount and I will get a commission on it The link is given below\n \nhttps://stage.mysouq.com/"
         self.view.makeToast("Refferal code copied")
 
     }

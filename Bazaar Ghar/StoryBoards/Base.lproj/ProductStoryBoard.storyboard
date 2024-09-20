@@ -493,13 +493,13 @@
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gwq-KJ-d5W">
-                                                                <rect key="frame" x="65" y="2.3333333333332575" width="6.3333333333333286" height="25.333333333333332"/>
+                                                                <rect key="frame" x="62.000000000000007" y="2.3333333333332575" width="6.3333333333333357" height="25.333333333333332"/>
                                                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="18"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jft-e5-fUU">
-                                                                <rect key="frame" x="86.333333333333314" y="0.0" width="30" height="30"/>
+                                                                <rect key="frame" x="80" y="0.0" width="30" height="30"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zey-hg-Kgb">
                                                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -557,11 +557,11 @@
                                                         </subviews>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
-                                                            <constraint firstItem="Jft-e5-fUU" firstAttribute="leading" secondItem="gwq-KJ-d5W" secondAttribute="trailing" constant="15" id="2HM-Lt-QrY"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Jft-e5-fUU" secondAttribute="trailing" constant="20" symbolic="YES" id="8Gq-5F-7ap"/>
                                                             <constraint firstItem="gwq-KJ-d5W" firstAttribute="centerY" secondItem="mat-2p-hg2" secondAttribute="centerY" id="LCS-z9-hhk"/>
                                                             <constraint firstAttribute="width" constant="130" id="T5Z-w2-Vm8"/>
                                                             <constraint firstItem="Jft-e5-fUU" firstAttribute="centerY" secondItem="gwq-KJ-d5W" secondAttribute="centerY" id="bIA-LJ-B16"/>
-                                                            <constraint firstItem="gwq-KJ-d5W" firstAttribute="leading" secondItem="mat-2p-hg2" secondAttribute="trailing" constant="15" id="cRf-d5-BKL"/>
+                                                            <constraint firstItem="gwq-KJ-d5W" firstAttribute="centerX" secondItem="Dbk-pu-Hrk" secondAttribute="centerX" id="cCe-8Y-yRu"/>
                                                             <constraint firstItem="mat-2p-hg2" firstAttribute="top" secondItem="Dbk-pu-Hrk" secondAttribute="top" id="g2C-Nh-htf"/>
                                                             <constraint firstItem="mat-2p-hg2" firstAttribute="leading" secondItem="Dbk-pu-Hrk" secondAttribute="leading" constant="20" symbolic="YES" id="hwU-Ah-AA8"/>
                                                             <constraint firstAttribute="height" constant="35" id="nBn-yY-NL9"/>
@@ -1363,8 +1363,8 @@
                                                         <rect key="frame" x="0.0" y="3" width="390" height="40"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DBAAZAR RECOMMENDATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9yI-aa-0Ad">
-                                                                <rect key="frame" x="14.999999999999986" y="10.666666666666517" width="229.66666666666663" height="18.666666666666671"/>
-                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                                                <rect key="frame" x="15" y="10.333333333333256" width="240" height="19.333333333333329"/>
+                                                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -1653,7 +1653,7 @@
                                                     <constraint firstAttribute="bottom" secondItem="OX9-tM-f7C" secondAttribute="bottom" id="o9x-MS-g3i"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dBz-4h-2eP">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dBz-4h-2eP">
                                                 <rect key="frame" x="0.0" y="2617.6666666666665" width="390" height="40"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHH-KS-pDM">
@@ -2957,11 +2957,6 @@
             <point key="canvasLocation" x="-5364" y="333.25123152709364"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="noD-II-tY8">
-            <size key="intrinsicContentSize" width="120" height="20"/>
-        </designable>
-    </designables>
     <resources>
         <image name="Icon feather-arrow-right" width="19.643999099731445" height="15.27400016784668"/>
         <image name="Layer 2" width="39.012001037597656" height="39.012001037597656"/>

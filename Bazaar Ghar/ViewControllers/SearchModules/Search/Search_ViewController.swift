@@ -161,9 +161,10 @@ class Search_ViewController: UIViewController {
   @IBAction func bacbtn(_ sender: Any) {
 //    appDelegate.isbutton = false
 //  NotificationCenter.default.post(name: Notification.Name("ishideen"), object: nil)
-    DispatchQueue.main.async {
-      self.navigationController?.popToRootViewController(animated: true)
-    }
+//    DispatchQueue.main.async {
+//      self.navigationController?.popToRootViewController(animated: true)
+//    }
+      navigationController?.popViewController(animated: false)
   }
   //MARK: - Setup Scrollable Segmented Control
   fileprivate func setupSegments(_ segmentedControl:ScrollableSegmentedControl){

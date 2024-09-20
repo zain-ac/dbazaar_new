@@ -141,7 +141,7 @@ extension VediosSearch_VC:UICollectionViewDelegate,UICollectionViewDataSource,UI
                 }
                 cell.productname.text = data.title
                 cell.storename.text = data.brandName
-                cell.viewslbl.text = "\(data.totalViews ?? 0)"
+                cell.viewslbl.text = "\(data.totalViews ?? 0) Views"
                 return cell
             }
         }

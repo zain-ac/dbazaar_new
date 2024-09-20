@@ -80,7 +80,7 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     var items: [Item] = [
             Item(image: UIImage(named: "truck")!, title: "Standard Delivery",subtitle: "Get your order in 3-5 days"),
             Item(image: UIImage(named: "d 1")!, title: "Credit/Debit Card",subtitle: "Pay via card"),
-            Item(image: UIImage(named: "d 2")!, title: "Seven Days Return",subtitle: "Return your order in seven days"),
+            Item(image: UIImage(named: "d 2")!, title: "7 Days Return",subtitle: "Return your order in seven days"),
             Item(image: UIImage(named: "d 3")!, title: "Warranty Available",subtitle: "Get warranty on our products"),
             // Add more items as needed
         ]
@@ -715,14 +715,14 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                     self?.buyNowBtn.isEnabled = true
                     self?.cartBtnImg.setBackgroundImage(UIImage(named: "cartBlue"), for: .normal)
                 }else {
-                    self?.cartBtnView.backgroundColor = .gray
+                    self?.cartBtnView.backgroundColor = .lightGray
                     self?.cartBtnLbl.textColor = .white
                     self?.cartBtnView.borderWidth = 0
                     self?.quantityView.isHidden = true
                     self?.outOfStockLbl.isHidden = false
                     self?.cartBtnImg.setBackgroundImage(UIImage(named: "carticon"), for: .normal)
                     self?.addToCartBtn.isEnabled = false
-                    self?.buyNowBtn.backgroundColor = .gray
+                    self?.buyNowBtn.backgroundColor = .lightGray
                     self?.buyNowBtn.isEnabled = false
 //                    self?.buyNowBtn.isEnabled = false
                 }

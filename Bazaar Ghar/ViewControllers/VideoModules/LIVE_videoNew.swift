@@ -36,10 +36,16 @@ class LIVE_videoNew: UIViewController {
     var id:String?
     var isLoadingData = false
     var count = 1
-    
+    var ip : String? {
+        didSet {
+            if ip != nil {
+                self.getStreamingVideos(limit:30,page:self.count,categories: [], city: ip ?? "")
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       
         let nib = UINib(nibName: "Live_videoCell1TableViewCell", bundle: nil)
          videocategorytableview.register(nib, forCellReuseIdentifier: "Live_videoCell1TableViewCell")
         let nib2 = UINib(nibName: "Live_videoCell1TableViewCel2", bundle: nil)
@@ -64,6 +70,7 @@ class LIVE_videoNew: UIViewController {
     
     @objc func textFieldDidChange(_ textField: UITextField) {
            let currentText = textField.text ?? ""
+        self.ip = nil
         if currentText == "" {
             searchVideo(name: "title", value:  "", limit: 100, catId: [], page: 1)
         }else {
@@ -80,6 +87,7 @@ class LIVE_videoNew: UIViewController {
             searchVideodata.removeAll()
             catbtnview.backgroundColor = .oceanBlue
             nearByView.backgroundColor = UIColor(hex: "#5ED0FD")
+            self.ip = nil
             getStreamingVideos(limit:30,page:1,categories: [self.id ?? ""], city: "")
 
         }
@@ -124,9 +132,6 @@ class LIVE_videoNew: UIViewController {
         APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in
             switch data{
             case .success(let res):
-               //
-                self?.isLoadingData = false
-
                 self?.LiveStreamingResultsdata += res.results ?? []
                 self?.videocategorytableview.reloadData()
                 self?.count += 1
@@ -137,6 +142,8 @@ class LIVE_videoNew: UIViewController {
                     self?.novideosview.isHidden = false
 //                    self?.categoryview.isHidden = false
                 }
+                self?.isLoadingData = false
+
             case .failure(let error):
                 print(error)
 //                self?.view.makeToast(error)
@@ -159,11 +166,11 @@ class LIVE_videoNew: UIViewController {
                 DispatchQueue.main.async {
                     if self.cat == "cat" {
                         self.getStreamingVideos(limit:30,page:self.count,categories: [self.id ?? ""], city: "")
-
+                    }else if self.ip != nil {
+                        self.getStreamingVideos(limit:30,page:self.count,categories: [], city: self.ip ?? "")
                     }else {
                         self.getStreamingVideos(limit:30,page:self.count,categories: [], city: "")
                     }
-                    self.isLoadingData = false
                 }
             }
         }
@@ -219,6 +226,7 @@ class LIVE_videoNew: UIViewController {
 
     
     @IBAction func seachTap(_ sender: Any) {
+        self.ip = nil
         if(searchFeild.text == ""){
             searchVideo(name: "title", value:  "", limit: 30, catId: [], page: 1)
         }
@@ -246,7 +254,11 @@ class LIVE_videoNew: UIViewController {
         nearByView.backgroundColor = .oceanBlue
         catbtnview.backgroundColor = UIColor(hex: "#5ED0FD")
         self.id = nil
-        self.getStreamingVideos(limit:30,page:self.count,categories: [], city: "islamabad")
+        Task {
+            let ip = await Utility().getMyPublicIpAsync()
+                    print("Your Public IP Address: \(ip)")
+                    self.ip = ip
+            }
     }
 }
 extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
@@ -298,7 +310,7 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 
                 cell.btntap.tag = indexPath.row * 5
                 cell.LiveStreamingResultsdata = LiveStreamingResultsdatafilter
-                let inset: CGFloat = 10 // A
+                let inset: CGFloat = 0 // A
                 cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
                 cell.LiveStreamingResultsAlldata = LiveStreamingResultsdata
@@ -327,7 +339,7 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 cell.buttontap.tag = indexPath.row * 5
               
                 cell.LiveStreamingResultsdata = LiveStreamingResultsdatafilter
-                let inset: CGFloat = 10 // A
+                let inset: CGFloat = 0 // A
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
                 cell.navigationController  = self.navigationController
                 cell.LiveStreamingResultsAlldata = LiveStreamingResultsdata
@@ -365,7 +377,7 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 cell.btntap.tag = indexPath.row * 5
                 
                 cell.LiveStreamingResultsdata = searchVideodatafilter
-                let inset: CGFloat = 10 // A
+                let inset: CGFloat = 0 // A
                 
                 cell.navigationController  = self.navigationController
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
@@ -395,7 +407,7 @@ extension LIVE_videoNew:UITableViewDataSource,UITableViewDelegate {
                 cell.buttontap.tag = indexPath.row * 5
 
                 cell.LiveStreamingResultsdata = searchVideodatafilter
-                let inset: CGFloat = 10 // A
+                let inset: CGFloat = 0 // A
                 cell.views.frame = cell.views.frame.inset(by: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset))
                 cell.navigationController  = self.navigationController
                 cell.LiveStreamingResultsAlldata = searchVideodata
@@ -425,7 +437,7 @@ extension LIVE_videoNew: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Dismiss the keyboard
         textField.resignFirstResponder()
-        
+        self.ip = nil
         if searchFeild.text == "" {
             searchVideo(name: "title", value:  "", limit: 100, catId: [], page: 1)
         }else {

@@ -3747,7 +3747,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mg2-aM-GCe">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mg2-aM-GCe">
                                                 <rect key="frame" x="320" y="249.33333333333331" width="25" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="25" id="Ggk-rM-hi5"/>
@@ -3958,7 +3958,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ZB-Lt-vZ4">
                                                         <rect key="frame" x="0.0" y="0.0" width="365" height="30"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FdY-40-rDA">
+                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FdY-40-rDA">
                                                                 <rect key="frame" x="320" y="2.6666666666667425" width="25" height="25"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="25" id="DDX-nE-rdf"/>
@@ -5260,9 +5260,6 @@
             <point key="canvasLocation" x="-7858.3999999999996" y="279.31034482758622"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="94d-mJ-0AP"/>
-    </designables>
     <resources>
         <image name="17" width="225" height="225"/>
         <image name="5" width="720" height="405"/>

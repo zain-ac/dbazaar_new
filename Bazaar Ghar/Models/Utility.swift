@@ -490,6 +490,40 @@ class Utility {
         
         return attributedString
     }
+    func formattedText2(text: String) -> NSAttributedString {
+        // Split the text into components
+        let components = text.split(separator: " ")
+        
+        // Ensure there are exactly two components: "SAR" and the number
+        guard components.count == 2 else {
+            return NSAttributedString(string: text) // Return unformatted text if the format is unexpected
+        }
+        
+        let currency = String(components[0])
+        let amount = String(components[1])
+        
+        // Create an NSMutableAttributedString from the full text
+        let attributedString = NSMutableAttributedString(string: text)
+        
+        // Define the attributes for the currency part ("SAR")
+        let currencyAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 12),
+            .foregroundColor: UIColor.black
+        ]
+        
+        // Define the attributes for the amount part ("1200")
+        let amountAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 16),
+            .foregroundColor: UIColor(hex: primaryColor)!
+        ]
+        
+        // Apply the attributes to the respective ranges
+        attributedString.addAttributes(currencyAttributes, range: (text as NSString).range(of: currency))
+        attributedString.addAttributes(amountAttributes, range: (text as NSString).range(of: amount))
+        
+        return attributedString
+    }
+
     func formattedTextWhite(text: String) -> NSAttributedString {
         // Split the text into components
         let components = text.split(separator: " ")
@@ -559,6 +593,42 @@ class Utility {
             }
         }
         task.resume()
+    }
+    
+    func getIPAddress() -> String? {
+        var address: String?
+
+        // Get list of all interfaces on the device
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        if getifaddrs(&ifaddr) == 0 {
+            var ptr = ifaddr
+            while ptr != nil {
+                defer { ptr = ptr?.pointee.ifa_next }
+                
+                let interface = ptr?.pointee
+                let addrFamily = interface?.ifa_addr.pointee.sa_family
+                
+                // Check for IPv4 or IPv6 interface
+                if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
+                    if let ifaName = interface?.ifa_name, String(cString: ifaName) == "en0" {
+                        // en0 is the Wi-Fi interface
+                        var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                        getnameinfo(interface?.ifa_addr, socklen_t((interface?.ifa_addr.pointee.sa_len)!), &hostname, socklen_t(hostname.count), nil, socklen_t(0), NI_NUMERICHOST)
+                        address = String(cString: hostname)
+                    }
+                }
+            }
+            freeifaddrs(ifaddr)
+        }
+        
+        return address
+    }
+    
+    func getMyPublicIpAsync() async -> String {
+        do { let url = URL(string: "https://api.ipify.org")!
+            let (data, _) = try await URLSession.shared.data(from: url)
+            if let result = String(data: data, encoding: .utf8) { return result }
+            else { return "error: Unable to decode response" } } catch { return "error: \(error)" }
     }
     
 }
@@ -927,3 +997,4 @@ var name:String?
     var id:String?
     var img: String?
 }
+

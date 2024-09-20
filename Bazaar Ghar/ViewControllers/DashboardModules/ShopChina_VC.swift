@@ -140,15 +140,14 @@ var count = 0
         
         KSA = [
                
-            KSAcat(name: "Body Soaps & Shower Gels",id: "60d30fafadf1df13d41b56d5",img: "https://cdn.bazaarghar.com/1640677639491body-soaps-shower-gel.png"),
-        KSAcat(name: "Men Fragrances",id: "604f48f648fcad02d8aaceeb",img: "https://cdn.bazaarghar.com/1640607482286mens-fragrances.png"),
-        KSAcat(name: "Dry Fruits",id: "60c9dce26f0fe647a547713c",img:"https://cdn.bazaarghar.com/1640595049922dry-fruits.png"),
-        KSAcat(name: "Rugs & Carpets",id: "61c0665ec59a3763f321635a",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
+            KSAcat(name: "Soaps",id: "60d30fafadf1df13d41b56d5",img: "https://cdn.bazaarghar.com/1640677639491body-soaps-shower-gel.png"),
+        KSAcat(name: "Fragrances",id: "604f48f648fcad02d8aaceeb",img: "https://cdn.bazaarghar.com/1640607482286mens-fragrances.png"),
+        KSAcat(name: "Dates",id: "60c9dce26f0fe647a547713c",img:"https://cdn.bazaarghar.com/1640595049922dry-fruits.png"),
+        KSAcat(name: "Rugs",id: "61c0665ec59a3763f321635a",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
 
         ]  
         China = [
-               
-            KSAcat(name: "Games & Accessories",id: "65e82aa5067e0d3f4c5f774e",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
+        KSAcat(name: "Games & Accessories",id: "65e82aa5067e0d3f4c5f774e",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
             
         KSAcat(name: "Smart Electronics",id: "65e82aa5067e0d3f4c5f774c",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714109268854smart-electronics.png"),
         KSAcat(name: "Night Lights",id: "65e82aa5067e0d3f4c5f7746",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110169088night-light.png"),
@@ -1108,15 +1107,34 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "topcategoriescell", for: indexPath) as! topcategoriescell
-            let data = CategoriesResponsedata[indexPath.row]
-            cell.imageView.pLoadImage(url: data.mainImage ?? "")
-            
-            
-            if LanguageManager.language == "ar"{
-                cell.topCatLbl.text = data.lang?.ar?.name
-            }else{
-                cell.topCatLbl.text = data.name
+//            let data = CategoriesResponsedata[indexPath.row]
+          
+            if shop == "Shop China" {
+                let  data = China[indexPath.row]
+                  cell.imageView.pLoadImage(url: data.img ?? "")
+                  if LanguageManager.language == "ar"{
+  //                    cell.topCatLbl.text = data.lang?.ar?.name
+                  }else{
+                      cell.topCatLbl.text = data.name
+                  }
+            }else if shop == "Shop Saudi" {
+                let  data = KSA[indexPath.row]
+                  cell.imageView.pLoadImage(url: data.img ?? "")
+                  if LanguageManager.language == "ar"{
+  //                    cell.topCatLbl.text = data.lang?.ar?.name
+                  }else{
+                      cell.topCatLbl.text = data.name
+                  }
+            }else {
+                let  data = Pak[indexPath.row]
+                  cell.imageView.pLoadImage(url: data.img ?? "")
+                  if LanguageManager.language == "ar"{
+  //                    cell.topCatLbl.text = data.lang?.ar?.name
+                  }else{
+                      cell.topCatLbl.text = data.name
+                  }
             }
+        
             
             return cell
         }
@@ -1361,14 +1379,34 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             vc.page = 2
             self.navigationController?.pushViewController(vc, animated: false)
         } else {
-              let data = CategoriesResponsedata[indexPath.row]
-
-              let vc = Category_ProductsVC.getVC(.productStoryBoard)
-              vc.prductid = data.id ?? ""
-              vc.video_section = false
-              vc.storeFlag = false
-              vc.catNameTitle = data.name ?? ""
-              self.navigationController?.pushViewController(vc, animated: false)
+             
+            
+            if shop == "Shop China" {
+                let  data = China[indexPath.row]
+                let vc = Category_ProductsVC.getVC(.productStoryBoard)
+                vc.prductid = data.id ?? ""
+                vc.video_section = false
+                vc.storeFlag = false
+                vc.catNameTitle = data.name ?? ""
+                self.navigationController?.pushViewController(vc, animated: false)
+            }else if shop == "Shop Saudi" {
+                let  data = KSA[indexPath.row]
+                let vc = Category_ProductsVC.getVC(.productStoryBoard)
+                vc.prductid = data.id ?? ""
+                vc.video_section = false
+                vc.storeFlag = false
+                vc.catNameTitle = data.name ?? ""
+                self.navigationController?.pushViewController(vc, animated: false)
+            }else {
+                let  data = Pak[indexPath.row]
+                let vc = Category_ProductsVC.getVC(.productStoryBoard)
+                vc.prductid = data.id ?? ""
+                vc.video_section = false
+                vc.storeFlag = false
+                vc.catNameTitle = data.name ?? ""
+                self.navigationController?.pushViewController(vc, animated: false)
+            }
+            
           }
         
     }
