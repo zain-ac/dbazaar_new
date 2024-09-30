@@ -135,6 +135,7 @@ var count = 0
             }
         }
     }
+    var origin : String?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -226,10 +227,10 @@ var count = 0
                 categoriesApi(isbackground: true, id: i.id ?? "")
             }
             self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f76c2", cat2: "65e82aa5067e0d3f4c5f773c", cat3: "5fe1cbaac05d6b3eb844f6ed", cat4: "", cat5: "", origin: "china",isbackground: true)
-            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
+            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true, origin: "china")
             getStreamingVideos(origin: "china")
             getrandomproduct(origin: "china")
-
+            self.origin = "china"
         }else if shop == "Shop Saudi" {
             let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
             recommendationLbl.attributedText = attributedText1
@@ -240,9 +241,10 @@ var count = 0
                 categoriesApi(isbackground: false, id: i.id ?? "")
             }
             self.productcategoriesApi(cat: "604f48f648fcad02d8aaceeb", cat2: "60c9dce26f0fe647a547713c", cat3: "61c0665ec59a3763f321635a", cat4: "", cat5: "", origin: "ksa",isbackground: false)
-            randomproduct(cat: "60d30fafadf1df13d41b56d5", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+            randomproduct(cat: "60d30fafadf1df13d41b56d5", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false, origin: "ksa")
             getStreamingVideos(origin: "ksa")
             getrandomproduct(origin: "ksa")
+            self.origin = "ksa"
 
         }else {
             let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
@@ -255,9 +257,10 @@ var count = 0
             }
             self.productcategoriesApi(cat: "6038dd317e4d2a1f859d8255", cat2: "6051de7711747985fdce2faa", cat3: "6048c62a05ec9502c9f8cde3", cat4: "", cat5: "", origin: "pak",isbackground: false)
 
-            randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+            randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false,origin: "pak")
             getStreamingVideos(origin: "pak")
             getrandomproduct(origin: "pak")
+            self.origin = "pak"
         }
         
     }
@@ -610,12 +613,15 @@ var count = 0
         if shop == "Shop China" {
             vc.prductid = "65e82aa5067e0d3f4c5f774e"
             vc.catNameTitle = "Gamer Sale"
+            vc.origin = "china"
         }else if shop == "Shop Saudi" {
             vc.prductid = "60d30fafadf1df13d41b56d5"
             vc.catNameTitle = "Best Saler"
+            vc.origin = "ksa"
         }else {
             vc.prductid = "6038dd317e4d2a1f859d8255"
             vc.catNameTitle = "Best Saler"
+            vc.origin = "pak"
         }
            vc.video_section = false
            vc.storeFlag = false
@@ -743,7 +749,7 @@ var count = 0
 //    }
     
     private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,origin:String,isbackground:Bool){
-        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+        APIServices.shopchinaproductcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, origin: origin,isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
                 self?.kk = 0
@@ -766,8 +772,8 @@ var count = 0
         })
     }
 
-    private func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground : Bool){
-        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+    private func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground : Bool,origin:String){
+        APIServices.shopchinaproductcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, origin: origin,isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
             
@@ -1316,6 +1322,13 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                         vc.video_section = false
                         vc.storeFlag = false
                         vc.catNameTitle = data?.name ?? ""
+                        if shop == "Shop China" {
+                            vc.origin = "china"
+                        }else if shop == "Shop Saudi" {
+                            vc.origin = "ksa"
+                        }else {
+                            vc.origin = "pak"
+                        }
                         self.navigationController?.pushViewController(vc, animated: false)
                     }
                     
@@ -1388,6 +1401,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                 vc.video_section = false
                 vc.storeFlag = false
                 vc.catNameTitle = data.name ?? ""
+                vc.origin = "china"
                 self.navigationController?.pushViewController(vc, animated: false)
             }else if shop == "Shop Saudi" {
                 let  data = KSA[indexPath.row]
@@ -1396,6 +1410,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                 vc.video_section = false
                 vc.storeFlag = false
                 vc.catNameTitle = data.name ?? ""
+                vc.origin = "ksa"
                 self.navigationController?.pushViewController(vc, animated: false)
             }else {
                 let  data = Pak[indexPath.row]
@@ -1404,6 +1419,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                 vc.video_section = false
                 vc.storeFlag = false
                 vc.catNameTitle = data.name ?? ""
+                vc.origin = "pak"
                 self.navigationController?.pushViewController(vc, animated: false)
             }
             
@@ -1423,7 +1439,7 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as! HomeTableViewCell
 
             let data = ProductCategoriesResponsedata[indexPath.row]
-            
+             cell.origin = self.origin
             
             if LanguageManager.language == "ar"{
                 cell.cateogorylbl.text = data.lang?.ar?.name?.lowercased().capitalized
@@ -1481,6 +1497,13 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
         vc.video_section = false
         vc.storeFlag = false
         vc.catNameTitle = data.name ?? ""
+        if shop == "Shop China" {
+            vc.origin = "china"
+        }else if shop == "Shop Saudi" {
+            vc.origin = "ksa"
+        }else {
+            vc.origin = "pak"
+        }
         self.navigationController?.pushViewController(vc, animated: false)
 
     }
@@ -1492,6 +1515,13 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
         vc.video_section = false
         vc.storeFlag = false
         vc.catNameTitle = data.name ?? ""
+        if shop == "Shop China" {
+            vc.origin = "china"
+        }else if shop == "Shop Saudi" {
+            vc.origin = "ksa"
+        }else {
+            vc.origin = "pak"
+        }
         self.navigationController?.pushViewController(vc, animated: false)
 
     }
@@ -1648,6 +1678,13 @@ func numberOfItems(in pagerView: FSPagerView) -> Int {
                     vc.video_section = false
                     vc.storeFlag = false
                     vc.catNameTitle = data?.name ?? ""
+                    if shop == "Shop China" {
+                        vc.origin = "china"
+                    }else if shop == "Shop Saudi" {
+                        vc.origin = "ksa"
+                    }else {
+                        vc.origin = "pak"
+                    }
                     self.navigationController?.pushViewController(vc, animated: false)
                 }
                 

@@ -553,7 +553,7 @@ class New_StoreVC: UIViewController {
     
     func showShareSheet(id:String) {
         print(id)
-        guard let url = URL(string: "https://stage.bazaarghar.com/product/\(id)") else { return }
+        guard let url = URL(string: "https://bazaarghar.com/store/\(productcategoriesdetailsdata?.slug ?? "")") else { return }
 
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
 

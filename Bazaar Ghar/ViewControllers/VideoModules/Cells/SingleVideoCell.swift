@@ -59,7 +59,8 @@ class SingleVideoCell: UITableViewCell {
     @IBOutlet weak var commentTFBtn: UIButton!
     @IBOutlet weak var commentTFBtnView: UIView!
 
-
+    @IBOutlet weak var progressView: UIProgressView!
+    
     let centerTransitioningDelegate = CenterTransitioningDelegate()
     var randomproductapiModel: [PChat] = []
 
@@ -135,7 +136,7 @@ class SingleVideoCell: UITableViewCell {
             followcheck(storeId: storeId ?? "")
         }
     }
-    var progressView: UIProgressView!
+//    var progressView: UIProgressView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -150,11 +151,8 @@ class SingleVideoCell: UITableViewCell {
         
         SocketConnect(socketId: AppDefault.socketId)
         // Add Slider
-        progressView = UIProgressView(progressViewStyle: .bar)
-               progressView.frame = CGRect(x: 10, y: self.videoView.bounds.height - 5, width: self.videoView.bounds.width - 40, height: 15)
                progressView.trackTintColor = UIColor.lightGray
                progressView.progressTintColor = UIColor.white
-               self.videoView.addSubview(progressView)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(progressViewTapped(_:)))
             progressView.addGestureRecognizer(tapGestureRecognizer)
                // Add periodic time observer to update slider
@@ -202,7 +200,6 @@ class SingleVideoCell: UITableViewCell {
                     self?.isFollow = false
                 }
              
-             //
             case .failure(let error):
                 print(error)
                 

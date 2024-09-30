@@ -127,6 +127,7 @@ extension Orders_VC : UITableViewDataSource,UITableViewDelegate{
         vc.orderResponse = data
         vc.shipmentCharges = dataid?.shippmentCharges
         vc.orderStatus = dataid?.orderStatus?.name?.capitalized
+        vc.singleOrderResponse = orderResponse?[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: false)
     }
   

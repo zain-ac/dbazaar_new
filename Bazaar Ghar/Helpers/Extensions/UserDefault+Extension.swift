@@ -239,6 +239,14 @@ class AppDefault {
             shared.encode(for: newValue, using: "CategoriesResponsedata")
         }
     }
+    public static var LiveStreamingResultsdata: [LiveStreamingResults]? {
+        get{
+            return shared.decode(for: [LiveStreamingResults].self, using: "LiveStreamingResults")
+        }
+        set{
+            shared.encode(for: newValue, using: "LiveStreamingResults")
+        }
+    }
     public static var getAllCategoriesResponsedata: [getAllCategoryResponse]? {
         get{
             return shared.decode(for: [getAllCategoryResponse].self, using: "getAllCategoriesResponsedata")

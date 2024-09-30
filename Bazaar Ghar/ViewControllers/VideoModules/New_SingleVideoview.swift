@@ -194,7 +194,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         let data = LiveStreamingResultsdata[indexPath.row]
         cell.navigationController = self.navigationController
 //        self.initializeSocket(scheduleId: data.resultID ?? "")
-        getLike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId: AppDefault.currentUser?.id ?? "", indexPath: indexPath)
+//        getLike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId: AppDefault.currentUser?.id ?? "", indexPath: indexPath)
         cell.LiveStreamingResultsdataArray = data
             if(indexPath.row == indexValue){
                 self.playVideoOnTheCell(cell: cell, indexPath: indexPath)

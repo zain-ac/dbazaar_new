@@ -566,6 +566,28 @@ class APIServices{
             }
         }
     }
+    class func shopChinagetAllProductsByCategories(limit:Int, page:Int,sortBy:String,category:String,active:Bool,origin:String,completion:@escaping(APIResult<getAllProductCategoriesMainModel>)->Void){
+        Provider.backgroundServices.request(.shopchinagetAllProductsByCategories(limit: limit, page: page, sortBy: sortBy, category: category, active: active, origin: origin)) { result in
+            do{
+                
+                let  getAllProductsByCategories: getAllProductCategoriesMainModel =  try result.decoded(keypath: "data")
+                
+                completion(.success(getAllProductsByCategories))
+            }catch{
+                if(error.customDescription == "Please authenticate" && AppDefault.islogin){
+                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                }else if(error.customDescription == "Please authenticate" && AppDefault.islogin == false){
+                    DispatchQueue.main.async {
+                        appDelegate.GotoDashBoard(ischecklogin: true)
+                    }
+                }
+                else{
+                    print("-----Error------ \n",error)
+                    completion(.failure(error.customDescription))
+                }
+            }
+        }
+    }
     class func getAllProductsByCategoriesbyid(limit:Int, page:Int,sortBy:String,category:String,active:Bool,completion:@escaping(APIResult<getAllProductCategoriesMainModel>)->Void){
         Provider.services.request(.getAllProductsByCategoriesbyid(limit: limit, page: page, sortBy: sortBy, category: category, active: active)) { result in
             do{

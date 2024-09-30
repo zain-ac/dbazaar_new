@@ -85,6 +85,7 @@ extension Shopbeyound_TableViewCell: UICollectionViewDelegate,UICollectionViewDa
             vc.video_section = false
             vc.storeFlag = false
             vc.catNameTitle = data.name ?? ""
+            vc.origin = "pak"
             self.nav?.pushViewController(vc, animated: false)
         }else if count == 2 {
             let data = CategoriesResponsedata[indexPath.row + 12]
@@ -94,6 +95,7 @@ extension Shopbeyound_TableViewCell: UICollectionViewDelegate,UICollectionViewDa
             vc.video_section = false
             vc.storeFlag = false
             vc.catNameTitle = data.name ?? ""
+            vc.origin = "china"
             self.nav?.pushViewController(vc, animated: false)
         }else {
             let data = CategoriesResponsedata[indexPath.row + 22]
@@ -103,6 +105,7 @@ extension Shopbeyound_TableViewCell: UICollectionViewDelegate,UICollectionViewDa
             vc.video_section = false
             vc.storeFlag = false
             vc.catNameTitle = data.name ?? ""
+            vc.origin = "ksa"
             self.nav?.pushViewController(vc, animated: false)
         }
         

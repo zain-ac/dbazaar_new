@@ -38,6 +38,7 @@ class MyOrdersDetailsViewController: UIViewController {
     var orderResponse: [NewOrderItem]?
     var shipmentCharges : Double?
     var orderStatus : String?
+    var singleOrderResponse: MyOrderResult?
 
     @IBOutlet weak var deliverycharges: UILabel!
     override func viewDidLoad() {
@@ -72,7 +73,7 @@ class MyOrdersDetailsViewController: UIViewController {
         subtotallbl.text = "subtotal".pLocalized(lang: LanguageManager.language)
         deliverychargeslbl.text = "deliverycharges".pLocalized(lang: LanguageManager.language)
         cashondeliverylbl.text = "cashondelivery".pLocalized(lang: LanguageManager.language)
- 
+        cashondeliverylbl.text = singleOrderResponse?.paymentMethod
 
  
 

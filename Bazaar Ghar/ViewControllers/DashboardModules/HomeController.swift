@@ -124,6 +124,7 @@ var count = 0
         searchFeild.returnKeyType = .search
         searchFeild.translatesAutoresizingMaskIntoConstraints = false
         searchFeild.delegate = self
+        getStreamingVideos(limit:200,page:1,categories: [], city: "")
     }
     func SetupView(){
         if AppDefault.islogin{
@@ -1054,6 +1055,20 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
           }
         
     }
+    
+    private func getStreamingVideos(limit:Int,page:Int,categories: [String],city:String){
+        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in
+            switch data{
+            case .success(let res):
+                AppDefault.LiveStreamingResultsdata = res.results ?? []
+            case .failure(let error):
+                print(error)
+//                self?.view.makeToast(error)
+            }
+        })
+    }
+    
+    
     
 }
 

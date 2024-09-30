@@ -51,6 +51,7 @@ class HomeTableViewCell: UITableViewCell {
     
     var index:Int?
     var selectedIndex = 0
+    var origin:String?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -107,8 +108,8 @@ class HomeTableViewCell: UITableViewCell {
       }
     
     
-    private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground:Bool){
-        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+    private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground:Bool,origin:String){
+        APIServices.shopchinaproductcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, origin: origin,isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
                 if(res.count > 0){
@@ -250,7 +251,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
 //            let imageDataDict:[String: Any] = ["id": data.id ?? "", "index": self.index ?? 0]
 //            NotificationCenter.default.post(name: Notification.Name("subcatupdate"), object: nil,userInfo: imageDataDict)
             
-            self.productcategoriesApi(cat: data.id ?? "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
+            self.productcategoriesApi(cat: data.id ?? "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false, origin: self.origin ?? "")
 
             subCatCollectionView.reloadData()
         }else {

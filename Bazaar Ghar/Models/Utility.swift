@@ -998,3 +998,37 @@ var name:String?
     var img: String?
 }
 
+class PoppinsLabel: UILabel {
+
+    enum FontStyle {
+        case regular
+        case medium
+        case bold
+    }
+
+    init(fontStyle: FontStyle, fontSize: CGFloat) {
+        super.init(frame: .zero)
+        setFont(style: fontStyle, size: fontSize)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setFont(style: .regular, size: 17) // Default style and size
+    }
+
+    private func setFont(style: FontStyle, size: CGFloat) {
+        switch style {
+        case .regular:
+            self.font = UIFont(name: "Poppins-Regular", size: size)
+        case .medium:
+            self.font = UIFont(name: "Poppins-Medium", size: size)
+        case .bold:
+            self.font = UIFont(name: "Poppins-Bold", size: size)
+        }
+    }
+    
+    // Optionally, you can provide a method to update the font dynamically
+    func updateFont(style: FontStyle, size: CGFloat) {
+        setFont(style: style, size: size)
+    }
+}

@@ -31,7 +31,6 @@ class Category_ProductsVC: UIViewController {
     @IBOutlet weak var headerBackgroudView: UIView!
     @IBOutlet weak var viewHeight: NSLayoutConstraint!
 
-
     var contentPages: [UIViewController] = []
 
     var prductid = String()
@@ -49,6 +48,11 @@ class Category_ProductsVC: UIViewController {
     var categoryPage = 1
     var isFollow = false
     let centerTransitioningDelegate = CenterTransitioningDelegate()
+    var origin:String? {
+        didSet {
+            update(count: 1)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -225,11 +229,16 @@ class Category_ProductsVC: UIViewController {
 
     
     func update(count:Int) {
-        if storeFlag == false {
-            getAllProductsByCategories(limit: 20, page: count, sortBy:sort, category:prductid, active: false)
-        }else{
-            getAllProductsByCategoriesbyid(limit: 20, page: count, sortBy:sort, category:prductid, active: false)
+        if origin == nil {
+            if storeFlag == false {
+                getAllProductsByCategories(limit: 20, page: count, sortBy:sort, category:prductid, active: false)
+            }else{
+                getAllProductsByCategoriesbyid(limit: 20, page: count, sortBy:sort, category:prductid, active: false)
+            }
+        }else {
+            shopchinagetAllProductsByCategories(limit: 20, page: count, sortBy:sort, category:prductid, active: false, origin: origin ?? "")
         }
+    
     }
     
     
@@ -253,6 +262,49 @@ class Category_ProductsVC: UIViewController {
 //                        let hh = 60 + (self?.stackviewheight.constant ?? 0)
 //                        self?.scrollheight.constant = CGFloat(hh + CGFloat(ll) + 20)
 //                       
+//                        self?.categoryproduct_collectionview.reloadData()
+//                    }else {
+                        let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 284
+                    self?.scrollheight.constant = CGFloat(ll + 105)
+                       
+                        self?.categoryproduct_collectionview.reloadData()
+//                    }
+          
+                }else {
+                }
+                if self?.getAllProductsByCategoriesData.count ?? 0 > 0 {
+                    self?.productEmptyLbl.isHidden = true
+                }else {
+                    self?.productEmptyLbl.isHidden = false
+
+                }
+
+
+            case .failure(let error):
+                print(error)
+                self?.isLoadingNextPage = false
+            }
+        }
+    }
+    private func shopchinagetAllProductsByCategories(limit:Int,page:Int,sortBy:String,category:String,active:Bool,origin:String){
+        APIServices.shopChinagetAllProductsByCategories(limit:limit,page:page,sortBy:sortBy,category:category,active:active,origin:origin){[weak self] data in
+            switch data{
+            case .success(let res):
+                if res.Categoriesdata?.count ?? 0 > 0 {
+                    
+                    self?.getAllProductsByCategoriesData += res.Categoriesdata ?? []
+                    // Increment the page numbe
+                    self?.categoryPage += 1
+                    
+                    // Update flag after loading
+                    self?.isLoadingNextPage = false
+                    
+                 //
+//                    if self?.getAllProductsByCategoriesData.count == 1 {
+//                        let ll = (self?.getAllProductsByCategoriesData.count ?? 0)  * 240
+//                        let hh = 60 + (self?.stackviewheight.constant ?? 0)
+//                        self?.scrollheight.constant = CGFloat(hh + CGFloat(ll) + 20)
+//
 //                        self?.categoryproduct_collectionview.reloadData()
 //                    }else {
                         let ll = ((self?.getAllProductsByCategoriesData.count ?? 0) / 2) * 284

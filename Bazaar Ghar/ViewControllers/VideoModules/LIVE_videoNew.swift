@@ -105,7 +105,8 @@ class LIVE_videoNew: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         headerlbl.text = "Live Video"
         self.CategoriesResponsedata = AppDefault.CategoriesResponsedata ?? []
-        getStreamingVideos(limit:30,page:1,categories: [], city: "")
+//        getStreamingVideos(limit:60,page:1,categories: [], city: "")
+        LiveStreamingResultsdata = AppDefault.LiveStreamingResultsdata ?? []
         getLiveStream()
     }
     
@@ -137,9 +138,10 @@ class LIVE_videoNew: UIViewController {
                 self?.count += 1
                 if res.results?.count ?? 0 > 5 {
                     self?.novideosview.isHidden = true
-                    
                 }else {
-                    self?.novideosview.isHidden = false
+                    if page < 2 {
+                        self?.novideosview.isHidden = false
+                    }
 //                    self?.categoryview.isHidden = false
                 }
                 self?.isLoadingData = false
