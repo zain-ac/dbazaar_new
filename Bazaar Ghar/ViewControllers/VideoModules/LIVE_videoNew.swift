@@ -35,7 +35,7 @@ class LIVE_videoNew: UIViewController {
     var cat:String?
     var id:String?
     var isLoadingData = false
-    var count = 1
+    var count = 6
     var ip : String? {
         didSet {
             if ip != nil {
