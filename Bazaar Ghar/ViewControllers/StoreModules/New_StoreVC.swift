@@ -163,7 +163,7 @@ class New_StoreVC: UIViewController {
 
     
     private func getAllProductsByCategories(limit:Int,page:Int,sortBy:String,category:String,active:Bool){
-        APIServices.getAllProductsByCategoriesbyid(limit:limit,page:page,sortBy:sortBy,category:category,active:active){[weak self] data in
+        APIServices.getAllProductsByCategoriesbyid(limit:limit,page:page,sortBy:sortBy,category:category,active:active, origin: ""){[weak self] data in
             switch data{
             case .success(let res):
                 if res.Categoriesdata?.count ?? 0 > 0 {

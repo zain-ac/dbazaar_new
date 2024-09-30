@@ -9,6 +9,8 @@ public struct Recipe: Codable {
   var title: String?
   var _id: String?
     var active: Bool?
+    var variants: [Variants]?
+
 
     var featured, onSale, isVariable: Bool?
     var productName, slug: String?

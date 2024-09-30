@@ -136,6 +136,7 @@ var count = 0
         }
     }
     var origin : String?
+    var pakBestSellerProductsData :  [Product] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -226,7 +227,7 @@ var count = 0
             for i in China {
                 categoriesApi(isbackground: true, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f76c2", cat2: "65e82aa5067e0d3f4c5f773c", cat3: "5fe1cbaac05d6b3eb844f6ed", cat4: "", cat5: "", origin: "china",isbackground: true)
+            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f76c2", cat2: "65e82aa5067e0d3f4c5f773c", cat3: "65e82aa5067e0d3f4c5f774a", cat4: "", cat5: "", origin: "china",isbackground: true)
             randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true, origin: "china")
             getStreamingVideos(origin: "china")
             getrandomproduct(origin: "china")
@@ -257,7 +258,9 @@ var count = 0
             }
             self.productcategoriesApi(cat: "6038dd317e4d2a1f859d8255", cat2: "6051de7711747985fdce2faa", cat3: "6048c62a05ec9502c9f8cde3", cat4: "", cat5: "", origin: "pak",isbackground: false)
 
-            randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false,origin: "pak")
+//            randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false,origin: "pak")
+            getAllProductsByCategoriesbyid(limit: 20, page: 1, sortBy:"-createdAt", category: "6048bc3b05ec9502c9f8cd8b", active: false)
+
             getStreamingVideos(origin: "pak")
             getrandomproduct(origin: "pak")
             self.origin = "pak"
@@ -616,11 +619,11 @@ var count = 0
             vc.origin = "china"
         }else if shop == "Shop Saudi" {
             vc.prductid = "60d30fafadf1df13d41b56d5"
-            vc.catNameTitle = "Best Saler"
+            vc.catNameTitle = "Best Seller"
             vc.origin = "ksa"
         }else {
-            vc.prductid = "6038dd317e4d2a1f859d8255"
-            vc.catNameTitle = "Best Saler"
+            vc.prductid = "6048bc3b05ec9502c9f8cd8b"
+            vc.catNameTitle = "Best Seller"
             vc.origin = "pak"
         }
            vc.video_section = false
@@ -770,6 +773,35 @@ var count = 0
                 self?.view.makeToast(error)
             }
         })
+    }
+    private func getAllProductsByCategoriesbyid(limit:Int,page:Int,sortBy:String,category:String,active:Bool){
+        APIServices.getAllProductsByCategoriesbyid(limit:limit,page:page,sortBy:sortBy,category:category,active:active, origin: "pak"){[weak self] data in
+            switch data{
+            case .success(let res):
+                if(res.Categoriesdata?.count ?? 0 > 0){
+                    self?.pakBestSellerProductsData = res.Categoriesdata ?? []
+//                    AppDefault.randonproduct = res
+                }
+               //
+               
+                self?.homeLastProductCollectionView.reloadData()
+                self?.shoesCollectionView.reloadData()
+
+                
+            case .failure(let error):
+                print(error)
+                if(error == "Please authenticate" && AppDefault.islogin){
+                    appDelegate.refreshToken(refreshToken: AppDefault.refreshToken)
+                }else{
+                    if error == "Not found"{
+                        
+                    }else{
+                        self?.view.makeToast(error)
+                    }
+                }
+
+            }
+        }
     }
 
     private func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground : Bool,origin:String){
@@ -925,9 +957,17 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         if collectionView == imageslidercollectionview {
             return  bannerapidata?.count ?? 0
         }else if collectionView == homeLastProductCollectionView {
-            return self.randomproductapiModel.first?.product?.count ?? 0
+            if shop == "Shop Pakistan"{
+                return self.pakBestSellerProductsData.count ?? 0
+            }else {
+                return self.randomproductapiModel.first?.product?.count ?? 0
+            }
         }else if collectionView == shoesCollectionView {
-            return self.randomproductapiModel.first?.product?.count ?? 0
+            if shop == "Shop Pakistan"{
+                return self.pakBestSellerProductsData.count ?? 0
+            }else {
+                return self.randomproductapiModel.first?.product?.count ?? 0
+            }  
         }else if collectionView == hotDealCollectionV {
             return groupbydealsdata.count
         } else if collectionView == lastRandomProductsCollectionView {
@@ -949,80 +989,157 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             return cell
         } else if collectionView == homeLastProductCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
-            let data = self.randomproductapiModel.first?.product?[indexPath.row]
-            cell.product = data
-            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
-            cell.product = data
-            cell.productimage.pLoadImage(url: data?.mainImage ?? "")
-            if LanguageManager.language == "ar"{
-                cell.productname.text = data?.lang?.ar?.productName
-            }else{
-                cell.productname.text =  data?.productName
-            }
+            if shop == "Shop Pakistan"{
+                let data = pakBestSellerProductsData[indexPath.row]
+                cell.product = data
+                Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
+                cell.product = data
+                cell.productimage.pLoadImage(url: data.mainImage ?? "")
+                if LanguageManager.language == "ar"{
+                    cell.productname.text = data.lang?.ar?.productName
+                }else{
+                    cell.productname.text =  data.productName
+                }
 
-            if data?.onSale == true {
-                cell.discountPrice.isHidden = false
-                cell.productPrice.isHidden = false
-                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
-                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
-                cell.productPriceLine.isHidden = false
-                cell.productPrice.textColor = UIColor.red
-                cell.productPriceLine.backgroundColor = UIColor.red
-                cell.percentBGView.isHidden = false
-            }else {
-                cell.productPriceLine.isHidden = true
-                cell.productPrice.isHidden = true
-                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
-                cell.percentBGView.isHidden = true
-             }
-            cell.heartBtn.tag = indexPath.row
-            cell.cartButton.tag = indexPath.row
-            cell.cartButton.addTarget(self, action: #selector(gamessalescartButtonTap(_:)), for: .touchUpInside)
-            cell.heartBtn.addTarget(self, action: #selector(gamesalesHeartBtnTapped(_:)), for: .touchUpInside)
+                if data.onSale == true {
+                    cell.discountPrice.isHidden = false
+                    cell.productPrice.isHidden = false
+                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+                    cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+                    cell.productPriceLine.isHidden = false
+                    cell.productPrice.textColor = UIColor.red
+                    cell.productPriceLine.backgroundColor = UIColor.red
+                    cell.percentBGView.isHidden = false
+                }else {
+                    cell.productPriceLine.isHidden = true
+                    cell.productPrice.isHidden = true
+                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+                    cell.percentBGView.isHidden = true
+                 }
+                cell.heartBtn.tag = indexPath.row
+                cell.cartButton.tag = indexPath.row
+                cell.cartButton.addTarget(self, action: #selector(gamessalescartButtonTap(_:)), for: .touchUpInside)
+                cell.heartBtn.addTarget(self, action: #selector(gamesalesHeartBtnTapped(_:)), for: .touchUpInside)
 
-            if let wishlistProducts = AppDefault.wishlistproduct {
-                    if wishlistProducts.contains(where: { $0.id == data?.id }) {
-                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                      cell.heartBtn.tintColor = .red
-                    } else {
-                      cell.backgroundColor = .white
-                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-                      cell.heartBtn.tintColor = .white
-                    }
-                  }
+                if let wishlistProducts = AppDefault.wishlistproduct {
+                    if wishlistProducts.contains(where: { $0.id == data.id }) {
+                          cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                          cell.heartBtn.tintColor = .red
+                        } else {
+                          cell.backgroundColor = .white
+                          cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                          cell.heartBtn.tintColor = .white
+                        }
+                      }            }else {
+                let data = self.randomproductapiModel.first?.product?[indexPath.row]
+                cell.product = data
+                Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
+                cell.product = data
+                cell.productimage.pLoadImage(url: data?.mainImage ?? "")
+                if LanguageManager.language == "ar"{
+                    cell.productname.text = data?.lang?.ar?.productName
+                }else{
+                    cell.productname.text =  data?.productName
+                }
+
+                if data?.onSale == true {
+                    cell.discountPrice.isHidden = false
+                    cell.productPrice.isHidden = false
+                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
+                    cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+                    cell.productPriceLine.isHidden = false
+                    cell.productPrice.textColor = UIColor.red
+                    cell.productPriceLine.backgroundColor = UIColor.red
+                    cell.percentBGView.isHidden = false
+                }else {
+                    cell.productPriceLine.isHidden = true
+                    cell.productPrice.isHidden = true
+                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
+                    cell.percentBGView.isHidden = true
+                 }
+                cell.heartBtn.tag = indexPath.row
+                cell.cartButton.tag = indexPath.row
+                cell.cartButton.addTarget(self, action: #selector(gamessalescartButtonTap(_:)), for: .touchUpInside)
+                cell.heartBtn.addTarget(self, action: #selector(gamesalesHeartBtnTapped(_:)), for: .touchUpInside)
+
+                if let wishlistProducts = AppDefault.wishlistproduct {
+                        if wishlistProducts.contains(where: { $0.id == data?.id }) {
+                          cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                          cell.heartBtn.tintColor = .red
+                        } else {
+                          cell.backgroundColor = .white
+                          cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                          cell.heartBtn.tintColor = .white
+                        }
+                      }            }
+            
+            
+           
             
             
             
             return cell
         } else if collectionView == shoesCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
-            let data = self.randomproductapiModel.first?.product?[indexPath.row]
-            Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
-            cell.product = data
-            cell.productimage.pLoadImage(url: data?.mainImage ?? "")
-            if LanguageManager.language == "ar"{
-                cell.productname.text = data?.lang?.ar?.productName
-            }else{
-                cell.productname.text =  data?.productName
-            }
+            if shop == "Shop Pakistan"{
+                let data = pakBestSellerProductsData[indexPath.row]
+                Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
+                cell.product = data
+                cell.productimage.pLoadImage(url: data.mainImage ?? "")
+                if LanguageManager.language == "ar"{
+                    cell.productname.text = data.lang?.ar?.productName
+                }else{
+                    cell.productname.text =  data.productName
+                }
 
-            if data?.onSale == true {
-                cell.discountPrice.isHidden = false
-                cell.productPrice.isHidden = false
-                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
-                cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
-                cell.productPriceLine.isHidden = false
-                cell.productPrice.textColor = UIColor.red
-                cell.productPriceLine.backgroundColor = UIColor.red
-                cell.percentBGView.isHidden = false
+                if data.onSale == true {
+                    cell.discountPrice.isHidden = false
+                    cell.productPrice.isHidden = false
+                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
+                    cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
+                    cell.productPriceLine.isHidden = false
+                    cell.productPrice.textColor = UIColor.red
+                    cell.productPriceLine.backgroundColor = UIColor.red
+                    cell.percentBGView.isHidden = false
+                }else {
+                    cell.productPriceLine.isHidden = true
+                    cell.productPrice.isHidden = true
+                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
+                    cell.percentBGView.isHidden = true
+                 }
+                cell.heartBtn.tag = indexPath.row
+                cell.cartButton.tag = indexPath.row
             }else {
-                cell.productPriceLine.isHidden = true
-                cell.productPrice.isHidden = true
-                cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
-                cell.percentBGView.isHidden = true
-             }
-            cell.heartBtn.tag = indexPath.row
-            cell.cartButton.tag = indexPath.row
+                let data = self.randomproductapiModel.first?.product?[indexPath.row]
+                Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
+                cell.product = data
+                cell.productimage.pLoadImage(url: data?.mainImage ?? "")
+                if LanguageManager.language == "ar"{
+                    cell.productname.text = data?.lang?.ar?.productName
+                }else{
+                    cell.productname.text =  data?.productName
+                }
+
+                if data?.onSale == true {
+                    cell.discountPrice.isHidden = false
+                    cell.productPrice.isHidden = false
+                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.salePrice ?? 0))
+                    cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0)
+                    cell.productPriceLine.isHidden = false
+                    cell.productPrice.textColor = UIColor.red
+                    cell.productPriceLine.backgroundColor = UIColor.red
+                    cell.percentBGView.isHidden = false
+                }else {
+                    cell.productPriceLine.isHidden = true
+                    cell.productPrice.isHidden = true
+                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data?.regularPrice ?? 0))
+                    cell.percentBGView.isHidden = true
+                 }
+                cell.heartBtn.tag = indexPath.row
+                cell.cartButton.tag = indexPath.row
+            }
+            
+            
            
             
             
@@ -1181,7 +1298,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
     @objc func randomcartBtnTapped(_ sender: UIButton) {
         let data = getrandomproductapiModel[sender.tag]
         
-        if (data.attributes?.first?.name == nil) {
+        if (data.variants?.first?.id == nil) {
             let vc = CartPopupViewController.getVC(.popups)
            
             vc.modalPresentationStyle = .custom

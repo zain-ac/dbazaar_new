@@ -543,7 +543,7 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoProductCollectionViewCell", for: indexPath) as! videoProductCollectionViewCell
             let data = getvidoebyproductIdsdata[indexPath.row]
             
-            cell.img.pLoadImage(url: data.brandLogo ?? "")
+            cell.img.pLoadImage(url: data.mainImage ?? "")
             cell.price.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.price ?? 0)
             cell.productname.text = data.productName
 

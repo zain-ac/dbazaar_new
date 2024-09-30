@@ -18,7 +18,7 @@ enum Services {
     case randomproduct
     case productcategoriesdetails(slug: String)
     case getAllProductsByCategories(limit:Int,page:Int,sortBy:String,category:String,active:Bool)
-    case getAllProductsByCategoriesbyid(limit:Int,page:Int,sortBy:String,category:String,active:Bool)
+    case getAllProductsByCategoriesbyid(limit:Int,page:Int,sortBy:String,category:String,active:Bool,origin:String)
     case loginwithgoogle(googleId:String,displayName:String)
     case loginwithOtp(googleId:String,displayName:String)
     case loginWithGoogleVerification(googleId:String,displayName:String)
@@ -334,8 +334,12 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case let .myOrder(limit,sortBy):
             return .requestParameters(parameters: ["limit": limit,"sortBy":sortBy], encoding: URLEncoding.default)
     
-        case let .getAllProductsByCategoriesbyid(limit,page,sortBy,category, _):
-            return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"user": category], encoding: URLEncoding.default)
+        case let .getAllProductsByCategoriesbyid(limit,page,sortBy,category, _,origin):
+            if origin == "" {
+                return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"user": category], encoding: URLEncoding.default)
+            }else {
+                return .requestParameters(parameters: ["limit": limit,"page": page,"sortBy": sortBy,"category": category,"origin":origin], encoding: URLEncoding.default)
+            }
         case let .loginwithgoogle(googleId,displayName):
             return .requestParameters(parameters: ["googleId": googleId,"displayName": displayName], encoding: JSONEncoding.default)
         case let .cartWalletMethod(wallet):

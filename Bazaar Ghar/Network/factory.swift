@@ -27,7 +27,7 @@ enum Factory {
 
     let phone = Phone(number: "77 1234 1234", country: country)
 
-    let billingFormData = BillingForm(name: "Bình Inyene", address: address, phone: phone)
+    let billingFormData = BillingForm(name:"", address: address, phone: phone)
     
     let billingFormStyle = FramesFactory.defaultBillingFormStyle
 

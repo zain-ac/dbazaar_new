@@ -227,7 +227,7 @@ struct PChat: Codable {
     let bannerImage,wideBannerImage: String?
     let slug: String?
     let lang: languagesModel?
-    let product: [Product]?
+    var product: [Product]?
     
     enum CodingKeys: String, CodingKey {
         case name, id, bannerImage, slug, lang, wideBannerImage
