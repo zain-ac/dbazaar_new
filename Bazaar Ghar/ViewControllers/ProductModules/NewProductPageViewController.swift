@@ -615,12 +615,8 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
                     
                     
                 }else{
-                   
                         AppDefault.mainAttribute = res.attributes
-                
                     AppDefault.mainAttribute! += res.mainAttributes ?? []
-                    
-                   
                 }
                
                 

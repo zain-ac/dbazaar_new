@@ -586,7 +586,7 @@ extension SingleVideoCell: UICollectionViewDelegate, UICollectionViewDataSource,
     }
     @objc func viewallitemtap(_ sender: UIButton) {
         let data = getvidoebyproductIdsdata[sender.tag]
-        
+         stopPlayback()
         
         if (data.variants?.first?.id == nil) {
             let vc = CartPopupViewController.getVC(.popups)
