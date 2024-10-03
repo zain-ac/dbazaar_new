@@ -492,6 +492,7 @@ var count = 0
             UITextField.appearance().textAlignment = LanguageManager.language == "ar" ? .right : .left
             NotificationCenter.default.post(name: Notification.Name("RefreshAllTabs"), object: nil)
             UICollectionView.appearance().semanticContentAttribute = .forceLeftToRight
+        
             appDelegate.GotoDashBoard(ischecklogin: false)
           
         }

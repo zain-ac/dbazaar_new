@@ -308,15 +308,27 @@ extension FacetSearchVc: UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.heartBtn.addTarget(self, action: #selector(homeLatestMobileheartButtonTap(_:)), for: .touchUpInside)
         
         if let wishlistProducts = AppDefault.wishlistproduct {
-            if wishlistProducts.contains(where: { $0.id == data?._id }) {
-                  cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                  cell.heartBtn.tintColor = .red
-                } else {
-                  cell.backgroundColor = .white
-                  cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-                  cell.heartBtn.tintColor = .white
-                }
-              }
+            if data?.id == nil {
+                if wishlistProducts.contains(where: { $0.id == data?._id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+            }else {
+                if wishlistProducts.contains(where: { $0.id == data?.id }) {
+                      cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                      cell.heartBtn.tintColor = .red
+                    } else {
+                      cell.backgroundColor = .white
+                      cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                      cell.heartBtn.tintColor = .white
+                    }
+            }
+         
+        }
         
             return cell
         }

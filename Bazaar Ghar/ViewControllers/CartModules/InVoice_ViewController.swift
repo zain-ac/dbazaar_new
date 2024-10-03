@@ -25,7 +25,7 @@ class InVoice_ViewController: UIViewController {
         invoicelbl.text = invoiceNumber
         Utility().setGradientBackground(view: headerview, colors: [primaryColor, primaryColor, headerSecondaryColor])
         Utility().setGradientBackground(view: invoiceview, colors: [primaryColor, primaryColor, headerSecondaryColor])
-        totalamountlbl.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(orderitems?.payable ?? 0))
+        totalamountlbl.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(orderitems?.total ?? 0))
         setCurrentDate()
         self.navigationController?.navigationBar.isHidden = true
                tabBarController?.tabBar.isHidden = true

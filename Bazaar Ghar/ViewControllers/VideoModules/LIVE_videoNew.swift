@@ -77,7 +77,7 @@ class LIVE_videoNew: UIViewController {
             searchVideo(name: "title", value: searchFeild.text ?? "", limit: 100, catId: [], page: 1)
         }
         
-       }
+    }
     
     @objc func method(notification: Notification) {
         if let id = notification.userInfo?["id"] as? String {
@@ -210,7 +210,6 @@ class LIVE_videoNew: UIViewController {
         APIServices.getLiveStream(completion: {[weak self] data in
             switch data{
             case .success(let res):
-               //
                 
                 self?.LiveVideoData = res
                 if(self?.LiveVideoData.count != 0){

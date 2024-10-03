@@ -1288,25 +1288,42 @@ extension NewProductPageViewController:UICollectionViewDelegate,UICollectionView
     
     @objc func  moreFromCartButtonTap(_ sender: UIButton) {
         let data = moreFromResponse?.results?[sender.tag]
-
-        let vc = CartPopupViewController.getVC(.popups)
-       
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = centerTransitioningDelegate
-        vc.products = data
-        vc.nav = self.navigationController
-        self.present(vc, animated: true, completion: nil)
-
+        
+        if (data?.variants?.first?.id == nil) {
+            let vc = CartPopupViewController.getVC(.popups)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.productStoryBoard)
+            vc.slugid = data?.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
     }
+    
     @objc func relatedProductcartButtonTap(_ sender: UIButton) {
         let data = relatedProductResponse[sender.tag]
-        let vc = CartPopupViewController.getVC(.popups)
+        
+        if (data.variants?.first?.id == nil) {
+            
+            let vc = CartPopupViewController.getVC(.popups)
+           
+            vc.modalPresentationStyle = .custom
+            vc.transitioningDelegate = centerTransitioningDelegate
+            vc.products = data
+            vc.nav = self.navigationController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            let vc = NewProductPageViewController.getVC(.productStoryBoard)
+            vc.slugid = data.slug
+            navigationController?.pushViewController(vc, animated: false)
+        }
+        
+        
        
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = centerTransitioningDelegate
-        vc.products = data
-        vc.nav = self.navigationController
-        self.present(vc, animated: true, completion: nil)
 
     }
     @objc func moreFromHeartButtonTap(_ sender: UIButton) {

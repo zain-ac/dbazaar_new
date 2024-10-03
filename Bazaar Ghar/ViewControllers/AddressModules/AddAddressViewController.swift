@@ -104,7 +104,6 @@ class AddAddressViewController: UIViewController {
                     }
                      ProvincePullDownButton.menu = UIMenu(children: actions!)
                      ProvincePullDownButton.showsMenuAsPrimaryAction = true
-            
         }
     }
     var cities:[City]? {

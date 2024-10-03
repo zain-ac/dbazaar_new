@@ -1073,7 +1073,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon feather-arrow-right" translatesAutoresizingMaskIntoConstraints="NO" id="0K3-LB-EVA">
+                                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon feather-arrow-right" translatesAutoresizingMaskIntoConstraints="NO" id="0K3-LB-EVA">
                                                         <rect key="frame" x="352" y="13.666666666666742" width="18" height="13"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="13" id="0AE-NG-66I"/>
@@ -1999,7 +1999,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C8c-0o-m5P">
-                                <rect key="frame" x="0.0" y="0.0" width="202.66666666666666" height="111.33333333333333"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="111.33333333333333"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qgV-nw-nhH">
                                         <rect key="frame" x="20" y="63.333333333333343" width="35" height="35"/>
@@ -2022,13 +2022,13 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sony" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDt-Gf-TAE">
-                                        <rect key="frame" x="65" y="66.666666666666671" width="49.666666666666657" height="28"/>
+                                        <rect key="frame" x="65" y="66.666666666666671" width="240" height="28"/>
                                         <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fwm-2i-gkr">
-                                        <rect key="frame" x="160.66666666666666" y="69.666666666666671" width="22" height="22"/>
+                                        <rect key="frame" x="351" y="69.666666666666671" width="22" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="22" id="D8O-U7-5ua"/>
                                             <constraint firstAttribute="height" constant="22" id="P7g-BY-E79"/>
@@ -2044,7 +2044,7 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOZ-nM-z38">
-                                        <rect key="frame" x="124.66666666666669" y="69.666666666666671" width="22" height="22"/>
+                                        <rect key="frame" x="315" y="69.666666666666671" width="22" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="22" id="OU3-kh-tyo"/>
                                             <constraint firstAttribute="height" constant="22" id="kZ8-C1-RT3"/>
@@ -2069,7 +2069,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UgM-Uq-KBG">
-                                <rect key="frame" x="0.0" y="111.33333333333331" width="202.66666666666666" height="740.66666666666674"/>
+                                <rect key="frame" x="0.0" y="111.33333333333331" width="393" height="740.66666666666674"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xl9-gt-tzU">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
@@ -2957,6 +2957,11 @@
             <point key="canvasLocation" x="-5364" y="333.25123152709364"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="noD-II-tY8">
+            <size key="intrinsicContentSize" width="120" height="20"/>
+        </designable>
+    </designables>
     <resources>
         <image name="Icon feather-arrow-right" width="19.643999099731445" height="15.27400016784668"/>
         <image name="Layer 2" width="39.012001037597656" height="39.012001037597656"/>

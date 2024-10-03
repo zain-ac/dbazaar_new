@@ -141,19 +141,16 @@ var count = 0
         super.viewDidLoad()
         
         KSA = [
-               
             KSAcat(name: "Soaps",id: "60d30fafadf1df13d41b56d5",img: "https://cdn.bazaarghar.com/1640677639491body-soaps-shower-gel.png"),
-        KSAcat(name: "Fragrances",id: "604f48f648fcad02d8aaceeb",img: "https://cdn.bazaarghar.com/1640607482286mens-fragrances.png"),
-        KSAcat(name: "Dates",id: "60c9dce26f0fe647a547713c",img:"https://cdn.bazaarghar.com/1640595049922dry-fruits.png"),
-        KSAcat(name: "Rugs",id: "61c0665ec59a3763f321635a",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
-
-        ]  
+            KSAcat(name: "Fragrances",id: "604f48f648fcad02d8aaceeb",img: "https://cdn.bazaarghar.com/1640607482286mens-fragrances.png"),
+            KSAcat(name: "Dates",id: "60c9dce26f0fe647a547713c",img:"https://cdn.bazaarghar.com/1640595049922dry-fruits.png"),
+            KSAcat(name: "Rugs",id: "61c0665ec59a3763f321635a",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
+        ]
         China = [
-        KSAcat(name: "Games & Accessories",id: "65e82aa5067e0d3f4c5f774e",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
-            
-        KSAcat(name: "Smart Electronics",id: "65e82aa5067e0d3f4c5f774c",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714109268854smart-electronics.png"),
-        KSAcat(name: "Night Lights",id: "65e82aa5067e0d3f4c5f7746",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110169088night-light.png"),
-        KSAcat(name: "Home Decor",id: "65e82aa5067e0d3f4c5f76c8",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110548828home-decor.png")
+              KSAcat(name: "Games & Accessories",id: "65e82aa5067e0d3f4c5f774e",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
+              KSAcat(name: "Smart Electronics",id: "65e82aa5067e0d3f4c5f774c",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714109268854smart-electronics.png"),
+              KSAcat(name: "Night Lights",id: "65e82aa5067e0d3f4c5f7746",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110169088night-light.png"),
+              KSAcat(name: "Home Decor",id: "65e82aa5067e0d3f4c5f76c8",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110548828home-decor.png")
         ]
         
         Pak = [

@@ -1522,7 +1522,7 @@ class APIServices{
     
     
     class func getLiveStream(completion:@escaping(APIResult<[LiveStreamingResults]>)->Void) {
-        Provider.services.request(.getLiveStream){ result in
+        Provider.backgroundServices.request(.getLiveStream){ result in
             do{
                 let getLiveStream: [LiveStreamingResults] = try result.decoded(keypath: "data")
                 completion(.success(getLiveStream))
@@ -1533,6 +1533,7 @@ class APIServices{
             }
         }
     }
+    
     class func shopchinaStreamingVideo(isBackground:Bool,origin:String,completion:@escaping(APIResult<ShopChinaStreaminVideoDataModel>)->Void) {
         if isBackground == true{
             Provider.backgroundServices.request(.shopchinaStreamingVideo(origin: origin)){ result in
@@ -1540,28 +1541,23 @@ class APIServices{
                     let appleLogin: ShopChinaStreaminVideoDataModel = try result.decoded(keypath: "data")
                     completion(.success(appleLogin))
                 }catch{
-                    
                     print("-----Error------ \n",error)
                     completion(.failure(error.customDescription))
-                    
                 }
             }
-
         }else {
             Provider.services.request(.shopchinaStreamingVideo(origin: origin)){ result in
                 do{
                     let appleLogin: ShopChinaStreaminVideoDataModel = try result.decoded(keypath: "data")
                     completion(.success(appleLogin))
                 }catch{
-                    
                     print("-----Error------ \n",error)
                     completion(.failure(error.customDescription))
-                    
                 }
             }
-
         }
     }
+    
     class func getprovince(countryCode:String,language:String,checkCache:Bool,completion:@escaping(APIResult<ProvinceDataModel>)->Void){
         Provider.services.request(.getprovince(countryCode: countryCode, language: language, checkCache: checkCache)) { result in
             do{
