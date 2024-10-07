@@ -106,13 +106,12 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
     var category:String?
     var relatedProductResponse: [Product] = []
     var LiveStreamingResultsdata: [LiveStreamingResults] = []
-
-
     var isTextExpanded = false
+    var selectedItemsPerRow: [Set<Int>] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         showMoreBtn.setTitle("Show More", for: .normal)
         showMoreBtn.addTarget(self, action: #selector(toggleDescription), for: .touchUpInside)
         buyNowBtn.alpha = 1.0 // Set the alpha to 1.0 to avoid the grayed-out appearance
@@ -167,6 +166,18 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         if(AppDefault.islogin){
             self.connectSocket()
         }
+        clearUserDefaults()
+    }
+    func clearUserDefaults() {
+        let defaults = UserDefaults.standard
+        let key = "myNumbersArray"
+
+        // Remove the array associated with the key
+        defaults.removeObject(forKey: key)
+        AppDefault.attribute1 = nil
+        AppDefault.attribute2 = nil
+        AppDefault.attribute3 = nil
+        AppDefault.attribute4 = nil
     }
     func wishList(){
         APIServices.wishlist(isbackground: false){[weak self] data in
@@ -607,32 +618,44 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
         APIServices.productcategoriesdetails(slug: slug){[weak self] data in
             switch data{
             case .success(let res):
-             //
+                //
                 self?.gallaryImages.removeAll()
                 self?.productcategoriesdetailsdata = res
-              
+                
                 if isselsected{
                     
                     
                 }else{
+                    if res.variants?.count ?? 0 > 0 {
                         AppDefault.mainAttribute = res.attributes
-                    AppDefault.mainAttribute! += res.mainAttributes ?? []
-                }
-               
-                
-                if res.attributes?.count == 0 && AppDefault.mainAttribute?.count == 0{
-                        self?.varientViewHeight.constant = 0
+                        AppDefault.mainAttribute! += res.mainAttributes ?? []
                     }else {
-                        if(res.attributes?.count == 0){
-                            self?.varientViewHeight.constant = CGFloat((AppDefault.mainAttribute?.count ?? 0) * 90)
-                        }else{
-                            self?.varientViewHeight.constant = CGFloat((res.attributes?.count ?? 0) * 90)
-                        }
+                        AppDefault.mainAttribute = nil
+                    }
+                }
+                
+                
+                                if res.attributes?.count == 0 && AppDefault.mainAttribute?.count == 0{
+                                        self?.varientViewHeight.constant = 0
+                                    }else {
+                                        if(res.attributes?.count == 0){
+                                            self?.varientViewHeight.constant = CGFloat((AppDefault.mainAttribute?.count ?? 0) * 90)
+                                        }else{
+                                            self?.varientViewHeight.constant = CGFloat((res.attributes?.count ?? 0) * 90)
+                                        }
+              }
+                        
+//                        if AppDefault.mainAttribute?.count ?? 0 > 0 {
+//                            self?.varientViewHeight.constant = CGFloat((AppDefault.mainAttribute?.count ?? 0) * 90)
+//                        }else {
+//                            self?.varientViewHeight.constant = 0
+//
+//                        }
                         
                         
                         
                        
-                    }
+                    
                 
                 self?.scrollHeight.constant = 2200 +  (self?.varientViewHeight.constant ?? 0)
                 
@@ -914,6 +937,18 @@ class NewProductPageViewController: UIViewController, UIScrollViewDelegate {
 //                self?.varientsTblV.reloadData()
             case .failure(let error):
                 print(error)
+                if error == "Products not found." {
+                    self?.view.makeToast(error)
+                    self?.cartBtnView.backgroundColor = .lightGray
+                    self?.cartBtnLbl.textColor = .white
+                    self?.cartBtnView.borderWidth = 0
+                    self?.quantityView.isHidden = true
+                    self?.outOfStockLbl.isHidden = false
+                    self?.cartBtnImg.setBackgroundImage(UIImage(named: "carticon"), for: .normal)
+                    self?.addToCartBtn.isEnabled = false
+                    self?.buyNowBtn.backgroundColor = .lightGray
+                    self?.buyNowBtn.isEnabled = false
+                }
             }
         }
     }
@@ -1143,6 +1178,8 @@ extension NewProductPageViewController: UITableViewDelegate, UITableViewDataSour
                 cell.productcategoriesdetailsdata = data
                 cell.productcategoriesdetailsvariantdata = variantdata
             }
+            cell.attributesCollectionV.tag = indexPath.row // Tag the collection view with the row index
+            cell.tblCount = AppDefault.mainAttribute?.count ?? 0
 
             return cell
         }else {

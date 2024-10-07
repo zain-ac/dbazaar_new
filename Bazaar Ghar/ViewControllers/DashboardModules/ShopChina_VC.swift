@@ -1295,7 +1295,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
     @objc func randomcartBtnTapped(_ sender: UIButton) {
         let data = getrandomproductapiModel[sender.tag]
         
-        if (data.variants?.first?.id == nil) {
+        if (data.variants?.first?.mainImage == nil) {
             let vc = CartPopupViewController.getVC(.popups)
            
             vc.modalPresentationStyle = .custom

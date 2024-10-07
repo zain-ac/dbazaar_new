@@ -158,6 +158,14 @@ class AppDefault {
             shared.set(newValue, forKey: "attribute3")
         }
     }
+    public static var attribute4: String? {
+        get {
+            return shared.string(forKey: "attribute4")
+        }
+        set {
+            shared.set(newValue, forKey: "attribute4")
+        }
+    }
     public static var cartId: String? {
         get {
             return shared.string(forKey: "cartId")
@@ -221,6 +229,14 @@ class AppDefault {
         }
         set{
             shared.encode(for: newValue, using: "Bannerdata")
+        }
+    }
+    public static var VArray: [Int]? {
+        get{
+            return shared.decode(for: [Int].self, using: "VArray")
+        }
+        set{
+            shared.encode(for: newValue, using: "VArray")
         }
     }
     public static var getrandomproductapiModel: [Product]? {
