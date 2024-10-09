@@ -269,9 +269,9 @@ class APIServices{
     
     
     
-    class func productcategories(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground:Bool,completion:@escaping(APIResult<[PChat]>)->Void){
+    class func productcategories(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,cat6:String,isbackground:Bool,completion:@escaping(APIResult<[PChat]>)->Void){
         if(isbackground){
-            Provider.backgroundServices.request(.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5)){ result in
+            Provider.backgroundServices.request(.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, cat6: cat6)){ result in
                 do{
                     
                     let categories: [PChat] = try result.decoded(keypath: "data")
@@ -292,7 +292,7 @@ class APIServices{
                 }
             }
         }else{
-            Provider.services.request(.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5)){ result in
+            Provider.services.request(.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, cat6: cat6)){ result in
                 do{
                     
                     let categories: [PChat] = try result.decoded(keypath: "data")
@@ -366,7 +366,7 @@ class APIServices{
     
     class func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String ,isbackground :Bool,completion:@escaping(APIResult<[Product]>)->Void){
         if(isbackground){
-            Provider.backgroundServices.request(.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5)){ result in
+            Provider.backgroundServices.request(.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, cat6: "")){ result in
                 
                 do{
                     
@@ -1493,10 +1493,10 @@ class APIServices{
         }
     }
     
-    class func deletelike(token:String,scheduleId:String,userId:String,likeId:String,completion:@escaping(APIResult<Savelikedata>)->Void) {
+    class func deletelike(token:String,scheduleId:String,userId:String,likeId:String,completion:@escaping(APIResult<SavelikeDataClass>)->Void) {
         Provider.services.request(.deletelike(token: token, scheduleId: scheduleId, userId: userId, likeId: likeId)){ result in
             do{
-                let savelike: Savelikedata = try result.decoded(keypath: "data")
+                let savelike: SavelikeDataClass = try result.decoded(keypath: "data")
                 completion(.success(savelike))
             }catch{
                 

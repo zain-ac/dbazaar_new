@@ -160,7 +160,7 @@ struct LiveStreamingResults: Codable {
     let slug, brandName, brandID: String?
     let thumbnail: String?
     let description: String?
-    let liveViews, totalViews, like: Int?
+    var liveViews, totalViews, like: Int?
     let resultID: String?
     let mbrURL: String?
     let hls: String?
@@ -206,22 +206,24 @@ struct Savelikedata: Codable {
     let message: String?
 }
 
-// MARK: - DataClass
-struct SavelikeDataClass: Codable {
-    let platform, id, userID, scheduleID: String?
-    let createdAt, updatedAt: String?
-    let v, likeCount: Int?
 
-    enum CodingKeys: String, CodingKey {
-        case platform
-        case id = "_id"
-        case userID = "userId"
-        case scheduleID = "scheduleId"
-        case createdAt, updatedAt
-        case v = "__v"
-        case likeCount
+    struct SavelikeDataClass: Codable {
+        let platform, id, userID, scheduleID: String?
+        let createdAt, updatedAt: String?
+        let v, likeCount: Int?
+        let deleteLike: Bool?
+
+        enum CodingKeys: String, CodingKey {
+            case platform
+            case id = "_id"
+            case userID = "userId"
+            case scheduleID = "scheduleId"
+            case createdAt, updatedAt
+            case v = "__v"
+            case likeCount, deleteLike
+        }
     }
-}
+
 
 struct GetLikeData: Codable {
     let data: GetLikeDataClass?

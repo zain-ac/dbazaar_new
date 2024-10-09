@@ -75,81 +75,11 @@ class New_SingleVideoview: UIViewController {
     
   
     
-    func savelike(token:String,scheduleId:String,userId:String,indexPath:IndexPath,id:String, likeId: String){
-       APIServices.savelike(token: token, scheduleId: scheduleId, userId: userId){[weak self] data in
-           switch data{
-           case .success(let res):
-               let cell = self?.singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
-               cell.isliked = true
-               cell.likeId = res.id ?? ""
-           case .failure(let error):
-               self?.view.makeToast(error)
-               if error == "Please authenticate" {
-                   if AppDefault.islogin{
-                       
-                   }else{
-//                       DispatchQueue.main.async {
-//                          self.selectedIndex = 0
-//                       }
-                         let vc = PopupLoginVc.getVC(.popups)
-                       vc.modalPresentationStyle = .overFullScreen
-                       self?.present(vc, animated: true, completion: nil)
-                   }
-               }
-           }
-       }
-   }
+ 
     
-    func deletelike(token:String,scheduleId:String,userId:String,likeId:String,indexPath:IndexPath,id:String){
-       APIServices.deletelike(token: token, scheduleId: scheduleId, userId: userId, likeId: likeId){[weak self] data in
-           switch data{
-           case .success(let res):
-               let cell = self?.singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
-               cell.isliked = false
-               cell.likeId = ""
-           case .failure(let error):
-               self?.view.makeToast(error)
-               if error == "Please authenticate" {
-                   if AppDefault.islogin{
-                       
-                   }else{
-//                       DispatchQueue.main.async {
-//                          self.selectedIndex = 0
-//                       }
-                         let vc = PopupLoginVc.getVC(.popups)
-                       vc.modalPresentationStyle = .overFullScreen
-                       self?.present(vc, animated: true, completion: nil)
-                   }
-               }
-           }
-       }
-   }
+ 
     
-    func getLike(token:String,scheduleId:String,userId:String,indexPath:IndexPath){
-       APIServices.getLike(scheduleId: scheduleId, userId: userId){[weak self] data in
-           switch data{
-           case .success(let res):
-               let cell = self?.singlevideotable.cellForRow(at: self?.indexPath ?? indexPath) as! SingleVideoCell
-               cell.isliked = true
-               cell.likeId = res.id ?? ""
-           case .failure(let error):
-               let cell = self?.singlevideotable.cellForRow(at: self?.indexPath ?? indexPath) as! SingleVideoCell
-               cell.isliked = false
-               cell.likeId =  ""
-               if error == "Please authenticate" {
-                   if AppDefault.islogin{
-                   }else{
-//                       DispatchQueue.main.async {
-//                          self.selectedIndex = 0
-//                       }
-                         let vc = PopupLoginVc.getVC(.popups)
-                       vc.modalPresentationStyle = .overFullScreen
-                       self?.present(vc, animated: true, completion: nil)
-                   }
-               }
-           }
-       }
-   }
+
     
     func getStreamingVideos(limit:Int,page:Int,categories: [String],city:String){
        APIServices.getStreamingVideos(limit:limit,page:page,categories:categories,userId:"", city: city,completion: {[weak self] data in
@@ -194,7 +124,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
         let data = LiveStreamingResultsdata[indexPath.row]
         cell.navigationController = self.navigationController
 //        self.initializeSocket(scheduleId: data.resultID ?? "")
-//        getLike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId: AppDefault.currentUser?.id ?? "", indexPath: indexPath)
+        cell.getLike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId: AppDefault.currentUser?.id ?? "", indexPath: indexPath)
         cell.LiveStreamingResultsdataArray = data
             if(indexPath.row == indexValue){
                 self.playVideoOnTheCell(cell: cell, indexPath: indexPath)
@@ -290,12 +220,8 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
     func likeBtnTapped(btn:UIButton, indexPath:IndexPath) {
         let cell = singlevideotable.cellForRow(at: indexPath) as! SingleVideoCell
         let data = LiveStreamingResultsdata[indexPath.row]
-        if(cell.likeId != "") {
-            deletelike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId: AppDefault.currentUser?.id ?? "", likeId: cell.likeId, indexPath: indexPath,id: data.resultID ?? "")
-        }else {
-            savelike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId:  AppDefault.currentUser?.id ?? "", indexPath: indexPath, id: data.resultID ?? "",likeId: cell.likeId)
-        }
-        
+        cell.savelike(token: AppDefault.accessToken, scheduleId: data.resultID ?? "", userId:  AppDefault.currentUser?.id ?? "", indexPath: indexPath, id: data.resultID ?? "",likeId: cell.likeId)
+                
     }
     
     
@@ -453,6 +379,7 @@ extension New_SingleVideoview:UITableViewDelegate,UITableViewDataSource{
             cell?.followStore(storeId: data.userID ?? "", web: true)
         }
     }
+    
     func buyBtnTapped(btn:UIButton, indexPath:IndexPath) {
         let cell = singlevideotable.cellForRow(at: indexPath) as? SingleVideoCell
         cell?.buybtn.setTitle("Buy", for: .normal)

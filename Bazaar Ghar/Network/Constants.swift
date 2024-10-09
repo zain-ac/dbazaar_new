@@ -36,7 +36,7 @@ struct AppConstants {
   static let gcmMessageIDKey = ""
   static let PRODUCT_ID: Int = 2
   struct API{
-      static let environment: NetworkEnvironment = .live
+      static let environment: NetworkEnvironment = .staging
     static var baseURL: URL {
       switch AppConstants.API.environment{
         case .live:
@@ -73,7 +73,7 @@ struct AppConstants {
         case .live:
           return URL(string: "https://apid.bazaarghar.com/streaming/v2/")!
         case .staging:
-          return URL(string: "https://apix-stage.bazaarghar.com/streaming/v1/")!
+          return URL(string: "https://apix-stage.bazaarghar.com/streaming/v2/")!
       case.local:
         return URL(string: "http://192.168.1.44:3002/streaming/v1/")!
       }

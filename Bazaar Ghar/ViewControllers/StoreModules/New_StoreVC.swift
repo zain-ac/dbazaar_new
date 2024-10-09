@@ -261,7 +261,7 @@ class New_StoreVC: UIViewController {
     }
 
     private func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground : Bool){
-        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, cat6: "",isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
             

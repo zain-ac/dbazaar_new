@@ -14,7 +14,7 @@ enum Services {
     case banner
     case categories(id:String)
     case cartWalletMethod(wallet:Bool)
-    case productcategories(cat:String,cat2:String,cat3:String,cat4:String,cat5:String)
+    case productcategories(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,cat6:String)
     case randomproduct
     case productcategoriesdetails(slug: String)
     case getAllProductsByCategories(limit:Int,page:Int,sortBy:String,category:String,active:Bool)
@@ -126,7 +126,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
             }
         case .getAllCategories:
             return "categories/getAllCategories"
-        case .productcategories(_,_,_,_,_) :
+        case .productcategories(_,_,_,_,_,_) :
             return "products/categories"
         case .shopchinaproductcategories(_,_,_,_,_,_):
             return "products/categories"
@@ -211,7 +211,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case .report:
             return "report"
         case .savelike:
-            return "savelike"
+            return "like"
         case .deletelike:
             return "deletelike"
         case .getLike:
@@ -266,7 +266,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case let .shopChinarandomproduct(origin):
             return .requestParameters(parameters: ["origin": origin], encoding: URLEncoding.default)
 
-        case let .productcategories(cat, cat2, cat3, cat4, cat5):
+        case let .productcategories(cat, cat2, cat3, cat4, cat5,cat6):
             if cat == "" {
                 return .requestPlain
 
@@ -276,7 +276,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
                 }else if cat != "" && cat2 != "" && cat3 != "" && cat4 == "" {
                     return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3], encoding: URLEncoding.default)
                 }else {
-                    return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4], encoding: URLEncoding.default)
+                    return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4,"categories[4]": cat5,"categories[5]": cat6], encoding: URLEncoding.default)
                 }
             }
             
@@ -425,7 +425,7 @@ extension Services: TargetType, AccessTokenAuthorizable {
         case let .report(comment,videoId):
             return .requestParameters(parameters: ["comment": comment,"videoId":videoId], encoding: JSONEncoding.default)
         case let .savelike(token, scheduleId, userId):
-            return .requestParameters(parameters: ["token": token,"scheduleId":scheduleId,"userId":userId], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["token": token,"scheduleId":scheduleId], encoding: JSONEncoding.default)
         case let .deletelike(token, scheduleId, userId, likeId):
             return .requestParameters(parameters: ["token": token,"scheduleId":scheduleId,"userId":userId,"likeId":likeId], encoding: JSONEncoding.default)
        

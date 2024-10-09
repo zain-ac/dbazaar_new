@@ -121,7 +121,6 @@ class SingleVideoCell: UITableViewCell {
             isliked ?? false ? likebtn.setBackgroundImage(UIImage(named: "like_fill" ), for: .normal) : likebtn.setBackgroundImage(UIImage(named: "likethumb" ), for: .normal)
         }
     }
-    var likeId = ""
     var isFollow : Bool? {
         didSet {
             if isFollow == true {
@@ -137,6 +136,7 @@ class SingleVideoCell: UITableViewCell {
         }
     }
 //    var progressView: UIProgressView!
+    var likeId = ""
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -299,6 +299,83 @@ class SingleVideoCell: UITableViewCell {
             }
         }
     }
+    
+    func getLike(token:String,scheduleId:String,userId:String,indexPath:IndexPath){
+       APIServices.getLike(scheduleId: scheduleId, userId: userId){[weak self] data in
+           switch data{
+           case .success(let res):
+               self?.isliked = true
+               self?.likeId = res.id ?? ""
+           case .failure(let error):
+               self?.isliked = false
+               self?.likeId =  ""
+               if error == "Please authenticate" {
+                   if AppDefault.islogin{
+                   }else{
+//                       DispatchQueue.main.async {
+//                          self.selectedIndex = 0
+//                       }
+                    
+                   }
+               }
+           }
+       }
+   }
+    
+    func savelike(token:String,scheduleId:String,userId:String,indexPath:IndexPath,id:String, likeId: String){
+       APIServices.savelike(token: token, scheduleId: scheduleId, userId: userId){[weak self] data in
+           switch data{
+           case .success(let res):
+               if res.deleteLike == true {
+                   self?.isliked = false
+               }else {
+                   self?.isliked = true
+               }
+               self?.likeId = res.id ?? ""
+               self?.likelbl.text = "\(res.likeCount ?? 0)"
+           case .failure(let error):
+               UIApplication.pTopViewController().view.makeToast(error)
+               if error == "Please authenticate" {
+                   if AppDefault.islogin{
+                       
+                   }else{
+//                       DispatchQueue.main.async {
+//                          self.selectedIndex = 0
+//                       }
+//                         let vc = PopupLoginVc.getVC(.popups)
+//                       vc.modalPresentationStyle = .overFullScreen
+//                       self?.present(vc, animated: true, completion: nil)
+                   }
+               }
+           }
+       }
+   }
+    
+//    func deletelike(token:String,scheduleId:String,userId:String,likeId:String,indexPath:IndexPath,id:String){
+//       APIServices.deletelike(token: token, scheduleId: scheduleId, userId: userId, likeId: likeId){[weak self] data in
+//           switch data{
+//           case .success(let res):
+//               self?.isliked = false
+//               self?.likeId = ""
+//               self?.likelbl.text = "\(res.likeCount ?? 0)"
+//           case .failure(let error):
+//               UIApplication.pTopViewController().view.makeToast(error)
+//               if error == "Please authenticate" {
+//                   if AppDefault.islogin{
+//                       
+//                   }else{
+////                       DispatchQueue.main.async {
+////                          self.selectedIndex = 0
+////                       }
+////                         let vc = PopupLoginVc.getVC(.popups)
+////                       vc.modalPresentationStyle = .overFullScreen
+////                       self?.present(vc, animated: true, completion: nil)
+//                   }
+//               }
+//           }
+//       }
+//   }
+    
     
     
     @objc func hideandshow(notification: Notification) {

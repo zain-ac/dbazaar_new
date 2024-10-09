@@ -224,7 +224,7 @@ var count = 0
             for i in China {
                 categoriesApi(isbackground: true, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f76c2", cat2: "65e82aa5067e0d3f4c5f773c", cat3: "65e82aa5067e0d3f4c5f774a", cat4: "", cat5: "", origin: "china",isbackground: true)
+            self.productcategoriesApi(cat: "66fa5e0756711740c0637ada", cat2: "66fa5e0756711740c0637b34", cat3: "66fa5e0756711740c0637c1c", cat4: "66fa5e0856711740c0637ef2", cat5: "66fa5e0856711740c0637f08", origin: "china",isbackground: true)
             randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true, origin: "china")
             getStreamingVideos(origin: "china")
             getrandomproduct(origin: "china")
@@ -238,7 +238,7 @@ var count = 0
             for i in KSA {
                 categoriesApi(isbackground: false, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "604f48f648fcad02d8aaceeb", cat2: "60c9dce26f0fe647a547713c", cat3: "61c0665ec59a3763f321635a", cat4: "", cat5: "", origin: "ksa",isbackground: false)
+            self.productcategoriesApi(cat: "66fa5e0856711740c0637f76", cat2: "66fa5e0756711740c0637ccc", cat3: "66fa5e0756711740c0637bd8", cat4: "", cat5: "", origin: "ksa",isbackground: false)
             randomproduct(cat: "60d30fafadf1df13d41b56d5", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false, origin: "ksa")
             getStreamingVideos(origin: "ksa")
             getrandomproduct(origin: "ksa")
@@ -253,7 +253,7 @@ var count = 0
             for i in Pak {
                 categoriesApi(isbackground: false, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "6038dd317e4d2a1f859d8255", cat2: "6051de7711747985fdce2faa", cat3: "6048c62a05ec9502c9f8cde3", cat4: "", cat5: "", origin: "pak",isbackground: false)
+            self.productcategoriesApi(cat: "66fa5e0756711740c0637a5a", cat2: "66fa5e0756711740c0637aae", cat3: "66fa5e0756711740c0637d18", cat4: "66fa5e0856711740c0637e24", cat5: "66fa5e0856711740c0637ed8", origin: "pak",isbackground: false)
 
 //            randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false,origin: "pak")
             getAllProductsByCategoriesbyid(limit: 20, page: 1, sortBy:"-createdAt", category: "6048bc3b05ec9502c9f8cd8b", active: false)

@@ -68,6 +68,7 @@ class StoreFilters_ViewController: UIViewController {
             self.heightCategory.constant = 158
         }else{
             self.heightCategory.constant = 0
+        
         }
         if(StoreModel?.counts?.count != 0 ){
             self.heightStore.constant = 65
@@ -147,7 +148,6 @@ class StoreFilters_ViewController: UIViewController {
         FilterColletion.delegate = self
         FilterColletion.dataSource = self
 //        productcategoriesApi(val: "", str: "*",facet_by: "lvl0,color,brandName,averageRating,price,size,style")
-      
     }
 
    

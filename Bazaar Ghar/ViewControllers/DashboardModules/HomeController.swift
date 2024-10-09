@@ -188,10 +188,10 @@ var count = 0
         homeswitchbtn.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         
         if(AppDefault.randonproduct?.count ?? 0 > 0){
-            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
+            randomproduct(cat: "66fa5e0856711740c06380d2", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true)
             self.randomproductapiModel = AppDefault.randonproduct ?? []
         }else{
-            randomproduct(cat: "60ec3fdfdbae10002e984274", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
+            randomproduct(cat: "66fa5e0856711740c06380d2", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false)
         }
         if(AppDefault.getrandomproductapiModel?.count ?? 0 > 0){
             let res = AppDefault.getrandomproductapiModel!
@@ -216,7 +216,7 @@ var count = 0
         }
 
         if(AppDefault.productcategoriesApi?.count ?? 0 > 0){
-            productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: true)
+            productcategoriesApi(cat: "66fa5e0756711740c0637b08", cat2: "66fa5e0756711740c0637c96", cat3: "66fa5e0756711740c0637a82", cat4: "66fa5e0756711740c0637a5a", cat5: "66fa5e0756711740c0637aae", cat6: "66fa5e0756711740c0637b7e",isbackground: true)
 
             self.ProductCategoriesResponsedata = AppDefault.productcategoriesApi ?? []
 
@@ -228,7 +228,7 @@ var count = 0
             self.homeTblView.reloadData()
 
         }else{
-            self.productcategoriesApi(cat: "", cat2: "", cat3: "", cat4: "", cat5: "",isbackground: false)
+            self.productcategoriesApi(cat: "66fa5e0756711740c0637b08", cat2: "66fa5e0756711740c0637c96", cat3: "66fa5e0756711740c0637a82", cat4: "66fa5e0756711740c0637a5a", cat5: "66fa5e0756711740c0637aae", cat6: "66fa5e0756711740c0637b7e",isbackground: false)
         }
 
         
@@ -552,8 +552,8 @@ var count = 0
         })
     }
     
-    private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground:Bool){
-        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+    private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,cat6:String,isbackground:Bool){
+        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, cat6: cat6,isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
                 AppDefault.productcategoriesApi = res
@@ -577,7 +577,7 @@ var count = 0
     }
 
     private func randomproduct(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground : Bool){
-        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, cat6: "",isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
             

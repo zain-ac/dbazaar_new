@@ -124,7 +124,7 @@ class ShopChinaViewController: UIViewController {
 
             self.groupByDeals(limit: 20, page: 1, isbackground: false)
 
-            self.productcategoriesApi(cat: "65e82aa5067e0d3f4c5f774a", cat2: "65e82aa5067e0d3f4c5f768f", cat3: "65e82aa5067e0d3f4c5f773c", cat4: "65e82aa5067e0d3f4c5f76c2", cat5: "65e82aa5067e0d3f4c5f77b3",isbackground: false)
+            self.productcategoriesApi(cat: "66fa5e0756711740c0637ada", cat2: "66fa5e0756711740c0637b34", cat3: "66fa5e0756711740c0637c1c", cat4: "65e82aa5067e0d3f4c5f76c2", cat5: "65e82aa5067e0d3f4c5f77b3",isbackground: false)
 
         }
 
@@ -205,7 +205,7 @@ class ShopChinaViewController: UIViewController {
         )
     }
     private func productcategoriesApi(cat:String,cat2:String,cat3:String,cat4:String,cat5:String,isbackground:Bool){
-        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5,isbackground:isbackground,completion: {[weak self] data in
+        APIServices.productcategories(cat: cat, cat2: cat2, cat3: cat3, cat4: cat4, cat5: cat5, cat6: "",isbackground:isbackground,completion: {[weak self] data in
             switch data{
             case .success(let res):
                 if(res.count > 0){
