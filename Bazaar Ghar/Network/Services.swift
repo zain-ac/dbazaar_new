@@ -275,16 +275,23 @@ extension Services: TargetType, AccessTokenAuthorizable {
                     return .requestParameters(parameters: ["categories[]": cat], encoding: URLEncoding.default)
                 }else if cat != "" && cat2 != "" && cat3 != "" && cat4 == "" {
                     return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3], encoding: URLEncoding.default)
+                }else if cat != "" && cat2 != "" && cat3 != "" && cat4 != "" && cat5 == "" {
+                    return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4], encoding: URLEncoding.default)
                 }else {
                     return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4,"categories[4]": cat5,"categories[5]": cat6], encoding: URLEncoding.default)
+
                 }
             }
             
         case let .shopchinaproductcategories(cat, cat2, cat3, cat4, cat5,origin):
             if cat2 == "" {
                 return .requestParameters(parameters: ["categories[]": cat,"origin":origin], encoding: URLEncoding.default)
-            }else {
+            }else if cat4 == "" && cat3 != "" {
                 return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"origin":origin], encoding: URLEncoding.default)
+            }else if cat5 == "" && cat4 != ""{
+                return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4,"origin":origin], encoding: URLEncoding.default)
+            }else {
+                return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4,"categories[4]": cat5,"origin":origin], encoding: URLEncoding.default)
             }
             
         case let .getAllProductsByCategories(limit,page,sortBy,category, _):

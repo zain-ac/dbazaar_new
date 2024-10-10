@@ -216,7 +216,7 @@ var count = 0
         }
 
         if(AppDefault.productcategoriesApi?.count ?? 0 > 0){
-            productcategoriesApi(cat: "66fa5e0756711740c0637b08", cat2: "66fa5e0756711740c0637c96", cat3: "66fa5e0756711740c0637a82", cat4: "66fa5e0756711740c0637a5a", cat5: "66fa5e0756711740c0637aae", cat6: "66fa5e0756711740c0637b7e",isbackground: true)
+            productcategoriesApi(cat: "66fa5e0756711740c0637b34", cat2: "66fa5e0756711740c0637c3c", cat3: "66fa5e0756711740c0637ad8", cat4: "66fa5e0756711740c0637c96", cat5: "", cat6: "",isbackground: true)
 
             self.ProductCategoriesResponsedata = AppDefault.productcategoriesApi ?? []
 
@@ -228,7 +228,7 @@ var count = 0
             self.homeTblView.reloadData()
 
         }else{
-            self.productcategoriesApi(cat: "66fa5e0756711740c0637b08", cat2: "66fa5e0756711740c0637c96", cat3: "66fa5e0756711740c0637a82", cat4: "66fa5e0756711740c0637a5a", cat5: "66fa5e0756711740c0637aae", cat6: "66fa5e0756711740c0637b7e",isbackground: false)
+            self.productcategoriesApi(cat: "66fa5e0756711740c0637b34", cat2: "66fa5e0756711740c0637c3c", cat3: "66fa5e0756711740c0637ad8", cat4: "66fa5e0756711740c0637c96", cat5: "", cat6: "",isbackground: false)
         }
 
         

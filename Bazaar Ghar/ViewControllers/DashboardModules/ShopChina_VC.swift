@@ -125,8 +125,8 @@ var count = 0
     var kk = 0
     var subCatData: [DatumSubCategory] = [] {
         didSet {
-         kk += 150
             if subCatData.count > 0 {
+                kk += 150
                 self.tableViewHeight.constant = CGFloat(770 * (self.ProductCategoriesResponsedata.count)) + CGFloat(kk)
                 let hh =  1100
                 let ll = ((self.getrandomproductapiModel.count) / 2) * 285
@@ -141,10 +141,10 @@ var count = 0
         super.viewDidLoad()
         
         KSA = [
-            KSAcat(name: "Soaps",id: "60d30fafadf1df13d41b56d5",img: "https://cdn.bazaarghar.com/1640677639491body-soaps-shower-gel.png"),
-            KSAcat(name: "Fragrances",id: "604f48f648fcad02d8aaceeb",img: "https://cdn.bazaarghar.com/1640607482286mens-fragrances.png"),
-            KSAcat(name: "Dates",id: "60c9dce26f0fe647a547713c",img:"https://cdn.bazaarghar.com/1640595049922dry-fruits.png"),
-            KSAcat(name: "Rugs",id: "61c0665ec59a3763f321635a",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
+            KSAcat(name: "Soaps",id: "66fa5e0756711740c0637ccc",img: "https://cdn.bazaarghar.com/1640677639491body-soaps-shower-gel.png"),
+            KSAcat(name: "Fragrances",id: "66fa5e0956711740c063810e",img: "https://cdn.bazaarghar.com/1640607482286mens-fragrances.png"),
+            KSAcat(name: "Dry Fruits",id: "66fa5e0856711740c0637fa6",img:"https://cdn.bazaarghar.com/1640595049922dry-fruits.png"),
+            KSAcat(name: "Rugs",id: "66fa5e0756711740c0637bd8",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
         ]
         China = [
               KSAcat(name: "Games & Accessories",id: "65e82aa5067e0d3f4c5f774e",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
@@ -154,10 +154,10 @@ var count = 0
         ]
         
         Pak = [
-            KSAcat(name: "Men Unstitched",id:"60532f0411747985fdce553a" ,img: "https://cdn.bazaarghar.com/1724830822838men-unstitched.png"),
+            KSAcat(name: "Men Unstitched",id:"66fa5e0756711740c0637a9a" ,img: "https://cdn.bazaarghar.com/1724830822838men-unstitched.png"),
             KSAcat(name: "Women Unstitched",id:"6049fd8d05ec9502c9f8d1f4" ,img:"https://cdn.bazaarghar.com/1724830629937women-unstitched.png"),
-            KSAcat(name: "Boys T-Shirts ",id:"60d1e12badf1df13d41b555a" ,img:"https://cdn.bazaarghar.com/1724830959537boys-t-shirts.png"),
-            KSAcat(name: "Bags",id:"6151a0a13d796e00329b5f4e" ,img:"https://cdn.bazaarghar.com/1640607310826ladies-handbags.png"),
+            KSAcat(name: "Boys T-Shirts ",id:"66fa5e0756711740c0637ab8" ,img:"https://cdn.bazaarghar.com/1724830959537boys-t-shirts.png"),
+            KSAcat(name: "Bags",id:"66fa5e0756711740c0637dd4" ,img:"https://cdn.bazaarghar.com/1640607310826ladies-handbags.png"),
             KSAcat(name: " Joggers & Sneakers",id:"6049d17c05ec9502c9f8cfb2" ,img:"https://cdn.bazaarghar.com/1724831211715joggers-sneakers.png"),
          ]
         
@@ -224,13 +224,13 @@ var count = 0
             for i in China {
                 categoriesApi(isbackground: true, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "66fa5e0756711740c0637ada", cat2: "66fa5e0756711740c0637b34", cat3: "66fa5e0756711740c0637c1c", cat4: "66fa5e0856711740c0637ef2", cat5: "66fa5e0856711740c0637f08", origin: "china",isbackground: true)
-            randomproduct(cat: "65e82aa5067e0d3f4c5f774e", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true, origin: "china")
+            self.productcategoriesApi(cat: "66fa5e0756711740c0637ada", cat2: "66fa5e0756711740c0637b34", cat3: "66fa5e0756711740c0637c1c", cat4: "66fa5e0856711740c0637ef2", cat5: "", origin: "china",isbackground: true)
+            randomproduct(cat: "66fa5e0756711740c0637b48", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: true, origin: "china")
             getStreamingVideos(origin: "china")
             getrandomproduct(origin: "china")
             self.origin = "china"
         }else if shop == "Shop Saudi" {
-            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Best Sellers", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
+            let attributedText1 =  Utility().attributedStringWithColoredLastWord("Body Soaps & Shower Gels", lastWordColor: UIColor(hexString: primaryColor), otherWordsColor: UIColor(hexString: blackColor))
             recommendationLbl.attributedText = attributedText1
             let imageDataDict:[String: String] = ["img": "saudi"]
             NotificationCenter.default.post(name: Notification.Name("globe"), object: nil,userInfo: imageDataDict)
@@ -238,8 +238,8 @@ var count = 0
             for i in KSA {
                 categoriesApi(isbackground: false, id: i.id ?? "")
             }
-            self.productcategoriesApi(cat: "66fa5e0856711740c0637f76", cat2: "66fa5e0756711740c0637ccc", cat3: "66fa5e0756711740c0637bd8", cat4: "", cat5: "", origin: "ksa",isbackground: false)
-            randomproduct(cat: "60d30fafadf1df13d41b56d5", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false, origin: "ksa")
+            self.productcategoriesApi(cat: "66fa5e0956711740c063810e", cat2: "66fa5e0856711740c0637fa6", cat3: "66fa5e0756711740c0637bd8", cat4: "", cat5: "", origin: "ksa",isbackground: false)
+            randomproduct(cat: "66fa5e0756711740c0637ccc", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false, origin: "ksa")
             getStreamingVideos(origin: "ksa")
             getrandomproduct(origin: "ksa")
             self.origin = "ksa"
@@ -255,8 +255,8 @@ var count = 0
             }
             self.productcategoriesApi(cat: "66fa5e0756711740c0637a5a", cat2: "66fa5e0756711740c0637aae", cat3: "66fa5e0756711740c0637d18", cat4: "66fa5e0856711740c0637e24", cat5: "66fa5e0856711740c0637ed8", origin: "pak",isbackground: false)
 
-//            randomproduct(cat: "6048bc3b05ec9502c9f8cd8b", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false,origin: "pak")
-            getAllProductsByCategoriesbyid(limit: 20, page: 1, sortBy:"-createdAt", category: "6048bc3b05ec9502c9f8cd8b", active: false)
+            randomproduct(cat: "66fa5e0756711740c0637c98", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false,origin: "pak")
+//            getAllProductsByCategoriesbyid(limit: 20, page: 1, sortBy:"-createdAt", category: "66fa5e0756711740c0637c98", active: false)
 
             getStreamingVideos(origin: "pak")
             getrandomproduct(origin: "pak")
@@ -757,7 +757,7 @@ var count = 0
                 if(res.count > 0){
                     self?.ProductCategoriesResponsedata = res
                    
-                    self?.tableViewHeight.constant = CGFloat(920 * (self?.ProductCategoriesResponsedata.count ?? 0))
+                    self?.tableViewHeight.constant = CGFloat(770 * (self?.ProductCategoriesResponsedata.count ?? 0))
                     let hh =  1100
                     let ll = ((self?.getrandomproductapiModel.count ?? 0) / 2) * 285
                     let final = hh + ll
@@ -954,11 +954,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         if collectionView == imageslidercollectionview {
             return  bannerapidata?.count ?? 0
         }else if collectionView == homeLastProductCollectionView {
-            if shop == "Shop Pakistan"{
-                return self.pakBestSellerProductsData.count ?? 0
-            }else {
                 return self.randomproductapiModel.first?.product?.count ?? 0
-            }
         }else if collectionView == shoesCollectionView {
             if shop == "Shop Pakistan"{
                 return self.pakBestSellerProductsData.count ?? 0
@@ -973,7 +969,13 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         } else if collectionView == videoCollection{
             return self.LiveStreamingResultsdata.count
         }else {
-            return self.CategoriesResponsedata.count
+            if shop == "Shop China" {
+                return China.count
+            }else if shop == "Shop Saudi" {
+                return KSA.count
+            }else {
+                return Pak.count
+            }
 		}
     }
     
@@ -986,48 +988,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
             return cell
         } else if collectionView == homeLastProductCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeLastProductCollectionViewCell", for: indexPath) as! HomeLastProductCollectionViewCell
-            if shop == "Shop Pakistan"{
-                let data = pakBestSellerProductsData[indexPath.row]
-                cell.product = data
-                Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
-                cell.product = data
-                cell.productimage.pLoadImage(url: data.mainImage ?? "")
-                if LanguageManager.language == "ar"{
-                    cell.productname.text = data.lang?.ar?.productName
-                }else{
-                    cell.productname.text =  data.productName
-                }
 
-                if data.onSale == true {
-                    cell.discountPrice.isHidden = false
-                    cell.productPrice.isHidden = false
-                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.salePrice ?? 0))
-                    cell.productPrice.text = appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0)
-                    cell.productPriceLine.isHidden = false
-                    cell.productPrice.textColor = UIColor.red
-                    cell.productPriceLine.backgroundColor = UIColor.red
-                    cell.percentBGView.isHidden = false
-                }else {
-                    cell.productPriceLine.isHidden = true
-                    cell.productPrice.isHidden = true
-                    cell.discountPrice.attributedText = Utility().formattedText(text: appDelegate.currencylabel + Utility().formatNumberWithCommas(data.regularPrice ?? 0))
-                    cell.percentBGView.isHidden = true
-                 }
-                cell.heartBtn.tag = indexPath.row
-                cell.cartButton.tag = indexPath.row
-                cell.cartButton.addTarget(self, action: #selector(gamessalescartButtonTap(_:)), for: .touchUpInside)
-                cell.heartBtn.addTarget(self, action: #selector(gamesalesHeartBtnTapped(_:)), for: .touchUpInside)
-
-                if let wishlistProducts = AppDefault.wishlistproduct {
-                    if wishlistProducts.contains(where: { $0.id == data.id }) {
-                          cell.heartBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                          cell.heartBtn.tintColor = .red
-                        } else {
-                          cell.backgroundColor = .white
-                          cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-                          cell.heartBtn.tintColor = .white
-                        }
-                      }            }else {
                 let data = self.randomproductapiModel.first?.product?[indexPath.row]
                 cell.product = data
                 Utility().setGradientBackground(view: cell.percentBGView, colors: [primaryColor, primaryColor, headerSecondaryColor])
@@ -1068,11 +1029,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
                           cell.heartBtn.setImage(UIImage(systemName: "heart"), for: .normal)
                           cell.heartBtn.tintColor = .white
                         }
-                      }            }
-            
-            
-           
-            
+                      }
             
             
             return cell
@@ -1368,7 +1325,7 @@ extension ShopChina_VC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         }else if collectionView == videoCollection {
             return CGSize(width: collectionView.frame.size.width/2, height: collectionView.frame.size.height)
         } else {
-            return CGSize(width: self.topcell_1.frame.width/4-10, height: self.topcell_1.frame.height)
+            return CGSize(width: self.topcell_1.frame.width/5-10, height: self.topcell_1.frame.height)
 
         }
     }
@@ -1660,7 +1617,7 @@ extension ShopChina_VC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if subCatData.count > 0 {
-            return 920
+            return  920
         }else {
             return 770
         }
