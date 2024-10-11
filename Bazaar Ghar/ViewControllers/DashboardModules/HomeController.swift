@@ -690,7 +690,7 @@ var count = 0
     }
     @IBAction func latestMobileArrowBtnTapped(_ sender: Any) {
         let vc = Category_ProductsVC.getVC(.productStoryBoard)
-            vc.prductid = "60ec3fdfdbae10002e984274"
+            vc.prductid = "66fa5e0856711740c06380d2"
            vc.video_section = false
            vc.storeFlag = false
            vc.catNameTitle = "Latest Mobiles"
@@ -927,11 +927,11 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource, 
 
         } else {
             let data = CategoriesResponsedata[indexPath.row]
-            if data.categorySpecs?.productsCount == 0 {
-                return CGSize(width: 0, height: 0)
-            }else {
+//            if data.categorySpecs?.productsCount == 0 {
+//                return CGSize(width: 0, height: 0)
+//            }else {
                 return CGSize(width: self.topcell_1.frame.width/3.9-10, height: self.topcell_1.frame.height/2-5)
-            }
+//            }
         }
     }
     

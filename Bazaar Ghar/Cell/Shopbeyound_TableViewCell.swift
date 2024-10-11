@@ -28,25 +28,25 @@ class Shopbeyound_TableViewCell: UITableViewCell {
         // Initialization code
         KSA = [
                
-            KSAcat(name: "Soaps",id: "60d30fafadf1df13d41b56d5",img: "https://cdn.bazaarghar.com/1640677639491body-soaps-shower-gel.png"),
-        KSAcat(name: "Fragrances",id: "604f48f648fcad02d8aaceeb",img: "https://cdn.bazaarghar.com/1640607482286mens-fragrances.png"),
-        KSAcat(name: "Dates",id: "60c9dce26f0fe647a547713c",img:"https://cdn.bazaarghar.com/1640595049922dry-fruits.png"),
-        KSAcat(name: "Rugs",id: "61c0665ec59a3763f321635a",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
+            KSAcat(name: "Soaps",id: "66fa5e0756711740c0637cc2",img: "https://cdn.bazaarghar.com/1640677639491body-soaps-shower-gel.png"),
+        KSAcat(name: "Fragrances",id: "66fa5e0956711740c063810e",img: "https://cdn.bazaarghar.com/1640607482286mens-fragrances.png"),
+        KSAcat(name: "Dates",id: "66fa5e0856711740c0637fa6",img:"https://cdn.bazaarghar.com/1640595049922dry-fruits.png"),
+        KSAcat(name: "Rugs & Carpet",id: "66fa5e0756711740c0637bd8",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
 
         ]
         China = [
-        KSAcat(name: "Games & Accessories",id: "65e82aa5067e0d3f4c5f774e",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
+        KSAcat(name: "Games & Accessories",id: "66fa5e0756711740c0637b48",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
             
-        KSAcat(name: "Smart Electronics",id: "65e82aa5067e0d3f4c5f774c",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714109268854smart-electronics.png"),
-        KSAcat(name: "Night Lights",id: "65e82aa5067e0d3f4c5f7746",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110169088night-light.png"),
-        KSAcat(name: "Home Decor",id: "65e82aa5067e0d3f4c5f76c8",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110548828home-decor.png")
+        KSAcat(name: "Cameras",id: "66fa5e0756711740c0637af4",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/17279308504741714134581872camera-photo.png"),
+        KSAcat(name: "Night Lights",id: "66fa5e0756711740c0637c1c",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110169088night-light.png"),
+        KSAcat(name: "Home Decor",id: "66fa5e0756711740c0637bc6",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110548828home-decor.png")
         ]
         
         Pak = [
-            KSAcat(name: "Men Unstitched",id:"60532f0411747985fdce553a" ,img: "https://cdn.bazaarghar.com/1724830822838men-unstitched.png"),
-            KSAcat(name: "Women Unstitched",id:"6049fd8d05ec9502c9f8d1f4" ,img:"https://cdn.bazaarghar.com/1724830629937women-unstitched.png"),
-            KSAcat(name: "Boys T-Shirts ",id:"60d1e12badf1df13d41b555a" ,img:"https://cdn.bazaarghar.com/1724830959537boys-t-shirts.png"),
-            KSAcat(name: "Bags",id:"6151a0a13d796e00329b5f4e" ,img:"https://cdn.bazaarghar.com/1640607310826ladies-handbags.png"),
+            KSAcat(name: "Track Suits",id:"66fa5e0756711740c0637aa2" ,img: "https://cdn.bazaarghar.com/1640677272050track-suits-womens.png"),
+            KSAcat(name: "Women Unstitched",id:"66fa5e0756711740c0637a6e" ,img:"https://cdn.bazaarghar.com/1724830629937women-unstitched.png"),
+            KSAcat(name: "Boys T-Shirts ",id:"66fa5e0756711740c0637ab8" ,img:"https://cdn.bazaarghar.com/1724830959537boys-t-shirts.png"),
+            KSAcat(name: "Bags",id:"66fa5e0756711740c0637dd4" ,img:"https://cdn.bazaarghar.com/1640607310826ladies-handbags.png"),
          ]
     }
 

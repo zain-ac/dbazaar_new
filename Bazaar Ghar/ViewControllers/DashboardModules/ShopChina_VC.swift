@@ -147,18 +147,17 @@ var count = 0
             KSAcat(name: "Rugs",id: "66fa5e0756711740c0637bd8",img:"https://cdn.bazaarghar.com/1640698644416rugs-and-carpets.png")
         ]
         China = [
-              KSAcat(name: "Games & Accessories",id: "65e82aa5067e0d3f4c5f774e",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
-              KSAcat(name: "Smart Electronics",id: "65e82aa5067e0d3f4c5f774c",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714109268854smart-electronics.png"),
-              KSAcat(name: "Night Lights",id: "65e82aa5067e0d3f4c5f7746",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110169088night-light.png"),
-              KSAcat(name: "Home Decor",id: "65e82aa5067e0d3f4c5f76c8",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110548828home-decor.png")
+              KSAcat(name: "Games & Accessories",id: "66fa5e0756711740c0637b48",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714134544530game-and-accesories.png"),
+              KSAcat(name: "Cameras",id: "66fa5e0756711740c0637af4",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/17279308504741714134581872camera-photo.png"),
+              KSAcat(name: "Night Lights",id: "66fa5e0756711740c0637c1c",img: "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110169088night-light.png"),
+              KSAcat(name: "Home Decor",id: "66fa5e0756711740c0637bc6",img:  "https://bazaarghar-stage.s3.me-south-1.amazonaws.com/1714110548828home-decor.png")
         ]
         
         Pak = [
-            KSAcat(name: "Men Unstitched",id:"66fa5e0756711740c0637a9a" ,img: "https://cdn.bazaarghar.com/1724830822838men-unstitched.png"),
-            KSAcat(name: "Women Unstitched",id:"6049fd8d05ec9502c9f8d1f4" ,img:"https://cdn.bazaarghar.com/1724830629937women-unstitched.png"),
+            KSAcat(name: "Track Suits",id:"66fa5e0756711740c0637aa2" ,img: "https://cdn.bazaarghar.com/1640677272050track-suits-womens.png"),
+            KSAcat(name: "Women Unstitched",id:"66fa5e0756711740c0637a6e" ,img:"https://cdn.bazaarghar.com/1724830629937women-unstitched.png"),
             KSAcat(name: "Boys T-Shirts ",id:"66fa5e0756711740c0637ab8" ,img:"https://cdn.bazaarghar.com/1724830959537boys-t-shirts.png"),
             KSAcat(name: "Bags",id:"66fa5e0756711740c0637dd4" ,img:"https://cdn.bazaarghar.com/1640607310826ladies-handbags.png"),
-            KSAcat(name: " Joggers & Sneakers",id:"6049d17c05ec9502c9f8cfb2" ,img:"https://cdn.bazaarghar.com/1724831211715joggers-sneakers.png"),
          ]
         
 
@@ -257,7 +256,6 @@ var count = 0
 
             randomproduct(cat: "66fa5e0756711740c0637c98", cat2: "", cat3: "", cat4: "", cat5: "",  isbackground: false,origin: "pak")
 //            getAllProductsByCategoriesbyid(limit: 20, page: 1, sortBy:"-createdAt", category: "66fa5e0756711740c0637c98", active: false)
-
             getStreamingVideos(origin: "pak")
             getrandomproduct(origin: "pak")
             self.origin = "pak"

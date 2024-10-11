@@ -279,7 +279,6 @@ extension Services: TargetType, AccessTokenAuthorizable {
                     return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4], encoding: URLEncoding.default)
                 }else {
                     return .requestParameters(parameters: ["categories[]": cat,"categories[1]": cat2,"categories[2]": cat3,"categories[3]": cat4,"categories[4]": cat5,"categories[5]": cat6], encoding: URLEncoding.default)
-
                 }
             }
             

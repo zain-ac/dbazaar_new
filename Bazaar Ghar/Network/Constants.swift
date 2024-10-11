@@ -36,7 +36,7 @@ struct AppConstants {
   static let gcmMessageIDKey = ""
   static let PRODUCT_ID: Int = 2
   struct API{
-      static let environment: NetworkEnvironment = .staging
+      static let environment: NetworkEnvironment = .live
     static var baseURL: URL {
       switch AppConstants.API.environment{
         case .live:
